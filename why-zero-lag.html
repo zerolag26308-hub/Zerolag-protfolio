@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var stored = localStorage.getItem("zerolag-theme");
+      var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <title>Why Zero Lag — Zero Lag</title>
+  <meta name="description" content="Why Zero Lag: a full-service studio built to remove the delay between idea and launch — one team, eight disciplines, no handoffs between agencies." />
+  <link rel="canonical" href="https://www.zerolag.io/why-zero-lag.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Zero Lag" />
+  <meta property="og:title" content="Why Zero Lag — Zero Lag" />
+  <meta property="og:description" content="Speed and quality aren't a tradeoff when one team owns every discipline. Here's how Zero Lag actually removes the lag." />
+  <meta property="og:url" content="https://www.zerolag.io/why-zero-lag.html" />
+  <meta property="og:image" content="https://www.zerolag.io/assets/images/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Why Zero Lag — Zero Lag" />
+  <meta name="twitter:description" content="One team, eight disciplines, no handoffs between agencies. Here's how we remove the lag." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Cpath d='M18 5 8 18h6l-1 9 11-15h-7z' fill='%2300d4ff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+      <nav class="nav-primary" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="work.html">Work</a>
+        <a href="technology.html">Technology</a>
+        <a href="about.html">About</a>
+        <a href="process.html">Process</a>
+      </nav>
+      <div class="header-actions">
+        <a href="contact.html" class="button button-primary button--sm">
+          Start a Project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" inert>
+    <div class="mobile-nav__links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="work.html">Work</a>
+      <a href="technology.html">Technology</a>
+      <a href="about.html">About</a>
+      <a href="process.html">Process</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="mobile-nav__footer">
+      <a href="contact.html" class="button button-primary">Start a Project</a>
+      <a href="mailto:hello@zerolag.io" class="text-muted">hello@zerolag.io</a>
+      <div class="mobile-nav__theme">
+        <span>Theme</span>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="page-hero container">
+      <p class="eyebrow page-hero__eyebrow">Why Zero Lag</p>
+      <h1 class="page-title">Zero to Launch — No Lag, Just Results.</h1>
+      <p class="lede">Speed and quality aren't a tradeoff when one team owns every discipline. Zero Lag pairs a full-service studio — strategy through launch, under one roof — with a process built to remove the delays that come from handing your project between separate agencies.</p>
+    </section>
+
+    <!-- ADVANTAGES -->
+    <section class="section section--flush-top">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-head__copy">
+            <p class="eyebrow">Our Advantages</p>
+            <h2 class="h2">Six reasons teams choose Zero Lag.</h2>
+          </div>
+        </div>
+
+        <div class="why-grid reveal-stagger">
+          <div class="why-item">
+            <svg class="why-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13 2 3 14h8l-1 8 11-14h-8z"/></svg>
+            <h3>Speed Without Corners Cut</h3>
+            <p>We move fast because our process is built for it, not because we skip steps. Every build still goes through strategy, design, development and testing — just without the delays that come from working across separate vendors.</p>
+          </div>
+          <div class="why-item">
+            <svg class="why-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
+            <h3>Full-Service Under One Roof</h3>
+            <p>Web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — eight disciplines handled by one team, with nothing outsourced to a vendor you've never met.</p>
+          </div>
+          <div class="why-item">
+            <svg class="why-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+            <h3>Innovation-First</h3>
+            <p>AI-assisted workflows speed up our own process — from code review to design exploration — on a modern stack we keep current, not whatever happened to be fastest to ship.</p>
+          </div>
+          <div class="why-item">
+            <svg class="why-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <h3>Direct Access to the Team</h3>
+            <p>You talk to the designers and engineers actually building your product, not an account manager relaying messages. Questions get answered by the person who knows the answer.</p>
+          </div>
+          <div class="why-item">
+            <svg class="why-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <h3>Transparent Process</h3>
+            <p>You see the project take shape at every stage, with realistic timelines set after we understand the scope — not before. No black-box handoffs, no surprise scope creep.</p>
+          </div>
+          <div class="why-item">
+            <svg class="why-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="5" width="3" height="13"/></svg>
+            <h3>Built to Scale With You</h3>
+            <p>Launch isn't the finish line. We stay on for ongoing support, retainers and the updates that keep a product working as your business grows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE ZERO LAG PROMISE -->
+    <section class="section section--alt">
+      <div class="container">
+        <div class="intro__grid">
+          <h2 class="intro__heading reveal">Speed and quality were never supposed to be a tradeoff.</h2>
+          <div class="intro__body reveal">
+            <p>Most agencies slow down because they're actually several agencies wearing one name — a design shop subcontracting development, which subcontracts QA, each handoff adding a queue and a re-briefing. We don't work that way. Design, engineering and every discipline in between sit on the same team, working from the same brief, in parallel.</p>
+            <p>Parallel workstreams mean design and engineering move together instead of waiting on each other — while a screen is still being refined, the components behind it are already being built. Pre-built design and development systems mean we're not reinventing a component library or a deployment pipeline on every project; we're extending ones that already work.</p>
+            <p>And when you have a question, you ask the person who can actually answer it — not an account manager relaying it to an engineer and reporting back later. That's what removes the lag. Not shortcuts. Structure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENT SUCCESS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <div class="section-head__copy">
+            <p class="eyebrow">By The Numbers</p>
+            <h2 class="h2">Client success indicators.</h2>
+          </div>
+        </div>
+        <div class="stats-bar reveal">
+          <div class="stats-bar__item">
+            <strong class="gradient-text">100+</strong>
+            <span>Projects Delivered</span>
+          </div>
+          <div class="stats-bar__item">
+            <strong class="gradient-text">50+</strong>
+            <span>Clients Worldwide</span>
+          </div>
+          <div class="stats-bar__item">
+            <strong class="gradient-text">4.9/5</strong>
+            <span>Average Rating</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section section--flush-top container">
+      <div class="final-cta reveal">
+        <h2 class="final-cta__heading">Ready for zero lag between idea and launch?</h2>
+        <p class="final-cta__lede">Tell us where things stand and what you're trying to build — we'll take it from there.</p>
+        <div class="final-cta__actions">
+          <a href="contact.html" class="button button-primary">
+            Start a Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a href="mailto:hello@zerolag.io" class="final-cta__email">hello@zerolag.io</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+          <p>A full-service digital agency spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — zero to launch, no lag, just results.</p>
+          <form class="footer-newsletter" data-newsletter-form>
+            <label for="footer-email" class="sr-only">Email address</label>
+            <input type="email" id="footer-email" name="email" placeholder="you@company.com" required />
+            <button type="submit" aria-label="Subscribe to updates">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </button>
+          </form>
+          <p class="footer-newsletter__status" aria-live="polite"></p>
+        </div>
+        <div class="footer-col">
+          <h4>Sitemap</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="technology.html">Technology</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="process.html">Process</a></li>
+            <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html#web-development">Web Development</a></li>
+            <li><a href="services.html#mobile-development">Mobile App Development</a></li>
+            <li><a href="services.html#ui-ux-design">UI/UX Design</a></li>
+            <li><a href="services.html#video-production">Video Editing &amp; Production</a></li>
+            <li><a href="services.html#ai-ml">AI &amp; Machine Learning</a></li>
+            <li><a href="services.html#software-engineering">Software Engineering</a></li>
+            <li><a href="services.html#digital-marketing">Digital Marketing</a></li>
+            <li><a href="services.html#white-label">White-Label Services</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="footer-social">
+            <li><a href="mailto:hello@zerolag.io">Email</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Dribbble</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <small>&copy; 2026 Zero Lag. All rights reserved. &middot; Built with AI by Zero Lag.</small>
+        <div class="footer-legal">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/theme.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/animations.js" defer></script>
+</body>
+</html>

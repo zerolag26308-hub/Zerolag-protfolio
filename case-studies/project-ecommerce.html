@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var stored = localStorage.getItem("zerolag-theme");
+      var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <title>Aster &amp; Co. — E-commerce Case Study | Zero Lag</title>
+  <meta name="description" content="A concept case study: designing and building a polished e-commerce experience focused on usability, performance and mobile shopping." />
+  <link rel="canonical" href="https://www.zerolag.io/case-studies/project-ecommerce.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zero Lag" />
+  <meta property="og:title" content="Aster &amp; Co. — E-commerce Case Study | Zero Lag" />
+  <meta property="og:description" content="Designing and building a polished e-commerce experience focused on usability, performance and mobile shopping." />
+  <meta property="og:url" content="https://www.zerolag.io/case-studies/project-ecommerce.html" />
+  <meta property="og:image" content="https://www.zerolag.io/assets/images/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aster &amp; Co. — E-commerce Case Study | Zero Lag" />
+  <meta name="twitter:description" content="Designing and building a polished e-commerce experience focused on usability, performance and mobile shopping." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Cpath d='M18 5 8 18h6l-1 9 11-15h-7z' fill='%2300d4ff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="../index.html" class="logo">ZERO<span>LAG</span></a>
+      <nav class="nav-primary" aria-label="Primary">
+        <a href="../index.html">Home</a>
+        <a href="../services.html">Services</a>
+        <a href="../work.html">Work</a>
+        <a href="../technology.html">Technology</a>
+        <a href="../about.html">About</a>
+        <a href="../process.html">Process</a>
+      </nav>
+      <div class="header-actions">
+        <a href="../contact.html" class="button button-primary button--sm">
+          Start a Project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" inert>
+    <div class="mobile-nav__links">
+      <a href="../index.html">Home</a>
+      <a href="../services.html">Services</a>
+      <a href="../work.html">Work</a>
+      <a href="../technology.html">Technology</a>
+      <a href="../about.html">About</a>
+      <a href="../process.html">Process</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="mobile-nav__footer">
+      <a href="../contact.html" class="button button-primary">Start a Project</a>
+      <a href="mailto:hello@zerolag.io" class="text-muted">hello@zerolag.io</a>
+      <div class="mobile-nav__theme">
+        <span>Theme</span>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="case-hero container">
+      <p class="eyebrow">E-commerce · Concept Project</p>
+      <h1 class="page-title">Aster &amp; Co.</h1>
+      <p class="lede">A home goods storefront built to make browsing, comparing and buying feel simple — especially on a phone, where most shopping happens.</p>
+
+      <dl class="case-hero__meta">
+        <div>
+          <dt>Industry</dt>
+          <dd>E-commerce / Home Goods</dd>
+        </div>
+        <div>
+          <dt>Services</dt>
+          <dd>E-commerce Development, Web Design</dd>
+        </div>
+        <div>
+          <dt>Technology</dt>
+          <dd>WordPress, WooCommerce, MySQL</dd>
+        </div>
+        <div>
+          <dt>Timeline</dt>
+          <dd>Concept build</dd>
+        </div>
+      </dl>
+
+      <div class="case-hero__media">
+        <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="Aster and Co. homepage preview"></div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="case-block">
+        <h2>Overview</h2>
+        <div class="case-block__body">
+          <p>Aster &amp; Co. is a concept home goods brand needing a storefront that felt as considered as its products, without sacrificing the practical mechanics of a good e-commerce experience: fast browsing, clear pricing and an easy checkout.</p>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <h2>Challenge</h2>
+        <div class="case-block__body">
+          <p>Many small e-commerce sites either lean too hard into decorative design at the cost of usability, or default to a generic storefront template that undersells the product. Aster needed both a distinct visual identity and a genuinely smooth path from browsing to checkout.</p>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <h2>Strategy</h2>
+        <div class="case-block__body">
+          <p>We treated product photography and pricing clarity as the hierarchy anchors on every page, keeping decorative elements secondary so nothing competes with the products themselves or slows down the path to purchase.</p>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <h2>Design</h2>
+        <div class="case-block__body">
+          <p>A warm, editorial product grid replaces the dense catalog-style layout common to many storefronts, with collection pages that read more like a lookbook than a spreadsheet.</p>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <h2>Development</h2>
+        <div class="case-block__body">
+          <p>Built on WordPress with WooCommerce for catalog and checkout management, giving the Aster team full control over products and inventory without needing developer support for day-to-day updates.</p>
+          <ul class="case-features">
+            <li>Fast, filterable product browsing</li>
+            <li>Streamlined cart and checkout flow</li>
+            <li>Mobile-optimized product galleries</li>
+            <li>Performance-tuned image delivery</li>
+            <li>Inventory-ready catalog structure</li>
+            <li>Accessible product and checkout forms</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <h2>Responsive Experience</h2>
+        <div class="case-block__body">
+          <p>Checkout and product galleries were designed mobile-first, with thumb-friendly tap targets and a condensed cart summary that stays visible without crowding the screen.</p>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <h2>Outcome</h2>
+        <div class="case-block__body">
+          <p>The result is a storefront that feels distinctly Aster's own, with a shopping experience that stays fast and clear from the homepage through to checkout on any device.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-gallery container">
+      <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="Product collection page"></div>
+      <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="Product detail page"></div>
+      <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="Cart and checkout flow"></div>
+      <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="Mobile shopping experience"></div>
+    </section>
+
+    <section class="container">
+      <div class="case-nav">
+        <a href="../work.html" class="button button-secondary">← Back to Work</a>
+        <a href="project-real-estate.html" class="button button-secondary">Next Project: Meridian Properties →</a>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="final-cta reveal">
+        <h2 class="final-cta__heading">Ready to sell online without compromise?</h2>
+        <p class="final-cta__lede">We'd be glad to talk through what a fast, polished storefront could look like for your brand.</p>
+        <div class="final-cta__actions">
+          <a href="../contact.html" class="button button-primary">
+            Start a Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a href="mailto:hello@zerolag.io" class="final-cta__email">hello@zerolag.io</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="logo">ZERO<span>LAG</span></a>
+          <p>A full-service digital agency spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — zero to launch, no lag, just results.</p>
+          <form class="footer-newsletter" data-newsletter-form>
+            <label for="footer-email" class="sr-only">Email address</label>
+            <input type="email" id="footer-email" name="email" placeholder="you@company.com" required />
+            <button type="submit" aria-label="Subscribe to updates">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </button>
+          </form>
+          <p class="footer-newsletter__status" aria-live="polite"></p>
+        </div>
+        <div class="footer-col">
+          <h4>Sitemap</h4>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../services.html">Services</a></li>
+            <li><a href="../work.html">Work</a></li>
+            <li><a href="../technology.html">Technology</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../process.html">Process</a></li>
+            <li><a href="../why-zero-lag.html">Why Zero Lag</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="../services.html#web-development">Web Development</a></li>
+            <li><a href="../services.html#mobile-development">Mobile App Development</a></li>
+            <li><a href="../services.html#ui-ux-design">UI/UX Design</a></li>
+            <li><a href="../services.html#video-production">Video Editing &amp; Production</a></li>
+            <li><a href="../services.html#ai-ml">AI &amp; Machine Learning</a></li>
+            <li><a href="../services.html#software-engineering">Software Engineering</a></li>
+            <li><a href="../services.html#digital-marketing">Digital Marketing</a></li>
+            <li><a href="../services.html#white-label">White-Label Services</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="footer-social">
+            <li><a href="mailto:hello@zerolag.io">Email</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Dribbble</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <small>&copy; 2026 Zero Lag. All rights reserved. &middot; Built with AI by Zero Lag.</small>
+        <div class="footer-legal">
+          <a href="../privacy-policy.html">Privacy Policy</a>
+          <a href="../terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/theme.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/animations.js" defer></script>
+</body>
+</html>

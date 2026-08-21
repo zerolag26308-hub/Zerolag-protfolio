@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var stored = localStorage.getItem("zerolag-theme");
+      var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <title>About — Zero Lag</title>
+  <meta name="description" content="Zero Lag is a full-service studio spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — one team, zero handoff delay." />
+  <link rel="canonical" href="https://www.zerolag.io/about.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Zero Lag" />
+  <meta property="og:title" content="About — Zero Lag" />
+  <meta property="og:description" content="We exist to close the gap between idea and launch." />
+  <meta property="og:url" content="https://www.zerolag.io/about.html" />
+  <meta property="og:image" content="https://www.zerolag.io/assets/images/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About — Zero Lag" />
+  <meta name="twitter:description" content="We exist to close the gap between idea and launch." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Cpath d='M18 5 8 18h6l-1 9 11-15h-7z' fill='%2300d4ff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+      <nav class="nav-primary" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="work.html">Work</a>
+        <a href="technology.html">Technology</a>
+        <a href="about.html">About</a>
+        <a href="process.html">Process</a>
+      </nav>
+      <div class="header-actions">
+        <a href="contact.html" class="button button-primary button--sm">
+          Start a Project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" inert>
+    <div class="mobile-nav__links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="work.html">Work</a>
+      <a href="technology.html">Technology</a>
+      <a href="about.html">About</a>
+      <a href="process.html">Process</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="mobile-nav__footer">
+      <a href="contact.html" class="button button-primary">Start a Project</a>
+      <a href="mailto:hello@zerolag.io" class="text-muted">hello@zerolag.io</a>
+      <div class="mobile-nav__theme">
+        <span>Theme</span>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="page-hero container">
+      <p class="eyebrow page-hero__eyebrow">About Zero Lag</p>
+      <h1 class="page-title">We exist to close the gap between idea and launch.</h1>
+      <p class="lede">Zero Lag is a full-service studio spanning eight disciplines — web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — held by one team from first sketch to shipped product, so nothing slows down in the handoff between agencies.</p>
+    </section>
+
+    <section class="section section--flush-top container">
+      <div class="about-block reveal">
+        <div>
+          <span class="mono-tag">Who We Are</span>
+        </div>
+        <div>
+          <h2>A studio, not a template shop.</h2>
+          <p>Zero Lag designs and builds websites for businesses that need more than a page that looks nice. We think about how a site is found, how it's read, how it's navigated, and what happens after someone lands on it.</p>
+          <p>That means every project moves through the same disciplines: strategy to define what the site needs to do, design to shape how it does it, and engineering to build it properly — in code that stays fast and easy to maintain.</p>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <div>
+          <span class="mono-tag">Mission &amp; Values</span>
+        </div>
+        <div>
+          <h2>What we stand for.</h2>
+          <p><strong style="color:var(--color-text);">Speed with integrity.</strong> We move fast because our process is built for it, not because we skip steps or cut quality to hit a date.</p>
+          <p><strong style="color:var(--color-text);">Full-service ownership.</strong> One team carries a project across every discipline, so nothing gets lost handing work to a vendor we don't control.</p>
+          <p><strong style="color:var(--color-text);">Client-direct access.</strong> You work with the people actually designing and building your product — not a rotating cast of account handlers.</p>
+          <p><strong style="color:var(--color-text);">Continuous innovation.</strong> We fold AI-assisted workflows and a modern stack into our own process, so the way we build keeps getting faster and better.</p>
+          <p><strong style="color:var(--color-text);">Accessibility is the default.</strong> Sites should work with a keyboard, a screen reader, and a bad connection — not as an afterthought.</p>
+          <p><strong style="color:var(--color-text);">Honesty over hype.</strong> We'd rather show real, labeled concept work than invent results we haven't earned.</p>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <div>
+          <span class="mono-tag">Our Approach</span>
+        </div>
+        <div>
+          <h2>From idea to launch, with nothing in between.</h2>
+          <p>Most agencies hand your project between departments, or between separate companies entirely — a design studio that subcontracts development, which subcontracts QA. Every handoff means someone re-learning the brief, and days lost to nothing but the relay. Zero Lag removes that: one team carries a project from strategy through design, development and launch, with no vendor changeovers along the way.</p>
+          <p>That doesn't mean rushed. We still work in stages — discovery, strategy, design, development, testing, launch — and bring you into each one, so the site takes shape with your feedback built in, not revealed cold at the end. Speed comes from cutting the delay between stages, never from cutting a stage out.</p>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <div>
+          <span class="mono-tag">Capabilities</span>
+        </div>
+        <div>
+          <h2>What we bring to a project.</h2>
+          <p>Web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — eight disciplines, one team, so nothing gets lost in translation between vendors.</p>
+          <ul class="case-features" style="margin-top:0.5rem;">
+            <li>Web Development</li>
+            <li>Mobile App Development</li>
+            <li>UI/UX Design</li>
+            <li>Video Editing &amp; Production</li>
+            <li>AI &amp; Machine Learning</li>
+            <li>Software Engineering</li>
+            <li>Digital Marketing</li>
+            <li>White-Label Services</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <div>
+          <span class="mono-tag">Technologies</span>
+        </div>
+        <div>
+          <h2>The stack we draw from.</h2>
+          <p>We choose the right tool for each project rather than forcing one stack onto everything — from lean static builds to full custom applications.</p>
+          <ul class="tech-cloud" style="margin-top:1rem;">
+            <li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>React</li><li>Next.js</li><li>Node.js</li><li>Python</li><li>Swift</li><li>Kotlin</li><li>Flutter</li><li>TensorFlow</li><li>Solidity</li><li>PHP</li><li>Laravel</li><li>WordPress</li><li>MySQL</li><li>MongoDB</li><li>REST APIs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section section--flush-top container">
+      <div class="section-head reveal">
+        <div class="section-head__copy">
+          <p class="eyebrow">The People</p>
+          <h2 class="h2">A small team, deliberately.</h2>
+        </div>
+      </div>
+      <div class="grid team-grid reveal-stagger">
+        <div class="team-card">
+          <div class="team-card__avatar team-card__avatar--cyan" aria-hidden="true">PN</div>
+          <h3>Priya Nair</h3>
+          <span class="team-card__role">Design &amp; UX Lead</span>
+          <p class="team-card__fact">Restores mid-century chairs on weekends — says the joinery taught her more about visual hierarchy than any design course did.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar team-card__avatar--magenta" aria-hidden="true">DF</div>
+          <h3>Diego Fernandes</h3>
+          <span class="team-card__role">AI/ML Engineering Lead</span>
+          <p class="team-card__fact">Trains a hobbyist chess engine in his spare time and says debugging its blunders taught him more about loss functions than his thesis did.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar team-card__avatar--purple" aria-hidden="true">AO</div>
+          <h3>Amara Okafor</h3>
+          <span class="team-card__role">Mobile Engineering Lead</span>
+          <p class="team-card__fact">Builds and tunes custom mechanical keyboards — the same obsession with actuation force shows up in how she tunes touch latency.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar team-card__avatar--duo" aria-hidden="true">JL</div>
+          <h3>Jonas Lindqvist</h3>
+          <span class="team-card__role">Founder &amp; Full-Stack Engineer</span>
+          <p class="team-card__fact">Keeps a sourdough starter older than the company and maintains its feeding schedule like a cron job he's a little too proud of.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--flush-top container">
+      <div class="about-block reveal">
+        <div>
+          <span class="mono-tag">Why Clients Work With Us</span>
+        </div>
+        <div>
+          <h2>What working with us looks like.</h2>
+          <p>You get a direct line to the people actually designing and building your site — not a rotating cast of account handlers. Timelines are realistic, not padded for comfort, and set after we understand the scope rather than before.</p>
+          <p>Once a site launches, we don't disappear. We stay reachable for the fixes, updates and small improvements that keep a website working as your business changes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section section--flush-top container">
+      <div class="final-cta reveal">
+        <h2 class="final-cta__heading">Let's talk about your project.</h2>
+        <p class="final-cta__lede">Tell us where things stand and what you're trying to build — we'll take it from there.</p>
+        <div class="final-cta__actions">
+          <a href="contact.html" class="button button-primary">
+            Start a Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a href="mailto:hello@zerolag.io" class="final-cta__email">hello@zerolag.io</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+          <p>A full-service digital agency spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — zero to launch, no lag, just results.</p>
+          <form class="footer-newsletter" data-newsletter-form>
+            <label for="footer-email" class="sr-only">Email address</label>
+            <input type="email" id="footer-email" name="email" placeholder="you@company.com" required />
+            <button type="submit" aria-label="Subscribe to updates">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </button>
+          </form>
+          <p class="footer-newsletter__status" aria-live="polite"></p>
+        </div>
+        <div class="footer-col">
+          <h4>Sitemap</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="technology.html">Technology</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="process.html">Process</a></li>
+            <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html#web-development">Web Development</a></li>
+            <li><a href="services.html#mobile-development">Mobile App Development</a></li>
+            <li><a href="services.html#ui-ux-design">UI/UX Design</a></li>
+            <li><a href="services.html#video-production">Video Editing &amp; Production</a></li>
+            <li><a href="services.html#ai-ml">AI &amp; Machine Learning</a></li>
+            <li><a href="services.html#software-engineering">Software Engineering</a></li>
+            <li><a href="services.html#digital-marketing">Digital Marketing</a></li>
+            <li><a href="services.html#white-label">White-Label Services</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="footer-social">
+            <li><a href="mailto:hello@zerolag.io">Email</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Dribbble</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <small>&copy; 2026 Zero Lag. All rights reserved. &middot; Built with AI by Zero Lag.</small>
+        <div class="footer-legal">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/theme.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/animations.js" defer></script>
+</body>
+</html>

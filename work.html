@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var stored = localStorage.getItem("zerolag-theme");
+      var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <title>Work — 39 Projects Across 8 Disciplines — Zero Lag</title>
+  <meta name="description" content="39 projects across 8 disciplines — web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — built by Zero Lag with zero lag." />
+  <link rel="canonical" href="https://www.zerolag.io/work.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Zero Lag" />
+  <meta property="og:title" content="Work — 39 Projects Across 8 Disciplines — Zero Lag" />
+  <meta property="og:description" content="39 projects across 8 disciplines, from web development to AI and white-label delivery." />
+  <meta property="og:url" content="https://www.zerolag.io/work.html" />
+  <meta property="og:image" content="https://www.zerolag.io/assets/images/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Work — 39 Projects Across 8 Disciplines — Zero Lag" />
+  <meta name="twitter:description" content="39 projects across 8 disciplines, from web development to AI and white-label delivery." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Cpath d='M18 5 8 18h6l-1 9 11-15h-7z' fill='%2300d4ff'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+      <nav class="nav-primary" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="work.html">Work</a>
+        <a href="technology.html">Technology</a>
+        <a href="about.html">About</a>
+        <a href="process.html">Process</a>
+      </nav>
+      <div class="header-actions">
+        <a href="contact.html" class="button button-primary button--sm">
+          Start a Project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" inert>
+    <div class="mobile-nav__links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="work.html">Work</a>
+      <a href="technology.html">Technology</a>
+      <a href="about.html">About</a>
+      <a href="process.html">Process</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="mobile-nav__footer">
+      <a href="contact.html" class="button button-primary">Start a Project</a>
+      <a href="mailto:hello@zerolag.io" class="text-muted">hello@zerolag.io</a>
+      <div class="mobile-nav__theme">
+        <span>Theme</span>
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="page-hero container">
+      <p class="eyebrow page-hero__eyebrow">Selected Work</p>
+      <h1 class="page-title">39 projects. 8 disciplines. Zero lag between idea and launch.</h1>
+      <p class="lede">Real client work and concept builds spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label delivery — filter by discipline below.</p>
+    </section>
+
+    <section class="section section--flush-top container">
+      <div class="filter-bar" role="group" aria-label="Filter work by category">
+        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" type="button" data-filter="web-development" aria-pressed="false">Web Development</button>
+        <button class="filter-btn" type="button" data-filter="mobile-development" aria-pressed="false">Mobile Development</button>
+        <button class="filter-btn" type="button" data-filter="ui-ux-design" aria-pressed="false">UI/UX Design</button>
+        <button class="filter-btn" type="button" data-filter="video-production" aria-pressed="false">Video Production</button>
+        <button class="filter-btn" type="button" data-filter="ai-ml" aria-pressed="false">AI &amp; ML</button>
+        <button class="filter-btn" type="button" data-filter="software-engineering" aria-pressed="false">Software Engineering</button>
+        <button class="filter-btn" type="button" data-filter="digital-marketing" aria-pressed="false">Digital Marketing</button>
+        <button class="filter-btn" type="button" data-filter="white-label" aria-pressed="false">White-Label</button>
+      </div>
+
+      <div class="work-category" id="web-development" data-category-group="web-development">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 01</p>
+          <h2 class="h2">Web Development</h2>
+        </div>
+        <div class="work-grid">
+          <a href="case-studies/project-real-estate.html" class="work-card" data-category="web-design development web-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2030;--pa-2:#0d0e14;" role="img" aria-label="Real estate website preview"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Real Estate · Concept Project</p>
+                <h2 class="work-card__title">Meridian Properties</h2>
+                <div class="work-card__tags"><span>Web Design</span><span>Development</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="case-studies/project-saas.html" class="work-card" data-category="ui-ux development web-applications web-development ui-ux-design">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1a2430;--pa-2:#0d1116;" role="img" aria-label="SaaS product website preview"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">SaaS · Concept Project</p>
+                <h2 class="work-card__title">Northlane Analytics</h2>
+                <div class="work-card__tags"><span>UI/UX</span><span>Development</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="case-studies/project-ecommerce.html" class="work-card" data-category="ecommerce web-design web-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="E-commerce website preview"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">E-commerce · Concept Project</p>
+                <h2 class="work-card__title">Aster &amp; Co.</h2>
+                <div class="work-card__tags"><span>E-commerce</span><span>Web Design</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="case-studies/project-healthcare.html" class="work-card" data-category="ui-ux web-design web-development ui-ux-design">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2a24;--pa-2:#0d130f;" role="img" aria-label="Healthcare website preview"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Healthcare · Concept Project</p>
+                <h2 class="work-card__title">Cedarview Clinic</h2>
+                <div class="work-card__tags"><span>UI/UX</span><span>Web Design</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="case-studies/project-corporate.html" class="work-card" data-category="development ui-ux web-applications web-development ui-ux-design">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2430;--pa-2:#0d1014;" role="img" aria-label="Corporate technology website preview"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Corporate / Technology · Concept Project</p>
+                <h2 class="work-card__title">Fathom Systems</h2>
+                <div class="work-card__tags"><span>Development</span><span>UI/UX</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="web-development software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#182830;--pa-2:#0b1418;" role="img" aria-label="Booking system product preview: appointment scheduling platform with real-time availability, calendar sync and automated booking confirmations for service businesses"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Booking System · Concept Project</p>
+                <h2 class="work-card__title">Wayfare Booking</h2>
+                <div class="work-card__tags"><span>Next.js</span><span>Stripe</span><span>Calendar API</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="web-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1a2030;--pa-2:#0c0e13;" role="img" aria-label="Social platform product preview: community website with real-time feeds, group discussions and member profiles built for niche interest communities"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Social Platform · Concept Project</p>
+                <h2 class="work-card__title">Circleup</h2>
+                <div class="work-card__tags"><span>React</span><span>Node.js</span><span>WebSockets</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="mobile-development" data-category-group="mobile-development">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 02</p>
+          <h2 class="h2">Mobile App Development</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="mobile-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#142430;--pa-2:#081015;" role="img" aria-label="Fitness tracker app preview: workout logging, progress charts and wearable sync for everyday athletes"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Fitness Tracker App · Concept Project</p>
+                <h2 class="work-card__title">Pulseloop</h2>
+                <div class="work-card__tags"><span>React Native</span><span>HealthKit</span><span>Firebase</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="mobile-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#201c30;--pa-2:#0f0d18;" role="img" aria-label="Food delivery app preview: live order tracking, restaurant discovery and one-tap reordering for busy households"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Food Delivery App · Concept Project</p>
+                <h2 class="work-card__title">Fresko</h2>
+                <div class="work-card__tags"><span>Flutter</span><span>Maps API</span><span>Stripe</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="mobile-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="E-commerce mobile app preview: companion shopping app bringing the Aster and Co. storefront to mobile with saved carts and order tracking"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">E-Commerce Mobile App · Concept Project</p>
+                <h2 class="work-card__title">Aster Mobile</h2>
+                <div class="work-card__tags"><span>React Native</span><span>Shopify API</span><span>Push Notifications</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="mobile-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#182030;--pa-2:#0a0e16;" role="img" aria-label="Social media app preview: native social app extending the Circleup community with stories, direct messaging and push notifications"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Social Media App · Concept Project</p>
+                <h2 class="work-card__title">Circleup Mobile</h2>
+                <div class="work-card__tags"><span>Swift</span><span>Kotlin</span><span>Firebase</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="mobile-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2a30;--pa-2:#0d161a;" role="img" aria-label="Educational app preview: bite-sized video lessons, progress tracking and offline downloads for on-the-go students"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Educational App · Concept Project</p>
+                <h2 class="work-card__title">Lumen Learn</h2>
+                <div class="work-card__tags"><span>React Native</span><span>GraphQL</span><span>Video Streaming</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="ui-ux-design" data-category-group="ui-ux-design">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 03</p>
+          <h2 class="h2">UI/UX Design</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="ui-ux-design software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#202436;--pa-2:#10121c;" role="img" aria-label="SaaS product design preview: end-to-end product design for a SaaS operations dashboard, from wireframes to a full component library"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">SaaS Product Design · Concept Project</p>
+                <h2 class="work-card__title">Vantage OS</h2>
+                <div class="work-card__tags"><span>Figma</span><span>Design Systems</span><span>Prototyping</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ui-ux-design">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1a2430;--pa-2:#0d1116;" role="img" aria-label="Mobile app design preview: onboarding flows, order tracking and checkout for a food delivery experience"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Mobile App Design · Concept Project</p>
+                <h2 class="work-card__title">Fresko App</h2>
+                <div class="work-card__tags"><span>Figma</span><span>User Research</span><span>Prototyping</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ui-ux-design web-development">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="E-commerce design preview: full visual redesign of an e-commerce storefront focused on conversion, accessibility and a cleaner checkout flow"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">E-Commerce Design · Concept Project</p>
+                <h2 class="work-card__title">Aster &amp; Co. Redesign</h2>
+                <div class="work-card__tags"><span>Figma</span><span>Design Systems</span><span>A/B Testing</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ui-ux-design">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#182830;--pa-2:#0b1418;" role="img" aria-label="Dashboard design preview: analytics dashboard turning dense operational data into clear, scannable charts and status views"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Dashboard Design · Concept Project</p>
+                <h2 class="work-card__title">Insight Board</h2>
+                <div class="work-card__tags"><span>Figma</span><span>Data Visualization</span><span>Design Systems</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ui-ux-design">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#2a1c30;--pa-2:#150d18;" role="img" aria-label="Brand identity preview: logo, typography, color and voice system for a boutique lifestyle label"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Brand Identity Project · Concept Project</p>
+                <h2 class="work-card__title">Wren &amp; Co</h2>
+                <div class="work-card__tags"><span>Illustrator</span><span>Figma</span><span>Brand Guidelines</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="video-production" data-category-group="video-production">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 04</p>
+          <h2 class="h2">Video Editing &amp; Production</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="video-production">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2030;--pa-2:#0d0e14;" role="img" aria-label="Product launch video preview: launch film introducing the Fresko app with kinetic typography and lifestyle footage"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Product Launch Video · Concept Project</p>
+                <h2 class="work-card__title">Fresko Launch Film</h2>
+                <div class="work-card__tags"><span>Premiere Pro</span><span>After Effects</span><span>Color Grading</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="video-production">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#2a1c30;--pa-2:#150d18;" role="img" aria-label="Brand story video preview: short film capturing the craft and founders behind the Wren and Co label"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Brand Story Video · Concept Project</p>
+                <h2 class="work-card__title">Wren &amp; Co Story</h2>
+                <div class="work-card__tags"><span>Premiere Pro</span><span>DaVinci Resolve</span><span>Sound Design</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="video-production">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#142430;--pa-2:#081015;" role="img" aria-label="Social media reels preview: short-form reels highlighting Pulseloop's workout tracking and progress features"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Social Media Reels · Concept Project</p>
+                <h2 class="work-card__title">Pulseloop Reels</h2>
+                <div class="work-card__tags"><span>After Effects</span><span>CapCut</span><span>Motion Graphics</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="video-production">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#202436;--pa-2:#10121c;" role="img" aria-label="Explainer animation preview: animated explainer breaking down the Vantage OS dashboard for prospective SaaS customers"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Explainer Animation · Concept Project</p>
+                <h2 class="work-card__title">Vantage Explainer</h2>
+                <div class="work-card__tags"><span>After Effects</span><span>Illustrator</span><span>Voiceover</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="video-production">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2430;--pa-2:#0d1014;" role="img" aria-label="Motion graphics showcase preview: reel of motion experiments spanning logo animation, UI motion and abstract typography"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Motion Graphics Showcase · Concept Project</p>
+                <h2 class="work-card__title">Motion Reel Vol. 1</h2>
+                <div class="work-card__tags"><span>After Effects</span><span>Cinema 4D</span><span>Sound Design</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="ai-ml" data-category-group="ai-ml">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 05</p>
+          <h2 class="h2">AI &amp; Machine Learning</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="ai-ml software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1a2430;--pa-2:#0d1116;" role="img" aria-label="AI chatbot preview: conversational assistant trained on product docs to answer customer questions inside the Northlane dashboard"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">AI Chatbot · Concept Project</p>
+                <h2 class="work-card__title">Ask Northlane</h2>
+                <div class="work-card__tags"><span>Python</span><span>OpenAI API</span><span>LangChain</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ai-ml">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#16232f;--pa-2:#0a1015;" role="img" aria-label="Image recognition app preview: app that classifies and tags photos in real time using an on-device model"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Image Recognition App · Concept Project</p>
+                <h2 class="work-card__title">Lensix</h2>
+                <div class="work-card__tags"><span>Python</span><span>TensorFlow</span><span>Computer Vision</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ai-ml">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#182830;--pa-2:#0b1418;" role="img" aria-label="Predictive analytics dashboard preview: forecasts demand trends from historical sales and inventory data"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Predictive Analytics Dashboard · Concept Project</p>
+                <h2 class="work-card__title">Foresight</h2>
+                <div class="work-card__tags"><span>Python</span><span>scikit-learn</span><span>PostgreSQL</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ai-ml">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2a30;--pa-2:#0d161a;" role="img" aria-label="Sentiment analysis tool preview: scores customer feedback and support tickets to surface emerging issues early"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Sentiment Analysis Tool · Concept Project</p>
+                <h2 class="work-card__title">Pulsecheck</h2>
+                <div class="work-card__tags"><span>Python</span><span>Hugging Face</span><span>NLP</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="ai-ml software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#201c30;--pa-2:#0f0d18;" role="img" aria-label="AI content generator preview: writing assistant generating on-brand marketing copy from a handful of prompts and brand guidelines"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">AI Content Generator · Concept Project</p>
+                <h2 class="work-card__title">Draftwell</h2>
+                <div class="work-card__tags"><span>Python</span><span>OpenAI API</span><span>Vector DB</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="software-engineering" data-category-group="software-engineering">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 06</p>
+          <h2 class="h2">Software Engineering</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2030;--pa-2:#0d0e14;" role="img" aria-label="Enterprise CRM preview: platform managing pipelines, contacts and reporting for distributed sales teams"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Enterprise CRM · Concept Project</p>
+                <h2 class="work-card__title">Hearth CRM</h2>
+                <div class="work-card__tags"><span>Node.js</span><span>PostgreSQL</span><span>AWS</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#182830;--pa-2:#0b1418;" role="img" aria-label="Project management tool preview: kanban boards, timelines and real-time collaboration for product teams"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Project Management Tool · Concept Project</p>
+                <h2 class="work-card__title">Flowpath</h2>
+                <div class="work-card__tags"><span>React</span><span>Node.js</span><span>WebSockets</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1a2030;--pa-2:#0c0e13;" role="img" aria-label="HR management system preview: handles onboarding, time-off requests and performance reviews for growing companies"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">HR Management System · Concept Project</p>
+                <h2 class="work-card__title">Rosterly</h2>
+                <div class="work-card__tags"><span>Node.js</span><span>PostgreSQL</span><span>Microservices</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#142430;--pa-2:#081015;" role="img" aria-label="Inventory system preview: tracks stock levels, purchase orders and warehouse transfers in real time"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Inventory System · Concept Project</p>
+                <h2 class="work-card__title">Stocklane</h2>
+                <div class="work-card__tags"><span>Node.js</span><span>PostgreSQL</span><span>REST APIs</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="software-engineering">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#202436;--pa-2:#10121c;" role="img" aria-label="Business intelligence tool preview: unifies data sources into custom reports and executive dashboards"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Business Intelligence Tool · Concept Project</p>
+                <h2 class="work-card__title">Clearview BI</h2>
+                <div class="work-card__tags"><span>React</span><span>Python</span><span>Data Warehousing</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="digital-marketing" data-category-group="digital-marketing">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 07</p>
+          <h2 class="h2">Digital Marketing</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="digital-marketing">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#241c30;--pa-2:#100d16;" role="img" aria-label="SEO success story preview: organic search strategy that grew Aster and Co.'s non-branded traffic through technical SEO and content"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">SEO Success Story · Concept Project</p>
+                <h2 class="work-card__title">Aster &amp; Co. SEO Growth</h2>
+                <div class="work-card__tags"><span>SEO</span><span>Search Console</span><span>Content Strategy</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="digital-marketing">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#2a1c30;--pa-2:#150d18;" role="img" aria-label="Social media campaign preview: multi-platform campaign building launch buzz for the Wren and Co brand relaunch"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Social Media Campaign · Concept Project</p>
+                <h2 class="work-card__title">Wren &amp; Co Campaign</h2>
+                <div class="work-card__tags"><span>Meta Ads</span><span>Content Calendar</span><span>Analytics</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="digital-marketing">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#201c30;--pa-2:#0f0d18;" role="img" aria-label="Email marketing campaign preview: lifecycle email series driving repeat orders through personalized offers and abandoned cart flows"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Email Marketing Campaign · Concept Project</p>
+                <h2 class="work-card__title">Fresko Email Series</h2>
+                <div class="work-card__tags"><span>Klaviyo</span><span>A/B Testing</span><span>Segmentation</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="digital-marketing">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#142430;--pa-2:#081015;" role="img" aria-label="PPC campaign results preview: paid acquisition campaign lowering cost-per-install while scaling sign-ups for the Pulseloop app"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">PPC Campaign Results · Concept Project</p>
+                <h2 class="work-card__title">Pulseloop PPC</h2>
+                <div class="work-card__tags"><span>Google Ads</span><span>Meta Ads</span><span>Conversion Tracking</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="work-category" id="white-label" data-category-group="white-label">
+        <div class="work-category-head">
+          <p class="eyebrow">Discipline 08</p>
+          <h2 class="h2">White-Label Services</h2>
+        </div>
+        <div class="work-grid">
+          <a href="contact.html" class="work-card" data-category="white-label">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#182030;--pa-2:#0a0e16;" role="img" aria-label="White-label design project preview: design sprint delivering a full UI kit under a partner agency's own brand"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">White-Label Design Project · Concept Project</p>
+                <h2 class="work-card__title">Studio Partner Design Sprint</h2>
+                <div class="work-card__tags"><span>Figma</span><span>Design Systems</span><span>Agency Handoff</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="white-label">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1c2430;--pa-2:#0d1014;" role="img" aria-label="Development outsourcing engagement preview: ongoing development capacity supplied to a partner agency to ship client builds under their name"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Development Outsourcing Engagement · Concept Project</p>
+                <h2 class="work-card__title">Agency Dev Outsourcing</h2>
+                <div class="work-card__tags"><span>React</span><span>Node.js</span><span>Agency Ops</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+
+          <a href="contact.html" class="work-card" data-category="white-label">
+            <div class="work-card__media">
+              <div class="placeholder-art" style="--pa-1:#1a2430;--pa-2:#0d1116;" role="img" aria-label="Agency partnership case preview: long-term retainer supporting a partner agency's delivery pipeline across design, dev and QA"></div>
+              <div class="work-card__overlay"></div>
+            </div>
+            <div class="work-card__body">
+              <div>
+                <p class="work-card__meta">Agency Partnership Case · Concept Project</p>
+                <h2 class="work-card__title">Partner Retainer Program</h2>
+                <div class="work-card__tags"><span>Project Management</span><span>QA</span><span>Agency Ops</span></div>
+              </div>
+              <span class="work-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section container">
+      <div class="final-cta reveal">
+        <h2 class="final-cta__heading">Like what you see? Let's build yours.</h2>
+        <p class="final-cta__lede">Every project here started as a conversation about a business goal. Yours can too.</p>
+        <div class="final-cta__actions">
+          <a href="contact.html" class="button button-primary">
+            Start a Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a href="mailto:hello@zerolag.io" class="final-cta__email">hello@zerolag.io</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+          <p>A full-service digital agency spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — zero to launch, no lag, just results.</p>
+          <form class="footer-newsletter" data-newsletter-form>
+            <label for="footer-email" class="sr-only">Email address</label>
+            <input type="email" id="footer-email" name="email" placeholder="you@company.com" required />
+            <button type="submit" aria-label="Subscribe to updates">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </button>
+          </form>
+          <p class="footer-newsletter__status" aria-live="polite"></p>
+        </div>
+        <div class="footer-col">
+          <h4>Sitemap</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="technology.html">Technology</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="process.html">Process</a></li>
+            <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html#web-development">Web Development</a></li>
+            <li><a href="services.html#mobile-development">Mobile App Development</a></li>
+            <li><a href="services.html#ui-ux-design">UI/UX Design</a></li>
+            <li><a href="services.html#video-production">Video Editing &amp; Production</a></li>
+            <li><a href="services.html#ai-ml">AI &amp; Machine Learning</a></li>
+            <li><a href="services.html#software-engineering">Software Engineering</a></li>
+            <li><a href="services.html#digital-marketing">Digital Marketing</a></li>
+            <li><a href="services.html#white-label">White-Label Services</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="footer-social">
+            <li><a href="mailto:hello@zerolag.io">Email</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Dribbble</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <small>&copy; 2026 Zero Lag. All rights reserved. &middot; Built with AI by Zero Lag.</small>
+        <div class="footer-legal">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/theme.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/animations.js" defer></script>
+</body>
+</html>
