@@ -1,93 +1,137 @@
-// Contact form validation and submission handling
-// NOTE: there is no backend wired up yet. Swap the TODO block below for a
-// real API/email-service call (fetch to an endpoint, Formspree, etc.) when one exists.
+// Project inquiry form: validation, then delivery via a form endpoint or the visitor's email app
 (() => {
   "use strict";
 
   const form = document.querySelector("#project-form");
   if (!form) return;
 
+  const INBOX = form.dataset.inbox || "hello@zerolag.io";
   const status = form.querySelector(".form-status");
   const submitBtn = form.querySelector('button[type="submit"]');
+  const submitLabel = submitBtn.innerHTML;
 
-  const validators = {
-    name: (v) => v.trim().length >= 2 || "Please enter your full name.",
-    email: (v) =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ||
-      "Please enter a valid email address.",
-    message: (v) =>
-      v.trim().length >= 20 ||
-      "Please tell us a little more about your project (20 characters min).",
+  const rules = {
+    name: (v) => v.trim().length >= 2 || "Please enter your name.",
+    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || "Please enter a valid email address.",
+    website: (v) => !v.trim() || /^https?:\/\/\S+\.\S+/.test(v.trim()) || "Please enter a full URL starting with https://",
+    message: (v) => v.trim().length >= 20 || "Please tell us a little more about the project (at least 20 characters).",
   };
 
-  const showFieldError = (field, message) => {
-    const wrapper = field.closest(".form-field");
-    const errorEl = wrapper?.querySelector(".form-field__error");
-    field.setAttribute("data-touched", "true");
-    if (errorEl) errorEl.textContent = message === true ? "" : message;
+  const setError = (field, message) => {
+    const error = form.querySelector(`#${field.id}-error`);
+    if (error) error.textContent = message || "";
+    if (message) {
+      field.setAttribute("aria-invalid", "true");
+    } else {
+      field.removeAttribute("aria-invalid");
+    }
   };
 
-  const validateField = (field) => {
-    const rule = validators[field.name];
+  const validate = (field) => {
+    const rule = rules[field.name];
     if (!rule) return true;
     const result = rule(field.value);
-    showFieldError(field, result === true ? "" : result);
+    setError(field, result === true ? "" : result);
     return result === true;
   };
 
-  form.querySelectorAll("input, textarea, select").forEach((field) => {
-    field.addEventListener("blur", () => {
-      if (validators[field.name]) validateField(field);
+  Object.keys(rules).forEach((name) => {
+    const field = form.elements[name];
+    if (!field) return;
+    field.addEventListener("blur", () => validate(field));
+    field.addEventListener("input", () => {
+      if (field.getAttribute("aria-invalid") === "true") validate(field);
     });
   });
+
+  const showStatus = (type, html) => {
+    status.className = `form-status form-status--${type} is-visible`;
+    status.innerHTML = html;
+  };
+
+  const optionText = (select) => (select && select.value ? select.options[select.selectedIndex].text : "");
+
+  // Build a readable plain-text summary of the inquiry
+  const summarise = () => {
+    const f = form.elements;
+    const lines = [
+      ["Name", f.name.value],
+      ["Email", f.email.value],
+      ["Company", f.company.value],
+      ["Website", f.website.value],
+      ["Service", optionText(f.service)],
+      ["Budget", optionText(f.budget)],
+      ["Timeline", optionText(f.timeline)],
+      ["Heard about us", f.referral.value],
+      ["References", f.reference.value],
+    ]
+      .filter(([, value]) => value && value.trim())
+      .map(([label, value]) => `${label}: ${value.trim()}`);
+    return `${lines.join("\n")}\n\nProject\n${f.message.value.trim()}`;
+  };
+
+  const mailtoHref = () => {
+    const name = form.elements.name.value.trim();
+    const subject = `Project inquiry from ${name}`;
+    return `mailto:${INBOX}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summarise())}`;
+  };
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     status.className = "form-status";
     status.textContent = "";
 
-    const requiredFields = form.querySelectorAll("[required]");
-    let isValid = true;
+    // Quietly drop submissions that filled the hidden honeypot
+    if (form.elements.company_url && form.elements.company_url.value) return;
 
-    requiredFields.forEach((field) => {
-      if (validators[field.name]) {
-        if (!validateField(field)) isValid = false;
-      } else if (!field.value.trim()) {
-        showFieldError(field, "This field is required.");
-        isValid = false;
-      } else {
-        showFieldError(field, "");
-      }
-    });
+    const invalid = Object.keys(rules)
+      .map((name) => form.elements[name])
+      .filter((field) => field && !validate(field));
 
-    if (!isValid) {
-      status.textContent = "Please fix the highlighted fields and try again.";
-      status.classList.add("form-status--error", "is-visible");
-      const firstInvalid = form.querySelector('[data-touched="true"]');
-      firstInvalid?.focus();
+    if (invalid.length) {
+      showStatus("error", "Please fix the highlighted fields and try again.");
+      invalid[0].focus();
       return;
     }
 
-    const originalLabel = submitBtn.textContent;
+    // No endpoint configured: hand the inquiry to the visitor's email app, already filled in
+    const endpoint = (form.dataset.endpoint || "").trim();
+    if (!endpoint) {
+      const href = mailtoHref();
+      window.location.href = href;
+      showStatus(
+        "info",
+        `Your email app should open with the inquiry filled in. Press send there to reach us. ` +
+          `If nothing opened, <a href="${href}">try again</a> or email <a href="mailto:${INBOX}">${INBOX}</a> directly.`
+      );
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending…";
+    form.setAttribute("aria-busy", "true");
 
     try {
-      // TODO: replace with a real submission target, e.g.:
-      // await fetch("/api/inquiries", { method: "POST", body: new FormData(form) });
-      await new Promise((resolve) => setTimeout(resolve, 900));
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form),
+      });
+      if (!response.ok) throw new Error(`Request failed with ${response.status}`);
 
       form.reset();
-      status.textContent =
-        "Thanks for the details. This form isn't yet wired to a live inbox — please email hello@zerolag.io directly and we'll reply within 1 business day.";
-      status.classList.add("form-status--success", "is-visible");
+      showStatus("success", "Thanks — your inquiry has been sent. We usually reply within one business day.");
     } catch (err) {
-      status.textContent =
-        "Something went wrong sending your inquiry. Please email us directly instead.";
-      status.classList.add("form-status--error", "is-visible");
+      showStatus(
+        "error",
+        `Sorry, your message couldn't be sent. Nothing was lost — please <a href="${mailtoHref()}">send it by email instead</a> ` +
+          `or write to <a href="mailto:${INBOX}">${INBOX}</a>.`
+      );
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = originalLabel;
+      submitBtn.innerHTML = submitLabel;
+      form.removeAttribute("aria-busy");
+      status.focus();
     }
   });
 })();

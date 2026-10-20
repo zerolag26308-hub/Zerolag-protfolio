@@ -2,513 +2,278 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    (function () {
-      var stored = localStorage.getItem("zerolag-theme");
-      var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-      document.documentElement.setAttribute("data-theme", theme);
-    })();
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.zlReady)document.documentElement.classList.remove("js")},3000);</script>
   <title>Services — Zero Lag</title>
-  <meta name="description" content="Web development, mobile apps, UI/UX design, video production, AI &amp; machine learning, software engineering, digital marketing and white-label services — eight disciplines, one studio, delivered without lag." />
+  <meta name="description" content="Web development, mobile apps, UI/UX design, video production, AI &amp; machine learning, software engineering, digital marketing and white-label services, from one team." />
   <link rel="canonical" href="https://www.zerolag.io/services.html" />
+  <meta name="theme-color" content="#1e1e2e" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Zero Lag" />
   <meta property="og:title" content="Services — Zero Lag" />
-  <meta property="og:description" content="Web, mobile, UI/UX, video, AI, software engineering, marketing and white-label — eight disciplines, one studio." />
+  <meta property="og:description" content="Web development, mobile apps, UI/UX design, video production, AI &amp; machine learning, software engineering, digital marketing and white-label services, from one team." />
   <meta property="og:url" content="https://www.zerolag.io/services.html" />
   <meta property="og:image" content="https://www.zerolag.io/assets/images/og-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Services — Zero Lag" />
-  <meta name="twitter:description" content="Web, mobile, UI/UX, video, AI, software engineering, marketing and white-label — eight disciplines, one studio." />
+  <meta name="twitter:description" content="Web development, mobile apps, UI/UX design, video production, AI &amp; machine learning, software engineering, digital marketing and white-label services, from one team." />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Cpath d='M18 5 8 18h6l-1 9 11-15h-7z' fill='%2300d4ff'/%3E%3C/svg%3E" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
-</head>
-<body>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.css?v=20" />
+</head><body>
   <a class="skip-link" href="#main">Skip to content</a>
-
+  <div class="frame">
   <header class="site-header">
     <div class="site-header__inner">
-      <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+      <a href="index.html" class="logo" aria-label="Zero Lag home"><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="zl-mark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cba6f7"/><stop offset=".5" stop-color="#f5c2e7"/><stop offset="1" stop-color="#fab387"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#zl-mark)"/><circle cx="16" cy="16" r="7.5" fill="none" stroke="#11111b" stroke-width="3"/><path d="M9.5 22.5 22.5 9.5" stroke="#11111b" stroke-width="3" stroke-linecap="round"/></svg><span>Zero Lag</span></a>
       <nav class="nav-primary" aria-label="Primary">
-        <a href="index.html">Home</a>
         <a href="services.html">Services</a>
         <a href="work.html">Work</a>
+        <a href="process.html">Process</a>
         <a href="technology.html">Technology</a>
         <a href="about.html">About</a>
-        <a href="process.html">Process</a>
       </nav>
       <div class="header-actions">
-        <a href="contact.html" class="button button-primary button--sm">
-          Start a Project
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
-          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
-          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
-        </button>
-        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-          <span></span><span></span><span></span>
-        </button>
+        <a href="contact.html" class="btn btn--sm">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
       </div>
     </div>
   </header>
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" inert>
     <div class="mobile-nav__links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="work.html">Work</a>
-      <a href="technology.html">Technology</a>
-      <a href="about.html">About</a>
-      <a href="process.html">Process</a>
-      <a href="contact.html">Contact</a>
+      <a href="services.html">Services<span>01</span></a>
+      <a href="work.html">Work<span>02</span></a>
+      <a href="process.html">Process<span>03</span></a>
+      <a href="technology.html">Technology<span>04</span></a>
+      <a href="about.html">About<span>05</span></a>
+      <a href="contact.html">Contact<span>06</span></a>
     </div>
     <div class="mobile-nav__footer">
-      <a href="contact.html" class="button button-primary">Start a Project</a>
-      <a href="mailto:hello@zerolag.io" class="text-muted">hello@zerolag.io</a>
-      <div class="mobile-nav__theme">
-        <span>Theme</span>
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
-          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
-          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
-        </button>
-      </div>
+      <a href="contact.html" class="btn btn--accent btn--block">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a href="mailto:hello@zerolag.io" class="mono muted">hello@zerolag.io</a>
     </div>
   </nav>
 
   <main id="main">
-    <section class="page-hero container">
-      <p class="eyebrow page-hero__eyebrow">Services</p>
-      <h1 class="page-title">Everything it takes to go from zero to launch.</h1>
-      <p class="lede">Web, mobile, UI/UX, video, AI, software engineering, digital marketing and white-label delivery — eight disciplines under one roof, run by people who build the whole stack instead of handing pieces off between specialists.</p>
+    <section class="page-hero wrap">
+      <p class="label reveal">Services</p>
+      <h1 class="h1 reveal">Everything it takes to go from zero to launch.</h1>
+      <p class="lede reveal">Eight disciplines under one roof, run by people who build the whole stack instead of handing pieces off between specialists.</p>
+      <nav class="toc reveal" aria-label="Services on this page"><a href="#web-development">Web Development</a><a href="#mobile-development">Mobile App Development</a><a href="#ui-ux-design">UI/UX Design</a><a href="#video-production">Video Editing &amp; Production</a><a href="#ai-ml">AI &amp; Machine Learning</a><a href="#software-engineering">Software Engineering</a><a href="#digital-marketing">Digital Marketing</a><a href="#white-label">White-Label Services</a></nav>
     </section>
 
-    <!-- 01 WEB DEVELOPMENT -->
-    <section class="section" id="web-development">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">01 — Service</span>
-            <h2 class="h3 service-block__title">Web Development</h2>
+    <div class="wrap">
+      <section class="service-detail" id="web-development">
+        <div class="service-detail__head">
+          <p class="label">01 — Service</p>
+          <h2 class="h2">Web Development</h2>
+          <ul class="chips"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>React</li><li>Next.js</li><li>WordPress</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>From custom-built marketing sites to full-stack web applications, we cover the whole spectrum: custom websites, e-commerce storefronts, CMS builds on WordPress and Webflow, progressive web apps, single-page applications, landing pages and microsites, and full-stack MERN, MEAN or LAMP builds, with performance and standards compliance built in from the first commit.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>Marketing sites that load slowly and lose visitors before the first scroll</li><li>Online stores that make it hard to browse, check out or manage inventory</li><li>CMS setups that fight the team trying to update them</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>A fully responsive, production-ready website or web app</li><li>A CMS or e-commerce platform your team can actually manage</li><li>Clean, documented, framework-appropriate code across the stack</li></ul></div>
           </div>
-          <div>
-            <p>From custom-built marketing sites to full-stack web applications, we cover the whole spectrum of web development — custom website development, e-commerce storefronts, CMS builds on WordPress and Webflow, progressive web apps, single-page applications, landing pages and microsites, and full-stack MERN, MEAN or LAMP builds, all with performance and standards compliance baked in from the first commit.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>Marketing sites that load slow and lose visitors before the first scroll</li>
-              <li>Online stores that make it hard to browse, checkout or manage inventory</li>
-              <li>CMS setups that fight the team trying to update them</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>A fully responsive, production-ready website or web app</li>
-              <li>A CMS or e-commerce platform your team can actually manage</li>
-              <li>Clean, documented, framework-appropriate code across the stack</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> technical scoping, architecture and component planning, build in staged milestones, QA across browsers and devices, launch.</p>
-
-            <ul class="tech-cloud">
-              <li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>React</li><li>Next.js</li><li>WordPress</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#web-development" class="button button-secondary">View Web Development Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Technical scoping, architecture and component planning, build in staged milestones, QA across browsers and devices, launch.</p>
+          <div class="actions">
+            <a href="contact.html?service=web-development" class="btn btn--accent">Discuss a web development project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#web-development" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 02 MOBILE APP DEVELOPMENT -->
-    <section class="section section--alt" id="mobile-development">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">02 — Service</span>
-            <h2 class="h3 service-block__title">Mobile App Development</h2>
+      </section>
+      <section class="service-detail" id="mobile-development">
+        <div class="service-detail__head">
+          <p class="label">02 — Service</p>
+          <h2 class="h2">Mobile App Development</h2>
+          <ul class="chips"><li>Swift</li><li>Kotlin</li><li>React Native</li><li>Flutter</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We build native and cross-platform mobile apps that feel at home on the device they run on: Swift for iOS, Kotlin for Android, and React Native or Flutter where a shared codebase makes more sense, backed by app store optimisation so the app gets found once it ships.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>Needing both iOS and Android without doubling the budget</li><li>Native capabilities (camera, push, biometrics) a web app can&#x27;t reach</li><li>Apps that launch to zero downloads because nobody can find them</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>A submission-ready iOS and/or Android app</li><li>A shared cross-platform codebase where it makes sense, native where it doesn&#x27;t</li><li>App Store and Play Store listing, ASO and release support</li></ul></div>
           </div>
-          <div>
-            <p>We build native and cross-platform mobile apps that feel like they belong on the device they're running on — native Swift for iOS, native Kotlin for Android, and React Native or Flutter where a shared codebase makes more sense, backed by app store optimization so the app gets found once it ships.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>Needing both iOS and Android without doubling the budget</li>
-              <li>Native capabilities — camera, push, biometrics — a web app can't reach</li>
-              <li>Apps that launch to zero downloads because nobody can find them</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>A submission-ready iOS and/or Android app</li>
-              <li>A shared cross-platform codebase where it makes sense, native where it doesn't</li>
-              <li>App Store and Play Store listing, ASO and release support</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> platform strategy, UI build and native integration, device testing, ASO and store submission.</p>
-
-            <ul class="tech-cloud">
-              <li>Swift</li><li>Kotlin</li><li>React Native</li><li>Flutter</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#mobile-development" class="button button-secondary">View Mobile Development Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Platform strategy, UI build and native integration, device testing, ASO and store submission.</p>
+          <div class="actions">
+            <a href="contact.html?service=mobile-development" class="btn btn--accent">Discuss a mobile app development project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#mobile-development" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 03 UI/UX DESIGN -->
-    <section class="section" id="ui-ux-design">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">03 — Service</span>
-            <h2 class="h3 service-block__title">UI/UX Design</h2>
+      </section>
+      <section class="service-detail" id="ui-ux-design">
+        <div class="service-detail__head">
+          <p class="label">03 — Service</p>
+          <h2 class="h2">UI/UX Design</h2>
+          <ul class="chips"><li>Figma</li><li>Design Systems</li><li>Prototyping</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We design interfaces that hold up under real use, not just first impressions: user interface and experience design, interaction design, wireframes and clickable prototypes, documented design systems, and brand identity work that ties it all together.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>Confusing navigation and unclear user flows</li><li>Interfaces that look nice but convert poorly</li><li>Inconsistent interaction patterns and no shared design language</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>User flows, information architecture and wireframes</li><li>Interactive prototypes ready for user testing</li><li>A documented design system and brand identity your team can extend</li></ul></div>
           </div>
-          <div>
-            <p>We design interfaces that hold up under real use, not just first impressions — user interface and user experience design, interaction design, wireframes and clickable prototypes, documented design systems, and brand identity work that ties the whole thing together.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>Confusing navigation and unclear user flows</li>
-              <li>Interfaces that look nice but convert poorly</li>
-              <li>Inconsistent interaction patterns and no shared design language across a product</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>User flows, information architecture and wireframes</li>
-              <li>Interactive prototypes ready for user testing</li>
-              <li>A documented design system and brand identity your team can extend</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> research and flow mapping, wireframing, prototyping, usability review, final UI design.</p>
-
-            <ul class="tech-cloud">
-              <li>Figma</li><li>Design Systems</li><li>Prototyping</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#ui-ux-design" class="button button-secondary">View UI/UX Design Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Research and flow mapping, wireframing, prototyping, usability review, final UI design.</p>
+          <div class="actions">
+            <a href="contact.html?service=ui-ux-design" class="btn btn--accent">Discuss a ui/ux design project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#ui-ux-design" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 04 VIDEO EDITING & PRODUCTION -->
-    <section class="section section--alt" id="video-production">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">04 — Service</span>
-            <h2 class="h3 service-block__title">Video Editing &amp; Production</h2>
+      </section>
+      <section class="service-detail" id="video-production">
+        <div class="service-detail__head">
+          <p class="label">04 — Service</p>
+          <h2 class="h2">Video Editing &amp; Production</h2>
+          <ul class="chips"><li>After Effects</li><li>Premiere Pro</li><li>Cinema 4D</li><li>DaVinci Resolve</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We plan, shoot, animate and edit video built to hold attention: promotional and corporate videos, product demos and explainers, motion graphics and 3D animation, and short-form content cut specifically for social feeds, finished with the same care as the rest of the build.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>Product launches with no video to explain what the product actually does</li><li>Raw footage that never gets turned into something usable</li><li>Social content that looks like an afterthought instead of a strategy</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>A finished promotional, corporate or explainer video, ready to publish</li><li>Motion graphics or 3D animation assets sized for their platform</li><li>Platform-cut social edits with captions, pacing and formats matched to each channel</li></ul></div>
           </div>
-          <div>
-            <p>We plan, shoot, animate and edit video content built to hold attention — promotional and corporate videos, product demos and explainer videos, motion graphics and 3D animation, and short-form content cut specifically for social feeds, all finished with the same post-production care as the rest of the build.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>Product launches with no video to explain what the product actually does</li>
-              <li>Raw footage that never gets turned into something usable</li>
-              <li>Social content that looks like an afterthought instead of a strategy</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>A finished promotional, corporate or explainer video, ready to publish</li>
-              <li>Motion graphics or 3D animation assets sized for their platform</li>
-              <li>Platform-cut social edits with captions, pacing and formats matched to each channel</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> creative brief and script, shoot or asset sourcing, edit and motion design, revisions, platform-ready export.</p>
-
-            <ul class="tech-cloud">
-              <li>After Effects</li><li>Premiere Pro</li><li>Cinema 4D</li><li>DaVinci Resolve</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#video-production" class="button button-secondary">View Video Production Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Creative brief and script, shoot or asset sourcing, edit and motion design, revisions, platform-ready export.</p>
+          <div class="actions">
+            <a href="contact.html?service=video-production" class="btn btn--accent">Discuss a video editing project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#video-production" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 05 AI & MACHINE LEARNING -->
-    <section class="section" id="ai-ml">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">05 — Service</span>
-            <h2 class="h3 service-block__title">AI &amp; Machine Learning</h2>
+      </section>
+      <section class="service-detail" id="ai-ml">
+        <div class="service-detail__head">
+          <p class="label">05 — Service</p>
+          <h2 class="h2">AI &amp; Machine Learning</h2>
+          <ul class="chips"><li>Python</li><li>TensorFlow</li><li>PyTorch</li><li>LangChain</li><li>OpenAI API</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We build custom AI solutions, machine learning models, NLP pipelines, computer vision systems and conversational AI, integrated into real product workflows rather than left running as a standalone demo. That includes predictive analytics and automation that removes real manual work, not just a chatbot bolted onto a homepage.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>AI features that look great in a demo and never reach production</li><li>Manual workflows that could be predicted or automated but aren&#x27;t</li><li>Chatbots and NLP tools that misunderstand users more often than they help</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>A production AI or ML feature integrated into your existing product</li><li>A trained, evaluated model or NLP / computer vision pipeline tuned to your data</li><li>A deployed chatbot or automation workflow with monitoring in place</li></ul></div>
           </div>
-          <div>
-            <p>We build custom AI solutions, machine learning models, NLP pipelines, computer vision systems and conversational AI — integrated into real product workflows, not left running as a standalone demo nobody ships. That includes predictive analytics and AI-powered automation that removes real manual work, not just a chatbot bolted onto a homepage.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>AI features that look great in a demo and never reach production</li>
-              <li>Manual workflows that could be predicted or automated but aren't</li>
-              <li>Chatbots and NLP tools that misunderstand users more often than they help them</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>A production AI or ML feature integrated into your existing product</li>
-              <li>A trained, evaluated model or NLP/computer vision pipeline tuned to your data</li>
-              <li>A deployed chatbot or automation workflow with monitoring in place</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> use-case scoping and data audit, model or pipeline design, integration into the product, evaluation and monitoring setup.</p>
-
-            <ul class="tech-cloud">
-              <li>Python</li><li>TensorFlow</li><li>PyTorch</li><li>LangChain</li><li>OpenAI API</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#ai-ml" class="button button-secondary">View AI &amp; ML Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Use-case scoping and data audit, model or pipeline design, integration into the product, evaluation and monitoring setup.</p>
+          <div class="actions">
+            <a href="contact.html?service=ai-ml" class="btn btn--accent">Discuss a ai project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#ai-ml" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 06 SOFTWARE ENGINEERING -->
-    <section class="section section--alt" id="software-engineering">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">06 — Service</span>
-            <h2 class="h3 service-block__title">Software Engineering</h2>
+      </section>
+      <section class="service-detail" id="software-engineering">
+        <div class="service-detail__head">
+          <p class="label">06 — Service</p>
+          <h2 class="h2">Software Engineering</h2>
+          <ul class="chips"><li>Node.js</li><li>Python</li><li>Go</li><li>PostgreSQL</li><li>AWS</li><li>Docker</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We build the software everything else depends on: custom software and SaaS products, backend systems, APIs and databases sized for real load, integrations that connect the tools you already run, DevOps and CI/CD pipelines, and modernisation for systems that have outgrown their original architecture.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>Backend infrastructure that can&#x27;t handle real traffic or scale</li><li>Legacy systems too fragile to touch and too critical to replace outright</li><li>No clear ownership of deployment, integration or the data layer</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>A documented, versioned API and data layer sized for your load</li><li>A CI/CD pipeline with monitoring for ongoing deployments</li><li>Custom software, a SaaS product or a system integration built to spec</li></ul></div>
           </div>
-          <div>
-            <p>We build the software that everything else depends on — custom software solutions, enterprise applications and SaaS products, backend systems, APIs and databases sized for real load, system integrations that connect the tools you already run, DevOps and CI/CD pipelines, and legacy modernization for systems that have outgrown their original architecture.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>Backend infrastructure that can't handle real traffic or scale</li>
-              <li>Legacy systems too fragile to touch and too critical to replace outright</li>
-              <li>No clear ownership of deployment, integration or the data layer</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>A documented, versioned API and data layer sized for your load</li>
-              <li>A CI/CD pipeline with monitoring for ongoing deployments</li>
-              <li>Custom software, a SaaS product or a system integration built to spec</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> architecture and data modeling, build in staged milestones, integration and load testing, CI/CD and deployment setup.</p>
-
-            <ul class="tech-cloud">
-              <li>Node.js</li><li>Python</li><li>Go</li><li>PostgreSQL</li><li>AWS</li><li>Docker</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#software-engineering" class="button button-secondary">View Software Engineering Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Architecture and data modelling, build in staged milestones, integration and load testing, CI/CD and deployment setup.</p>
+          <div class="actions">
+            <a href="contact.html?service=software-engineering" class="btn btn--accent">Discuss a software engineering project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#software-engineering" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 07 DIGITAL MARKETING -->
-    <section class="section" id="digital-marketing">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">07 — Service</span>
-            <h2 class="h3 service-block__title">Digital Marketing</h2>
+      </section>
+      <section class="service-detail" id="digital-marketing">
+        <div class="service-detail__head">
+          <p class="label">07 — Service</p>
+          <h2 class="h2">Digital Marketing</h2>
+          <ul class="chips"><li>Google Analytics</li><li>SEMrush</li><li>Meta Ads</li><li>Google Ads</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We handle the marketing that makes sure what we build gets found and used: SEO built into the site from the ground up, social media and content marketing, PPC across search and social, email marketing, and analytics and reporting that tell you what is actually working.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>A well-built site that nobody can find because SEO was an afterthought</li><li>Ad spend going out with no clear read on what&#x27;s converting</li><li>Content and social calendars that run out of steam after a few weeks</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>An SEO-ready site structure with a keyword and content plan</li><li>Social, content and PPC campaigns tied to real goals</li><li>Analytics dashboards and reporting you can act on</li></ul></div>
           </div>
-          <div>
-            <p>We handle the marketing work that makes sure what we build actually gets found and used — SEO optimization built into the site from the ground up, social media and content marketing, PPC advertising across search and social, email marketing, and analytics and reporting that tells you what's actually working.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>A well-built site that nobody can find because SEO was an afterthought</li>
-              <li>Ad spend going out with no clear read on what's converting</li>
-              <li>Content and social calendars that run out of steam after a few weeks</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>An SEO-optimized site structure with a keyword and content plan</li>
-              <li>Running social, content and PPC campaigns tied to real goals</li>
-              <li>Analytics dashboards and reporting you can act on</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> audit and strategy, campaign and content build, launch, ongoing optimization and reporting.</p>
-
-            <ul class="tech-cloud">
-              <li>Google Analytics</li><li>SEMrush</li><li>Meta Ads</li><li>Google Ads</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#digital-marketing" class="button button-secondary">View Digital Marketing Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Audit and strategy, campaign and content build, launch, ongoing optimisation and reporting.</p>
+          <div class="actions">
+            <a href="contact.html?service=digital-marketing" class="btn btn--accent">Discuss a digital marketing project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#digital-marketing" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 08 WHITE-LABEL SERVICES -->
-    <section class="section section--alt" id="white-label">
-      <div class="container">
-        <div class="service-block reveal">
-          <div>
-            <span class="mono-tag">08 — Service</span>
-            <h2 class="h3 service-block__title">White-Label Services</h2>
+      </section>
+      <section class="service-detail" id="white-label">
+        <div class="service-detail__head">
+          <p class="label">08 — Service</p>
+          <h2 class="h2">White-Label Services</h2>
+          <ul class="chips"><li>Figma</li><li>React</li><li>REST APIs</li></ul>
+        </div>
+        <div class="service-detail__body reveal">
+          <p>We work quietly behind other agencies&#x27; brands: turning Figma files into production HTML, CSS or React, providing development support, integrating third-party APIs and handling ongoing maintenance, delivered as an extension of your team rather than a vendor your client ever needs to know about.</p>
+          <div class="service-detail__cols">
+            <div class="list-card"><h3>What we solve</h3><ul><li>Design handoffs that stall because there&#x27;s no bandwidth to build them</li><li>Agencies needing reliable delivery capacity without hiring in-house</li><li>Client projects that need API integration or support nobody has time for</li></ul></div>
+            <div class="list-card"><h3>What you get</h3><ul><li>Pixel-accurate HTML/CSS/React builds from Figma files</li><li>Development support delivered under your agency&#x27;s brand and process</li><li>API integrations and ongoing maintenance without client-facing friction</li></ul></div>
           </div>
-          <div>
-            <p>We work quietly behind other agencies' brands — turning Figma files into production HTML, CSS or React, providing development support, integrating third-party APIs, and handling ongoing maintenance, all delivered as a reliable extension of your team rather than a separate vendor your client ever has to know about.</p>
-
-            <h3 class="h3 service-block__subhead">What We Solve</h3>
-            <ul class="case-features">
-              <li>Design handoffs that stall because there's no bandwidth to build them</li>
-              <li>Agencies needing reliable delivery capacity without hiring in-house</li>
-              <li>Client projects that need API integration or ongoing support nobody has time for</li>
-            </ul>
-
-            <h3 class="h3 service-block__subhead">Deliverables</h3>
-            <ul class="case-features">
-              <li>Pixel-accurate HTML/CSS/React builds from Figma files</li>
-              <li>Development support delivered under your agency's brand and process</li>
-              <li>API integrations and ongoing maintenance handled without client-facing friction</li>
-            </ul>
-
-            <p class="service-block__process"><strong>Process:</strong> handoff and scoping, build or integration, QA against the design file, delivery under your brand.</p>
-
-            <ul class="tech-cloud">
-              <li>Figma</li><li>React</li><li>REST APIs</li>
-            </ul>
-
-            <div class="hero__actions">
-              <a href="contact.html" class="button button-secondary">
-                Start a Project
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-              </a>
-              <a href="work.html#white-label" class="button button-secondary">View White-Label Work</a>
-            </div>
+          <p class="service-detail__process"><strong>Process</strong>Handoff and scoping, build or integration, QA against the design file, delivery under your brand.</p>
+          <div class="actions">
+            <a href="contact.html?service=white-label" class="btn btn--accent">Discuss a white-label project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            <a href="work.html#white-label" class="btn btn--ghost">Related concept work</a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- ADDITIONAL CAPABILITIES -->
-    <section class="section container">
+    <section class="section wrap">
       <div class="section-head">
         <div class="section-head__copy">
-          <p class="eyebrow">Also Available</p>
+          <p class="label">Also available</p>
           <h2 class="h2">A few more ways we can help.</h2>
         </div>
       </div>
-      <div class="grid service-extra-grid reveal-stagger">
-        <div class="why-item">
-          <h3>Website Redesign</h3>
-          <p>Honest audits and modern rebuilds for sites that have outgrown their design, their codebase, or both.</p>
-        </div>
-        <div class="why-item">
-          <h3>Performance &amp; Maintenance</h3>
-          <p>Ongoing monitoring, updates and optimization so the product you launched keeps performing months and years later.</p>
-        </div>
-        <div class="why-item">
-          <h3>Technical Consulting &amp; Discovery</h3>
-          <p>Architecture reviews, scoping and technical due diligence for teams that need a plan before they need a build.</p>
-        </div>
+      <div class="card-grid">
+        <div class="card reveal"><span class="card__kicker">Redesign</span><h3>Website redesign</h3><p>Honest audits and modern rebuilds for sites that have outgrown their design, their codebase, or both.</p></div>
+        <div class="card reveal"><span class="card__kicker">Care</span><h3>Performance &amp; maintenance</h3><p>Monitoring, updates and optimisation so the product you launched keeps performing months and years later.</p></div>
+        <div class="card reveal"><span class="card__kicker">Advice</span><h3>Technical consulting &amp; discovery</h3><p>Architecture reviews, scoping and technical due diligence for teams that need a plan before a build.</p></div>
       </div>
     </section>
 
-    <!-- FINAL CTA -->
-    <section class="section container">
-      <div class="final-cta reveal">
-        <h2 class="final-cta__heading">Ready to start your project?</h2>
-        <p class="final-cta__lede">Tell us what you need and we'll recommend the right service, scope and timeline for it.</p>
-        <div class="final-cta__actions">
-          <a href="contact.html" class="button button-primary">
-            Start a Project
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-          <a href="mailto:hello@zerolag.io" class="final-cta__email">hello@zerolag.io</a>
+    <section class="section wrap">
+      <div class="cta reveal">
+        <h2 class="h2 cta__title">Not sure which service <em>you need?</em></h2>
+        <p>Tell us what you're trying to achieve and we'll recommend the right service, scope and timeline.</p>
+        <div class="actions">
+          <a href="contact.html" class="btn btn--accent">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <a href="mailto:hello@zerolag.io" class="btn btn--ghost">hello@zerolag.io</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-glow" aria-hidden="true"></div>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="index.html" class="logo">ZERO<span>LAG</span></a>
-          <p>A full-service digital agency spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — zero to launch, no lag, just results.</p>
-          <form class="footer-newsletter" data-newsletter-form>
-            <label for="footer-email" class="sr-only">Email address</label>
-            <input type="email" id="footer-email" name="email" placeholder="you@company.com" required />
-            <button type="submit" aria-label="Subscribe to updates">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </button>
-          </form>
-          <p class="footer-newsletter__status" aria-live="polite"></p>
-        </div>
-        <div class="footer-col">
-          <h4>Sitemap</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="work.html">Work</a></li>
-            <li><a href="technology.html">Technology</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="process.html">Process</a></li>
-            <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Services</h4>
-          <ul>
+  <footer class="site-footer wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" aria-label="Zero Lag home"><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="zl-mark-f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cba6f7"/><stop offset=".5" stop-color="#f5c2e7"/><stop offset="1" stop-color="#fab387"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#zl-mark-f)"/><circle cx="16" cy="16" r="7.5" fill="none" stroke="#11111b" stroke-width="3"/><path d="M9.5 22.5 22.5 9.5" stroke="#11111b" stroke-width="3" stroke-linecap="round"/></svg><span>Zero Lag</span></a>
+        <p>A full-service digital agency for web, mobile, UI/UX, video, AI, software, marketing and white-label work. One team from idea to launch.</p>
+        <a class="footer-email" href="mailto:hello@zerolag.io">hello@zerolag.io</a>
+      </div>
+      <div class="footer-col">
+        <h2>Studio</h2>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Services</h2>
+        <ul>
             <li><a href="services.html#web-development">Web Development</a></li>
             <li><a href="services.html#mobile-development">Mobile App Development</a></li>
             <li><a href="services.html#ui-ux-design">UI/UX Design</a></li>
@@ -517,31 +282,28 @@
             <li><a href="services.html#software-engineering">Software Engineering</a></li>
             <li><a href="services.html#digital-marketing">Digital Marketing</a></li>
             <li><a href="services.html#white-label">White-Label Services</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <ul class="footer-social">
-            <li><a href="mailto:hello@zerolag.io">Email</a></li>
-            <li><a href="#">LinkedIn</a></li>
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Dribbble</a></li>
-          </ul>
-        </div>
+        </ul>
       </div>
-      <div class="footer-bottom">
-        <small>&copy; 2026 Zero Lag. All rights reserved. &middot; Built with AI by Zero Lag.</small>
-        <div class="footer-legal">
-          <a href="privacy-policy.html">Privacy Policy</a>
-          <a href="terms.html">Terms</a>
-        </div>
+      <div class="footer-col">
+        <h2>Get in touch</h2>
+        <ul>
+          <li><a href="contact.html">Project inquiry</a></li>
+          <li><a href="mailto:hello@zerolag.io">Email us</a></li>
+          <li><a href="contact.html#partner">Agency partnerships</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-word" aria-hidden="true">Zero<span>/</span>Lag</p>
+    <div class="footer-bottom">
+      <small>&copy; 2026 Zero Lag. All rights reserved.</small>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
       </div>
     </div>
   </footer>
+  </div>
 
-  <script src="js/theme.js" defer></script>
-  <script src="js/main.js" defer></script>
-  <script src="js/animations.js" defer></script>
+  <script src="js/main.js?v=20" defer></script>
 </body>
 </html>

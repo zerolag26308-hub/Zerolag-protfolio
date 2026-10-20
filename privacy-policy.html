@@ -2,99 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    (function () {
-      var stored = localStorage.getItem("zerolag-theme");
-      var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-      document.documentElement.setAttribute("data-theme", theme);
-    })();
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.zlReady)document.documentElement.classList.remove("js")},3000);</script>
   <title>Privacy Policy — Zero Lag</title>
-  <meta name="description" content="How Zero Lag collects, uses and protects information from visitors and clients of our digital design and development studio." />
+  <meta name="description" content="How Zero Lag collects, uses and protects information from website visitors and clients." />
   <link rel="canonical" href="https://www.zerolag.io/privacy-policy.html" />
+  <meta name="theme-color" content="#1e1e2e" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Zero Lag" />
   <meta property="og:title" content="Privacy Policy — Zero Lag" />
-  <meta property="og:description" content="How Zero Lag collects, uses and protects information from visitors and clients." />
+  <meta property="og:description" content="How Zero Lag collects, uses and protects information from website visitors and clients." />
   <meta property="og:url" content="https://www.zerolag.io/privacy-policy.html" />
   <meta property="og:image" content="https://www.zerolag.io/assets/images/og-cover.jpg" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Privacy Policy — Zero Lag" />
-  <meta name="twitter:description" content="How Zero Lag collects, uses and protects information from visitors and clients." />
+  <meta name="twitter:description" content="How Zero Lag collects, uses and protects information from website visitors and clients." />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Cpath d='M18 5 8 18h6l-1 9 11-15h-7z' fill='%2300d4ff'/%3E%3C/svg%3E" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
-</head>
-<body>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/style.css?v=20" />
+</head><body>
   <a class="skip-link" href="#main">Skip to content</a>
-
+  <div class="frame">
   <header class="site-header">
     <div class="site-header__inner">
-      <a href="index.html" class="logo">ZERO<span>LAG</span></a>
+      <a href="index.html" class="logo" aria-label="Zero Lag home"><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="zl-mark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cba6f7"/><stop offset=".5" stop-color="#f5c2e7"/><stop offset="1" stop-color="#fab387"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#zl-mark)"/><circle cx="16" cy="16" r="7.5" fill="none" stroke="#11111b" stroke-width="3"/><path d="M9.5 22.5 22.5 9.5" stroke="#11111b" stroke-width="3" stroke-linecap="round"/></svg><span>Zero Lag</span></a>
       <nav class="nav-primary" aria-label="Primary">
-        <a href="index.html">Home</a>
         <a href="services.html">Services</a>
         <a href="work.html">Work</a>
+        <a href="process.html">Process</a>
         <a href="technology.html">Technology</a>
         <a href="about.html">About</a>
-        <a href="process.html">Process</a>
       </nav>
       <div class="header-actions">
-        <a href="contact.html" class="button button-primary button--sm">
-          Start a Project
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
-          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
-          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
-        </button>
-        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-          <span></span><span></span><span></span>
-        </button>
+        <a href="contact.html" class="btn btn--sm">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
       </div>
     </div>
   </header>
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" inert>
     <div class="mobile-nav__links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="work.html">Work</a>
-      <a href="technology.html">Technology</a>
-      <a href="about.html">About</a>
-      <a href="process.html">Process</a>
-      <a href="contact.html">Contact</a>
+      <a href="services.html">Services<span>01</span></a>
+      <a href="work.html">Work<span>02</span></a>
+      <a href="process.html">Process<span>03</span></a>
+      <a href="technology.html">Technology<span>04</span></a>
+      <a href="about.html">About<span>05</span></a>
+      <a href="contact.html">Contact<span>06</span></a>
     </div>
     <div class="mobile-nav__footer">
-      <a href="contact.html" class="button button-primary">Start a Project</a>
-      <a href="mailto:hello@zerolag.io" class="text-muted">hello@zerolag.io</a>
-      <div class="mobile-nav__theme">
-        <span>Theme</span>
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
-          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
-          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.8 6.8 0 0 0 11 11Z"/></svg>
-        </button>
-      </div>
+      <a href="contact.html" class="btn btn--accent btn--block">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a href="mailto:hello@zerolag.io" class="mono muted">hello@zerolag.io</a>
     </div>
   </nav>
 
   <main id="main">
-    <section class="page-hero container">
-      <p class="eyebrow page-hero__eyebrow">Legal</p>
-      <h1 class="page-title">Privacy Policy</h1>
-      <p class="lede">How we collect, use and protect information from visitors to our website and clients of our studio.</p>
+    <section class="page-hero wrap">
+      <p class="label reveal">Legal</p>
+      <h1 class="h1 reveal">Privacy Policy</h1>
+      <p class="lede reveal">How we collect, use and protect information from visitors to our website and clients of our studio.</p>
     </section>
-
-    <section class="section container">
-      <div class="legal-content">
+    <section class="section wrap">
+      <div class="legal">
         <div class="legal-notice">
           This is placeholder policy content generated for a template website. It should be reviewed by a qualified legal professional and updated with accurate, business-specific details before this site is used in production.
         </div>
@@ -124,43 +101,32 @@
         <p>We work with clients and visitors from many countries, including the USA, UK, Canada, Australia, the UAE, Saudi Arabia and across Europe. Information may be processed in [Jurisdiction] or other locations where we or our service providers operate. This policy does not constitute a specific compliance claim for any individual jurisdiction's data protection framework.</p>
 
         <h2>Contact Us</h2>
-        <p>If you have questions about this Privacy Policy or how your information is handled, please contact us at <a href="mailto:hello@zerolag.io" style="color:var(--color-accent-strong);text-decoration:underline;">hello@zerolag.io</a>.</p>
+        <p>If you have questions about this Privacy Policy or how your information is handled, please contact us at <a href="mailto:hello@zerolag.io">hello@zerolag.io</a>.</p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-glow" aria-hidden="true"></div>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="index.html" class="logo">ZERO<span>LAG</span></a>
-          <p>A full-service digital agency spanning web, mobile, UI/UX, video, AI/ML, software engineering, digital marketing and white-label — zero to launch, no lag, just results.</p>
-          <form class="footer-newsletter" data-newsletter-form>
-            <label for="footer-email" class="sr-only">Email address</label>
-            <input type="email" id="footer-email" name="email" placeholder="you@company.com" required />
-            <button type="submit" aria-label="Subscribe to updates">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </button>
-          </form>
-          <p class="footer-newsletter__status" aria-live="polite"></p>
-        </div>
-        <div class="footer-col">
-          <h4>Sitemap</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="work.html">Work</a></li>
-            <li><a href="technology.html">Technology</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="process.html">Process</a></li>
-            <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Services</h4>
-          <ul>
+  <footer class="site-footer wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" aria-label="Zero Lag home"><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="zl-mark-f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cba6f7"/><stop offset=".5" stop-color="#f5c2e7"/><stop offset="1" stop-color="#fab387"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#zl-mark-f)"/><circle cx="16" cy="16" r="7.5" fill="none" stroke="#11111b" stroke-width="3"/><path d="M9.5 22.5 22.5 9.5" stroke="#11111b" stroke-width="3" stroke-linecap="round"/></svg><span>Zero Lag</span></a>
+        <p>A full-service digital agency for web, mobile, UI/UX, video, AI, software, marketing and white-label work. One team from idea to launch.</p>
+        <a class="footer-email" href="mailto:hello@zerolag.io">hello@zerolag.io</a>
+      </div>
+      <div class="footer-col">
+        <h2>Studio</h2>
+        <ul>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="why-zero-lag.html">Why Zero Lag</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Services</h2>
+        <ul>
             <li><a href="services.html#web-development">Web Development</a></li>
             <li><a href="services.html#mobile-development">Mobile App Development</a></li>
             <li><a href="services.html#ui-ux-design">UI/UX Design</a></li>
@@ -169,31 +135,28 @@
             <li><a href="services.html#software-engineering">Software Engineering</a></li>
             <li><a href="services.html#digital-marketing">Digital Marketing</a></li>
             <li><a href="services.html#white-label">White-Label Services</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <ul class="footer-social">
-            <li><a href="mailto:hello@zerolag.io">Email</a></li>
-            <li><a href="#">LinkedIn</a></li>
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Dribbble</a></li>
-          </ul>
-        </div>
+        </ul>
       </div>
-      <div class="footer-bottom">
-        <small>&copy; 2026 Zero Lag. All rights reserved. &middot; Built with AI by Zero Lag.</small>
-        <div class="footer-legal">
-          <a href="privacy-policy.html">Privacy Policy</a>
-          <a href="terms.html">Terms</a>
-        </div>
+      <div class="footer-col">
+        <h2>Get in touch</h2>
+        <ul>
+          <li><a href="contact.html">Project inquiry</a></li>
+          <li><a href="mailto:hello@zerolag.io">Email us</a></li>
+          <li><a href="contact.html#partner">Agency partnerships</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-word" aria-hidden="true">Zero<span>/</span>Lag</p>
+    <div class="footer-bottom">
+      <small>&copy; 2026 Zero Lag. All rights reserved.</small>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
       </div>
     </div>
   </footer>
+  </div>
 
-  <script src="js/theme.js" defer></script>
-  <script src="js/main.js" defer></script>
-  <script src="js/animations.js" defer></script>
+  <script src="js/main.js?v=20" defer></script>
 </body>
 </html>
