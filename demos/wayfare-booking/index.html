@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Wayfare | Stays at the far end of the road</title>
+<meta name="description" content="Wayfare is a fictional booking house for lodges, boathouses and shoreline stays. A concept demo by Zero Lag.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,100,1;1,9..144,300..700,100,1&display=swap" rel="stylesheet">
+<style>
+:root{--sand:#FBF4E9;--sand-2:#F3E7D3;--ink:#12302F;--muted:#4C5B58;--coral:#C23C1B;--coral-dark:#9F2E12;--teal:#0C4A4E;--teal-deep:#0A3438;--peach:#FFC3A8;--line:#D8C8AD;--white:#FFFDF9;--bar-h:32px;--nav-h:68px;--serif:"Fraunces",Georgia,"Times New Roman",serif;--sans:"Figtree","Segoe UI",system-ui,sans-serif;--gutter:clamp(16px,4vw,56px)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + var(--nav-h) + 16px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--sand);color:var(--ink);font:400 1.0625rem/1.6 var(--sans)}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05;margin:0;letter-spacing:-.015em}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--coral);outline-offset:2px;border-radius:2px}
+.on-dark :focus-visible,.on-dark:focus-visible{outline-color:var(--peach)}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{max-width:1360px;margin:0 auto;padding-inline:var(--gutter)}
+
+/* Disclosure bar */
+.disclosure{position:sticky;top:0;z-index:60;background:var(--teal-deep);color:var(--sand);font-size:.8125rem;line-height:1.35;padding:7px 16px;text-align:center}
+.disclosure a{color:var(--peach);font-weight:600;white-space:nowrap;margin-left:6px}
+
+/* Sticky navigation */
+.site-head{position:sticky;top:var(--bar-h);z-index:50;background:var(--sand);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:68px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:500 1.625rem/1 var(--serif);letter-spacing:-.02em;color:var(--teal-deep)}
+.brand svg{width:36px;height:36px;flex:none}
+.nav-links{display:flex;align-items:center;gap:clamp(16px,2.4vw,34px)}
+.nav-links a{text-decoration:none;font-weight:500;font-size:1rem;padding:6px 0;border-bottom:2px solid transparent}
+.nav-links a:hover{border-bottom-color:var(--coral)}
+.nav-links .saved-link{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);border-radius:999px;padding:7px 15px}
+.nav-links .saved-link:hover{background:var(--ink);color:var(--sand);border-color:var(--ink)}
+.saved-link svg{width:16px;height:16px}
+.menu-btn{display:none;align-items:center;gap:8px;background:none;border:1.5px solid var(--ink);border-radius:999px;padding:8px 15px;font-weight:600;font-size:.9375rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:12px 24px;border:0;border-radius:999px;background:var(--coral);color:var(--white);font-weight:600;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--coral-dark)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--sand)}
+.text-btn{background:none;border:0;padding:4px 0;font-weight:600;color:var(--coral-dark);text-decoration:underline;text-underline-offset:3px}
+.text-btn:hover{color:var(--ink)}
+
+/* Hero */
+.hero{position:relative}
+.hero-photo{position:relative;min-height:clamp(560px,82vh,860px);display:flex;align-items:flex-end;color:var(--white);overflow:hidden}
+.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,34,37,.28) 0%,rgba(6,34,37,.52) 42%,rgba(6,34,37,.8) 100%)}
+.hero-copy{position:relative;z-index:1;width:100%;padding-block:64px 150px;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:32px;align-items:end}
+.hero h1{font-size:clamp(3.1rem,10.2vw,9.5rem);line-height:.92;font-weight:400;letter-spacing:-.03em}
+.hero h1 em{font-style:italic;color:var(--peach)}
+.hero-lede{font-size:clamp(1.0625rem,1.5vw,1.25rem);line-height:1.5;max-width:40ch;margin-top:22px}
+.cover-note{justify-self:end;border:0;background:none;color:var(--white);text-align:left;padding:14px 0 0;border-top:1.5px solid rgba(255,253,249,.75);font-size:.9375rem;line-height:1.4}
+.cover-note i{font-family:var(--serif);font-size:1.25rem;display:block;margin-bottom:2px}
+.cover-note span{text-decoration:underline;text-underline-offset:3px}
+
+/* Search form */
+.search-shell{position:relative;z-index:2;margin-top:-104px;padding-bottom:0}
+.search{background:var(--white);border-radius:6px 6px 28px 6px;padding:22px clamp(16px,2vw,28px) 24px;display:grid;grid-template-columns:1.5fr 1fr 1fr auto auto;gap:14px 18px;align-items:end;box-shadow:0 18px 40px -22px rgba(10,52,56,.55)}
+.search h2{grid-column:1/-1;font-size:1.5rem}
+.field label,.field-label{display:block;font-size:.875rem;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;min-width:0;height:50px;padding:10px 12px;background:var(--sand);border:1.5px solid #8A7D69;border-radius:6px}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:var(--ink)}
+.field textarea{height:auto;min-height:88px;resize:vertical}
+.field [aria-invalid="true"]{border-color:var(--coral);background:#FFF1EA}
+.err{color:var(--coral-dark);font-size:.875rem;font-weight:600;margin-top:5px}
+.err:empty{display:none}
+.stepper{display:inline-flex;align-items:center;background:var(--sand);border:1.5px solid #8A7D69;border-radius:6px;height:50px}
+.stepper button{width:44px;height:47px;background:none;border:0;font-size:1.375rem;line-height:1;border-radius:5px}
+.stepper button:hover:not(:disabled){background:var(--sand-2)}
+.stepper button:disabled{color:#6F6A5E;cursor:not-allowed}
+.stepper output{min-width:34px;text-align:center;font-weight:600}
+.search-msg{grid-column:1/-1;color:var(--coral-dark);font-weight:600;font-size:.9375rem}
+.search-msg:empty{display:none}
+
+/* Intro */
+.intro{padding-block:clamp(64px,8vw,120px) clamp(48px,6vw,84px);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(32px,6vw,96px);align-items:start}
+.intro h2{font-size:clamp(1.875rem,3.5vw,3.25rem);line-height:1.12;font-weight:300}
+.intro h2 em{color:var(--coral);font-style:italic}
+.facts{border-top:1.5px solid var(--ink)}
+.facts li{display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.facts b{font:400 2.125rem/1 var(--serif);min-width:92px;white-space:nowrap;color:var(--teal)}
+.fine{font-size:.875rem;color:var(--muted);margin-top:12px}
+
+/* Stay results */
+.stays{padding-bottom:clamp(56px,7vw,96px)}
+.stays-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;padding-bottom:22px;border-bottom:1.5px solid var(--ink);margin-bottom:28px}
+.stays-head h2{font-size:clamp(2.5rem,5.5vw,4.75rem)}
+.sort-field{display:flex;align-items:center;gap:10px}
+.sort-field label{font-weight:600;font-size:.9375rem;white-space:nowrap}
+.sort-field select{min-height:44px;padding:8px 12px;background:var(--white);border:1.5px solid #8A7D69;border-radius:6px}
+.results-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
+.filters{position:sticky;top:calc(var(--bar-h) + var(--nav-h) + 20px)}
+.filters summary{list-style:none;font-weight:600;display:none;padding:12px 16px;border:1.5px solid var(--ink);border-radius:6px;cursor:pointer}
+.filters summary::-webkit-details-marker{display:none}
+.filter-group{border:0;margin:0 0 28px;padding:0;min-width:0}
+.filter-group legend{font:500 1.25rem/1.2 var(--serif);padding:0;margin-bottom:12px}
+.range-values{font-weight:600;margin-bottom:10px}
+.dual{position:relative;height:28px}
+.dual .track,.dual .fill{position:absolute;top:12px;height:4px;border-radius:2px}
+.dual .track{left:0;right:0;background:var(--line)}
+.dual .fill{background:var(--coral)}
+.dual input{position:absolute;inset:0;width:100%;height:28px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.dual input::-webkit-slider-runnable-track{background:none;height:28px}
+.dual input::-moz-range-track{background:none}
+.dual input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:24px;height:24px;margin-top:2px;border-radius:50%;background:var(--white);border:3px solid var(--coral);cursor:grab}
+.dual input::-moz-range-thumb{pointer-events:auto;width:18px;height:18px;border-radius:50%;background:var(--white);border:3px solid var(--coral);cursor:grab}
+.dual input:focus-visible{outline:none}
+.dual input:focus-visible::-webkit-slider-thumb{outline:3px solid var(--teal);outline-offset:2px}
+.dual input:focus-visible::-moz-range-thumb{outline:3px solid var(--teal);outline-offset:2px}
+.type-opts label{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.type-opts span{display:flex;align-items:center;gap:10px}
+.type-opts input{width:20px;height:20px;accent-color:var(--coral);margin:0}
+.type-opts small{color:var(--muted);font-size:.875rem}
+.results-note{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;min-height:30px;margin-bottom:22px;font-weight:500}
+.stay-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,4vw,52px) clamp(22px,3vw,36px)}
+.stay{position:relative;display:flex;flex-direction:column;min-width:0}
+.stay-media{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:4px;background:var(--sand-2)}
+.stay-media img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1));transition:transform .5s ease}
+.stay:hover .stay-media img{transform:scale(calc(var(--z,1)*1.035))}
+.stay-body{padding-top:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.stay-place{font-size:.9375rem;color:var(--muted)}
+.stay h3{font-size:clamp(1.5rem,2.2vw,2rem)}
+.stay-open{background:none;border:0;padding:0;text-align:left;font:inherit;letter-spacing:inherit}
+.stay-open::after{content:"";position:absolute;inset:0;z-index:1}
+.stay:hover .stay-open{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px}
+.stay-line{color:var(--muted)}
+.stay-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px;margin-top:auto;padding-top:8px}
+.price{font-size:.9375rem}
+.price strong{font:500 1.5rem/1 var(--serif);color:var(--coral-dark)}
+.price small{display:block;font-size:.875rem;color:var(--muted);margin-top:3px}
+.meta{font-size:.9375rem;color:var(--muted)}
+.heart{position:absolute;top:12px;right:12px;z-index:2;width:46px;height:46px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--white);color:var(--ink)}
+.heart svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+.heart:hover{color:var(--coral)}
+.heart[aria-pressed="true"]{color:var(--coral)}
+.heart[aria-pressed="true"] svg{fill:currentColor}
+/* Every third stay runs wide so the list reads like a magazine spread */
+.stay:nth-child(3n+1),.stay:last-child:nth-child(3n+2){grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(20px,3vw,36px);align-items:stretch}
+.stay:nth-child(6n+4){grid-template-columns:minmax(0,1fr) minmax(0,1.45fr)}
+.stay:nth-child(6n+4) .stay-media{order:2}
+.stay:nth-child(3n+1) .stay-media,.stay:last-child:nth-child(3n+2) .stay-media{aspect-ratio:16/10}
+.stay:nth-child(3n+1) .stay-body,.stay:last-child:nth-child(3n+2) .stay-body{padding-top:4px;gap:10px;justify-content:center}
+.stay:nth-child(3n+1) h3,.stay:last-child:nth-child(3n+2) h3{font-size:clamp(1.875rem,3.2vw,3rem)}
+.stay:nth-child(3n+1) .stay-foot,.stay:last-child:nth-child(3n+2) .stay-foot{margin-top:6px;padding-top:14px;border-top:1px solid var(--line)}
+.empty{grid-column:1/-1;padding:44px 28px;background:var(--sand-2);border-radius:4px}
+.empty h3{font-size:1.75rem;margin-bottom:8px}
+.empty button{margin-top:16px}
+
+/* Wishlist */
+.saved{background:var(--sand-2);padding-block:clamp(44px,5vw,68px)}
+.saved-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px clamp(28px,5vw,72px)}
+.saved h2{font-size:clamp(2rem,3.6vw,3rem)}
+.saved-row{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.saved-row:first-child{border-top:1.5px solid var(--ink)}
+.saved-row img{width:92px;height:68px;object-fit:cover;border-radius:3px}
+.saved-row h3{font-size:1.3125rem}
+.saved-row p{font-size:.9375rem;color:var(--muted)}
+.saved-acts{display:flex;gap:14px}
+.saved-empty{padding:18px 0;border-top:1.5px solid var(--ink)}
+
+/* Destinations */
+.dests{background:var(--teal-deep);color:var(--sand);padding-block:clamp(64px,8vw,112px)}
+.dests-head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px 48px;align-items:end;margin-bottom:36px}
+.dests h2{font-size:clamp(2.5rem,6vw,5.25rem)}
+.dest-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:340px 300px 240px;gap:14px;grid-template-areas:"an an an an pa pa" "al al ja ja pa pa" "co co co co co co"}
+.dest{position:relative;display:flex;align-items:flex-end;padding:0;border:0;border-radius:4px;overflow:hidden;text-align:left;color:var(--white);background:var(--teal);min-width:0}
+.dest img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.dest:hover img{transform:scale(1.04)}
+.dest::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,34,37,.04) 15%,rgba(6,34,37,.6) 55%,rgba(6,34,37,.9) 100%)}
+.dest-text{position:relative;z-index:1;padding:20px 22px;width:100%}
+.dest-text b{display:block;font:400 clamp(1.625rem,2.8vw,2.625rem)/1.05 var(--serif);letter-spacing:-.015em}
+.dest-text span{display:block;margin-top:6px;font-size:.9375rem;line-height:1.4}
+.dest[data-a="pa"] .dest-text b{font-size:clamp(2rem,3.6vw,3.25rem)}
+.dest[data-a="co"]::after{background:linear-gradient(90deg,rgba(6,34,37,.8) 0%,rgba(6,34,37,.5) 45%,rgba(6,34,37,0) 75%)}
+.dest[data-a="co"]{align-items:center}
+.dest[data-a="co"] .dest-text{max-width:560px}
+
+/* Sunset rule */
+.rule{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:stretch;background:var(--coral);color:var(--white)}
+.rule-photo{min-height:560px;position:relative}
+.rule-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rule-text{padding:clamp(40px,6vw,88px) var(--gutter)}
+.rule h2{font-size:clamp(2.5rem,5vw,4.5rem);margin-bottom:18px}
+.rule ol{margin:24px 0 0;padding:0;list-style:none;counter-reset:r}
+.rule li{counter-increment:r;display:grid;grid-template-columns:38px minmax(0,1fr);padding:12px 0;border-top:1px solid rgba(255,253,249,.55)}
+.rule li::before{content:counter(r);font:italic 400 1.5rem/1.2 var(--serif)}
+
+/* Field notes */
+.notes{padding-block:clamp(64px,8vw,112px)}
+.notes h2{font-size:clamp(2.5rem,5.5vw,4.75rem);margin-bottom:36px}
+.notes-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(32px,5vw,72px)}
+.note-lead img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;margin-bottom:18px}
+.note-lead h3{font-size:clamp(1.875rem,3vw,2.75rem);margin-bottom:12px}
+.note-side article{padding:0 0 26px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.note-side article:last-child{border-bottom:0;margin-bottom:0}
+.note-side h3{font-size:1.625rem;margin-bottom:10px}
+.byline{font-size:.9375rem;color:var(--muted);margin-top:12px}
+
+/* Guest voices */
+.voices{background:var(--sand-2);padding-block:clamp(64px,8vw,112px)}
+.voices-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(36px,6vw,88px)}
+blockquote{margin:0}
+.voice-big p{font:300 clamp(1.75rem,3.6vw,3.25rem)/1.15 var(--serif);letter-spacing:-.015em}
+.voice-small{padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.voice-small p{font-size:1.125rem}
+.who{display:flex;align-items:center;gap:12px;margin-top:18px;font-size:.9375rem}
+.who i{font-style:normal;font-weight:700;width:42px;height:42px;display:grid;place-items:center;flex:none;border-radius:50%;background:var(--teal);color:var(--sand);font-size:.875rem}
+.who b{display:block}
+
+/* FAQ and trip desk */
+.desk{padding-block:clamp(64px,8vw,112px)}
+.desk-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px)}
+.desk h2{font-size:clamp(2.25rem,4.4vw,3.75rem);margin-bottom:22px}
+details.faq{border-top:1px solid var(--line)}
+details.faq:last-of-type{border-bottom:1px solid var(--line)}
+details.faq summary{cursor:pointer;padding:15px 0;font:500 1.1875rem/1.3 var(--serif)}
+details.faq p{padding-bottom:18px;color:var(--muted)}
+.desk-info{margin:0 0 28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 28px}
+.desk-info h3{font:600 1rem/1.4 var(--sans);letter-spacing:0;margin-bottom:3px}
+.desk-info address{font-style:normal}
+.form-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.form-grid .full{grid-column:1/-1}
+.ok-note{margin-top:18px;padding:16px 18px;background:#E3F0EA;border-left:4px solid var(--teal);border-radius:2px}
+.ok-note:empty{display:none}
+
+/* Footer */
+.foot{background:var(--teal-deep);color:var(--sand);padding-block:56px 32px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:32px}
+.foot .brand{color:var(--sand)}
+.foot h2{font:600 1rem/1.4 var(--sans);letter-spacing:0;margin-bottom:10px}
+.foot li{margin-bottom:6px}
+.foot a{text-underline-offset:3px}
+.foot-small{margin-top:40px;padding-top:18px;border-top:1px solid rgba(251,244,233,.3);font-size:.875rem}
+
+/* Stay dialog */
+dialog{position:fixed;inset:var(--bar-h) 0 0;margin:auto;width:min(1040px,calc(100% - 40px));height:fit-content;max-height:calc(100dvh - var(--bar-h) - 32px);padding:0;border:0;border-radius:6px;background:var(--sand);color:var(--ink);overflow:auto}
+dialog::backdrop{top:var(--bar-h);background:rgba(6,34,37,.72)}
+.dlg-bar{position:sticky;top:0;height:0;z-index:3;display:flex;justify-content:flex-end}
+.dlg-close{flex:none;margin:12px 12px 0 0;width:46px;height:46px;border:0;border-radius:50%;background:var(--white);font-size:1.5rem;line-height:1;box-shadow:0 0 0 1.5px var(--ink)}
+.dlg-close:hover{background:var(--sand-2)}
+.dlg-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.dlg-photo{min-height:100%;position:relative;overflow:hidden;background:var(--sand-2)}
+.dlg-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1))}
+.dlg-main{padding:clamp(20px,3vw,36px)}
+.dlg-main h2{font-size:clamp(1.875rem,3.4vw,2.75rem);margin:4px 48px 10px 0}
+.dlg-main h2:focus{outline:none}
+.amen{display:flex;flex-wrap:wrap;gap:6px 18px;margin:12px 0;font-size:.9375rem}
+.amen li{padding-left:14px;position:relative}
+.amen li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--coral)}
+.addr{font-size:.9375rem;color:var(--muted)}
+.dlg-fields{display:grid;grid-template-columns:minmax(0,1.3fr) auto auto;gap:12px;margin:18px 0 14px;align-items:end}
+.dlg-fields .stepper button{width:38px}
+.dlg-fields .stepper output{min-width:26px}
+.span-line{font-size:.9375rem;color:var(--muted);margin-bottom:12px}
+.quote{margin:0;border-top:1.5px solid var(--ink)}
+.quote div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid var(--line);font-size:.9375rem}
+.quote dt,.quote dd{margin:0}
+.quote .tot{border-bottom:0;padding-top:12px;align-items:baseline;font-weight:600}
+.quote .tot dd{font:500 1.875rem/1 var(--serif);color:var(--coral-dark)}
+.warn{color:var(--coral-dark);font-weight:600;font-size:.9375rem;margin-top:10px}
+.warn:empty{display:none}
+.dlg-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.dlg-form{max-width:680px;margin:0 auto;padding:clamp(24px,4vw,44px)}
+.dlg-form h2{font-size:clamp(1.875rem,3.4vw,2.75rem);margin:12px 48px 8px 0}
+.dlg-form h2:focus{outline:none}
+.check-row{display:flex;gap:10px;align-items:flex-start}
+.ref{display:inline-block;margin:14px 0 18px;padding:12px 18px;background:var(--teal-deep);color:var(--sand);font:500 clamp(1.375rem,4vw,2rem)/1.1 var(--serif);border-radius:4px;letter-spacing:.02em;overflow-wrap:anywhere}
+.nothing{margin:16px 0;padding:16px 18px;background:#FFE9DE;border-left:4px solid var(--coral);border-radius:2px;font-weight:500}
+.recap{margin:0}
+.recap div{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--line)}
+.recap dt{color:var(--muted)}
+.recap dd{margin:0;font-weight:600;text-align:right}
+
+/* Tablet */
+@media (max-width:1040px){
+.search{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.search .dest-field{grid-column:1/-1}
+.search .go .btn{width:100%}
+.hero-copy{grid-template-columns:minmax(0,1fr);padding-bottom:230px}
+.cover-note{justify-self:start;max-width:320px}
+.search-shell{margin-top:-200px}
+.nav-links{gap:16px}
+.dest-grid{grid-template-rows:280px 260px 220px}
+.dlg-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.dlg-fields .field:first-child{grid-column:1/-1}
+}
+@media (max-width:900px){
+.menu-btn{display:inline-flex}
+.nav-links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--sand);border-bottom:1.5px solid var(--ink);padding:10px var(--gutter) 18px;flex-direction:column;align-items:stretch;gap:0;max-height:calc(100dvh - var(--bar-h) - var(--nav-h));overflow:auto}
+.nav-links.open{display:flex}
+.nav-links a{padding:12px 0;border-bottom:1px solid var(--line);font-size:1.125rem}
+.nav-links .saved-link{margin-top:12px;justify-content:center}
+.intro,.saved-grid,.dests-head,.notes-grid,.voices-grid,.desk-grid,.rule{grid-template-columns:minmax(0,1fr)}
+.results-layout{grid-template-columns:minmax(0,1fr)}
+.filters{position:static}
+.filters summary{display:block}
+.filters[open] summary{margin-bottom:18px}
+.rule-photo{min-height:340px}
+.foot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.foot-grid>div:first-child{grid-column:1/-1}
+}
+@media (max-width:720px){
+.stay-grid{grid-template-columns:minmax(0,1fr)}
+.stay:nth-child(n),.stay:last-child:nth-child(n){display:flex;flex-direction:column;grid-column:auto;gap:0}
+.stay:nth-child(n) .stay-media{order:0;aspect-ratio:4/3}
+.stay:nth-child(n) .stay-body{padding-top:14px;gap:6px}
+.stay:nth-child(n) h3{font-size:1.75rem}
+.stay:nth-child(n) .stay-foot{border-top:0;padding-top:8px;margin-top:0}
+.dest-grid{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-template-areas:none;grid-auto-rows:240px}
+.dest{grid-area:auto!important}
+.dest[data-a="pa"]{grid-row:span 1}
+.dest[data-a="co"]{align-items:flex-end}
+.dest[data-a="co"]::after{background:linear-gradient(180deg,rgba(6,34,37,.04) 15%,rgba(6,34,37,.6) 55%,rgba(6,34,37,.9) 100%)}
+dialog{inset:var(--bar-h) 0 0;margin:0;width:100%;max-width:none;height:calc(100dvh - var(--bar-h));max-height:none;border-radius:0}
+.dlg-bar{height:62px;align-items:center;background:var(--sand);border-bottom:1px solid var(--line)}
+.dlg-close{margin:0 12px 0 0}
+.dlg-main h2,.dlg-form h2{margin-right:0}
+.dlg-cols{grid-template-columns:minmax(0,1fr)}
+.dlg-photo{min-height:0;height:210px}
+.form-grid,.desk-info{grid-template-columns:minmax(0,1fr)}
+.saved-row{grid-template-columns:72px minmax(0,1fr)}
+.saved-row img{width:72px;height:60px}
+.saved-acts{grid-column:1/-1}
+.sort-field{width:100%}
+.sort-field select{flex:1;min-width:0}
+}
+@media (max-width:480px){
+.search{grid-template-columns:minmax(0,1fr)}
+.search .dest-field,.search .go,.search .guests-field{grid-column:auto}
+.search .guests-field .stepper{display:flex;justify-content:space-between}
+.hero-copy{padding-top:40px}
+.foot-grid{grid-template-columns:minmax(0,1fr)}
+.disclosure{font-size:.75rem;padding:6px 10px}
+.brand{font-size:1.4375rem}
+.dlg-fields{grid-template-columns:minmax(0,1fr)}
+.dlg-fields .stepper{display:flex;justify-content:space-between}
+.dlg-fields .field:first-child{grid-column:auto}
+}
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+*,*::before,*::after{transition:none!important;animation:none!important}
+.stay:hover .stay-media img{transform:scale(var(--z,1))}
+.dest:hover img{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="disclosure on-dark" id="disclosure">Concept demo by Zero Lag. Wayfare is a fictional brand, not a real business. <a href="../../work.html">Back to Zero Lag</a></div>
+
+<header class="site-head" id="site-head">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Wayfare home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#0A3438"/><path d="M9 22a11 11 0 0 1 22 0z" fill="#E8603C"/><path d="M4 24c4-3 7-3 10.500 0s6.500 3 10 0 7-3 11.500 0v3c-4-3-7-3-11.500 0s-6.500 3-10 0-6.500-3-10.500 0z" fill="#FBF4E9"/><path d="M7 30c4-2 6.500-2 9.500 0s5.500 2 8 0 5-2 8.500 0c-3 4-7.500 7-13 7s-10-3-13-7z" fill="#FFC3A8"/></svg>
+      Wayfare
+    </a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main">
+      <a href="#stays">Stays</a>
+      <a href="#destinations">Destinations</a>
+      <a href="#sunset-rule">How we choose</a>
+      <a href="#field-notes">Field notes</a>
+      <a href="#trip-desk">Trip desk</a>
+      <a class="saved-link" href="#saved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20.500S3.500 15.300 3.500 9.200A4.700 4.700 0 0 1 12 6.500a4.700 4.700 0 0 1 8.500 2.700c0 6.100-8.500 11.300-8.500 11.300z"/></svg>Saved <span id="saved-count">0</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-photo on-dark">
+      <img src="../../assets/demos/travel-lake.jpg" width="1400" height="933" alt="View from the bow of a wooden rowing boat crossing a green alpine lake towards grey limestone peaks">
+      <div class="wrap hero-copy">
+        <div>
+          <h1 id="hero-title">Go the <em>long</em> way round.</h1>
+          <p class="hero-lede">Lodges, boathouses and shoreline hideouts at the far end of the road. Our scouts sleep in every one before it reaches this page.</p>
+        </div>
+        <button class="cover-note" type="button" data-open="larchwater"><i>On the cover</i>The morning boat to Larchwater Boathouse, Alpine Lakes. <span>From $164 a night</span></button>
+      </div>
+    </div>
+    <div class="wrap search-shell">
+      <form class="search" id="search-form" novalidate aria-labelledby="search-title">
+        <h2 id="search-title">Where to next?</h2>
+        <div class="field dest-field">
+          <label for="s-dest">Destination</label>
+          <input id="s-dest" type="text" list="dest-list" placeholder="Anywhere" autocomplete="off">
+          <datalist id="dest-list"></datalist>
+        </div>
+        <div class="field"><label for="s-in">Check-in</label><input id="s-in" type="date"></div>
+        <div class="field"><label for="s-out">Check-out</label><input id="s-out" type="date"></div>
+        <div class="field guests-field">
+          <span class="field-label" id="s-guests-label">Guests</span>
+          <div class="stepper" role="group" aria-labelledby="s-guests-label">
+            <button type="button" id="s-g-minus" aria-label="Remove a guest">&minus;</button>
+            <output id="s-guests" aria-live="polite">2</output>
+            <button type="button" id="s-g-plus" aria-label="Add a guest">+</button>
+          </div>
+        </div>
+        <div class="go"><button class="btn" type="submit">Find a stay</button></div>
+        <p class="search-msg" id="search-msg" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="wrap intro" aria-labelledby="intro-title">
+    <h2 id="intro-title">Wayfare is a small booking house on the harbour at Port Merrow. We list fewer places than anyone you have heard of, and <em>we have slept in all of them.</em></h2>
+    <div>
+      <ul class="facts">
+        <li><b>212</b> nights our scouts spent on the road last year</li>
+        <li><b>41</b> stays we visited and turned down</li>
+        <li><b>6 min</b> typical reply from the trip desk</li>
+      </ul>
+      <p class="fine">Figures are part of the fictional Wayfare brand.</p>
+    </div>
+  </section>
+
+  <section class="wrap stays" id="stays" aria-labelledby="stays-title">
+    <div class="stays-head">
+      <h2 id="stays-title">Where you could wake up</h2>
+      <div class="sort-field">
+        <label for="sort">Sort by</label>
+        <select id="sort">
+          <option value="rec">Scouts' picks</option>
+          <option value="low">Price, low to high</option>
+          <option value="high">Price, high to low</option>
+          <option value="rating">Guest rating</option>
+        </select>
+      </div>
+    </div>
+    <div class="results-layout">
+      <details class="filters" id="filters" open>
+        <summary>Price and stay type</summary>
+        <form id="filter-form" onsubmit="return false">
+          <fieldset class="filter-group">
+            <legend>Price per night</legend>
+            <p class="range-values" id="range-values">$80 to $340</p>
+            <div class="dual">
+              <div class="track"></div><div class="fill" id="range-fill"></div>
+              <label class="sr-only" for="p-min">Minimum price per night</label>
+              <input id="p-min" type="range" min="80" max="340" step="10" value="80">
+              <label class="sr-only" for="p-max">Maximum price per night</label>
+              <input id="p-max" type="range" min="80" max="340" step="10" value="340">
+            </div>
+          </fieldset>
+          <fieldset class="filter-group">
+            <legend>Type of stay</legend>
+            <div class="type-opts" id="type-opts"></div>
+          </fieldset>
+          <button class="text-btn" type="button" id="reset-filters">Clear search and filters</button>
+        </form>
+      </details>
+      <div>
+        <p class="results-note" id="results-note" aria-live="polite"></p>
+        <div class="stay-grid" id="stay-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="saved" id="saved" aria-labelledby="saved-title">
+    <div class="wrap saved-grid">
+      <div>
+        <h2 id="saved-title">Your shortlist</h2>
+        <p class="fine">Kept in this tab only and gone when you refresh.</p>
+      </div>
+      <div id="saved-list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="dests on-dark" id="destinations" aria-labelledby="dest-title">
+    <div class="wrap">
+      <div class="dests-head">
+        <h2 id="dest-title">Five corners we keep going back to</h2>
+        <p>We work in regions, not cities, because the good bit is usually an hour past the last signpost. Pick one to see what is open there.</p>
+      </div>
+      <div class="dest-grid" id="dest-grid"></div>
+    </div>
+  </section>
+
+  <section class="rule on-dark" id="sunset-rule" aria-labelledby="rule-title">
+    <div class="rule-photo"><img src="../../assets/demos/travel-beach.jpg" width="1400" height="931" loading="lazy" alt="Low sun over turquoise water with foam running up a pale sand beach"></div>
+    <div class="rule-text">
+      <h2 id="rule-title">The sunset rule</h2>
+      <p>A stay gets four questions from our scouts. Miss one and it does not appear here, however good the photographs are.</p>
+      <ol>
+        <li>Is there somewhere to sit, facing the right way, at the hour that counts?</li>
+        <li>Is the owner, or someone who knows the owner by name, on site?</li>
+        <li>Could a guest find breakfast within a ten minute walk?</li>
+        <li>Would we pay the full nightly rate to come back?</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap notes" id="field-notes" aria-labelledby="notes-title">
+    <h2 id="notes-title">Field notes</h2>
+    <div class="notes-grid">
+      <article class="note-lead">
+        <img src="../../assets/demos/travel-night-pool.jpg" width="1400" height="933" loading="lazy" alt="Long swimming pool lit from below at dusk in front of a low pavilion, under a deep blue sky">
+        <h3>Twenty minutes of blue on the Java Coast</h3>
+        <p>The staff at The Blue Hour turn off the terrace lamps at 6:10 every evening, and nobody tells you why. Then the pool comes up from below, the sky goes the colour of a school uniform, and the whole hotel stops talking. Book the east wing. Order the fried tempeh before the kitchen gets busy.</p>
+        <p class="byline">Dispatch 14, by our scout M. Okafor (fictional)</p>
+      </article>
+      <div class="note-side">
+        <article>
+          <h3>Pack less for the lake</h3>
+          <p>The Larchwater boat takes one soft bag per person and a crate of whatever you bought at the village bakery. Everything else stays in the car park with Herr Dorn, who has never lost a suitcase.</p>
+          <p class="byline">Dispatch 13, by T. Lindqvist (fictional)</p>
+        </article>
+        <article>
+          <h3>Why we like the Andaman in the wet</h3>
+          <p>Mid-September rain falls for an hour after lunch and clears by three. Rates at the Teakwood Lodge drop by a fifth, and you get the long pool to yourself for the price of one short afternoon indoors.</p>
+          <p class="byline">Dispatch 12, by S. Raman (fictional)</p>
+        </article>
+        <article>
+          <h3>Paris, from the wrong bank</h3>
+          <p>Rue Perdue sits above a shuttered boatyard, not a boulevard. Walk the river at seven with a coffee from the corner and you will share the view with two rowers and one very serious dog.</p>
+          <p class="byline">Dispatch 11, by M. Okafor (fictional)</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="voices" aria-labelledby="voices-title">
+    <div class="wrap">
+      <h2 class="sr-only" id="voices-title">What guests say</h2>
+      <div class="voices-grid">
+        <blockquote class="voice-big">
+          <p>&ldquo;The road stopped, a man waved from a boat, and for four days we did not once ask what time it was. I have already told too many people about this place.&rdquo;</p>
+          <footer class="who"><i aria-hidden="true">RA</i><span><b>R. Adeyemi</b>Larchwater Boathouse, four nights</span></footer>
+        </blockquote>
+        <div>
+          <blockquote class="voice-small">
+            <p>&ldquo;Our flight was cancelled at midnight. The trip desk had moved our dates before I finished typing the email.&rdquo;</p>
+            <footer class="who"><i aria-hidden="true">JP</i><span><b>J. Park</b>The Teakwood Lodge</span></footer>
+          </blockquote>
+          <blockquote class="voice-small">
+            <p>&ldquo;They warned us the Saltline road floods at spring tide. It did. We stayed an extra night and were glad.&rdquo;</p>
+            <footer class="who"><i aria-hidden="true">CV</i><span><b>C. Vidal</b>Saltline Beach House</span></footer>
+          </blockquote>
+          <p class="fine">Guests, quotes and ratings are invented for this concept.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap desk" id="trip-desk" aria-labelledby="desk-title">
+    <div class="desk-grid">
+      <div>
+        <h2>Before you ask</h2>
+        <details class="faq" open><summary>Can I change my mind?</summary><p>Yes. Every stay is free to cancel up to 14 days before arrival, and half refundable up to 3 days before. The owners agree to this before we list them.</p></details>
+        <details class="faq"><summary>What is included in the total?</summary><p>The nightly rate, the stay's cleaning fee, our 7% service fee and local tax. Stays of seven nights or more get 10% off the room rate. There is nothing further to pay on arrival.</p></details>
+        <details class="faq"><summary>Why are some stays closed for months at a time?</summary><p>Because the lake freezes or the road floods. If a stay is closed on your dates we hide it from your search rather than offer you a bad week.</p></details>
+        <details class="faq"><summary>Can I bring the dog?</summary><p>At the Teakwood Lodge, Saltline and both Alpine Lakes stays, yes. Tell the trip desk when you reserve so the owner can leave out a bowl.</p></details>
+      </div>
+      <div>
+        <h2 id="desk-title">Ask the trip desk</h2>
+        <div class="desk-info">
+          <div>
+            <h3>Harbour office</h3>
+            <address>418 Lantern Quay<br>Port Merrow, PM 40217</address>
+          </div>
+          <div>
+            <h3>Open</h3>
+            <p>Mon to Sat, 8am to 7pm<br>Sun, 10am to 4pm</p>
+          </div>
+          <div>
+            <h3>Call</h3>
+            <p><a href="tel:+15555550142">(555) 555-0142</a></p>
+          </div>
+          <div>
+            <h3>Write</h3>
+            <p><a href="mailto:desk@wayfare.example.com">desk@wayfare.example.com</a></p>
+          </div>
+        </div>
+        <form id="desk-form" class="form-grid" novalidate>
+          <div class="field"><label for="d-name">Your name</label><input id="d-name" type="text" autocomplete="name"><p class="err" id="d-name-err"></p></div>
+          <div class="field"><label for="d-email">Email</label><input id="d-email" type="email" autocomplete="email"><p class="err" id="d-email-err"></p></div>
+          <div class="field full"><label for="d-msg">What are you dreaming about?</label><textarea id="d-msg" placeholder="Two of us, ten days in spring, somewhere with a boat."></textarea><p class="err" id="d-msg-err"></p></div>
+          <div class="full"><button class="btn" type="submit">Send to the desk</button></div>
+        </form>
+        <p class="ok-note" id="desk-ok" role="status"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot on-dark">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="Wayfare, back to top">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#FBF4E9"/><path d="M9 22a11 11 0 0 1 22 0z" fill="#E8603C"/><path d="M4 24c4-3 7-3 10.500 0s6.500 3 10 0 7-3 11.500 0v3c-4-3-7-3-11.500 0s-6.500 3-10 0-6.500-3-10.500 0z" fill="#0A3438"/><path d="M7 30c4-2 6.500-2 9.500 0s5.500 2 8 0 5-2 8.500 0c-3 4-7.500 7-13 7s-10-3-13-7z" fill="#0C4A4E"/></svg>
+          Wayfare
+        </a>
+        <p style="margin-top:12px;max-width:38ch">Stays at the far end of the road, from a small office at 418 Lantern Quay, Port Merrow.</p>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <ul>
+          <li><a href="#stays">All stays</a></li>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#saved">Your shortlist</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Wayfare</h2>
+        <ul>
+          <li><a href="#sunset-rule">The sunset rule</a></li>
+          <li><a href="#field-notes">Field notes</a></li>
+          <li><a href="#trip-desk">Trip desk</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-small">&copy; 2026 Wayfare, a fictional brand created as a concept by Zero Lag. No stays are real, and nothing on this site can be booked.</p>
+  </div>
+</footer>
+
+<dialog id="stay-dialog" aria-labelledby="dlg-title">
+  <div class="dlg-bar"><button class="dlg-close" id="dlg-close" type="button" aria-label="Close">&times;</button></div>
+  <div id="dlg-body"></div>
+</dialog>
+
+<script>
+const IMG = n => '../../assets/demos/' + n + '.jpg';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// Stay data, all fictional
+const STAYS = [
+  {id:'larchwater',name:'Larchwater Boathouse',region:'Alpine Lakes',type:'Cabin',price:164,clean:45,tax:.1,sleeps:3,rating:4.9,reviews:128,img:'travel-lake',pos:'50% 70%',z:1,alt:'Wooden boat bow on a green lake below limestone peaks',line:'Reached only by rowing boat. Bring a jumper.',desc:'A larch-clad boathouse on stilts at the quiet end of the lake. Herr Dorn rows you across at four and leaves bread on the jetty each morning.',amen:['Rowing boat','Wood stove','Dogs welcome','No road noise'],addr:'Jetty 3, Lake Road, Alpine Lakes',closed:[11,0,1]},
+  {id:'tamarind',name:'Tamarind Cove Villas',region:'Andaman Coast',type:'Villa',price:248,clean:60,tax:.07,sleeps:4,rating:4.8,reviews:214,img:'travel-resort',pos:'50% 60%',z:1,alt:'Turquoise pool among palms and thatched pavilions with green karst hills behind',line:'Eleven thatched villas, one long pool and a wall of karst.',desc:'Family-run villas set round a spring-fed pool, a short tuk-tuk from the longtail pier. The kitchen does a very good crab curry on Fridays.',amen:['Shared pool','Breakfast included','Airport boat','Air conditioning'],addr:'12 Pier Lane, Andaman Coast',closed:[]},
+  {id:'blue-hour',name:'The Blue Hour',region:'Java Coast',type:'Hotel',price:312,clean:40,tax:.11,sleeps:2,rating:4.9,reviews:96,img:'travel-night-pool',pos:'50% 60%',z:1,alt:'Lit swimming pool in front of a low modern pavilion at dusk',line:'Eighteen rooms built around the best twenty minutes of the day.',desc:'A low modern hotel that dims every lamp at dusk so that the pool can do the work. Ask for the east wing, and arrive before six.',amen:['Lit pool','Spa rooms','Adults only','Late breakfast'],addr:'88 Jalan Senja, Java Coast',closed:[]},
+  {id:'teakwood',name:'The Teakwood Lodge',region:'Andaman Coast',type:'Lodge',price:186,clean:55,tax:.07,sleeps:6,rating:4.7,reviews:302,img:'travel-lodge',pos:'50% 50%',z:1,alt:'Steep timber lodge beside a curved pool with cushioned wooden sun loungers',line:'A great steep roof, a curved pool and room for the whole family.',desc:'Built by a retired boatwright, with an upstairs loft that sleeps the children and a deck that catches the breeze after lunch.',amen:['Curved pool','Family loft','Dogs welcome','Kayaks'],addr:'3 Boatwright Road, Andaman Coast',closed:[]},
+  {id:'rue-perdue',name:'Rue Perdue Rooms',region:'Paris & the Seine',type:'Hotel',price:224,clean:30,tax:.12,sleeps:2,rating:4.6,reviews:178,img:'travel-paris',pos:'70% 50%',z:1,alt:'Iron tower above the river Seine at dusk under a mauve sky',line:'Nine rooms above an old boatyard, on the wrong bank.',desc:'Tall windows, narrow stairs and a view downriver that the bigger hotels charge twice as much for. Coffee is on the landing from seven.',amen:['River view','Lift to floor 3','Bike hire','Coffee on landing'],addr:'6 Rue Perdue, Paris',closed:[]},
+  {id:'saltline',name:'Saltline Beach House',region:'Coral Coast',type:'Beach house',price:138,clean:50,tax:.08,sleeps:5,rating:4.8,reviews:147,img:'travel-beach',pos:'60% 70%',z:1,alt:'Foam running up pale sand beneath a low golden sun',line:'Sand at the back door and a road that floods at spring tide.',desc:'A weathered three-bedroom house on the last dune before the point. The tide chart is on the fridge, and it is worth reading.',amen:['On the beach','Outdoor shower','Dogs welcome','Full kitchen'],addr:'Last House, Point Road, Coral Coast',closed:[3,4]},
+  {id:'pinewall',name:'Pinewall Cabins',region:'Alpine Lakes',type:'Cabin',price:119,clean:35,tax:.1,sleeps:2,rating:4.5,reviews:83,img:'travel-lake',pos:'100% 30%',z:1.7,alt:'Dark pine forest running down to a lake beneath a grey mountain',line:'Two small cabins in the trees, with a sauna between them.',desc:'Simple, warm and very quiet. The trailhead for the north shore walk starts at your step, and the shared sauna is lit at five.',amen:['Sauna','Trailhead','Dogs welcome','Wood stove'],addr:'Forest Track 9, Alpine Lakes',closed:[0,1]},
+  {id:'palm-row',name:'Palm Row Bungalows',region:'Andaman Coast',type:'Villa',price:96,clean:25,tax:.07,sleeps:2,rating:4.4,reviews:261,img:'travel-resort',pos:'22% 62%',z:1.8,alt:'Thatched bungalow behind the palms beside a pool',line:'The honest budget choice, ten steps from the water.',desc:'Six plain thatched bungalows behind the palm line, with fans, good mattresses and a shared pool. The best value on this coast.',amen:['Shared pool','Fans and nets','Scooter hire','Free bikes'],addr:'40 Beach Row, Andaman Coast',closed:[]},
+  {id:'sandbar',name:'Sandbar Cottage',region:'Coral Coast',type:'Beach house',price:92,clean:30,tax:.08,sleeps:2,rating:4.6,reviews:71,img:'travel-beach',pos:'10% 30%',z:1.6,alt:'Small green headland across calm water beneath a pink evening sky',line:'One room, one porch and a headland to look at.',desc:'A single-room cottage with a porch that faces west across the bay. Bring groceries from town, as the nearest shop is a long walk away.',amen:['West-facing porch','Kitchenette','Snorkels','Hammock'],addr:'2 Sandbar Lane, Coral Coast',closed:[3,4]}
+];
+const DESTS = [
+  {a:'an',name:'Andaman Coast',note:'Longtail boats and limestone',img:'travel-resort',pos:'50% 60%',alt:'Palm-lined pool below green karst hills'},
+  {a:'pa',name:'Paris & the Seine',note:'A city best seen from the river',img:'travel-paris',pos:'72% 50%',alt:'Iron tower above the Seine at dusk'},
+  {a:'al',name:'Alpine Lakes',note:'Cold water, warm stoves',img:'travel-lake',pos:'50% 75%',alt:'Boat on a green mountain lake'},
+  {a:'ja',name:'Java Coast',note:'Slow evenings and strong coffee',img:'travel-night-pool',pos:'50% 65%',alt:'Pool lit at dusk beneath a deep blue sky'},
+  {a:'co',name:'Coral Coast',note:'Last houses before the point',img:'travel-beach',pos:'50% 32%',alt:'Golden sun over a pale sand beach'}
+];
+const TYPES = ['Cabin','Lodge','Villa','Hotel','Beach house'];
+
+const $ = id => document.getElementById(id);
+const state = {dest:'',checkIn:'',checkOut:'',guests:2,min:80,max:340,types:new Set(),sort:'rec',saved:new Set()};
+const usd = n => '$' + n.toLocaleString('en-US');
+
+// Date helpers work in UTC so that nights never shift with daylight saving
+const parseD = s => new Date(s + 'T00:00:00Z');
+const isoD = d => d.toISOString().slice(0,10);
+const addDays = (s,n) => { const d = parseD(s); d.setUTCDate(d.getUTCDate() + n); return isoD(d); };
+const nightsBetween = (a,b) => Math.round((parseD(b) - parseD(a)) / 864e5);
+const prettyD = s => parseD(s).toLocaleDateString('en-US',{timeZone:'UTC',weekday:'short',month:'short',day:'numeric'});
+const todayIso = () => { const n = new Date(); return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0'); };
+
+// Returns the closed month a stay would hit on these dates, or -1
+function closedMonth(stay,start,nights){
+  for(let i=0;i<nights;i++){ const m = parseD(addDays(start,i)).getUTCMonth(); if(stay.closed.includes(m)) return m; }
+  return -1;
+}
+
+// Works out every line of the price for a number of nights
+function quote(stay,nights){
+  const base = stay.price * nights;
+  const discount = nights >= 7 ? Math.round(base * .1) : 0;
+  const room = base - discount;
+  const service = Math.round(room * .07);
+  const tax = Math.round(room * stay.tax);
+  return {base,discount,clean:stay.clean,service,tax,total:room + stay.clean + service + tax};
+}
+
+const searchNights = () => state.checkIn && state.checkOut ? nightsBetween(state.checkIn,state.checkOut) : 0;
+
+function matchesDest(s){
+  const q = state.dest.trim().toLowerCase();
+  return !q || (s.region + ' ' + s.name).toLowerCase().includes(q);
+}
+
+function matchesSearch(s){
+  if(!matchesDest(s) || s.sleeps < state.guests) return false;
+  const n = searchNights();
+  return !(n && closedMonth(s,state.checkIn,n) >= 0);
+}
+
+function visibleStays(){
+  const list = STAYS.filter(s => matchesSearch(s) && s.price >= state.min && s.price <= state.max && (!state.types.size || state.types.has(s.type)));
+  if(state.sort === 'low') list.sort((a,b) => a.price - b.price);
+  if(state.sort === 'high') list.sort((a,b) => b.price - a.price);
+  if(state.sort === 'rating') list.sort((a,b) => b.rating - a.rating || b.reviews - a.reviews);
+  return list;
+}
+
+const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.500S3.500 15.300 3.500 9.200A4.700 4.700 0 0 1 12 6.500a4.700 4.700 0 0 1 8.500 2.700c0 6.100-8.500 11.300-8.500 11.300z"/></svg>';
+
+function stayCard(s){
+  const n = searchNights();
+  const saved = state.saved.has(s.id);
+  const totalLine = n ? '<small>' + usd(quote(s,n).total) + ' total for ' + n + (n === 1 ? ' night' : ' nights') + '</small>' : '';
+  return '<article class="stay" data-id="' + s.id + '">' +
+    '<div class="stay-media"><img src="' + IMG(s.img) + '" alt="' + s.alt + '" width="1400" height="933" loading="lazy" style="object-position:' + s.pos + ';--z:' + s.z + ';transform-origin:' + s.pos + '">' +
+    '<button class="heart" type="button" data-heart="' + s.id + '" aria-pressed="' + saved + '" aria-label="Save ' + s.name + ' to your shortlist">' + heartSvg + '</button></div>' +
+    '<div class="stay-body"><p class="stay-place">' + s.region + ', ' + s.type.toLowerCase() + '</p>' +
+    '<h3><button class="stay-open" type="button" data-open="' + s.id + '">' + s.name + '</button></h3>' +
+    '<p class="stay-line">' + s.line + '</p>' +
+    '<div class="stay-foot"><p class="price"><strong>' + usd(s.price) + '</strong> a night' + totalLine + '</p>' +
+    '<p class="meta">Rated ' + s.rating.toFixed(1) + ', sleeps ' + s.sleeps + '</p></div></div></article>';
+}
+
+function renderResults(){
+  const list = visibleStays();
+  const grid = $('stay-grid');
+  grid.innerHTML = list.length ? list.map(stayCard).join('') :
+    '<div class="empty"><h3>Nothing fits, for now.</h3><p>Try a wider price range, fewer guests or different dates. The trip desk also knows a few places that are not listed.</p><button class="btn ghost" type="button" data-reset>Clear search and filters</button></div>';
+  const parts = [];
+  if(state.dest.trim()) parts.push('in ' + state.dest.trim());
+  parts.push('for ' + state.guests + (state.guests === 1 ? ' guest' : ' guests'));
+  const n = searchNights();
+  if(n) parts.push(prettyD(state.checkIn) + ' to ' + prettyD(state.checkOut) + ' (' + n + (n === 1 ? ' night)' : ' nights)'));
+  const note = $('results-note');
+  note.textContent = list.length + (list.length === 1 ? ' stay ' : ' stays ') + parts.join(', ');
+  const closedCount = n ? STAYS.filter(s => matchesDest(s) && s.sleeps >= state.guests && closedMonth(s,state.checkIn,n) >= 0).length : 0;
+  if(closedCount) note.textContent += '. ' + closedCount + (closedCount === 1 ? ' more is' : ' more are') + ' closed on those dates.';
+}
+
+function renderTypes(){
+  $('type-opts').innerHTML = TYPES.map(t => {
+    const c = STAYS.filter(s => s.type === t).length;
+    return '<label><span><input type="checkbox" value="' + t + '"' + (state.types.has(t) ? ' checked' : '') + '>' + t + '</span><small>' + c + '</small></label>';
+  }).join('');
+}
+
+function syncRange(){
+  $('p-min').value = state.min; $('p-max').value = state.max;
+  $('range-values').textContent = usd(state.min) + ' to ' + usd(state.max);
+  const lo = (state.min - 80) / 260 * 100, hi = (state.max - 80) / 260 * 100;
+  $('range-fill').style.left = lo + '%';
+  $('range-fill').style.width = (hi - lo) + '%';
+}
+
+function renderSaved(){
+  const list = STAYS.filter(s => state.saved.has(s.id));
+  $('saved-count').textContent = list.length;
+  $('saved-list').innerHTML = list.length ? list.map(s =>
+    '<div class="saved-row"><img src="' + IMG(s.img) + '" alt="" loading="lazy" style="object-position:' + s.pos + '">' +
+    '<div><h3>' + s.name + '</h3><p>' + s.region + ', from ' + usd(s.price) + ' a night</p></div>' +
+    '<div class="saved-acts"><button class="text-btn" type="button" data-open="' + s.id + '">View<span class="sr-only"> ' + s.name + '</span></button>' +
+    '<button class="text-btn" type="button" data-heart="' + s.id + '">Remove<span class="sr-only"> ' + s.name + '</span></button></div></div>'
+  ).join('') : '<p class="saved-empty">Nothing here yet. Tap the heart on any stay and it will wait for you here.</p>';
+}
+
+function toggleSaved(id){
+  if(state.saved.has(id)) state.saved.delete(id); else state.saved.add(id);
+  // Update hearts in place so keyboard focus stays where it is
+  document.querySelectorAll('.heart[data-heart="' + id + '"], [data-save-dlg="' + id + '"]').forEach(b => {
+    b.setAttribute('aria-pressed', state.saved.has(id));
+    if(b.dataset.saveDlg) b.textContent = state.saved.has(id) ? 'Saved to shortlist' : 'Save to shortlist';
+  });
+  renderSaved();
+}
+
+function renderDests(){
+  $('dest-grid').innerHTML = DESTS.map(d => {
+    const here = STAYS.filter(s => s.region === d.name);
+    const from = Math.min(...here.map(s => s.price));
+    return '<button class="dest" type="button" data-a="' + d.a + '" data-dest="' + d.name + '" style="grid-area:' + d.a + '">' +
+      '<img src="' + IMG(d.img) + '" alt="' + d.alt + '" width="1400" height="933" loading="lazy" style="object-position:' + d.pos + '">' +
+      '<span class="dest-text"><b>' + d.name + '</b><span>' + d.note + '. ' + here.length + (here.length === 1 ? ' stay' : ' stays') + ' from ' + usd(from) + '.</span></span></button>';
+  }).join('');
+  $('dest-list').innerHTML = DESTS.map(d => '<option value="' + d.name + '"></option>').join('');
+}
+
+function scrollToStays(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('stays').scrollIntoView({behavior:reduce ? 'auto' : 'smooth',block:'start'});
+}
+
+// Hero search form
+function setGuests(n){
+  state.draftGuests = Math.min(10,Math.max(1,n));
+  $('s-guests').textContent = state.draftGuests;
+  $('s-g-minus').disabled = state.draftGuests === 1;
+  $('s-g-plus').disabled = state.draftGuests === 10;
+}
+$('s-g-minus').addEventListener('click',() => setGuests(state.draftGuests - 1));
+$('s-g-plus').addEventListener('click',() => setGuests(state.draftGuests + 1));
+
+$('s-in').addEventListener('change',() => {
+  const v = $('s-in').value;
+  if(!v) return;
+  $('s-out').min = addDays(v,1);
+  if($('s-out').value && $('s-out').value <= v) $('s-out').value = '';
+});
+
+$('search-form').addEventListener('submit',e => {
+  e.preventDefault();
+  const a = $('s-in').value, b = $('s-out').value, msg = $('search-msg');
+  let err = '', bad = null;
+  if(a && !b){ err = 'Add a check-out date, or clear check-in to browse all dates.'; bad = 's-out'; }
+  else if(b && !a){ err = 'Add a check-in date, or clear check-out to browse all dates.'; bad = 's-in'; }
+  else if(a && a < todayIso()){ err = 'Check-in cannot be in the past.'; bad = 's-in'; }
+  else if(a && b && b <= a){ err = 'Check-out needs to be at least one night after check-in.'; bad = 's-out'; }
+  ['s-in','s-out'].forEach(id => $(id).removeAttribute('aria-invalid'));
+  msg.textContent = err;
+  if(err){ $(bad).setAttribute('aria-invalid','true'); $(bad).focus(); return; }
+  state.dest = $('s-dest').value; state.checkIn = a; state.checkOut = b; state.guests = state.draftGuests;
+  renderResults();
+  scrollToStays();
+});
+
+// Filters and sort
+function pushRange(which){
+  let lo = +$('p-min').value, hi = +$('p-max').value;
+  if(lo > hi){ if(which === 'min') lo = hi; else hi = lo; }
+  state.min = lo; state.max = hi;
+  syncRange();
+  renderResults();
+}
+$('p-min').addEventListener('input',() => pushRange('min'));
+$('p-max').addEventListener('input',() => pushRange('max'));
+$('type-opts').addEventListener('change',e => {
+  if(e.target.checked) state.types.add(e.target.value); else state.types.delete(e.target.value);
+  renderResults();
+});
+$('sort').addEventListener('change',e => { state.sort = e.target.value; renderResults(); });
+
+function resetAll(){
+  Object.assign(state,{dest:'',checkIn:'',checkOut:'',guests:2,min:80,max:340,sort:'rec'});
+  state.types.clear();
+  $('s-dest').value = $('s-in').value = $('s-out').value = '';
+  $('search-msg').textContent = '';
+  $('sort').value = 'rec';
+  setGuests(2); syncRange(); renderTypes(); renderResults();
+}
+$('reset-filters').addEventListener('click',resetAll);
+
+// Collapse the filter panel on small screens only
+const narrow = matchMedia('(max-width:900px)');
+const syncFilters = () => { $('filters').open = !narrow.matches; };
+narrow.addEventListener('change',syncFilters);
+
+// Stay dialog
+const dlg = $('stay-dialog'), body = $('dlg-body');
+let cur = null;
+
+function firstOpenDate(stay,nights){
+  let d = addDays(todayIso(),21);
+  for(let i=0;i<400 && closedMonth(stay,d,nights) >= 0;i++) d = addDays(d,1);
+  return d;
+}
+
+function openStay(id){
+  const stay = STAYS.find(s => s.id === id);
+  const n = searchNights();
+  const nights = n || 3;
+  cur = {stay,nights,start:state.checkIn || firstOpenDate(stay,nights),guests:Math.min(state.guests,stay.sleeps)};
+  renderDetail();
+  if(!dlg.open) dlg.showModal();
+  dlg.scrollTop = 0;
+  $('dlg-title').focus({preventScroll:true});
+}
+
+function renderDetail(){
+  const s = cur.stay, saved = state.saved.has(s.id);
+  body.innerHTML = '<div class="dlg-cols"><div class="dlg-photo"><img src="' + IMG(s.img) + '" alt="' + s.alt + '" style="object-position:' + s.pos + ';--z:' + s.z + ';transform-origin:' + s.pos + '"></div>' +
+    '<div class="dlg-main"><p class="stay-place">' + s.region + ', ' + s.type.toLowerCase() + '. Rated ' + s.rating.toFixed(1) + ' from ' + s.reviews + ' stays</p>' +
+    '<h2 id="dlg-title" tabindex="-1">' + s.name + '</h2><p>' + s.desc + '</p>' +
+    '<ul class="amen">' + s.amen.map(a => '<li>' + a + '</li>').join('') + '</ul>' +
+    '<p class="addr">' + s.addr + '. Sleeps ' + s.sleeps + '.</p>' +
+    '<div class="dlg-fields"><div class="field"><label for="m-in">Check-in</label><input id="m-in" type="date" min="' + todayIso() + '" value="' + cur.start + '"></div>' +
+    '<div class="field"><span class="field-label" id="m-n-label">Nights</span><div class="stepper" role="group" aria-labelledby="m-n-label"><button type="button" id="m-n-minus" aria-label="One night fewer">&minus;</button><output id="m-nights" aria-live="polite">' + cur.nights + '</output><button type="button" id="m-n-plus" aria-label="One night more">+</button></div></div>' +
+    '<div class="field"><span class="field-label" id="m-g-label">Guests</span><div class="stepper" role="group" aria-labelledby="m-g-label"><button type="button" id="m-g-minus" aria-label="Remove a guest">&minus;</button><output id="m-guests" aria-live="polite">' + cur.guests + '</output><button type="button" id="m-g-plus" aria-label="Add a guest">+</button></div></div></div>' +
+    '<p class="span-line" id="m-span"></p><dl class="quote" id="m-quote"></dl><p class="warn" id="m-warn" role="alert"></p>' +
+    '<div class="dlg-acts"><button class="btn" type="button" id="m-reserve">Reserve these dates</button>' +
+    '<button class="btn ghost" type="button" data-save-dlg="' + s.id + '" aria-pressed="' + saved + '">' + (saved ? 'Saved to shortlist' : 'Save to shortlist') + '</button></div></div></div>';
+  updateQuote();
+}
+
+function updateQuote(){
+  const {stay:s,nights:n,start} = cur, q = quote(s,n);
+  $('m-nights').textContent = n;
+  $('m-guests').textContent = cur.guests;
+  $('m-n-minus').disabled = n <= 1;
+  $('m-n-plus').disabled = n >= 28;
+  $('m-g-minus').disabled = cur.guests <= 1;
+  $('m-g-plus').disabled = cur.guests >= s.sleeps;
+  const row = (a,b,c) => '<div' + (c ? ' class="' + c + '"' : '') + '><dt>' + a + '</dt><dd>' + b + '</dd></div>';
+  $('m-quote').innerHTML =
+    row(usd(s.price) + ' &times; ' + n + (n === 1 ? ' night' : ' nights'),usd(q.base)) +
+    (q.discount ? row('Week-long rate, 10% off','&minus;' + usd(q.discount)) : '') +
+    row('Cleaning fee',usd(q.clean)) + row('Wayfare service fee, 7%',usd(q.service)) +
+    row('Local tax, ' + Math.round(s.tax * 100) + '%',usd(q.tax)) + row('Total',usd(q.total),'tot');
+  let warn = '';
+  if(!start){ $('m-span').textContent = ''; warn = 'Choose a check-in date to reserve.'; }
+  else {
+    $('m-span').textContent = prettyD(start) + ' to ' + prettyD(addDays(start,n));
+    const m = closedMonth(s,start,n);
+    if(start < todayIso()) warn = 'Check-in cannot be in the past.';
+    else if(m >= 0) warn = s.name + ' is closed in ' + MONTHS[m] + '. Try other dates.';
+  }
+  $('m-warn').textContent = warn;
+  $('m-reserve').disabled = !!warn;
+  $('m-reserve').style.opacity = warn ? '.55' : '';
+}
+
+function renderForm(){
+  const s = cur.stay, q = quote(s,cur.nights);
+  body.innerHTML = '<div class="dlg-form"><button class="text-btn" type="button" id="f-back">Back to the stay</button>' +
+    '<h2 id="dlg-title" tabindex="-1">Reserve ' + s.name + '</h2>' +
+    '<p>' + prettyD(cur.start) + ' to ' + prettyD(addDays(cur.start,cur.nights)) + ', ' + cur.nights + (cur.nights === 1 ? ' night' : ' nights') + ', ' + cur.guests + (cur.guests === 1 ? ' guest' : ' guests') + '. Total <strong>' + usd(q.total) + '</strong>.</p>' +
+    '<p class="fine" style="margin-bottom:18px">This is a demo reservation. No card is asked for and nothing will be booked.</p>' +
+    '<form id="res-form" class="form-grid" novalidate>' +
+    '<div class="field"><label for="r-name">Full name</label><input id="r-name" type="text" autocomplete="name"><p class="err" id="r-name-err"></p></div>' +
+    '<div class="field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email"><p class="err" id="r-email-err"></p></div>' +
+    '<div class="field"><label for="r-phone">Phone (optional)</label><input id="r-phone" type="tel" autocomplete="tel"></div>' +
+    '<div class="field"><label for="r-arrive">Arriving around</label><select id="r-arrive"><option>Before noon</option><option selected>Noon to 4pm</option><option>4pm to 8pm</option><option>After 8pm</option></select></div>' +
+    '<div class="field full"><label for="r-notes">Anything the owner should know?</label><textarea id="r-notes" placeholder="A dog, a birthday, a late ferry."></textarea></div>' +
+    '<div class="full"><button class="btn" type="submit">Confirm demo reservation</button></div></form></div>';
+  dlg.scrollTop = 0;
+  $('dlg-title').focus({preventScroll:true});
+}
+
+// Builds a reference from an alphabet with no lookalike characters
+function makeRef(){
+  const abc = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  const pick = n => Array.from({length:n},() => abc[Math.floor(Math.random() * abc.length)]).join('');
+  return 'WF-' + pick(4) + '-' + pick(4);
+}
+
+function renderConfirm(firstName){
+  const s = cur.stay, q = quote(s,cur.nights), ref = makeRef();
+  body.innerHTML = '<div class="dlg-form"><h2 id="dlg-title" tabindex="-1"></h2>' +
+    '<p>Your reference</p><p class="ref" id="c-ref">' + ref + '</p>' +
+    '<p class="nothing" id="c-nothing">Nothing was booked. Wayfare is a fictional brand, so no room is being held, no payment was taken, and the details you typed were not sent or saved anywhere.</p>' +
+    '<dl class="recap"><div><dt>Stay</dt><dd>' + s.name + '</dd></div><div><dt>Dates</dt><dd>' + prettyD(cur.start) + ' to ' + prettyD(addDays(cur.start,cur.nights)) + '</dd></div><div><dt>Guests</dt><dd>' + cur.guests + '</dd></div><div><dt>Demo total</dt><dd>' + usd(q.total) + '</dd></div></dl>' +
+    '<div class="dlg-acts"><button class="btn" type="button" id="c-done">Back to the stays</button></div></div>';
+  $('dlg-title').textContent = 'All set in theory, ' + firstName + '.';
+  dlg.scrollTop = 0;
+  $('dlg-title').focus({preventScroll:true});
+}
+
+function setErr(id,msg){
+  const el = $(id);
+  $(id + '-err').textContent = msg;
+  if(msg){ el.setAttribute('aria-invalid','true'); el.setAttribute('aria-describedby',id + '-err'); }
+  else { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); }
+  return !msg;
+}
+const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+// Checks name and email on a form and moves focus to the first problem
+function validateContact(p){
+  const nameErr = $(p + '-name').value.trim().length < 2 ? 'Please enter your name.' : '';
+  const v = $(p + '-email').value.trim();
+  const emailErr = !v ? 'Please enter your email.' : !emailOk(v) ? 'That email does not look right.' : '';
+  setErr(p + '-name',nameErr); setErr(p + '-email',emailErr);
+  if(nameErr) $(p + '-name').focus(); else if(emailErr) $(p + '-email').focus();
+  return !nameErr && !emailErr;
+}
+
+dlg.addEventListener('click',e => {
+  const t = e.target;
+  if(t === dlg){ dlg.close(); return; }
+  if(t.closest('#m-n-minus')){ cur.nights = Math.max(1,cur.nights - 1); updateQuote(); }
+  else if(t.closest('#m-n-plus')){ cur.nights = Math.min(28,cur.nights + 1); updateQuote(); }
+  else if(t.closest('#m-g-minus')){ cur.guests = Math.max(1,cur.guests - 1); updateQuote(); }
+  else if(t.closest('#m-g-plus')){ cur.guests = Math.min(cur.stay.sleeps,cur.guests + 1); updateQuote(); }
+  else if(t.closest('#m-reserve')){ if(!t.closest('#m-reserve').disabled) renderForm(); }
+  else if(t.closest('#f-back')){ renderDetail(); $('dlg-title').focus({preventScroll:true}); }
+  else if(t.closest('#c-done')){ dlg.close(); }
+  else if(t.closest('[data-save-dlg]')){ toggleSaved(t.closest('[data-save-dlg]').dataset.saveDlg); }
+});
+dlg.addEventListener('input',e => { if(e.target.id === 'm-in'){ cur.start = e.target.value; updateQuote(); } });
+dlg.addEventListener('submit',e => {
+  e.preventDefault();
+  if(e.target.id !== 'res-form' || !validateContact('r')) return;
+  renderConfirm($('r-name').value.trim().split(/\s+/)[0]);
+});
+$('dlg-close').addEventListener('click',() => dlg.close());
+dlg.addEventListener('close',() => { body.innerHTML = ''; cur = null; });
+
+// Clicks that work anywhere on the page
+document.addEventListener('click',e => {
+  const heart = e.target.closest('[data-heart]');
+  if(heart){ toggleSaved(heart.dataset.heart); return; }
+  const open = e.target.closest('[data-open]');
+  if(open){ openStay(open.dataset.open); return; }
+  if(e.target.closest('[data-reset]')){ resetAll(); return; }
+  const dest = e.target.closest('[data-dest]');
+  if(dest){
+    $('s-dest').value = dest.dataset.dest;
+    state.dest = dest.dataset.dest;
+    renderResults();
+    scrollToStays();
+  }
+});
+
+// Trip desk form
+$('desk-form').addEventListener('submit',e => {
+  e.preventDefault();
+  const okContact = validateContact('d');
+  const msgOk = setErr('d-msg',$('d-msg').value.trim().length < 5 ? 'Tell us a little about your trip.' : '');
+  $('desk-ok').textContent = '';
+  if(!okContact){ return; }
+  if(!msgOk){ $('d-msg').focus(); return; }
+  $('desk-ok').textContent = 'Thanks, ' + $('d-name').value.trim().split(/\s+/)[0] + '. This is a demo, so your note was not sent or saved. In a real launch the desk would reply within minutes.';
+  e.target.reset();
+});
+
+// Mobile menu
+const menuBtn = $('menu-btn'), navLinks = $('nav-links');
+function setMenu(open){
+  navLinks.classList.toggle('open',open);
+  menuBtn.setAttribute('aria-expanded',open);
+  menuBtn.textContent = open ? 'Close' : 'Menu';
+}
+menuBtn.addEventListener('click',() => setMenu(!navLinks.classList.contains('open')));
+navLinks.addEventListener('click',e => { if(e.target.closest('a')) setMenu(false); });
+document.addEventListener('keydown',e => { if(e.key === 'Escape' && navLinks.classList.contains('open')){ setMenu(false); menuBtn.focus(); } });
+
+// Keep the sticky stack offsets in step with the real heights
+function syncStack(){
+  const root = document.documentElement.style;
+  root.setProperty('--bar-h',$('disclosure').offsetHeight + 'px');
+  root.setProperty('--nav-h',$('site-head').offsetHeight + 'px');
+}
+new ResizeObserver(syncStack).observe($('disclosure'));
+new ResizeObserver(syncStack).observe($('site-head'));
+
+// First paint
+$('s-in').min = todayIso();
+$('s-out').min = addDays(todayIso(),1);
+setGuests(2); syncRange(); renderTypes(); renderDests(); renderResults(); renderSaved(); syncFilters(); syncStack();
+</script>
+</body>
+</html>

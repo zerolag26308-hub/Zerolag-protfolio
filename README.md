@@ -2,6 +2,10 @@
 
 Static site: plain HTML, one stylesheet (`css/style.css`) and two small scripts (`js/main.js`, `js/contact.js`). No build step, no dependencies.
 
+## Demos
+
+`demos/` holds nine self-contained concept demos for fictional brands. Each shows a disclosure bar and is set to noindex. Photos in `assets/demos/` come from Unsplash; screenshots in `assets/images/work/` are taken from the demos, so retake them if a demo changes.
+
 ## Run locally
 
 ```bash
@@ -24,21 +28,12 @@ Canonical URLs, `sitemap.xml` and `robots.txt` assume `https://www.zerolag.io`. 
 
 ## Contact form
 
-The form has no backend of its own. It works in one of two modes:
+The form posts to FormSubmit, which emails each message to `zerolag26308@gmail.com`. The address is set on the form in `contact.html` (`data-endpoint`, `data-inbox`, `action`). If sending fails, the visitor is offered their email app with the message already filled in.
 
-1. **Default (no setup):** on submit it opens the visitor's email app with the inquiry pre-filled to `hello@zerolag.io`. The visitor still has to press send, and the page says so.
-2. **Form endpoint (recommended for production):** set `data-endpoint` on the form in `contact.html` to a form service URL (Formspree, Basin, Getform, a serverless function, etc.):
-
-   ```html
-   <form id="project-form" ... data-endpoint="https://formspree.io/f/your-id">
-   ```
-
-   The form posts `FormData` with `Accept: application/json` and only shows a success message when the endpoint returns a 2xx response. Failures show an error with an email fallback. The endpoint URL is public by design; never put secret keys in it.
-
-A hidden honeypot field (`company_url`) silently drops basic spam bots.
+After the first deploy, send one test message and click the activation link FormSubmit emails to that inbox. Messages are not delivered until this is done. A hidden `_honey` field filters basic spam bots.
 
 ## Before going live
 
 - The privacy policy and terms contain `[Company legal name]` / `[Jurisdiction]` placeholders and a notice asking for legal review.
-- The work page shows concept projects only, labelled as such. The "Concept preview" artwork is drawn in CSS; replace each `.placeholder-art` with a real `<img>` once real screenshots exist.
+- The work page shows sample projects only, labelled as such.
 - Bump the `?v=` query on the CSS/JS links in every page after changing those files, so browsers fetch the new version.

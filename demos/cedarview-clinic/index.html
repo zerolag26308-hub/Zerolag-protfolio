@@ -1,0 +1,1246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cedarview Clinic | Family health care in Wrenfield</title>
+<meta name="description" content="Cedarview Clinic is a fictional family health clinic created as a concept demo by Zero Lag.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%232C5F52'/%3E%3Cpath d='M20 7l6 8h-3l5 7h-3l5 7H10l5-7h-3l5-7h-3z' fill='%23FBF8F2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #FBF8F2;
+  --paper-deep: #F3EEE3;
+  --sage-soft: #DFE9E0;
+  --sage-line: #B9CCBE;
+  --sage: #2C5F52;
+  --sage-deep: #1E4339;
+  --ink: #1D2B27;
+  --muted: #47574F;
+  --line: #D9D3C5;
+  --white: #FFFFFF;
+  --clay: #9A4522;
+  --alert-bg: #FBE9E1;
+  --alert-ink: #6B1E10;
+  --alert-edge: #A8321E;
+  --focus: #B4501F;
+  --bar-h: 40px;
+  --nav-h: 76px;
+  --serif: "Alegreya", Georgia, "Times New Roman", serif;
+  --sans: "Atkinson Hyperlegible", Verdana, "Segoe UI", sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-padding-top: calc(var(--bar-h) + var(--nav-h) + 16px); -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 1.1875rem; line-height: 1.6; }
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; line-height: 1.12; margin: 0; color: var(--sage-deep); }
+h1 { font-size: clamp(2.75rem, 6vw, 5rem); font-weight: 500; letter-spacing: -0.01em; }
+h2 { font-size: clamp(2.1rem, 4vw, 3.25rem); font-weight: 500; }
+h3 { font-size: 1.6rem; }
+p { margin: 0 0 1em; }
+a { color: var(--sage); text-underline-offset: 3px; }
+a:hover { color: var(--sage-deep); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.on-dark :focus-visible, .on-dark:focus-visible { outline-color: #F5CF7B; }
+.wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip { position: absolute; left: 16px; top: -100px; z-index: 100; background: var(--white); padding: 10px 16px; border-radius: 8px; }
+.skip:focus { top: calc(var(--bar-h) + 10px); }
+
+/* Disclosure bar */
+.disclosure { position: sticky; top: 0; z-index: 60; background: var(--sage-deep); color: #F6F3EA; font-size: 0.875rem; line-height: 1.35; padding: 9px 16px; text-align: center; }
+.disclosure a { color: #FFFFFF; font-weight: 700; white-space: nowrap; margin-left: 6px; }
+.disclosure a:hover { color: #F5CF7B; }
+
+/* Navigation */
+.nav { position: sticky; top: var(--bar-h); z-index: 50; background: var(--paper); border-bottom: 1px solid var(--line); }
+.nav-row { display: flex; align-items: center; gap: 24px; min-height: 76px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--sage-deep); font-family: var(--serif); font-size: 1.55rem; font-weight: 600; line-height: 1; }
+.brand svg { flex: none; width: 42px; height: 42px; }
+.nav-links { display: flex; gap: 6px; margin: 0 0 0 auto; padding: 0; list-style: none; }
+.nav-links a { display: block; padding: 8px 12px; text-decoration: none; color: var(--ink); border-radius: 8px; font-size: 1.0625rem; }
+.nav-links a:hover { background: var(--sage-soft); color: var(--sage-deep); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 10px 24px; border-radius: 10px; border: 2px solid var(--sage); background: var(--sage); color: var(--white); font-weight: 700; font-size: 1.0625rem; text-decoration: none; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
+.btn:hover { background: var(--sage-deep); border-color: var(--sage-deep); color: var(--white); }
+.btn-quiet { background: transparent; color: var(--sage-deep); }
+.btn-quiet:hover { background: var(--sage-soft); color: var(--sage-deep); border-color: var(--sage); }
+.nav-book { flex: none; display: inline-block; line-height: 26px; white-space: nowrap; min-height: 46px; padding: 8px 18px; }
+.menu-btn { display: none; flex: none; align-items: center; gap: 8px; min-height: 46px; padding: 8px 12px; background: transparent; border: 2px solid var(--sage); border-radius: 10px; color: var(--sage-deep); font-weight: 700; font-size: 1rem; cursor: pointer; }
+.menu-btn svg { width: 20px; height: 20px; }
+@media (max-width: 1020px) {
+  .nav-row { gap: 10px; min-height: 68px; flex-wrap: wrap; }
+  .menu-btn { display: inline-flex; margin-left: auto; }
+  .nav-book { order: 2; }
+  .menu-btn { order: 3; }
+  .nav-links { display: none; order: 4; flex-basis: 100%; flex-direction: column; margin: 0; padding: 0 0 14px; max-height: calc(100vh - var(--bar-h) - 80px); overflow-y: auto; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 12px; font-size: 1.1875rem; border-top: 1px solid var(--line); border-radius: 0; }
+  .nav-book { margin-left: auto; }
+  .menu-btn { margin-left: 0; }
+}
+@media (max-width: 400px) {
+  .brand { font-size: 1.25rem; gap: 8px; }
+  .brand svg { width: 34px; height: 34px; }
+  .brand .brand-last { display: block; }
+  .nav-book { padding: 7px 12px; font-size: 0.9375rem; min-height: 44px; }
+  .menu-btn { padding-inline: 9px; min-height: 44px; }
+  .nav-book-more { display: none; }
+  .disclosure { padding-block: 6px; font-size: 0.8125rem; }
+  .menu-btn .menu-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+
+/* Emergency notice */
+.emergency { background: var(--alert-bg); border-bottom: 1px solid #EFC9BA; color: var(--alert-ink); }
+.emergency .wrap { display: flex; gap: 14px; align-items: flex-start; padding-block: 14px; }
+.emergency svg { flex: none; width: 28px; height: 28px; margin-top: 1px; }
+.emergency p { margin: 0; }
+
+/* Hero */
+.hero { padding-block: clamp(36px, 6vw, 84px) clamp(48px, 7vw, 96px); }
+.hero-grid { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.hero h1 { margin-bottom: 24px; }
+.lead { font-size: clamp(1.25rem, 1.8vw, 1.4375rem); line-height: 1.55; max-width: 34em; color: var(--ink); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.hero-call { margin: 24px 0 0; color: var(--muted); }
+.hero-figure { margin: 0; position: relative; min-width: 0; }
+.hero-figure img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; object-position: 100% 50%; border-radius: 150px 18px 18px 18px; }
+.today-card { display: block; margin-top: 14px; background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; text-decoration: none; color: var(--ink); }
+.today-card:hover { border-color: var(--sage); color: var(--ink); }
+@media (min-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr); }
+  .today-card { position: absolute; left: -28px; bottom: -28px; margin: 0; box-shadow: 0 8px 24px rgba(29, 43, 39, .12); max-width: 330px; }
+}
+.status { display: flex; gap: 10px; align-items: baseline; }
+.status-dot { flex: none; width: 12px; height: 12px; border-radius: 50%; transform: translateY(1px); border: 2px solid currentColor; }
+.is-open .status-dot { background: currentColor; }
+.status strong { display: block; line-height: 1.3; }
+.status span.detail { display: block; color: var(--muted); font-size: 1.0625rem; line-height: 1.35; }
+.is-open .status strong { color: var(--sage); }
+.is-closed .status strong { color: var(--clay); }
+.status .status-dot { color: var(--clay); }
+.is-open .status .status-dot { color: var(--sage); }
+
+/* Booking widget */
+.book { background: var(--sage-soft); padding-block: clamp(48px, 7vw, 96px); }
+.book-head { display: grid; gap: 12px 48px; margin-bottom: 32px; align-items: end; }
+.book-head p { margin: 0; max-width: 34em; }
+@media (min-width: 900px) { .book-head { grid-template-columns: 1fr 1fr; } }
+.widget { display: grid; background: var(--white); border-radius: 18px; border: 1px solid var(--sage-line); overflow: hidden; min-width: 0; }
+.steps-side { background: var(--paper-deep); padding: 14px 16px; min-width: 0; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 6px; }
+.steps li { display: flex; min-width: 0; }
+.step-item { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 0; text-align: left; color: var(--ink); font-size: 1.0625rem; border-radius: 8px; }
+button.step-item { cursor: pointer; }
+button.step-item:hover .step-name { text-decoration: underline; }
+.step-num { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--sage); color: var(--sage-deep); font-weight: 700; background: var(--white); }
+.step-done .step-num { background: var(--sage-soft); }
+.step-now .step-num { background: var(--sage); color: var(--white); }
+.step-later .step-num { border-color: #7C8A83; color: var(--muted); }
+.step-name { display: block; font-weight: 700; line-height: 1.25; }
+.step-value { display: none; color: var(--muted); font-size: 0.9375rem; line-height: 1.3; overflow-wrap: anywhere; }
+.steps li:not(.current) .step-text { display: none; }
+.pane { padding: clamp(20px, 3.4vw, 40px); min-width: 0; }
+@media (min-width: 1000px) {
+  .widget { grid-template-columns: 270px minmax(0, 1fr); }
+  .steps-side { padding: 32px 24px; border-right: 1px solid var(--line); }
+  .steps { flex-direction: column; align-items: stretch; gap: 24px; }
+  .step-item { align-items: flex-start; width: 100%; }
+  .steps li:not(.current) .step-text { display: block; }
+  .step-value { display: block; margin-top: 2px; }
+  .step-later .step-name { font-weight: 400; color: var(--muted); }
+  .side-call { display: block !important; }
+}
+.side-call { display: none; margin: 32px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 1rem; line-height: 1.45; color: var(--muted); }
+.pane h3 { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 500; margin-bottom: 8px; }
+.pane h3:focus { outline: none; }
+.pane h4 { font-family: var(--sans); font-size: 1.0625rem; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.step-hint { color: var(--muted); margin-bottom: 20px; }
+.mini-alert { display: flex; gap: 10px; background: var(--alert-bg); color: var(--alert-ink); border-left: 5px solid var(--alert-edge); border-radius: 6px; padding: 10px 14px; font-size: 1.0625rem; line-height: 1.45; margin-bottom: 24px; }
+fieldset { border: 0; margin: 0 0 24px; padding: 0; min-width: 0; }
+legend { padding: 0; font-weight: 700; margin-bottom: 10px; }
+.choice-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+.choice { position: relative; display: flex; gap: 12px; align-items: flex-start; padding: 13px 14px; background: var(--paper); border: 2px solid var(--line); border-radius: 12px; cursor: pointer; line-height: 1.35; min-width: 0; }
+.choice:hover { border-color: var(--sage); }
+.choice:has(input:checked) { border-color: var(--sage); background: var(--sage-soft); box-shadow: inset 0 0 0 1px var(--sage); }
+.choice input { flex: none; width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--sage); }
+.choice strong { display: block; }
+.choice small { display: block; color: var(--muted); font-size: 1rem; margin-top: 2px; }
+.mono { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; font-family: var(--serif); font-weight: 600; font-size: 1.3rem; line-height: 1; }
+.d-family { background: #CFE2D6; color: #1E4339; }
+.d-children { background: #F5DFB8; color: #5A3D0A; }
+.d-women { background: #F4D5C6; color: #6B2C12; }
+.d-counseling { background: #CFE1E6; color: #173F4B; }
+.d-physio { background: #E3E3C2; color: #44450F; }
+.d-nurse { background: #E8DDCF; color: #4A3A26; }
+.d-any { background: var(--sage); color: var(--white); }
+.step-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--line); }
+.step-actions .btn:only-child { margin-left: auto; }
+.step-error { color: var(--alert-ink); font-weight: 700; margin: 0 0 14px; }
+.cal-grid { display: grid; gap: 24px 36px; }
+@media (min-width: 1000px) { .cal-grid { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); } }
+.cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 8px; }
+.cal-top strong { font-size: 1.125rem; }
+.cal-nav { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; border: 2px solid var(--sage); background: var(--white); color: var(--sage-deep); cursor: pointer; font-size: 1.25rem; line-height: 1; }
+.cal-nav:disabled { border-color: var(--line); color: #68746E; cursor: not-allowed; }
+.cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.cal-dow { text-align: center; font-size: 0.875rem; color: var(--muted); padding-block: 4px; }
+.cal-day { aspect-ratio: 1; min-height: 36px; padding: 0; display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--sage-line); background: var(--white); color: var(--ink); font-size: 1rem; cursor: pointer; }
+.cal-day:hover:not(:disabled) { background: var(--sage-soft); }
+.cal-day:disabled { border-color: transparent; background: transparent; color: #68746E; cursor: not-allowed; }
+.cal-day[aria-pressed="true"] { background: var(--sage); border-color: var(--sage); color: var(--white); font-weight: 700; }
+.cal-day[aria-pressed="true"]:hover { background: var(--sage-deep); }
+.cal-note { font-size: 1rem; color: var(--muted); margin: 12px 0 0; line-height: 1.4; }
+.slot-group { margin-top: 14px; }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-top: 8px; }
+.slot { min-height: 46px; padding: 6px 4px; border-radius: 8px; border: 2px solid var(--sage); background: var(--white); color: var(--sage-deep); font-weight: 700; font-size: 1.0625rem; cursor: pointer; line-height: 1.15; }
+.slot:hover:not(:disabled) { background: var(--sage-soft); }
+.slot[aria-pressed="true"] { background: var(--sage); color: var(--white); }
+.slot[aria-pressed="true"]:hover { background: var(--sage-deep); }
+.slot:disabled { border: 2px dashed #A6AFA9; background: var(--paper-deep); color: #56635C; font-weight: 400; cursor: not-allowed; text-decoration: line-through; }
+.slot-legend { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 14px 0 0; font-size: 1rem; color: var(--muted); }
+.field { margin-bottom: 18px; min-width: 0; }
+.field label, .label { display: block; font-weight: 700; margin-bottom: 5px; line-height: 1.3; }
+.field .opt { font-weight: 400; color: var(--muted); }
+.field input, .field select, .field textarea { display: block; width: 100%; min-height: 50px; padding: 10px 12px; background: var(--white); border: 2px solid #76847D; border-radius: 8px; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { border-color: var(--focus); }
+.field textarea { min-height: 96px; resize: vertical; }
+.field [aria-invalid="true"] { border-color: var(--alert-edge); background: #FFF9F6; }
+.field-help { font-size: 1rem; color: var(--muted); margin: 5px 0 0; line-height: 1.4; }
+.field-err { color: #8B2413; font-weight: 700; font-size: 1rem; margin: 5px 0 0; line-height: 1.4; }
+.form-grid { display: grid; gap: 0 20px; }
+@media (min-width: 720px) { .form-grid { grid-template-columns: 1fr 1fr; } .span-2 { grid-column: 1 / -1; } }
+.radio-row { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.radio-row label { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; min-height: 36px; margin: 0; }
+.radio-row input { width: 20px; height: 20px; accent-color: var(--sage); }
+.summary { margin: 0 0 24px; border-top: 1px solid var(--line); }
+.summary > div { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 4px 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.summary dt { color: var(--muted); }
+.summary dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+@media (max-width: 480px) { .summary > div { grid-template-columns: minmax(0, 1fr); } }
+.demo-note { background: var(--paper-deep); border-left: 5px solid var(--clay); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; line-height: 1.45; }
+.done-note { background: var(--alert-bg); color: var(--alert-ink); border: 2px solid var(--alert-edge); border-radius: 12px; padding: 16px 18px; margin-bottom: 24px; line-height: 1.5; }
+.done-note strong { display: block; font-size: 1.3125rem; margin-bottom: 4px; }
+.done-note p { margin: 0; }
+
+/* Services */
+.section { padding-block: clamp(56px, 8vw, 112px); }
+.services-grid { display: grid; gap: 32px clamp(32px, 6vw, 88px); }
+@media (min-width: 960px) {
+  .services-grid { grid-template-columns: 360px minmax(0, 1fr); align-items: start; }
+  .services-side { position: sticky; top: calc(var(--bar-h) + var(--nav-h) + 28px); }
+}
+.services-side h2 { margin-bottom: 16px; }
+.search-box { position: relative; margin-top: 8px; }
+.search-box svg { position: absolute; left: 14px; top: 15px; width: 22px; height: 22px; color: var(--muted); pointer-events: none; }
+.search-box input { display: block; width: 100%; min-height: 54px; padding: 10px 14px 10px 46px; border: 2px solid #76847D; border-radius: 10px; background: var(--white); }
+.search-count { margin: 10px 0 0; color: var(--muted); font-size: 1.0625rem; }
+.service-list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--sage-deep); }
+.service { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.service h3 { font-size: 1.5rem; }
+.service p { margin: 4px 0 0; color: var(--muted); line-height: 1.45; }
+.service-dept { font-size: 1rem; color: var(--sage); font-weight: 700; }
+.service-side { text-align: right; line-height: 1.35; }
+.service-price { display: block; font-weight: 700; }
+.service-mins { display: block; color: var(--muted); font-size: 1rem; }
+.text-btn { background: none; border: 0; padding: 6px 0; color: var(--sage); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.text-btn:hover { color: var(--sage-deep); }
+@media (max-width: 560px) {
+  .service { grid-template-columns: minmax(0, 1fr); }
+  .service-side { text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+  .service-price, .service-mins { display: inline; }
+}
+.empty { padding: 28px 0; border-bottom: 1px solid var(--line); }
+
+/* Clinicians */
+.clinicians { background: var(--paper-deep); }
+.clin-head { max-width: 42em; margin-bottom: 28px; }
+.clin-head h2 { margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.chip { min-height: 44px; padding: 7px 16px; border-radius: 999px; border: 2px solid var(--sage); background: transparent; color: var(--sage-deep); font-size: 1.0625rem; cursor: pointer; }
+.chip:hover { background: var(--sage-soft); }
+.chip[aria-pressed="true"] { background: var(--sage); color: var(--white); font-weight: 700; }
+.clin-count { color: var(--muted); margin: 8px 0 24px; font-size: 1.0625rem; }
+.clin-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 clamp(32px, 5vw, 72px); }
+@media (min-width: 900px) { .clin-grid { grid-template-columns: 1fr 1fr; } }
+.clin { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; padding: 24px 0; border-top: 1px solid #CFC8B8; min-width: 0; }
+.clin .mono { grid-row: span 2; }
+.clin-more { grid-column: 2; min-width: 0; }
+.clin .mono { width: 72px; height: 72px; font-size: 1.75rem; }
+.clin-id { min-width: 0; align-self: center; }
+.clin h3 { font-size: 1.5rem; }
+.clin .role { color: var(--sage); font-weight: 700; margin: 2px 0 0; font-size: 1.0625rem; line-height: 1.3; }
+.clin p.bio { margin: 0 0 6px; line-height: 1.45; }
+.clin .facts { margin: 0 0 4px; color: var(--muted); font-size: 1rem; line-height: 1.45; }
+@media (max-width: 420px) {
+  .clin { gap: 8px 12px; }
+  .clin .mono { width: 54px; height: 54px; font-size: 1.3rem; grid-row: auto; }
+  .clin-more { grid-column: 1 / -1; }
+}
+
+@media (max-width: 360px) { .steps li .step-text { display: none; } }
+
+/* Shorter lists on phones until expanded */
+.show-all { display: none; }
+@media (max-width: 720px) {
+  .service-list.collapsed .service:nth-child(n+7) { display: none; }
+  .clin-grid.collapsed .clin:nth-child(n+5) { display: none; }
+  .show-all { display: inline-flex; width: 100%; margin-top: 20px; }
+}
+
+/* Under one roof */
+.roof-top { display: grid; gap: 28px clamp(32px, 6vw, 88px); align-items: end; margin-bottom: 32px; }
+@media (min-width: 900px) { .roof-top { grid-template-columns: 1.05fr 1fr; } }
+.roof-top p { margin: 0; }
+.roof-img { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 18px 18px 18px 110px; }
+.roof-img-cap { margin: 10px 0 0; font-size: 1.0625rem; color: var(--muted); }
+@media (max-width: 640px) { .roof-img { aspect-ratio: 3 / 2; border-radius: 18px 18px 18px 60px; } }
+.stats { display: grid; gap: 24px clamp(24px, 4vw, 56px); margin: 44px 0 0; }
+@media (min-width: 700px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+.stats dt { font-family: var(--serif); font-size: clamp(2.5rem, 4.5vw, 3.5rem); font-weight: 500; line-height: 1; color: var(--sage); }
+.stats dd { margin: 8px 0 0; line-height: 1.45; }
+.stats > div { display: flex; flex-direction: column; }
+.stats-note { margin: 20px 0 0; font-size: 1rem; color: var(--muted); }
+
+/* Hours */
+.hours { background: var(--sage-deep); color: #F4F1E8; }
+.hours h2, .hours h3 { color: #FFFFFF; }
+.hours a { color: #FFFFFF; }
+.hours a:hover { color: #F5CF7B; }
+.hours-grid { display: grid; gap: 40px clamp(32px, 6vw, 88px); }
+@media (min-width: 960px) { .hours-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; } }
+.big-status { display: flex; gap: 16px; align-items: flex-start; margin: 20px 0 8px; }
+.big-status .dot { flex: none; margin-top: 12px; width: 18px; height: 18px; border-radius: 50%; border: 3px solid #F5CF7B; }
+.big-status.is-open .dot { background: #A9E0C2; border-color: #A9E0C2; }
+.big-status strong { display: block; font-family: var(--serif); font-size: clamp(1.9rem, 3.4vw, 2.5rem); font-weight: 500; line-height: 1.15; color: #FFFFFF; }
+.big-status .detail { display: block; font-size: 1.25rem; margin-top: 4px; }
+.clock-note { font-size: 1rem; color: #D5E0D8; margin: 0 0 28px 34px; }
+.hours-table { width: 100%; border-collapse: collapse; }
+.hours-table th, .hours-table td { padding: 11px 8px; border-top: 1px solid rgba(255, 255, 255, .28); text-align: left; font-weight: 400; }
+.hours-table td { text-align: right; white-space: nowrap; }
+.hours-table tr.today { background: rgba(255, 255, 255, .12); }
+.hours-table tr.today th, .hours-table tr.today td { font-weight: 700; }
+.today-tag { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 6px; background: #F5CF7B; color: #33270A; font-size: 0.875rem; font-weight: 700; line-height: 1.6; }
+.hours-img { width: 100%; aspect-ratio: 11 / 10; object-fit: cover; object-position: 0 50%; border-radius: 18px 110px 18px 18px; }
+.place { display: grid; gap: 24px; }
+@media (min-width: 560px) and (max-width: 959px) { .place { grid-template-columns: 1fr 1fr; align-items: center; } }
+.place address { font-style: normal; font-size: 1.25rem; line-height: 1.45; margin-bottom: 10px; }
+.place p { margin-bottom: 10px; }
+
+/* Accordion */
+.acc-grid { display: grid; gap: 48px clamp(32px, 6vw, 88px); margin-top: 32px; }
+@media (min-width: 900px) { .acc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+.acc-grid > div > h3 { font-size: 1.75rem; font-weight: 500; margin-bottom: 14px; }
+.acc-item { border-top: 1px solid var(--line); }
+.acc-item:last-child { border-bottom: 1px solid var(--line); }
+.acc-item h4 { margin: 0; font-family: var(--sans); font-size: inherit; }
+.acc-btn { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 2px; background: none; border: 0; text-align: left; color: var(--ink); font-weight: 700; cursor: pointer; line-height: 1.35; }
+.acc-btn:hover { color: var(--sage); }
+.acc-icon { flex: none; position: relative; width: 22px; height: 22px; color: var(--sage); }
+.acc-icon::before, .acc-icon::after { content: ""; position: absolute; left: 3px; right: 3px; top: 10px; height: 2.5px; background: currentColor; border-radius: 2px; transition: transform .2s ease; }
+.acc-icon::after { transform: rotate(90deg); }
+.acc-btn[aria-expanded="true"] .acc-icon::after { transform: rotate(0deg); }
+.acc-panel { padding: 0 2px 18px; }
+.acc-panel p:last-child, .acc-panel ul:last-child { margin-bottom: 0; }
+.acc-panel ul { margin: 0 0 1em; padding-left: 1.2em; }
+.acc-panel li { margin-bottom: 4px; }
+.price-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+.price-table th, .price-table td { padding: 7px 0; border-bottom: 1px solid var(--line); font-weight: 400; text-align: left; }
+.price-table td { text-align: right; font-weight: 700; white-space: nowrap; padding-left: 12px; }
+
+/* Testimonials */
+.voices { background: var(--paper-deep); }
+.voices-grid { display: grid; gap: 40px clamp(32px, 6vw, 88px); }
+@media (min-width: 900px) { .voices-grid { grid-template-columns: 1.35fr 1fr; align-items: center; } }
+blockquote { margin: 0; }
+.quote-big p { font-family: var(--serif); font-weight: 500; font-size: clamp(1.75rem, 3.3vw, 2.625rem); line-height: 1.22; color: var(--sage-deep); margin-bottom: 20px; }
+.quote-small { padding-block: 18px; border-top: 1px solid #CFC8B8; }
+.quote-small p { margin-bottom: 8px; line-height: 1.5; }
+.who { display: flex; align-items: center; gap: 12px; font-size: 1.0625rem; color: var(--muted); }
+.who .mono { width: 44px; height: 44px; font-size: 1.05rem; }
+.voices-note { margin: 28px 0 0; font-size: 1rem; color: var(--muted); }
+
+/* Call-back */
+.callback-grid { display: grid; gap: 32px clamp(32px, 6vw, 88px); }
+@media (min-width: 900px) { .callback-grid { grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); align-items: start; } }
+.callback-img { width: 100%; aspect-ratio: 4 / 5; max-height: 560px; object-fit: cover; object-position: 28% 50%; border-radius: 18px 18px 110px 18px; }
+@media (max-width: 899px) { .callback-img { aspect-ratio: 3 / 2; object-position: 40% 60%; border-radius: 18px 18px 60px 18px; } }
+.callback-grid h2 { margin-bottom: 14px; }
+.form-ok { background: var(--sage-soft); border: 2px solid var(--sage); border-radius: 12px; padding: 16px 18px; margin-top: 16px; line-height: 1.5; }
+.form-ok:focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+.form-ok strong { display: block; color: var(--sage-deep); font-size: 1.25rem; margin-bottom: 2px; }
+
+/* Footer */
+footer { background: var(--sage-deep); color: #F4F1E8; padding-block: 56px 32px; font-size: 1.0625rem; }
+footer a { color: #FFFFFF; }
+footer a:hover { color: #F5CF7B; }
+.foot-alert { background: var(--alert-bg); color: var(--alert-ink); border-radius: 10px; padding: 12px 16px; margin-bottom: 40px; }
+.foot-grid { display: grid; gap: 32px clamp(24px, 4vw, 64px); }
+@media (min-width: 800px) { .foot-grid { grid-template-columns: 1.5fr 1fr 1fr; } }
+.foot-grid h2 { color: #FFFFFF; font-size: 1.375rem; font-weight: 600; margin-bottom: 8px; }
+.foot-grid ul { list-style: none; margin: 0; padding: 0; }
+.foot-grid li { margin-bottom: 6px; }
+.foot-grid address { font-style: normal; }
+.foot-brand { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 1.625rem; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; }
+.foot-brand svg { width: 42px; height: 42px; flex: none; }
+.foot-small { margin: 36px 0 0; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .28); font-size: 1rem; color: #DCE6DF; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="disclosure on-dark" id="disclosure">Concept demo by Zero Lag. Cedarview Clinic is a fictional brand, not a real business. <a href="../../work.html">Back to Zero Lag</a></div>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top" aria-label="Cedarview Clinic, home">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#2C5F52"/><clipPath id="logoClip"><circle cx="22" cy="22" r="22"/></clipPath><path clip-path="url(#logoClip)" d="M0 33c7-5 13-6 20-3s15 2 24-3v17H0z" fill="#9CBFA9"/><path d="M22 6l6 8.5h-3.2l5.2 7.2h-3.4l5.4 7.8H11l5.4-7.8H13l5.2-7.2H15z" fill="#FBF8F2"/><rect x="20.4" y="29" width="3.2" height="6" fill="#FBF8F2"/></svg>
+      <span>Cedarview <span class="brand-last">Clinic</span></span>
+    </a>
+    <ul class="nav-links on-light" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#clinicians">Clinicians</a></li>
+      <li><a href="#clinic">The clinic</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#visit">Insurance &amp; visits</a></li>
+    </ul>
+    <a class="btn nav-book" href="#book" aria-label="Book a visit">Book<span class="nav-book-more"> a visit</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<aside class="emergency" aria-label="Emergency notice" id="top">
+  <div class="wrap">
+    <svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="#A8321E"/><rect x="12.4" y="6.5" width="3.2" height="10" rx="1.6" fill="#fff"/><circle cx="14" cy="20.5" r="2" fill="#fff"/></svg>
+    <p><strong>In a medical emergency, call 911</strong> or go to your nearest emergency room. Please don't use this website or our phone line for urgent help.</p>
+  </div>
+</aside>
+
+<main id="main">
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 id="heroTitle">Unhurried care for your whole family.</h1>
+        <p class="lead">Cedarview is a neighborhood clinic in Wrenfield with ten clinicians under one roof. Visits start close to on time, run long enough for your questions, and a real person picks up the phone.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#book">Book a visit</a>
+          <a class="btn btn-quiet" href="#services">See services and prices</a>
+        </div>
+        <p class="hero-call">Rather talk to someone? Call the front desk on <a href="tel:+15555550142">(555) 555-0142</a>.</p>
+      </div>
+      <figure class="hero-figure">
+        <img src="../../assets/demos/clinic-consult.jpg" width="1400" height="912" alt="A clinician in a white coat smiling as she talks through a sheet of notes with a patient in a consulting room.">
+        <a class="today-card" href="#hours" data-status>
+          <span class="status"><span class="status-dot" aria-hidden="true"></span><span><strong data-status-title>Checking our hours</strong><span class="detail" data-status-detail>See opening hours</span></span></span>
+        </a>
+      </figure>
+    </div>
+  </section>
+
+  <section class="book" id="book" aria-labelledby="bookTitle">
+    <div class="wrap">
+      <div class="book-head">
+        <h2 id="bookTitle">Book a visit in about two minutes</h2>
+        <p>Pick what you need, choose who you'd like to see, then a time that suits you. Same-day visits are held back each morning and booked by phone.</p>
+      </div>
+      <div class="widget" id="widget">
+        <div class="steps-side">
+          <ol class="steps" id="steps" aria-label="Booking progress"></ol>
+          <p class="side-call">Need help choosing? Call the front desk on <a href="tel:+15555550142">(555) 555-0142</a>.</p>
+        </div>
+        <div class="pane" id="pane">
+          <noscript><p>Online booking needs JavaScript. Please call the front desk on (555) 555-0142.</p></noscript>
+        </div>
+      </div>
+      <p class="sr" id="stepLive" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="section" id="services" aria-labelledby="servicesTitle">
+    <div class="wrap services-grid">
+      <div class="services-side">
+        <h2 id="servicesTitle">Services and self-pay prices</h2>
+        <p>Everything we offer, with the price if you're paying without insurance. If you have a plan, see <a href="#insurance">what we accept</a>.</p>
+        <label class="label" for="serviceSearch">Search services</label>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+          <input type="search" id="serviceSearch" placeholder="Try &quot;flu shot&quot; or &quot;back pain&quot;" autocomplete="off">
+        </div>
+        <p class="search-count" id="serviceCount" aria-live="polite"></p>
+      </div>
+      <div>
+        <ul class="service-list collapsed" id="serviceList"></ul>
+        <button type="button" class="btn btn-quiet show-all" id="serviceAll">Show all 16 services</button>
+        <div class="empty" id="serviceEmpty" hidden>
+          <p><strong>We couldn't find that one.</strong> It may just go by another name. The front desk can tell you on <a href="tel:+15555550142">(555) 555-0142</a>.</p>
+          <button type="button" class="text-btn" id="serviceClear">Clear search</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section clinicians" id="clinicians" aria-labelledby="clinTitle">
+    <div class="wrap">
+      <div class="clin-head">
+        <h2 id="clinTitle">The people you'll see</h2>
+        <p>You choose your clinician, and you keep them. Most Cedarview patients have seen the same person for years.</p>
+      </div>
+      <div class="chips" id="clinChips" role="group" aria-label="Filter clinicians by department"></div>
+      <p class="clin-count" id="clinCount" aria-live="polite"></p>
+      <ul class="clin-grid collapsed" id="clinGrid"></ul>
+      <button type="button" class="btn btn-quiet show-all" id="clinAll">Show all 10 clinicians</button>
+    </div>
+  </section>
+
+  <section class="section" id="clinic" aria-labelledby="roofTitle">
+    <div class="wrap">
+      <div class="roof-top">
+        <h2 id="roofTitle">A small clinic that doesn't send you across town</h2>
+        <p>Blood draws, vaccinations and a four-bed observation room are all down the hall from your clinician's office, so one trip usually covers it.</p>
+      </div>
+      <figure style="margin:0">
+        <img class="roof-img" src="../../assets/demos/clinic-ward.jpg" width="1400" height="876" loading="lazy" alt="A bright observation room with made-up beds in blue covers, separated by pink privacy curtains.">
+        <figcaption class="roof-img-cap">The observation room, used when someone needs a quiet place to rest after a minor procedure.</figcaption>
+      </figure>
+      <dl class="stats">
+        <div><dt>2009</dt><dd>The year Dr. Castellan opened Cedarview, in what used to be the Alder Hollow post office.</dd></div>
+        <div><dt>6,200</dt><dd>Wrenfield families now registered with us, some of them into a third generation.</dd></div>
+        <div><dt>30 min</dt><dd>How long a standard visit for a new concern runs here, so there's room for your questions.</dd></div>
+      </dl>
+      <p class="stats-note">These figures are part of Cedarview's fictional brand story.</p>
+    </div>
+  </section>
+
+  <section class="section hours on-dark" id="hours" aria-labelledby="hoursTitle">
+    <div class="wrap hours-grid">
+      <div>
+        <h2 id="hoursTitle">Opening hours</h2>
+        <div class="big-status" data-status>
+          <span class="dot" aria-hidden="true"></span>
+          <span><strong data-status-title>Checking our hours</strong><span class="detail" data-status-detail>The times are listed below.</span></span>
+        </div>
+        <p class="clock-note">Worked out from the clock on your device.</p>
+        <table class="hours-table">
+          <caption class="sr">Cedarview Clinic opening hours by day</caption>
+          <tbody id="hoursBody"></tbody>
+        </table>
+      </div>
+      <div class="place">
+        <img class="hours-img" src="../../assets/demos/clinic-reception.jpg" width="1400" height="953" loading="lazy" alt="The clinic's bright reception desk with a curved counter, next to the elevator and a blue tiled wall.">
+        <div>
+          <h3>Finding us</h3>
+          <address>418 Alder Hollow Road<br>Wrenfield, OR 97099</address>
+          <p><a href="tel:+15555550142">(555) 555-0142</a><br><a href="mailto:frontdesk@example.com">frontdesk@example.com</a></p>
+          <p>Free parking behind the building, with step-free entry from the lot. The number 14 bus stops right outside.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="visit" aria-labelledby="visitTitle">
+    <div class="wrap">
+      <h2 id="visitTitle">Insurance, and what to expect</h2>
+      <div class="acc-grid">
+        <div id="insurance">
+          <h3>Insurance and paying</h3>
+          <div data-acc>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">Which plans do you accept?</button></h4>
+              <div class="acc-panel"><p>We're in network with these plans:</p><ul><li>Larkfield Mutual (all PPO plans)</li><li>Stonebrook Health Plan</li><li>Oakline Community Cover</li><li>Fairhaven Employee Benefits</li><li>Wrenfield County Medical Assistance</li></ul><p>Not on the list? Give us a call. We can often still bill your plan as out of network.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">What does it cost without insurance?</button></h4>
+              <div class="acc-panel"><table class="price-table"><caption class="sr">Sample self-pay prices</caption><tbody><tr><th scope="row">Follow-up visit</th><td>$75</td></tr><tr><th scope="row">New or ongoing concern</th><td>$95</td></tr><tr><th scope="row">Annual check-up</th><td>$165</td></tr><tr><th scope="row">Counseling session</th><td>$130</td></tr></tbody></table><p>Payment is due on the day. Every service and price is listed <a href="#services">in the services section</a>.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">How do co-pays and billing work?</button></h4>
+              <div class="acc-panel"><p>We collect your co-pay at check-in and bill your plan for the rest. Any balance arrives as a plain itemized statement within about 30 days, and our billing desk is on (555) 555-0144, weekdays from 9:00 am to 4:00 pm.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">Do you offer payment plans?</button></h4>
+              <div class="acc-panel"><p>Yes. Balances over $150 can be split across up to six interest-free monthly payments, and our sliding-scale program is open to Wrenfield County households. Ask at the front desk and we'll go through the form with you.</p></div></div>
+          </div>
+        </div>
+        <div>
+          <h3>What to expect at your visit</h3>
+          <div data-acc>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">What should I bring?</button></h4>
+              <div class="acc-panel"><ul><li>A photo ID, and your insurance card if you have one</li><li>A list of any medicines you take</li><li>Any questions you'd like to cover, written down if that helps</li><li>Immunization records for a child's first visit</li></ul></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">How early should I arrive?</button></h4>
+              <div class="acc-panel"><p>Fifteen minutes before a first visit, so there's time for the new-patient form. Five minutes is plenty after that.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">What happens when I get there?</button></h4>
+              <div class="acc-panel"><p>Check in at the front desk. A medical assistant will bring you through, confirm your details and take any routine measurements. Then you'll have your time with your clinician, who will tell you about any next steps before you leave.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">Can someone come with me?</button></h4>
+              <div class="acc-panel"><p>Of course. Family, a friend or a carer are welcome in the room, and you can ask for a chaperone at any visit. Children under 16 should attend with a parent or guardian.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">Is the clinic accessible? Do you have interpreters?</button></h4>
+              <div class="acc-panel"><p>The whole clinic is step-free, with an elevator and a wide-door restroom on each floor. Phone interpreters are free for any language, and a sign language interpreter can be arranged with 48 hours' notice.</p></div></div>
+            <div class="acc-item"><h4><button class="acc-btn" type="button">What if I need to change or cancel?</button></h4>
+              <div class="acc-panel"><p>Please let us know at least 24 hours ahead so someone else can have the time. Late cancellations carry a $25 fee, and we waive the first one without question.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section voices" aria-labelledby="voicesTitle">
+    <div class="wrap">
+      <h2 class="sr" id="voicesTitle">What patients say</h2>
+      <div class="voices-grid">
+        <blockquote class="quote-big">
+          <p>My son has seen Dr. Ramanathan since he was three days old. He's eleven now and still asks if she'll remember his dinosaur facts. She does.</p>
+          <div class="who"><span class="mono d-children" aria-hidden="true">LT</span><span>L.T., Wrenfield parent</span></div>
+        </blockquote>
+        <div>
+          <blockquote class="quote-small"><p>I called at 8:05 and was seen by 10:30. Nobody made me feel like I was squeezing in.</p><div class="who"><span class="mono d-family" aria-hidden="true">RD</span><span>R.D., patient since 2014</span></div></blockquote>
+          <blockquote class="quote-small"><p>They explained the bill before I had to ask. That has honestly never happened to me before.</p><div class="who"><span class="mono d-counseling" aria-hidden="true">AM</span><span>A.M., new patient</span></div></blockquote>
+        </div>
+      </div>
+      <p class="voices-note">These testimonials are fictional and part of the Cedarview concept.</p>
+    </div>
+  </section>
+
+  <section class="section" id="callback" aria-labelledby="callbackTitle">
+    <div class="wrap callback-grid">
+      <img class="callback-img" src="../../assets/demos/clinic-doctor-phone.jpg" width="1400" height="933" loading="lazy" alt="Close view of a clinician in a white coat and stethoscope holding a smartphone in both hands.">
+      <div>
+        <h2 id="callbackTitle">Rather talk it through? We'll call you.</h2>
+        <p>Leave your number for a question about billing, a form, or your booking, and the front desk will call back within one working day. Please don't use this form for anything urgent.</p>
+        <form id="callbackForm" novalidate>
+          <div class="form-grid">
+            <div class="field"><label for="cbName">Your name</label><input id="cbName" name="name" autocomplete="name" aria-describedby="cbNameErr"><p class="field-err" id="cbNameErr" hidden></p></div>
+            <div class="field"><label for="cbPhone">Phone number</label><input id="cbPhone" name="phone" type="tel" autocomplete="tel" aria-describedby="cbPhoneErr"><p class="field-err" id="cbPhoneErr" hidden></p></div>
+            <div class="field span-2"><label for="cbTopic">What's it about?</label>
+              <select id="cbTopic" name="topic" aria-describedby="cbTopicErr"><option value="">Please choose</option><option>A booking</option><option>Billing or insurance</option><option>Forms and records</option><option>Becoming a new patient</option></select><p class="field-err" id="cbTopicErr" hidden></p></div>
+          </div>
+          <button class="btn" type="submit">Request a call back</button>
+        </form>
+        <div class="form-ok" id="callbackOk" tabindex="-1" hidden></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="on-dark">
+  <div class="wrap">
+    <p class="foot-alert"><strong>In a medical emergency, call 911</strong> or go to your nearest emergency room.</p>
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#FBF8F2"/><path d="M22 6l6 8.5h-3.2l5.2 7.2h-3.4l5.4 7.8H11l5.4-7.8H13l5.2-7.2H15z" fill="#2C5F52"/><rect x="20.4" y="29" width="3.2" height="6" fill="#2C5F52"/></svg>Cedarview Clinic</div>
+        <p>Family health care in Wrenfield since 2009.</p>
+      </div>
+      <div>
+        <h2>Visit us</h2>
+        <address>418 Alder Hollow Road<br>Wrenfield, OR 97099<br><a href="tel:+15555550142">(555) 555-0142</a><br><a href="mailto:frontdesk@example.com">frontdesk@example.com</a></address>
+      </div>
+      <div>
+        <h2>On this page</h2>
+        <ul>
+          <li><a href="#book">Book a visit</a></li>
+          <li><a href="#services">Services and prices</a></li>
+          <li><a href="#clinicians">Clinicians</a></li>
+          <li><a href="#hours">Opening hours</a></li>
+          <li><a href="#visit">Insurance and visits</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-small">Cedarview Clinic is a fictional brand in a concept demo by Zero Lag. Nothing on this site is medical advice, and no real appointments can be made. <a href="../../work.html">Back to Zero Lag</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // Clinic data
+  var DEPTS = [
+    { id: 'family', name: 'Family medicine', blurb: 'Adults and whole-family care' },
+    { id: 'children', name: "Children's health", blurb: 'Newborns through teens' },
+    { id: 'women', name: "Women's health", blurb: 'Routine care and screening' },
+    { id: 'counseling', name: 'Counseling', blurb: 'Talking therapy for all ages' },
+    { id: 'physio', name: 'Physical therapy', blurb: 'Movement and recovery' },
+    { id: 'nurse', name: 'Nurse clinic', blurb: 'Vaccines and quick checks' }
+  ];
+  var SERVICES = [
+    { id: 'checkup', dept: 'family', name: 'Annual check-up', mins: 40, price: '$165', desc: 'A yearly review of your overall health with your own clinician.', kw: 'physical wellness adult yearly exam' },
+    { id: 'concern', dept: 'family', name: 'New or ongoing concern', mins: 30, price: '$95', desc: 'For something new, or something that has been on your mind for a while.', kw: 'sick problem symptom doctor appointment' },
+    { id: 'followup', dept: 'family', name: 'Follow-up visit', mins: 20, price: '$75', desc: 'A return visit to go over results or see how things are going.', kw: 'results review return' },
+    { id: 'forms', dept: 'family', name: 'Work and sports physicals', mins: 30, price: '$60', desc: 'Physicals and form sign-offs for jobs, school teams and clubs.', kw: 'paperwork form school employment' },
+    { id: 'wellchild', dept: 'children', name: 'Well-child visit', mins: 30, price: '$110', desc: 'Regular growth and development visits, from newborn to teen.', kw: 'pediatric pediatrician baby kid newborn growth' },
+    { id: 'sickchild', dept: 'children', name: 'Child feeling unwell', mins: 20, price: '$95', desc: 'A visit for a child who is under the weather and not an emergency.', kw: 'pediatric kid fever cough sick' },
+    { id: 'womens', dept: 'women', name: "Women's health visit", mins: 30, price: '$140', desc: 'Routine care and a private place to talk through any questions.', kw: 'gynecology gyn period menopause' },
+    { id: 'screening', dept: 'women', name: 'Cervical screening', mins: 20, price: '$120', desc: 'A routine screening visit with a clinician of your choice.', kw: 'pap smear test' },
+    { id: 'contraception', dept: 'women', name: 'Contraception consultation', mins: 20, price: '$85', desc: 'Go through the options and find out what happens next.', kw: 'birth control family planning' },
+    { id: 'counsel', dept: 'counseling', name: 'Individual counseling', mins: 50, price: '$130', desc: 'One-to-one sessions with a licensed counselor, by the week or as needed.', kw: 'therapy mental health anxiety stress talk wellbeing' },
+    { id: 'familycounsel', dept: 'counseling', name: 'Family and couples counseling', mins: 60, price: '$150', desc: 'Longer sessions for two or more people to talk things through together.', kw: 'therapy relationship marriage parents' },
+    { id: 'ptfirst', dept: 'physio', name: 'First physical therapy assessment', mins: 45, price: '$120', desc: 'A first look at what is holding you back, with a plan to work through.', kw: 'physio back pain knee shoulder injury sports' },
+    { id: 'ptsession', dept: 'physio', name: 'Physical therapy session', mins: 30, price: '$85', desc: 'Ongoing hands-on sessions that follow on from your assessment.', kw: 'physio back pain rehab exercise' },
+    { id: 'vaccine', dept: 'nurse', name: 'Flu shot and routine vaccines', mins: 15, price: 'From $28', desc: 'Seasonal and routine vaccines for all ages, with most done in minutes.', kw: 'immunization jab shot injection covid' },
+    { id: 'travel', dept: 'nurse', name: 'Travel vaccine consultation', mins: 20, price: '$70', desc: 'Bring your itinerary, ideally six weeks or more before you leave.', kw: 'abroad trip immunization shot' },
+    { id: 'bloods', dept: 'nurse', name: 'Blood draw and blood pressure check', mins: 10, price: 'From $22', desc: 'Quick nurse visits, with lab orders sent over by your clinician.', kw: 'lab test sample bp' }
+  ];
+  var CLINICIANS = [
+    { id: 'castellan', dept: 'family', init: 'MC', name: 'Dr. Miriam Castellan', role: 'MD, family medicine', bio: 'Opened Cedarview in 2009 and still knows most of Alder Hollow by name.', langs: 'English, Spanish', days: [1, 2, 3, 4] },
+    { id: 'renholm', dept: 'family', init: 'TR', name: 'Dr. Tobias Renholm', role: 'DO, family medicine', bio: 'Patient with long lists of questions, and often has a few of his own.', langs: 'English, Swedish', days: [2, 3, 4, 5, 6] },
+    { id: 'ramanathan', dept: 'children', init: 'PR', name: 'Dr. Priya Ramanathan', role: "MD, children's health", bio: 'Known for explaining things to the child first and the parent second.', langs: 'English, Tamil', days: [1, 3, 5, 6] },
+    { id: 'whitcombe', dept: 'children', init: 'EW', name: 'Dr. Elias Whitcombe', role: "MD, children's health", bio: 'Sees many of our teens, who like that he talks to them directly.', langs: 'English', days: [2, 4, 5] },
+    { id: 'haddad', dept: 'women', init: 'NH', name: 'Dr. Noor Haddad', role: "MD, women's health", bio: 'Sets aside a little extra time at every first visit, just to get acquainted.', langs: 'English, Arabic, French', days: [1, 2, 4] },
+    { id: 'lindqvist', dept: 'women', init: 'JL', name: 'Joanna Lindqvist', role: "Nurse practitioner, women's health", bio: 'Runs our Saturday clinic for those who cannot get away on a weekday.', langs: 'English', days: [3, 5, 6] },
+    { id: 'adeyemi', dept: 'counseling', init: 'SA', name: 'Samuel Adeyemi', role: 'LCSW, counselor', bio: 'Works with adults and couples, often through big changes in life.', langs: 'English, Yoruba', days: [1, 3, 4] },
+    { id: 'kowal', dept: 'counseling', init: 'RK', name: 'Dr. Renata Kowal', role: 'PsyD, counselor', bio: 'Specializes in sessions with families, children and adolescents.', langs: 'English, Polish', days: [2, 5, 6] },
+    { id: 'fraser', dept: 'physio', init: 'CF', name: 'Callum Fraser', role: 'DPT, physical therapist', bio: 'A former youth rugby coach who works with weekend athletes and retirees alike.', langs: 'English', days: [1, 2, 3, 4, 5] },
+    { id: 'ferrante', dept: 'nurse', init: 'LF', name: 'Lucia Ferrante', role: 'RN, nurse clinic lead', bio: 'Has given more shots than she can count, and is very good with nervous arms.', langs: 'English, Italian, Spanish', days: [1, 2, 3, 4, 5, 6] }
+  ];
+  // Opening hours in minutes from midnight, indexed by weekday with Sunday first
+  var HOURS = [null, [480, 1110], [480, 1110], [480, 1110], [480, 1110], [480, 1020], [540, 780]];
+  var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var STEP_NAMES = ['Reason', 'Clinician', 'Date and time', 'Your details', 'Confirm'];
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function deptById(id) { return DEPTS.filter(function (d) { return d.id === id; })[0]; }
+  function serviceById(id) { return SERVICES.filter(function (s) { return s.id === id; })[0]; }
+  function clinById(id) { return CLINICIANS.filter(function (c) { return c.id === id; })[0]; }
+  function fmtTime(m) {
+    var h = Math.floor(m / 60), mm = m % 60;
+    return (h % 12 || 12) + ':' + (mm < 10 ? '0' : '') + mm + (h < 12 ? ' am' : ' pm');
+  }
+
+  // Keep the sticky offsets in step with the real bar and nav heights
+  function syncHeights() {
+    var root = document.documentElement.style;
+    root.setProperty('--bar-h', $('disclosure').offsetHeight + 'px');
+    root.setProperty('--nav-h', $('nav').offsetHeight + 'px');
+  }
+  syncHeights();
+  window.addEventListener('resize', syncHeights);
+  if (window.ResizeObserver) { new ResizeObserver(syncHeights).observe($('disclosure')); }
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(syncHeights); }
+
+  // Mobile menu
+  var menuBtn = $('menuBtn'), navLinks = $('navLinks');
+  function setMenu(open) {
+    navLinks.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    syncHeights();
+  }
+  menuBtn.addEventListener('click', function () { setMenu(!navLinks.classList.contains('open')); });
+  navLinks.addEventListener('click', function (e) { if (e.target.closest('a')) { setMenu(false); } });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+  });
+
+  // Open or closed status from the visitor's clock
+  function openingStatus(now) {
+    var day = now.getDay(), mins = now.getHours() * 60 + now.getMinutes(), today = HOURS[day];
+    if (today && mins >= today[0] && mins < today[1]) {
+      var left = today[1] - mins;
+      return { open: true, title: left <= 30 ? 'Open now, closing soon' : 'Open now', detail: 'Closes today at ' + fmtTime(today[1]) };
+    }
+    if (today && mins < today[0]) {
+      return { open: false, title: 'Closed right now', detail: 'Opens today at ' + fmtTime(today[0]) };
+    }
+    for (var i = 1; i <= 7; i++) {
+      var d = (day + i) % 7;
+      if (HOURS[d]) {
+        return { open: false, title: 'Closed right now', detail: 'Opens ' + (i === 1 ? 'tomorrow' : DAY_NAMES[d]) + ' at ' + fmtTime(HOURS[d][0]) };
+      }
+    }
+  }
+  function renderHours() {
+    var now = new Date(), st = openingStatus(now);
+    document.querySelectorAll('[data-status]').forEach(function (el) {
+      el.classList.toggle('is-open', st.open);
+      el.classList.toggle('is-closed', !st.open);
+      el.querySelector('[data-status-title]').textContent = st.title;
+      el.querySelector('[data-status-detail]').textContent = st.detail;
+    });
+    var order = [1, 2, 3, 4, 5, 6, 0];
+    $('hoursBody').innerHTML = order.map(function (d) {
+      var isToday = d === now.getDay(), h = HOURS[d];
+      return '<tr' + (isToday ? ' class="today"' : '') + '><th scope="row">' + DAY_NAMES[d] + (isToday ? '<span class="today-tag">Today</span>' : '') + '</th><td>' + (h ? fmtTime(h[0]) + ' to ' + fmtTime(h[1]) : 'Closed') + '</td></tr>';
+    }).join('');
+  }
+  renderHours();
+  setInterval(renderHours, 60000);
+
+  // Date and slot availability, stable for each date and clinician
+  function hash(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function dateKey(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function fromKey(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function longDate(d) { return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); }
+  function shortDate(d) { return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+  function bookable() {
+    var now = new Date();
+    return { min: addDays(now, 1), max: addDays(now, 60) };
+  }
+  function workingOn(dept, clinId, wd) {
+    return CLINICIANS.filter(function (c) {
+      return c.dept === dept && (clinId === 'any' || c.id === clinId) && c.days.indexOf(wd) !== -1;
+    });
+  }
+  function slotsFor(dateK, who) {
+    var d = fromKey(dateK), h = HOURS[d.getDay()], out = [];
+    if (!h) { return out; }
+    for (var m = h[0]; m <= h[1] - 30; m += 30) {
+      if (d.getDay() !== 6 && (m === 750 || m === 780)) { continue; }
+      out.push({ m: m, label: fmtTime(m), taken: hash(dateK + who + m) % 100 < 38 });
+    }
+    return out;
+  }
+  function dayState(d, dept, who) {
+    var k = dateKey(d);
+    if (!HOURS[d.getDay()]) { return 'clinic closed'; }
+    if (!workingOn(dept, who, d.getDay()).length) { return 'clinician not in'; }
+    if (hash(k + who + 'day') % 11 === 0) { return 'fully booked'; }
+    if (slotsFor(k, who).every(function (s) { return s.taken; })) { return 'fully booked'; }
+    return '';
+  }
+  function firstOpenDay(dept, who) {
+    var r = bookable();
+    for (var d = r.min; d <= r.max; d = addDays(d, 1)) {
+      if (!dayState(d, dept, who)) { return d; }
+    }
+    return null;
+  }
+
+  // Booking state lives only in memory
+  var state, pane = $('pane');
+  function freshState() {
+    return { step: 1, dept: '', service: '', clinician: '', date: '', time: null, view: null, done: false, ref: '', details: { name: '', dob: '', phone: '', email: '', patient: '', insurance: '', note: '' } };
+  }
+  state = freshState();
+
+  function clinicianLabel() {
+    if (state.clinician === 'any') {
+      if (state.date) {
+        var who = workingOn(state.dept, 'any', fromKey(state.date).getDay())[0];
+        if (who) { return who.name + ' (first available)'; }
+      }
+      return 'First available';
+    }
+    var c = clinById(state.clinician);
+    return c ? c.name : '';
+  }
+  function stepValue(n) {
+    if (n === 1 && state.service) { return serviceById(state.service).name; }
+    if (n === 2 && state.clinician) { return clinicianLabel(); }
+    if (n === 3 && state.date && state.time !== null) { return shortDate(fromKey(state.date)) + ', ' + fmtTime(state.time); }
+    if (n === 4 && state.details.name && state.step > 4) { return state.details.name; }
+    return '';
+  }
+  function renderSteps() {
+    $('steps').innerHTML = STEP_NAMES.map(function (name, i) {
+      var n = i + 1, now = !state.done && n === state.step, done = state.done || n < state.step;
+      var cls = now ? 'step-now' : done ? 'step-done' : 'step-later';
+      var val = stepValue(n);
+      var inner = '<span class="step-num" aria-hidden="true">' + (done ? '&#10003;' : n) + '</span><span class="step-text"><span class="step-name">' + name + '</span>' + (val ? '<span class="step-value">' + esc(val) + '</span>' : '') + '</span>';
+      var srLabel = '<span class="sr">Step ' + n + ' of 5: ' + name + (done ? ', completed' : '') + '</span>';
+      var body = done && !state.done
+        ? '<button type="button" class="step-item ' + cls + '" data-goto="' + n + '">' + srLabel + inner + '</button>'
+        : '<span class="step-item ' + cls + '">' + srLabel + inner + '</span>';
+      return '<li' + (now ? ' class="current" aria-current="step"' : '') + '>' + body + '</li>';
+    }).join('');
+  }
+  function radio(group, value, checked, title, sub, extra) {
+    return '<label class="choice">' + (extra || '') + '<input type="radio" name="' + group + '" value="' + esc(value) + '"' + (checked ? ' checked' : '') + '><span><strong>' + esc(title) + '</strong>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span></label>';
+  }
+  function actions(backLabel, nextLabel) {
+    return '<div class="step-actions">' + (backLabel ? '<button type="button" class="btn btn-quiet" data-action="back">' + backLabel + '</button>' : '') + '<button type="button" class="btn" data-action="next">' + nextLabel + '</button></div>';
+  }
+  function stepHeading(text, hint) {
+    return '<p class="sr">Step ' + state.step + ' of 5</p><h3 id="stepTitle" tabindex="-1">' + esc(text) + '</h3>' + (hint ? '<p class="step-hint">' + hint + '</p>' : '');
+  }
+
+  function renderStep1() {
+    var html = stepHeading('What brings you in?', 'Choose a department, then the kind of visit. If you are unsure, pick Family medicine.');
+    html += '<div class="mini-alert"><span><strong>Not for emergencies.</strong> If this is a medical emergency, stop here and call 911.</span></div>';
+    html += '<fieldset><legend>Department</legend><div class="choice-grid">' + DEPTS.map(function (d) { return radio('dept', d.id, state.dept === d.id, d.name, d.blurb); }).join('') + '</div></fieldset>';
+    html += '<div id="reasonWrap"></div><p class="step-error" id="stepErr" role="alert" hidden></p>' + actions('', 'Continue to clinician');
+    pane.innerHTML = html;
+    renderReasons();
+  }
+  function renderReasons() {
+    var wrap = $('reasonWrap');
+    if (!state.dept) { wrap.innerHTML = ''; return; }
+    wrap.innerHTML = '<fieldset><legend>Reason for your visit</legend><div class="choice-grid">' + SERVICES.filter(function (s) { return s.dept === state.dept; }).map(function (s) {
+      return radio('service', s.id, state.service === s.id, s.name, s.mins + ' minutes, ' + s.price + ' self-pay');
+    }).join('') + '</div></fieldset>';
+  }
+  function renderStep2() {
+    var d = deptById(state.dept), list = CLINICIANS.filter(function (c) { return c.dept === state.dept; });
+    var html = stepHeading('Who would you like to see?', esc(d.name) + ' at Cedarview. Choosing first available usually means an earlier time.');
+    html += '<fieldset><legend class="sr">Clinician</legend><div class="choice-grid">';
+    html += radio('clinician', 'any', state.clinician === 'any', 'First available', 'Whoever is free soonest', '<span class="mono d-any" aria-hidden="true">Any</span>');
+    html += list.map(function (c) { return radio('clinician', c.id, state.clinician === c.id, c.name, c.role, '<span class="mono d-' + c.dept + '" aria-hidden="true">' + c.init + '</span>'); }).join('');
+    html += '</div></fieldset><p class="step-error" id="stepErr" role="alert" hidden></p>' + actions('Back', 'Continue to date and time');
+    pane.innerHTML = html;
+  }
+  function renderStep3() {
+    if (!state.date) {
+      var first = firstOpenDay(state.dept, state.clinician);
+      if (first) { state.date = dateKey(first); }
+    }
+    if (!state.view) {
+      var base = state.date ? fromKey(state.date) : bookable().min;
+      state.view = new Date(base.getFullYear(), base.getMonth(), 1);
+    }
+    var s = serviceById(state.service);
+    var html = stepHeading('Choose a date and time', esc(s.name) + ' with ' + esc(state.clinician === 'any' ? 'the first available clinician' : clinById(state.clinician).name) + ', about ' + s.mins + ' minutes.');
+    html += '<div class="cal-grid"><div id="calWrap"></div><div id="slotWrap" aria-live="polite"></div></div><p class="step-error" id="stepErr" role="alert" hidden style="margin-top:16px"></p><div style="height:16px"></div>' + actions('Back', 'Continue to your details');
+    pane.innerHTML = html;
+    renderCalendar();
+    renderSlots();
+  }
+  function renderCalendar() {
+    var r = bookable(), v = state.view, year = v.getFullYear(), month = v.getMonth();
+    var prevOk = new Date(year, month, 0) >= r.min, nextOk = new Date(year, month + 1, 1) <= r.max;
+    var html = '<div class="cal-top"><button type="button" class="cal-nav" data-cal="-1" aria-label="Previous month"' + (prevOk ? '' : ' disabled') + '>&#8249;</button><strong id="calLabel">' + v.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) + '</strong><button type="button" class="cal-nav" data-cal="1" aria-label="Next month"' + (nextOk ? '' : ' disabled') + '>&#8250;</button></div>';
+    html += '<div class="cal" role="group" aria-labelledby="calLabel">';
+    ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].forEach(function (n, i) { html += '<div class="cal-dow" aria-hidden="true" title="' + DAY_NAMES[i] + '">' + n + '</div>'; });
+    for (var b = 0; b < v.getDay(); b++) { html += '<div aria-hidden="true"></div>'; }
+    var total = new Date(year, month + 1, 0).getDate();
+    for (var day = 1; day <= total; day++) {
+      var d = new Date(year, month, day), k = dateKey(d);
+      var off = d < r.min || d > r.max ? 'not bookable online' : dayState(d, state.dept, state.clinician);
+      var sel = !off && state.date === k;
+      html += '<button type="button" class="cal-day" data-date="' + k + '" aria-pressed="' + sel + '" aria-label="' + esc(longDate(d)) + (off ? ', unavailable, ' + off : '') + '"' + (off ? ' disabled' : '') + '>' + day + '</button>';
+    }
+    html += '</div><p class="cal-note">Greyed-out days are closed or fully booked. For today, please call us.</p>';
+    $('calWrap').innerHTML = html;
+  }
+  function slotButton(s) {
+    return '<button type="button" class="slot" data-time="' + s.m + '" aria-pressed="' + (state.time === s.m) + '"' + (s.taken ? ' disabled aria-label="' + s.label + ', unavailable"' : '') + '>' + s.label + '</button>';
+  }
+  function renderSlots() {
+    var wrap = $('slotWrap');
+    if (!state.date) {
+      wrap.innerHTML = '<p>No openings in the next 60 days. Please call us on (555) 555-0142.</p>';
+      return;
+    }
+    var who = state.clinician, list = slotsFor(state.date, who);
+    var am = list.filter(function (s) { return s.m < 720; }), pm = list.filter(function (s) { return s.m >= 720; });
+    var html = '<h4>Times on ' + esc(longDate(fromKey(state.date))) + '</h4>';
+    if (am.length) { html += '<div class="slot-group"><div>Morning</div><div class="slots">' + am.map(slotButton).join('') + '</div></div>'; }
+    if (pm.length) { html += '<div class="slot-group"><div>Afternoon</div><div class="slots">' + pm.map(slotButton).join('') + '</div></div>'; }
+    html += '<p class="slot-legend"><span>Crossed-out times are already taken.</span></p>';
+    wrap.innerHTML = html;
+  }
+  function renderStep4() {
+    var d = state.details, ins = ['Larkfield Mutual', 'Stonebrook Health Plan', 'Oakline Community Cover', 'Fairhaven Employee Benefits', 'Wrenfield County Medical Assistance', 'Another plan', 'Paying myself'];
+    var html = stepHeading('Your details', "If you're booking for a child or someone you care for, enter the patient's name and your own contact details.");
+    html += '<form id="detailsForm" novalidate><div class="form-grid">';
+    html += '<div class="field"><label for="fName">Patient\'s full name</label><input id="fName" name="name" autocomplete="name" value="' + esc(d.name) + '" aria-describedby="fNameErr"><p class="field-err" id="fNameErr" hidden></p></div>';
+    html += '<div class="field"><label for="fDob">Patient\'s date of birth</label><input id="fDob" name="dob" type="date" max="' + dateKey(new Date()) + '" value="' + esc(d.dob) + '" aria-describedby="fDobErr"><p class="field-err" id="fDobErr" hidden></p></div>';
+    html += '<div class="field"><label for="fPhone">Phone number</label><input id="fPhone" name="phone" type="tel" autocomplete="tel" value="' + esc(d.phone) + '" aria-describedby="fPhoneErr"><p class="field-err" id="fPhoneErr" hidden></p></div>';
+    html += '<div class="field"><label for="fEmail">Email</label><input id="fEmail" name="email" type="email" autocomplete="email" value="' + esc(d.email) + '" aria-describedby="fEmailErr"><p class="field-err" id="fEmailErr" hidden></p></div>';
+    html += '<div class="field"><fieldset style="margin:0" aria-describedby="fPatientErr"><legend class="label" style="margin-bottom:5px">Have you been to Cedarview before?</legend><div class="radio-row"><label><input type="radio" name="patient" value="New patient"' + (d.patient === 'New patient' ? ' checked' : '') + '>No, I\'m new</label><label><input type="radio" name="patient" value="Returning patient"' + (d.patient === 'Returning patient' ? ' checked' : '') + '>Yes, I\'m returning</label></div></fieldset><p class="field-err" id="fPatientErr" hidden></p></div>';
+    html += '<div class="field"><label for="fInsurance">How will you be paying?</label><select id="fInsurance" name="insurance" aria-describedby="fInsuranceErr"><option value="">Please choose</option>' + ins.map(function (o) { return '<option' + (d.insurance === o ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select><p class="field-err" id="fInsuranceErr" hidden></p></div>';
+    html += '<div class="field span-2"><label for="fNote">Anything we should know? <span class="opt">(optional)</span></label><textarea id="fNote" name="note" maxlength="400" aria-describedby="fNoteHelp">' + esc(d.note) + '</textarea><p class="field-help" id="fNoteHelp">For example, access needs or an interpreter. Please don\'t include anything urgent.</p></div>';
+    html += '</div></form>' + actions('Back', 'Review your booking');
+    pane.innerHTML = html;
+  }
+  function summaryHtml() {
+    var s = serviceById(state.service), d = state.details;
+    var rows = [
+      ['Visit', s.name + ' (' + s.mins + ' minutes)'],
+      ['Department', deptById(state.dept).name],
+      ['Clinician', clinicianLabel()],
+      ['When', longDate(fromKey(state.date)) + ' at ' + fmtTime(state.time)],
+      ['Where', '418 Alder Hollow Road, Wrenfield'],
+      ['Patient', d.name + ', born ' + fromKey(d.dob).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })],
+      ['Contact', d.phone + ', ' + d.email],
+      ['Paying by', d.insurance + ' (' + d.patient.toLowerCase() + ')']
+    ];
+    if (d.note) { rows.push(['Your note', d.note]); }
+    return '<dl class="summary" id="summary">' + rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>';
+  }
+  function renderStep5() {
+    var html = stepHeading('Check everything looks right', 'Use Back or the steps to change anything.');
+    html += summaryHtml();
+    html += '<p class="demo-note"><strong>This is a concept demo.</strong> Confirming will not book a real appointment.</p>';
+    html += actions('Back', 'Confirm booking');
+    pane.innerHTML = html;
+  }
+  function renderDone() {
+    var html = '<h3 id="stepTitle" tabindex="-1">Thanks, ' + esc(state.details.name.split(' ')[0]) + '. Here is your booking summary.</h3>';
+    html += '<div class="done-note" id="doneNote"><strong>No appointment was actually made.</strong><p>Cedarview Clinic is a fictional brand and this is a concept demo. Nothing you entered was sent or saved. If you need care, please contact your own healthcare provider.</p></div>';
+    html += summaryHtml();
+    html += '<p>Sample reference: <strong>' + esc(state.ref) + '</strong>. At a real clinic, this is where you\'d see a reminder to bring a photo ID, your insurance card and a list of any medicines.</p>';
+    html += '<div class="step-actions"><button type="button" class="btn" data-action="restart">Start another booking</button></div>';
+    pane.innerHTML = html;
+  }
+
+  function render(moveFocus) {
+    renderSteps();
+    if (state.done) { renderDone(); }
+    else { [renderStep1, renderStep2, renderStep3, renderStep4, renderStep5][state.step - 1](); }
+    $('stepLive').textContent = state.done ? 'Booking summary. No appointment was actually made.' : 'Step ' + state.step + ' of 5: ' + STEP_NAMES[state.step - 1];
+    if (moveFocus) {
+      var w = $('widget'), top = w.getBoundingClientRect().top, offset = $('disclosure').offsetHeight + $('nav').offsetHeight;
+      if (top < offset || top > window.innerHeight * 0.5) { w.scrollIntoView({ block: 'start' }); }
+      var h = $('stepTitle');
+      if (h) { h.focus({ preventScroll: true }); }
+    }
+  }
+  function showStepError(msg) {
+    var e = $('stepErr');
+    if (e) { e.textContent = msg; e.hidden = false; }
+  }
+  function setFieldError(id, msg) {
+    var el = $(id), err = $(id + 'Err');
+    if (err) { err.textContent = msg || ''; err.hidden = !msg; }
+    if (el) { if (msg) { el.setAttribute('aria-invalid', 'true'); } else { el.removeAttribute('aria-invalid'); } }
+  }
+  function phoneOk(v) { return v.replace(/\D/g, '').length >= 10 && /^[\d\s()+.\-]+$/.test(v); }
+  function emailOk(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+
+  function readDetails() {
+    var f = $('detailsForm'); if (!f) { return; }
+    var data = new FormData(f), d = state.details;
+    ['name', 'dob', 'phone', 'email', 'insurance', 'note'].forEach(function (k) { d[k] = String(data.get(k) || '').trim(); });
+    d.patient = String(data.get('patient') || '');
+  }
+  function validateDetails() {
+    readDetails();
+    var d = state.details, bad = [];
+    function check(id, msg) { setFieldError(id, msg); if (msg) { bad.push(id); } }
+    check('fName', d.name.length < 2 ? "Please enter the patient's full name." : '');
+    var dobErr = '';
+    if (!d.dob) { dobErr = "Please enter the patient's date of birth."; }
+    else if (fromKey(d.dob) > new Date()) { dobErr = 'The date of birth cannot be in the future.'; }
+    check('fDob', dobErr);
+    check('fPhone', !d.phone ? 'Please enter a phone number.' : !phoneOk(d.phone) ? 'Please enter a 10-digit phone number, like (555) 555-0123.' : '');
+    check('fEmail', !d.email ? 'Please enter an email address.' : !emailOk(d.email) ? 'Please enter a full email address, like name@example.com.' : '');
+    var pErr = $('fPatientErr');
+    pErr.textContent = d.patient ? '' : 'Please tell us if you have visited before.';
+    pErr.hidden = !!d.patient;
+    if (!d.patient) { bad.push('patient'); }
+    check('fInsurance', !d.insurance ? 'Please choose how you will be paying.' : '');
+    if (bad.length) {
+      var first = bad[0] === 'patient' ? pane.querySelector('input[name="patient"]') : $(bad[0]);
+      first.focus();
+      return false;
+    }
+    return true;
+  }
+  function next() {
+    if (state.step === 1) {
+      if (!state.dept) { showStepError('Please choose a department to continue.'); return; }
+      if (!state.service) { showStepError('Please choose a reason for your visit to continue.'); return; }
+    }
+    if (state.step === 2 && !state.clinician) { showStepError('Please choose a clinician, or first available, to continue.'); return; }
+    if (state.step === 3 && (!state.date || state.time === null)) { showStepError('Please choose an available time to continue.'); return; }
+    if (state.step === 4 && !validateDetails()) { return; }
+    if (state.step === 5) {
+      state.done = true;
+      state.ref = 'DEMO-' + String(Math.floor(1000 + Math.random() * 9000));
+      render(true);
+      return;
+    }
+    state.step += 1;
+    render(true);
+  }
+
+  // Booking widget events
+  $('steps').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-goto]');
+    if (b) { if (state.step === 4) { readDetails(); } state.step = +b.getAttribute('data-goto'); render(true); }
+  });
+  pane.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'dept') {
+      if (state.dept !== t.value) { state.dept = t.value; state.service = ''; state.clinician = ''; state.date = ''; state.time = null; state.view = null; }
+      renderReasons();
+      renderSteps();
+    } else if (t.name === 'service') {
+      state.service = t.value;
+      renderSteps();
+    } else if (t.name === 'clinician') {
+      if (state.clinician !== t.value) { state.clinician = t.value; state.date = ''; state.time = null; state.view = null; }
+      renderSteps();
+    } else { return; }
+    var e2 = $('stepErr');
+    if (e2) { e2.hidden = true; }
+  });
+  pane.addEventListener('click', function (e) {
+    var act = e.target.closest('[data-action]');
+    if (act) {
+      var a = act.getAttribute('data-action');
+      if (a === 'next') { next(); }
+      else if (a === 'back') { if (state.step === 4) { readDetails(); } state.step -= 1; render(true); }
+      else if (a === 'restart') { state = freshState(); render(true); }
+      return;
+    }
+    var nav = e.target.closest('[data-cal]');
+    if (nav) {
+      var dir = +nav.getAttribute('data-cal');
+      state.view = new Date(state.view.getFullYear(), state.view.getMonth() + dir, 1);
+      renderCalendar();
+      var again = pane.querySelector('[data-cal="' + dir + '"]');
+      if (again && !again.disabled) { again.focus(); } else { pane.querySelector('[data-cal="' + (-dir) + '"]').focus(); }
+      return;
+    }
+    var day = e.target.closest('[data-date]');
+    if (day && !day.disabled) {
+      var key = day.getAttribute('data-date');
+      if (state.date !== key) { state.date = key; state.time = null; }
+      renderCalendar();
+      renderSlots();
+      renderSteps();
+      pane.querySelector('[data-date="' + key + '"]').focus();
+      return;
+    }
+    var slot = e.target.closest('[data-time]');
+    if (slot && !slot.disabled) {
+      state.time = +slot.getAttribute('data-time');
+      pane.querySelectorAll('.slot').forEach(function (s) { s.setAttribute('aria-pressed', s === slot ? 'true' : 'false'); });
+      renderSteps();
+      var e3 = $('stepErr');
+      if (e3) { e3.hidden = true; }
+    }
+  });
+  pane.addEventListener('input', function (e) {
+    if (e.target.getAttribute('aria-invalid') === 'true') { setFieldError(e.target.id, ''); }
+  });
+
+  // Jump into the booking widget from a service or clinician
+  function bookService(id) {
+    var s = serviceById(id);
+    if (state.dept !== s.dept) { state.clinician = ''; state.date = ''; state.time = null; state.view = null; }
+    state.done = false;
+    state.dept = s.dept;
+    state.service = s.id;
+    state.step = 2;
+    render(true);
+  }
+  function bookClinician(id) {
+    var c = clinById(id), keep = state.service && serviceById(state.service).dept === c.dept;
+    state.done = false;
+    state.dept = c.dept;
+    state.service = keep ? state.service : SERVICES.filter(function (s) { return s.dept === c.dept; })[0].id;
+    state.clinician = c.id;
+    state.date = '';
+    state.time = null;
+    state.view = null;
+    state.step = 3;
+    render(true);
+  }
+
+  // Searchable services list
+  var search = $('serviceSearch'), serviceCollapsed = true;
+  function renderServices() {
+    var terms = search.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    var hits = SERVICES.filter(function (s) {
+      var hay = (s.name + ' ' + s.desc + ' ' + s.kw + ' ' + deptById(s.dept).name).toLowerCase();
+      return terms.every(function (t) { return hay.indexOf(t) !== -1; });
+    });
+    $('serviceList').innerHTML = hits.map(function (s) {
+      return '<li class="service"><div><div class="service-dept">' + esc(deptById(s.dept).name) + '</div><h3>' + esc(s.name) + '</h3><p>' + esc(s.desc) + '</p></div><div class="service-side"><span class="service-price">' + esc(s.price) + '</span><span class="service-mins">' + s.mins + ' minutes</span><button type="button" class="text-btn" data-book-service="' + s.id + '">Book<span class="sr"> ' + esc(s.name) + '</span></button></div></li>';
+    }).join('');
+    $('serviceEmpty').hidden = hits.length > 0;
+    $('serviceList').classList.toggle('collapsed', serviceCollapsed && !terms.length);
+    $('serviceAll').hidden = !serviceCollapsed || terms.length > 0;
+    $('serviceCount').textContent = terms.length ? hits.length + (hits.length === 1 ? ' service matches' : ' services match') + ' your search' : 'Showing all ' + SERVICES.length + ' services';
+  }
+  search.addEventListener('input', renderServices);
+  $('serviceAll').addEventListener('click', function () {
+    serviceCollapsed = false;
+    renderServices();
+    $('serviceList').querySelectorAll('.text-btn')[6].focus();
+  });
+  $('serviceClear').addEventListener('click', function () { search.value = ''; renderServices(); search.focus(); });
+  $('serviceList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-book-service]');
+    if (b) { bookService(b.getAttribute('data-book-service')); }
+  });
+
+  // Clinician filter
+  var clinFilter = 'all', clinCollapsed = true;
+  function renderClinicians() {
+    var chips = [{ id: 'all', name: 'All departments' }].concat(DEPTS);
+    $('clinChips').innerHTML = chips.map(function (d) {
+      return '<button type="button" class="chip" data-dept="' + d.id + '" aria-pressed="' + (clinFilter === d.id) + '">' + esc(d.name) + '</button>';
+    }).join('');
+    var list = CLINICIANS.filter(function (c) { return clinFilter === 'all' || c.dept === clinFilter; });
+    $('clinGrid').innerHTML = list.map(function (c) {
+      var nxt = firstOpenDay(c.dept, c.id);
+      return '<li class="clin"><span class="mono d-' + c.dept + '" aria-hidden="true">' + c.init + '</span><div class="clin-id"><h3>' + esc(c.name) + '</h3><p class="role">' + esc(c.role) + '</p></div><div class="clin-more"><p class="bio">' + esc(c.bio) + '</p><p class="facts">Speaks ' + esc(c.langs) + '.' + (nxt ? ' Next opening ' + esc(shortDate(nxt)) + '.' : '') + '</p><button type="button" class="text-btn" data-book-clin="' + c.id + '">Book with ' + esc(c.name) + '</button></div></li>';
+    }).join('');
+    $('clinGrid').classList.toggle('collapsed', clinCollapsed);
+    $('clinAll').hidden = !clinCollapsed || clinFilter !== 'all';
+    $('clinCount').textContent = list.length + (list.length === 1 ? ' clinician' : ' clinicians') + (clinFilter === 'all' ? '' : ' in ' + deptById(clinFilter).name);
+  }
+  $('clinChips').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-dept]');
+    if (!b) { return; }
+    clinFilter = b.getAttribute('data-dept');
+    renderClinicians();
+    $('clinChips').querySelector('[data-dept="' + clinFilter + '"]').focus();
+  });
+  $('clinAll').addEventListener('click', function () {
+    clinCollapsed = false;
+    renderClinicians();
+    $('clinGrid').querySelectorAll('.text-btn')[4].focus();
+  });
+  $('clinGrid').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-book-clin]');
+    if (b) { bookClinician(b.getAttribute('data-book-clin')); }
+  });
+
+  // Accordions
+  var accId = 0;
+  document.querySelectorAll('[data-acc]').forEach(function (group) {
+    group.querySelectorAll('.acc-item').forEach(function (item, i) {
+      var btn = item.querySelector('.acc-btn'), panel = item.querySelector('.acc-panel'), n = ++accId;
+      btn.insertAdjacentHTML('beforeend', '<span class="acc-icon" aria-hidden="true"></span>');
+      btn.id = 'acc-btn-' + n;
+      panel.id = 'acc-panel-' + n;
+      panel.setAttribute('role', 'region');
+      panel.setAttribute('aria-labelledby', btn.id);
+      btn.setAttribute('aria-controls', panel.id);
+      btn.setAttribute('aria-expanded', i === 0 ? 'true' : 'false');
+      panel.hidden = i !== 0;
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        panel.hidden = open;
+      });
+    });
+  });
+
+  // Call-back form
+  $('callbackForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('cbName').value.trim(), phone = $('cbPhone').value.trim(), topic = $('cbTopic').value;
+    setFieldError('cbName', name.length < 2 ? 'Please enter your name.' : '');
+    setFieldError('cbPhone', !phone ? 'Please enter a phone number.' : !phoneOk(phone) ? 'Please enter a 10-digit phone number, like (555) 555-0123.' : '');
+    setFieldError('cbTopic', !topic ? 'Please choose a topic.' : '');
+    var firstBad = this.querySelector('[aria-invalid="true"]');
+    if (firstBad) { firstBad.focus(); $('callbackOk').hidden = true; return; }
+    var ok = $('callbackOk');
+    ok.innerHTML = '<strong>Thanks, ' + esc(name.split(' ')[0]) + '.</strong>This is a concept demo, so nothing was sent or saved and nobody will call. At a real clinic, the front desk would be in touch within one working day.';
+    ok.hidden = false;
+    this.reset();
+    ok.focus();
+  });
+
+  renderServices();
+  renderClinicians();
+  render(false);
+})();
+</script>
+</body>
+</html>

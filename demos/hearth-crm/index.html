@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B2119">
+<title>Hearth CRM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 5c1 5 7 8 7 15a7 7 0 0 1-14 0c0-3 1.3-5 3-6.5.3 2 1.3 3 2.5 3.400C13.5 13 14.5 9 16 5z' fill='%23B53D0A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap">
+<style>
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --bg: #F6F1E8;
+  --surface: #FFFCF7;
+  --sunken: #EFE8DB;
+  --line: #E2D8C7;
+  --line-strong: #8C7D6B;
+  --ink: #2B2119;
+  --ink-2: #54483C;
+  --ink-3: #685A4C;
+  --accent: #B53D0A;
+  --accent-hover: #96310A;
+  --accent-soft: #FBE6D8;
+  --accent-ink: #8A2C08;
+  --green: #24592F;
+  --green-soft: #E1EEDF;
+  --red: #A32A1E;
+  --red-soft: #F9E3DF;
+  --sans: "Atkinson Hyperlegible Next", "Segoe UI", system-ui, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius: 6px;
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); color: var(--ink); font: 400 14px/1.45 var(--sans); -webkit-text-size-adjust: 100%; }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+main:focus { outline: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* Disclosure bar */
+.disclosure { flex: none; background: var(--ink); color: #F6EEE2; font-size: 12.500px; line-height: 1.35; padding: 7px 16px; text-align: center; }
+.disclosure a { color: #FFCBA6; font-weight: 600; white-space: nowrap; margin-left: 6px; }
+.disclosure a:focus-visible { outline-color: #FFCBA6; }
+
+/* App shell */
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 50; background: var(--surface); padding: 8px 12px; border-radius: var(--radius); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 212px minmax(0, 1fr); }
+.sidebar { background: var(--sunken); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.brand { display: flex; align-items: center; gap: 9px; padding: 13px 14px 11px; }
+.brand svg { flex: none; }
+.brand b { display: block; font-size: 15.500px; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
+.brand span { display: block; font-size: 12px; color: var(--ink-2); line-height: 1.25; }
+.nav { padding: 6px 8px; display: grid; gap: 1px; }
+.nav a { display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: var(--radius); color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.nav a:hover { background: #E6DDCC; color: var(--ink); }
+.nav a[aria-current="page"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent), 0 0 0 1px var(--line); }
+.nav svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.nav .count { margin-left: auto; font: 500 12px var(--mono); color: var(--ink-2); }
+.side-foot { margin-top: auto; padding: 10px 14px 12px; border-top: 1px solid var(--line); display: flex; gap: 9px; align-items: center; }
+.side-foot b { display: block; font-weight: 600; font-size: 13px; line-height: 1.2; }
+.side-foot span.role { display: block; font-size: 12px; color: var(--ink-2); line-height: 1.25; }
+.scrim { display: none; }
+.workspace { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.topbar { flex: none; display: flex; align-items: center; gap: 10px; padding: 9px 20px; background: var(--surface); border-bottom: 1px solid var(--line); min-height: 50px; }
+.topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+.topbar .today { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
+.topbar .spacer { flex: 1; }
+.menu-btn, .top-mark { display: none; }
+main { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 20px 28px; }
+
+/* Buttons and form controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 32px; padding: 5px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 600; white-space: nowrap; }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.link { border: 0; background: none; padding: 0; min-height: 0; color: var(--accent-ink); text-decoration: underline; font-weight: 600; }
+.btn.icon { padding: 0; width: 32px; }
+.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 3px 9px; font-size: 12.500px; font-weight: 600; color: var(--ink-2); min-height: 26px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; outline-color: var(--accent); box-shadow: inset 0 0 0 1px #fff; }
+.field { display: grid; gap: 3px; min-width: 0; }
+.field > label, .label { font-size: 12.500px; font-weight: 600; color: var(--ink-2); }
+input[type=text], input[type=search], input[type=date], select, textarea { width: 100%; min-height: 32px; padding: 5px 8px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+textarea { resize: vertical; min-height: 68px; display: block; }
+[aria-invalid="true"] { border-color: var(--red) !important; box-shadow: inset 0 0 0 1px var(--red); }
+.err { color: var(--red); font-size: 12.500px; font-weight: 500; }
+.err[hidden] { display: none; }
+
+/* Cards and panels */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 12px; }
+.tile, .pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.tile { grid-column: span 3; padding: 11px 13px 12px; }
+.tile dt, .tile .t-label { font-size: 12.500px; font-weight: 600; color: var(--ink-2); }
+.tile .t-val { font-size: 25px; font-weight: 700; line-height: 1.2; margin-top: 1px; font-variant-numeric: tabular-nums; letter-spacing: -.015em; }
+.tile .t-sub { font-size: 12.500px; color: var(--ink-3); margin-top: 1px; }
+.tile .t-sub .bad { color: var(--red); font-weight: 600; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 13px; border-bottom: 1px solid var(--line); }
+.pane-head h2 { font-size: 14px; font-weight: 700; }
+.pane-head .more { margin-left: auto; font-size: 13px; font-weight: 600; }
+.pane-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.span-8 { grid-column: span 8; }
+.span-4 { grid-column: span 4; }
+.span-6 { grid-column: span 6; }
+
+/* Revenue chart */
+.legend { display: flex; flex-wrap: wrap; gap: 3px 14px; padding: 9px 13px 0; font-size: 12.500px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--accent); vertical-align: middle; margin-right: 5px; }
+.legend i.dash { border-top: 2px dashed var(--ink-2); }
+.chart { position: relative; padding: 2px 0 6px; margin: 0 8px; }
+.chart svg { display: block; width: 100%; overflow: visible; touch-action: pan-y; }
+.chart svg:focus-visible { outline-offset: 0; }
+.tip { position: absolute; top: 8px; pointer-events: none; background: var(--ink); color: #fff; padding: 5px 8px; border-radius: 4px; font-size: 12.500px; line-height: 1.35; white-space: nowrap; z-index: 2; }
+.tip b { display: block; font-family: var(--mono); font-weight: 600; font-size: 13px; }
+.tip[hidden] { display: none; }
+.scroll-x { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.500px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); background: #F8F3EA; white-space: nowrap; }
+th, td { padding: 6px 10px; border-bottom: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+
+/* Stage bars */
+.stagebars { padding: 8px 13px 12px; display: grid; gap: 11px; }
+.stagebars .row { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: baseline; }
+.stagebars .bar { grid-column: 1 / -1; height: 8px; background: var(--sunken); border-radius: 4px; overflow: hidden; }
+.stagebars .bar i { display: block; height: 100%; background: var(--accent); border-radius: 0 4px 4px 0; }
+.stagebars .n { color: var(--ink-3); font-size: 12.500px; margin-left: 4px; }
+.stagebars .foot { border-top: 1px solid var(--line); padding-top: 9px; display: flex; justify-content: space-between; font-weight: 600; }
+
+/* Closing soon list */
+.closing-title { font-size: 12.5px; font-weight: 700; color: var(--ink-2); padding: 9px 13px 3px; border-top: 1px solid var(--line); }
+.closing { padding: 0 13px 10px; }
+.closing li { display: flex; gap: 10px; align-items: baseline; padding: 4px 0; font-size: 13.5px; }
+.closing .nm { flex: 1; min-width: 0; }
+
+/* Lists */
+.list li { position: relative; display: flex; gap: 9px; align-items: center; padding: 7px 13px; border-bottom: 1px solid var(--line); }
+.list li:last-child { border-bottom: 0; }
+.task-title { flex: 1; min-width: 0; }
+.task-title label { cursor: pointer; display: block; }
+.task-title .meta { font-size: 12.500px; color: var(--ink-3); }
+input[type=checkbox] { width: 16px; height: 16px; flex: none; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.due { font-size: 12.500px; color: var(--ink-2); white-space: nowrap; }
+.due.over { color: var(--red); font-weight: 600; }
+.due.now { color: var(--accent-ink); font-weight: 600; }
+.done .task-title label { text-decoration: line-through; color: var(--ink-3); }
+.feed li { align-items: flex-start; }
+.feed .txt { flex: 1; min-width: 0; font-size: 13.500px; }
+.feed .when { color: var(--ink-3); font-size: 12.500px; }
+.who { border: 0; background: none; padding: 0; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-align: left; overflow-wrap: anywhere; }
+.who:hover { color: var(--accent-ink); text-decoration-color: currentColor; }
+.who.quiet { font-weight: 400; color: var(--ink-2); }
+.empty { padding: 18px 13px; color: var(--ink-2); text-align: center; }
+
+/* Avatars and badges */
+.av { flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #E9DFCD; color: var(--ink); font-size: 11.500px; font-weight: 700; letter-spacing: .01em; }
+.av.t1 { background: #F6DCC8; }
+.av.t2 { background: #DCE8D5; }
+.av.t3 { background: #E9DFCD; }
+.av.t4 { background: #F2E3B8; }
+.av.sm { width: 22px; height: 22px; font-size: 10px; }
+.av.lg { width: 42px; height: 42px; font-size: 15px; }
+.badge { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; background: var(--sunken); color: var(--ink-2); }
+.badge.won, .badge.Customer { background: var(--green-soft); color: var(--green); }
+.badge.open, .badge.Prospect { background: var(--accent-soft); color: var(--accent-ink); }
+.badge.lost { background: var(--red-soft); color: var(--red); }
+
+/* Pipeline */
+.pipe-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 26px; margin-bottom: 12px; }
+.stat .label { display: block; }
+.stat b { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pipe-bar .field { margin-left: auto; width: 170px; }
+.board { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; align-items: stretch; }
+.col { flex: 1 0 186px; min-width: 186px; background: var(--sunken); border-radius: var(--radius); display: flex; flex-direction: column; min-height: 320px; border: 1px solid transparent; }
+.col.over { border: 1px solid var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-soft); }
+.col-head { padding: 8px 9px 6px; }
+.col-head .top { display: flex; align-items: center; gap: 6px; }
+.col-head h2 { font-size: 13px; font-weight: 700; }
+.col-head .c { font: 500 12px var(--mono); color: var(--ink-2); }
+.col-head .add { margin-left: auto; width: 24px; height: 24px; min-height: 0; padding: 0; background: transparent; border: 1px solid transparent; color: var(--ink-2); }
+.col-head .add:hover { background: var(--surface); border-color: var(--line-strong); }
+.col-head .tot { display: flex; justify-content: space-between; font-size: 12.500px; color: var(--ink-2); }
+.col-head .tot .num { font-weight: 600; color: var(--ink); }
+.cards { flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 0 6px 6px; }
+.deal { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 8px 9px; cursor: grab; display: grid; gap: 3px; }
+.deal:hover { border-color: var(--line-strong); }
+.deal.drag { opacity: .45; }
+.deal.flash { animation: flash 1.600s ease-out; }
+@keyframes flash { 0%, 40% { background: var(--accent-soft); border-color: var(--accent); } 100% { background: var(--surface); } }
+.deal h3 { font-size: 13.500px; font-weight: 600; line-height: 1.28; }
+.deal .co { font-size: 12.500px; line-height: 1.3; }
+.deal .amt { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; margin-top: 2px; }
+.deal .amt .num { font-size: 13.500px; font-weight: 600; }
+.deal .foot { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.deal select { flex: 1; min-width: 0; min-height: 26px; padding: 2px 4px; font-size: 12.500px; }
+.col-empty { flex: 1; min-height: 72px; display: grid; place-items: center; border: 1px dashed var(--line-strong); border-radius: 5px; color: var(--ink-2); font-size: 12.500px; text-align: center; padding: 8px; }
+
+/* Contacts */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 10px; }
+.toolbar .field.grow { flex: 1 1 220px; max-width: 340px; }
+.toolbar .field.fix { flex: 0 0 150px; }
+.toolbar .tally { margin-left: auto; color: var(--ink-2); font-size: 13px; padding-bottom: 6px; }
+.contacts { min-width: 880px; }
+.contacts tbody tr { cursor: pointer; }
+.contacts tbody tr:hover td { background: #F8F2E7; }
+.contacts td { white-space: nowrap; background: var(--surface); padding-top: 4px; padding-bottom: 4px; }
+.contacts .namecell { display: flex; align-items: center; gap: 8px; }
+.contacts .namecell small { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.2; }
+th button { border: 0; background: none; padding: 0; font: inherit; color: inherit; display: inline-flex; align-items: center; gap: 3px; }
+th button:hover { color: var(--ink); text-decoration: underline; }
+th[aria-sort] button { color: var(--ink); font-weight: 700; }
+.arrow { font-size: 10px; width: 9px; display: inline-block; }
+
+/* Tasks */
+.addtask { display: grid; grid-template-columns: minmax(0, 1fr) 150px 210px auto; gap: 10px; align-items: start; padding: 11px 13px; }
+.addtask .go { padding-top: 20px; }
+.taskbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0 8px; }
+.taskbar .tally { margin-left: auto; color: var(--ink-2); font-size: 13px; }
+.group + .group { margin-top: 12px; }
+.group h2 { font-size: 12.500px; font-weight: 700; padding: 7px 13px; background: #F8F3EA; border-bottom: 1px solid var(--line); border-radius: var(--radius) var(--radius) 0 0; color: var(--ink-2); }
+.group h2.over { color: var(--red); }
+
+/* Dialogs */
+dialog { border: 0; padding: 0; color: var(--ink); background: var(--surface); }
+dialog::backdrop { background: rgba(43, 33, 25, .28); inset: var(--bar-h) 0 0 0; }
+.panel { position: fixed; inset: var(--bar-h) 0 0 auto; margin: 0; width: min(440px, 100vw); max-width: 100vw; height: calc(100dvh - var(--bar-h)); max-height: none; border-left: 1px solid var(--line-strong); }
+.panel[open] { animation: slide .16s ease-out; }
+@keyframes slide { from { transform: translateX(24px); opacity: 0; } }
+.panel-in { height: 100%; display: flex; flex-direction: column; }
+.panel-head { flex: none; display: flex; gap: 11px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.panel-head h2 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+.panel-head p { font-size: 13px; color: var(--ink-2); line-height: 1.3; }
+.panel-head .btn { margin-left: auto; flex: none; }
+.panel-body { flex: 1; min-height: 0; overflow-y: auto; padding: 12px 14px 22px; }
+.kv { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 4px 10px; font-size: 13.500px; }
+.kv dt { color: var(--ink-3); }
+.kv dd { overflow-wrap: anywhere; }
+.sect { font-size: 12.500px; font-weight: 700; color: var(--ink-2); margin: 16px 0 6px; }
+.mini li { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: center; justify-content: space-between; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.500px; }
+.mini .right { display: flex; gap: 8px; align-items: center; }
+.noteform { display: grid; gap: 5px; margin-top: 16px; }
+.noteform .btn { justify-self: start; margin-top: 2px; }
+.timeline { position: relative; }
+.timeline li { position: relative; padding: 0 0 12px 18px; font-size: 13.500px; }
+.timeline li::before { content: ""; position: absolute; left: 3.500px; top: 6px; bottom: -6px; width: 1px; background: var(--line-strong); }
+.timeline li:last-child::before { display: none; }
+.timeline li::after { content: ""; position: absolute; left: 0; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink-2); }
+.timeline li.note::after { background: var(--accent); border-color: var(--accent); }
+.timeline li.stage::after { background: var(--ink-2); }
+.timeline .meta { font-size: 12px; color: var(--ink-3); }
+.timeline .meta b { font-weight: 600; color: var(--ink-2); }
+.timeline .body { white-space: pre-wrap; overflow-wrap: anywhere; }
+.modal { position: fixed; inset: calc(var(--bar-h) + 12px) 0 12px 0; margin: auto; width: min(520px, calc(100vw - 24px)); height: fit-content; max-height: calc(100dvh - var(--bar-h) - 24px); border-radius: 8px; overflow-y: auto; }
+.modal h2 { font-size: 16px; font-weight: 700; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px 16px; }
+.form-grid .full { grid-column: 1 / -1; }
+.hint { font-size: 12.500px; color: var(--ink-3); }
+.modal-foot { display: flex; gap: 8px; justify-content: flex-end; padding: 11px 16px; border-top: 1px solid var(--line); background: #F8F3EA; }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 24px); background: var(--ink); color: #fff; padding: 8px 12px; border-radius: var(--radius); display: flex; gap: 12px; align-items: center; z-index: 60; font-size: 13.500px; }
+.toast[hidden] { display: none; }
+.toast button { border: 0; background: none; padding: 2px; color: #FFCBA6; font-weight: 700; text-decoration: underline; }
+.toast button:focus-visible { outline-color: #FFCBA6; }
+
+/* Tablet layout */
+@media (max-width: 1180px) {
+  .span-8, .span-4 { grid-column: span 12; }
+  .tile { grid-column: span 6; }
+}
+
+/* Phone and small tablet layout */
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: fixed; top: var(--bar-h); bottom: 0; left: 0; width: 256px; max-width: 84vw; z-index: 30; transform: translateX(-102%); visibility: hidden; transition: transform .18s ease-out, visibility .18s; }
+  .sidebar.open { transform: none; visibility: visible; }
+  .scrim.open { display: block; position: fixed; inset: var(--bar-h) 0 0 0; background: rgba(43, 33, 25, .28); z-index: 20; }
+  .nav a { min-height: 44px; }
+  .menu-btn { display: inline-flex; width: 44px; height: 44px; margin-left: -8px; border: 0; background: none; align-items: center; justify-content: center; border-radius: var(--radius); flex: none; }
+  .menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  .topbar { padding: 3px 12px; gap: 4px; }
+  .topbar .today { display: none; }
+  .topbar .btn.primary { min-height: 40px; }
+  main { padding: 12px 12px 72px; }
+  .btn { min-height: 44px; }
+  .btn.link { min-height: 0; }
+  .btn.icon { width: 44px; }
+  .seg button { min-height: 36px; padding: 3px 11px; }
+  input[type=text], input[type=search], input[type=date], select, textarea { font-size: 16px; min-height: 44px; }
+  .deal select { min-height: 44px; font-size: 16px; }
+  .col-head .add { width: 44px; height: 44px; margin: -8px -6px -8px auto; }
+  .list li { padding: 9px 12px; }
+  input[type=checkbox] { width: 22px; height: 22px; }
+  .span-6 { grid-column: span 12; }
+  .addtask { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .addtask .wide { grid-column: 1 / -1; }
+  .addtask .go { grid-column: 1 / -1; padding-top: 0; }
+  .addtask .go .btn { width: 100%; }
+  .board { scroll-snap-type: x proximity; margin: 0 -12px; padding: 0 12px 8px; scroll-padding-left: 12px; }
+  .col { flex: 0 0 min(78vw, 270px); min-width: 0; scroll-snap-align: start; }
+  .pipe-bar .field { margin-left: 0; width: 100%; }
+  .stat b { font-size: 16px; }
+  .contacts { min-width: 760px; }
+  .contacts th:first-child, .contacts td:first-child { position: sticky; left: 0; z-index: 1; box-shadow: 1px 0 0 var(--line); }
+  .contacts th { min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
+  .toolbar .field.grow { max-width: none; flex-basis: 100%; }
+  .toolbar .field.fix { flex: 1 1 130px; }
+  .toolbar .tally { padding-bottom: 12px; }
+  .panel { width: 100vw; border-left: 0; }
+}
+
+/* Small phone layout */
+@media (max-width: 520px) {
+  .tile { grid-column: span 6; padding: 9px 10px; }
+  .tile .t-val { font-size: 20px; }
+  .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .form-grid .full { grid-column: auto; }
+  .addtask { grid-template-columns: minmax(0, 1fr); }
+  .pipe-bar { gap: 8px 18px; }
+  .disclosure { padding: 5px 12px; font-size: 12px; }
+  .list li[data-task-row] { flex-wrap: wrap; row-gap: 3px; }
+  .list li[data-task-row] .task-title { flex: 1 1 calc(100% - 34px); }
+  .list li[data-task-row] .due { margin-left: 31px; margin-right: auto; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="disclosure" id="disclosure">Concept demo by Zero Lag. Hearth CRM is a fictional product with sample data. <a href="../../work.html">Back to Zero Lag</a></div>
+<div class="app">
+  <a class="skip" href="#view">Skip to content</a>
+  <aside class="sidebar" id="sidebar" aria-label="Primary">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 27V14a10 10 0 0 1 20 0v13" fill="none" stroke="#2B2119" stroke-width="2.6"/><path d="M2.5 28h27" stroke="#2B2119" stroke-width="2.6" stroke-linecap="round"/><path d="M16 11c.6 3 4.5 4.8 4.5 9a4.5 4.5 0 0 1-9 0c0-1.8.8-3.1 1.9-4.1.2 1.3.8 2 1.6 2.2-.2-2.7.1-5.1 1-7.100z" fill="#B53D0A"/></svg>
+      <div><b>Hearth</b><span>Larkfield Kitchen Co.</span></div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#dashboard" data-nav="dashboard"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="6" rx="1"/><rect x="9" y="2" width="5" height="3.5" rx="1"/><rect x="2" y="10" width="5" height="4" rx="1"/><rect x="9" y="7.5" width="5" height="6.5" rx="1"/></svg>Dashboard</a>
+      <a href="#pipeline" data-nav="pipeline"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.500v11M8 2.500v7M13 2.500v9"/></svg>Pipeline<span class="count" id="countPipeline"></span></a>
+      <a href="#contacts" data-nav="contacts"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14c.6-3 2.8-4.5 5.5-4.500s4.9 1.5 5.5 4.5"/></svg>Contacts<span class="count" id="countContacts"></span></a>
+      <a href="#tasks" data-nav="tasks"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8l2.2 2.200L11 6"/></svg>Tasks<span class="count" id="countTasks"></span></a>
+    </nav>
+    <div class="side-foot"><span class="av t1" aria-hidden="true">MO</span><div><b>Maya Okafor</b><span class="role">Sales lead</span></div></div>
+  </aside>
+  <div class="scrim" id="scrim" data-act="close-menu"></div>
+  <div class="workspace" id="workspace">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" type="button" data-act="toggle-menu" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16"/></svg></button>
+      <h1 id="pageTitle">Dashboard</h1>
+      <span class="today" id="todayLabel"></span>
+      <span class="spacer"></span>
+      <button class="btn primary" type="button" data-act="new-deal">New deal</button>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+
+<dialog class="panel" id="contactPanel" aria-labelledby="panelName"></dialog>
+
+<dialog class="modal" id="dealDialog" aria-labelledby="dealTitle">
+  <form id="dealForm" novalidate>
+    <div class="modal-head"><h2 id="dealTitle">New deal</h2><button class="btn icon" type="button" data-act="close-deal" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div>
+    <div class="form-grid">
+      <div class="field full"><label for="fName">Deal name</label><input type="text" id="fName" autocomplete="off" aria-describedby="eName" placeholder="Walk-in cooler retrofit"><span class="err" id="eName" hidden></span></div>
+      <div class="field full"><label for="fContact">Contact</label><select id="fContact" aria-describedby="eContact"></select><span class="err" id="eContact" hidden></span></div>
+      <div class="field"><label for="fValue">Value (USD)</label><input type="text" id="fValue" inputmode="decimal" autocomplete="off" aria-describedby="eValue" placeholder="25,000"><span class="err" id="eValue" hidden></span></div>
+      <div class="field"><label for="fClose">Expected close</label><input type="date" id="fClose" aria-describedby="eClose"><span class="err" id="eClose" hidden></span></div>
+      <div class="field"><label for="fStage">Stage</label><select id="fStage"></select></div>
+      <div class="field"><label for="fOwner">Owner</label><select id="fOwner"></select></div>
+    </div>
+    <div class="modal-foot"><button class="btn" type="button" data-act="close-deal">Cancel</button><button class="btn primary" type="submit">Create deal</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const DAY = 86400000;
+const QUOTA = 110000;
+const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+
+// Date helpers keep the sample data current whenever the demo is opened
+const addDays = n => { const d = new Date(TODAY); d.setDate(d.getDate() + n); return d; };
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const parse = s => new Date(s + 'T00:00:00');
+const inDays = n => iso(addDays(n));
+const thisMonth = n => { const first = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); const d = addDays(-n); return iso(d < first ? first : d); };
+const fmtDay = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+const fmtMon = new Intl.DateTimeFormat('en-US', { month: 'short' });
+const fmtMonY = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' });
+const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const money = v => usd.format(v);
+const shortK = v => '$' + (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'K';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const initials = n => n.split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase();
+const $ = (s, r = document) => r.querySelector(s);
+
+const OWNERS = { MO: 'Maya Okafor', TR: 'Tomas Reyes', PN: 'Priya Nair', DW: 'Dan Whitlock' };
+const STAGES = [
+  { id: 'lead', name: 'Lead', p: .1 },
+  { id: 'qualified', name: 'Qualified', p: .3 },
+  { id: 'proposal', name: 'Proposal', p: .55 },
+  { id: 'negotiation', name: 'Negotiation', p: .75 },
+  { id: 'won', name: 'Won', p: 1 },
+  { id: 'lost', name: 'Lost', p: 0 }
+];
+const stageName = id => STAGES.find(s => s.id === id).name;
+const isOpen = d => d.stage !== 'won' && d.stage !== 'lost';
+
+// Sample contacts with their activity as days ago, type, text and author
+const CONTACTS = [
+  ['c1', 'Renata Solis', 'Director of Operations', 'Ostrander Hotel Group', '(312) 555-0142', 'MO', [[1, 'email', 'Sent revised banquet kitchen proposal with phased install schedule.', 'MO'], [6, 'meeting', 'Site walk at the Lakeview property. Wants work done before the spring wedding season.', 'MO'], [19, 'call', 'Intro call. Current hood system fails inspection in March.', 'MO']]],
+  ['c2', 'Julian Akers', 'Executive Chef', 'Lantern Yard Eatery', '(312) 555-0117', 'MO', [[2, 'call', 'Confirmed cooler dimensions. Needs a night install so service is not affected.', 'MO'], [11, 'note', 'Prefers text over email during service hours.', 'MO']]],
+  ['c3', 'Hannah Brandt', 'Owner', 'Quillfeather Bakehouse', '(773) 555-0168', 'PN', [[4, 'email', 'Shared deck oven spec sheet and financing options.', 'PN'], [24, 'stage', 'Bakery proofing room marked as lost. Budget moved to the ovens.', 'PN']]],
+  ['c4', 'Marcus Adeyemi', 'Facilities Manager', 'Wexley Medical Commons', '(847) 555-0123', 'TR', [[0, 'call', 'Legal is reviewing the ventilation contract. Expects redlines by Thursday.', 'TR'], [5, 'meeting', 'Walked the cafeteria with their infection control lead.', 'TR'], [16, 'email', 'Sent air balance report from the initial survey.', 'TR']]],
+  ['c5', 'Sofia Lindqvist', 'Procurement Lead', 'Oakhaven Unified Schools', '(630) 555-0191', 'PN', [[3, 'email', 'Board packet deadline is the 18th. Proposal needs per-site pricing.', 'PN'], [13, 'call', 'Six kitchens in scope. Two have older steamers out of warranty.', 'PN']]],
+  ['c6', 'Theo Castellan', 'General Manager', 'Harrowgate Inn', '(815) 555-0134', 'MO', [[0, 'email', 'Asked for one more option on the rooftop galley sink layout.', 'MO'], [8, 'note', 'Combi oven package delivered and signed off. Happy with the install crew.', 'MO']]],
+  ['c7', 'Imani Drew', 'Founder', 'Tamarind Row Kitchens', '(312) 555-0176', 'MO', [[1, 'meeting', 'Reviewed fit-out timeline. Three tenant brands open in the first phase.', 'MO'], [9, 'call', 'Pushing for 10 percent off in exchange for a two-year service plan.', 'MO']]],
+  ['c8', 'Callum Hart', 'Head Brewer', 'Redwick Brewing Co.', '(708) 555-0109', 'DW', [[5, 'call', 'Taproom permit approved. Ready to talk equipment list.', 'DW']]],
+  ['c9', 'Aiko Tanaka', 'VP Food Service', 'Pinecrest Senior Living', '(847) 555-0155', 'TR', [[2, 'email', 'Sent cook-chill line proposal covering all three campuses.', 'TR'], [14, 'meeting', 'Demo at the Rockford test kitchen went well. Dietitian team on board.', 'TR']]],
+  ['c10', 'Nadia Farouk', 'Catering Director', 'Bell Harbor Catering', '(219) 555-0138', 'DW', [[7, 'email', 'Quoted four mobile prep units with a fifth as an option.', 'DW']]],
+  ['c11', 'Owen Mercer', 'Owner', 'Sable Street Diner', '(773) 555-0102', 'DW', [[3, 'call', 'Lost the replacement deal on price, but open to a cleaning plan for both sites.', 'DW'], [31, 'stage', 'Full kitchen replacement marked as lost.', 'DW']]],
+  ['c12', 'Leila Haddad', 'COO', 'Dunmore Commissary', '(630) 555-0129', 'PN', [[6, 'meeting', 'Expansion adds a second cook line. Waiting on landlord approval for the exhaust run.', 'PN']]],
+  ['c13', 'Grant Whitaker', 'Purchasing Manager', 'Fennimore Foods', '(708) 555-0186', 'TR', [[4, 'stage', 'Line refrigeration swap closed. Deposit received.', 'TR'], [18, 'call', 'Compressor failures on line two are costing them product.', 'TR']]],
+  ['c14', 'Beatriz Ramos', 'Chef-Owner', 'Marrow & Vine', '(312) 555-0163', 'MO', [[6, 'note', 'Pass and plating station closed through Dan. Dish pit is the next conversation.', 'MO'], [27, 'email', 'Sent photos of two recent dish pit redesigns.', 'DW']]],
+  ['c15', 'Victor Novak', 'Project Manager', 'Kestrel Build Partners', '(815) 555-0197', 'TR', [[22, 'stage', 'Dock refrigeration marked as lost. General contractor went with an in-house crew.', 'TR'], [40, 'meeting', 'Pre-bid meeting for the distribution center.', 'TR']]],
+  ['c16', 'Ella Sutherland', 'Campus Dining Manager', 'Ashbury College', '(219) 555-0114', 'TR', [[10, 'email', 'Requested budget range for the student union servery.', 'TR']]]
+].map(([id, name, title, company, phone, owner, act]) => ({
+  id, name, title, company, phone, owner,
+  email: name.toLowerCase().replace(/[^a-z ]/g, '').replace(' ', '.') + '@example.com',
+  activity: act.map(([n, type, text, by]) => ({ type, text, by: OWNERS[by], at: TODAY.getTime() - n * DAY + 60000 }))
+}));
+const contact = id => CONTACTS.find(c => c.id === id);
+
+// Sample deals
+let dealSeq = 21;
+const DEALS = [
+  ['d1', 'Deck oven replacement', 'c3', 18400, 'lead', 'PN', 41],
+  ['d2', 'Two-site hood cleaning plan', 'c11', 6200, 'lead', 'DW', 33],
+  ['d3', 'Dish pit redesign', 'c14', 27500, 'lead', 'MO', 55],
+  ['d4', 'Student union servery, phase 1', 'c16', 96000, 'lead', 'TR', 74],
+  ['d5', 'Walk-in cooler retrofit', 'c2', 34800, 'qualified', 'MO', 28],
+  ['d6', 'Central kitchen expansion', 'c12', 148000, 'qualified', 'PN', 62],
+  ['d7', 'Taproom kitchen build', 'c8', 58500, 'qualified', 'DW', 37],
+  ['d8', 'Banquet kitchen refit', 'c1', 212000, 'proposal', 'MO', 21],
+  ['d9', 'Cook-chill line', 'c9', 86400, 'proposal', 'TR', 26],
+  ['d10', 'Annual service plan, 6 sites', 'c5', 42000, 'proposal', 'PN', 18],
+  ['d11', 'Mobile prep units', 'c10', 23750, 'proposal', 'DW', 30],
+  ['d12', 'Cafeteria ventilation upgrade', 'c4', 124500, 'negotiation', 'TR', 9],
+  ['d13', 'Rooftop bar galley', 'c6', 39600, 'negotiation', 'MO', 12],
+  ['d14', 'Ghost kitchen fit-out', 'c7', 67200, 'negotiation', 'MO', 6]
+].map(([id, name, contactId, value, stage, owner, n]) => ({ id, name, contactId, value, stage, owner, close: inDays(n) }));
+[
+  ['d15', 'Line refrigeration swap', 'c13', 31200, 'won', 'TR', 4],
+  ['d16', 'Combi oven package', 'c6', 22800, 'won', 'MO', 8],
+  ['d17', 'Service plan renewal', 'c1', 18600, 'won', 'PN', 2],
+  ['d18', 'Pass and plating station', 'c14', 14900, 'won', 'DW', 6],
+  ['d19', 'Full kitchen replacement', 'c11', 74000, 'lost', 'DW', 31],
+  ['d20', 'Bakery proofing room', 'c3', 19500, 'lost', 'PN', 24],
+  ['d21', 'Dock refrigeration', 'c15', 44000, 'lost', 'TR', 22]
+].forEach(([id, name, contactId, value, stage, owner, n]) => DEALS.push({ id, name, contactId, value, stage, owner, close: stage === 'won' ? thisMonth(n) : inDays(-n) }));
+
+// Sample tasks
+let taskSeq = 12;
+const TASKS = [
+  ['t1', 'Send Wexley the updated indemnity clause', -2, 'c4', 'TR'],
+  ['t2', 'Chase Dunmore landlord approval for exhaust run', -1, 'c12', 'PN'],
+  ['t3', 'Call Renata about the phased install schedule', 0, 'c1', 'MO'],
+  ['t4', 'Price the two-year service plan for Tamarind Row', 0, 'c7', 'MO'],
+  ['t5', 'Add sink layout option B to the Harrowgate drawing', 1, 'c6', 'MO'],
+  ['t6', 'Book night install crew for Lantern Yard', 3, 'c2', 'MO'],
+  ['t7', 'Per-site pricing sheet for Oakhaven board packet', 6, 'c5', 'PN'],
+  ['t8', 'Send Bell Harbor reference from a catering customer', 8, 'c10', 'DW'],
+  ['t9', 'Follow up with Ashbury on servery budget range', 11, 'c16', 'TR']
+].map(([id, title, n, contactId, owner]) => ({ id, title, due: inDays(n), contactId, owner, done: false }));
+TASKS.push(
+  { id: 't10', title: 'Email Fennimore the install photos', due: inDays(-3), contactId: 'c13', owner: 'TR', done: true },
+  { id: 't11', title: 'Confirm Harrowgate combi oven sign-off', due: inDays(-5), contactId: 'c6', owner: 'MO', done: true }
+);
+
+// Revenue for the eleven months before this one
+const HISTORY = [62400, 71800, 68200, 84500, 79100, 92600, 88300, 104700, 97200, 116400, 122900];
+
+const state = { view: 'dashboard', range: 12, chartMode: 'chart', ownerFilter: 'all', search: '', statusFilter: 'all', sortKey: 'last', sortDir: -1, taskFilter: 'all', panel: null, flash: null, chartActive: null };
+
+// Derived values
+const wonThisMonth = () => { const k = iso(TODAY).slice(0, 7); return DEALS.filter(d => d.stage === 'won' && d.close.slice(0, 7) === k).reduce((s, d) => s + d.value, 0); };
+const series = () => [...HISTORY, wonThisMonth()].map((v, i) => { const d = new Date(TODAY.getFullYear(), TODAY.getMonth() - 11 + i, 1); return { v, label: fmtMon.format(d), full: fmtMonY.format(d), current: i === 11 }; });
+const lastActivity = c => Math.max(...c.activity.map(a => a.at), 0);
+const openValue = c => DEALS.filter(d => d.contactId === c.id && isOpen(d)).reduce((s, d) => s + d.value, 0);
+const status = c => { const ds = DEALS.filter(d => d.contactId === c.id); return ds.some(d => d.stage === 'won') ? 'Customer' : ds.some(isOpen) ? 'Prospect' : 'Inactive'; };
+
+function whenLabel(at) {
+  if (Date.now() - at < 60000) return 'Just now';
+  const d = new Date(at); d.setHours(0, 0, 0, 0);
+  const diff = Math.round((TODAY - d) / DAY);
+  return diff === 0 ? 'Today' : diff === 1 ? 'Yesterday' : fmtDay.format(d);
+}
+
+function dueInfo(due) {
+  const diff = Math.round((parse(due) - TODAY) / DAY);
+  if (diff < 0) return { cls: 'over', text: `${-diff} day${diff === -1 ? '' : 's'} overdue` };
+  if (diff === 0) return { cls: 'now', text: 'Today' };
+  if (diff === 1) return { cls: '', text: 'Tomorrow' };
+  return { cls: '', text: fmtDay.format(parse(due)) };
+}
+
+const tint = id => 't' + (parseInt(id.slice(1), 10) % 4 + 1);
+const avatar = (c, size = '') => `<span class="av ${tint(c.id)} ${size}" aria-hidden="true">${esc(initials(c.name))}</span>`;
+const ownerChip = o => `<span class="av sm t3" title="${esc(OWNERS[o])}" aria-hidden="true">${o}</span><span class="vh">Owner ${esc(OWNERS[o])}</span>`;
+const whoBtn = (c, text, cls = '') => `<button type="button" class="who ${cls}" data-act="open-contact" data-id="${c.id}">${esc(text)}</button>`;
+
+function addActivity(contactId, type, text) {
+  const entry = { type, text, by: OWNERS.MO, at: Date.now() };
+  contact(contactId).activity.push(entry);
+  return entry;
+}
+function dropActivity(contactId, entry) {
+  const list = contact(contactId).activity;
+  const i = list.indexOf(entry);
+  if (i >= 0) list.splice(i, 1);
+}
+
+// Dashboard view
+function viewDashboard() {
+  const open = DEALS.filter(isOpen);
+  const openTotal = open.reduce((s, d) => s + d.value, 0);
+  const weighted = open.reduce((s, d) => s + d.value * STAGES.find(x => x.id === d.stage).p, 0);
+  const won = wonThisMonth();
+  const wonN = DEALS.filter(d => d.stage === 'won').length;
+  const lostN = DEALS.filter(d => d.stage === 'lost').length;
+  const rate = wonN + lostN ? Math.round(wonN / (wonN + lostN) * 100) : 0;
+  const openTasks = TASKS.filter(t => !t.done).sort((a, b) => a.due.localeCompare(b.due));
+  const overdue = openTasks.filter(t => parse(t.due) < TODAY).length;
+  const dueToday = openTasks.filter(t => t.due === iso(TODAY)).length;
+
+  const stageRows = STAGES.filter(s => s.id !== 'won' && s.id !== 'lost').map(s => {
+    const ds = open.filter(d => d.stage === s.id);
+    return { s, n: ds.length, v: ds.reduce((t, d) => t + d.value, 0) };
+  });
+  const maxV = Math.max(...stageRows.map(r => r.v), 1);
+
+  const feed = CONTACTS.flatMap(c => c.activity.map(a => ({ ...a, c }))).sort((a, b) => b.at - a.at).slice(0, 6);
+
+  return `
+  <div class="grid">
+    <div class="tile"><div class="t-label">Open pipeline</div><div class="t-val" id="kpiOpen">${money(openTotal)}</div><div class="t-sub">${open.length} deals, ${money(Math.round(weighted))} weighted</div></div>
+    <div class="tile"><div class="t-label">Won this month</div><div class="t-val" id="kpiWon">${money(won)}</div><div class="t-sub">${Math.round(won / QUOTA * 100)}% of ${shortK(QUOTA)} quota</div></div>
+    <div class="tile"><div class="t-label">Win rate</div><div class="t-val" id="kpiRate">${rate}%</div><div class="t-sub">${wonN} won, ${lostN} lost this quarter</div></div>
+    <div class="tile"><div class="t-label">Open tasks</div><div class="t-val" id="kpiTasks">${openTasks.length}</div><div class="t-sub">${overdue ? `<span class="bad">${overdue} overdue</span>, ` : ''}${dueToday} due today</div></div>
+
+    <section class="pane span-8" aria-labelledby="revTitle">
+      <div class="pane-head">
+        <h2 id="revTitle">Closed-won revenue</h2>
+        <div class="tools">
+          <div class="seg" role="group" aria-label="Time range">
+            <button type="button" data-act="chart-range" data-v="6" aria-pressed="${state.range === 6}">6 mo</button><button type="button" data-act="chart-range" data-v="12" aria-pressed="${state.range === 12}">12 mo</button>
+          </div>
+          <div class="seg" role="group" aria-label="Display as">
+            <button type="button" data-act="chart-mode" data-v="chart" aria-pressed="${state.chartMode === 'chart'}">Chart</button><button type="button" data-act="chart-mode" data-v="table" aria-pressed="${state.chartMode === 'table'}">Table</button>
+          </div>
+        </div>
+      </div>
+      ${state.chartMode === 'chart' ? `<div class="legend"><span><i></i>Revenue, current month to date</span><span><i class="dash"></i>Monthly quota</span></div><div class="chart" id="chart"></div>` : revenueTable()}
+    </section>
+
+    <section class="pane span-4" aria-labelledby="stTitle">
+      <div class="pane-head"><h2 id="stTitle">Open value by stage</h2><a class="more" href="#pipeline">Pipeline</a></div>
+      <div class="stagebars">
+        ${stageRows.map(r => `<div class="row"><span>${r.s.name}<span class="n">${r.n} deal${r.n === 1 ? '' : 's'}</span></span><span class="num">${money(r.v)}</span><div class="bar"><i style="width:${r.v ? Math.max(r.v / maxV * 100, 2) : 0}%"></i></div></div>`).join('')}
+        <div class="foot"><span>Total open</span><span class="num">${money(openTotal)}</span></div>
+      </div>
+      <h3 class="closing-title">Closing next</h3>
+      <ul class="closing">${[...open].sort((a, b) => a.close.localeCompare(b.close)).slice(0, 3).map(d => `<li><span class="nm">${esc(d.name)}</span><span class="due">${fmtDay.format(parse(d.close))}</span><span class="num">${money(d.value)}</span></li>`).join('')}</ul>
+    </section>
+
+    <section class="pane span-6" aria-labelledby="dueTitle">
+      <div class="pane-head"><h2 id="dueTitle">Next up</h2><a class="more" href="#tasks">All tasks</a></div>
+      ${openTasks.length ? `<ul class="list">${openTasks.slice(0, 5).map(taskRow).join('')}</ul>` : '<p class="empty">All tasks are done.</p>'}
+    </section>
+
+    <section class="pane span-6" aria-labelledby="feedTitle">
+      <div class="pane-head"><h2 id="feedTitle">Recent activity</h2><a class="more" href="#contacts">Contacts</a></div>
+      <ul class="list feed">${feed.map(a => `<li>${avatar(a.c)}<div class="txt">${whoBtn(a.c, a.c.name)} <span class="when">${whenLabel(a.at)}</span><br>${esc(a.text)}</div></li>`).join('')}</ul>
+    </section>
+  </div>`;
+}
+
+function revenueTable() {
+  const rows = series().slice(-state.range);
+  return `<div class="scroll-x"><table><thead><tr><th scope="col">Month</th><th scope="col" class="r">Revenue</th><th scope="col" class="r">Of quota</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r.full}${r.current ? ' (to date)' : ''}</td><td class="r num">${money(r.v)}</td><td class="r num">${Math.round(r.v / QUOTA * 100)}%</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+// Draws the revenue line chart at the container's real width
+function drawChart() {
+  const box = $('#chart');
+  if (!box) return;
+  const w = box.clientWidth;
+  if (!w) return;
+  box.dataset.w = w;
+  const h = w < 480 ? 220 : 298;
+  const m = { l: 42, r: 14, t: 14, b: 26 };
+  const data = series().slice(-state.range);
+  const n = data.length;
+  const peak = Math.max(QUOTA, ...data.map(d => d.v)) * 1.06;
+  const step = [10000, 20000, 25000, 40000, 50000, 100000, 200000, 250000, 500000, 1000000].find(s => s * 5 >= peak) || 2000000;
+  const top = Math.ceil(peak / step) * step;
+  const x = i => m.l + i * (w - m.l - m.r) / (n - 1);
+  const y = v => m.t + (1 - v / top) * (h - m.t - m.b);
+  const every = w < 440 && n > 6 ? 2 : w < 340 ? 2 : 1;
+  const ink3 = '#685A4C';
+  let grid = '';
+  for (let v = 0; v <= top; v += step) grid += `<line x1="${m.l}" x2="${w - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v ? '#EDE5D7' : '#8C7D6B'}"/><text x="${m.l - 7}" y="${y(v) + 3.5}" text-anchor="end" font-size="11" fill="${ink3}">${v ? '$' + v / 1000 + 'K' : '$0'}</text>`;
+  const labels = data.map((d, i) => (n - 1 - i) % every ? '' : `<text x="${x(i)}" y="${h - 8}" text-anchor="${i === n - 1 ? 'end' : i === 0 ? 'start' : 'middle'}" font-size="11" fill="${ink3}">${d.label}</text>`).join('');
+  const line = data.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(d.v).toFixed(1)}`).join('');
+  const area = `${line}L${x(n - 1).toFixed(1)} ${y(0)}L${x(0).toFixed(1)} ${y(0)}Z`;
+  const last = data[n - 1];
+  const summary = `Closed-won revenue by month. ${data.map(d => `${d.label} ${money(d.v)}`).join(', ')}. Monthly quota ${money(QUOTA)}. Use left and right arrow keys to read each month.`;
+  box.innerHTML = `<svg id="chartSvg" viewBox="0 0 ${w} ${h}" height="${h}" role="img" tabindex="0" aria-label="${esc(summary)}" font-family="inherit">
+    ${grid}${labels}
+    <path d="${area}" fill="#B53D0A" opacity=".09"/>
+    <line x1="${m.l}" x2="${w - m.r}" y1="${y(QUOTA)}" y2="${y(QUOTA)}" stroke="#54483C" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="${m.l + 5}" y="${y(QUOTA) - 6}" font-size="11" font-weight="600" fill="#54483C">Quota ${shortK(QUOTA)}</text>
+    <path id="revLine" d="${line}" fill="none" stroke="#B53D0A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(n - 1)}" cy="${y(last.v)}" r="4.5" fill="#B53D0A" stroke="#FFFCF7" stroke-width="2"/>
+    <text x="${x(n - 1) - 2}" y="${y(last.v) + 19}" text-anchor="end" font-size="12" font-weight="700" fill="#2B2119">${shortK(last.v)}</text>
+    <g id="hoverG" visibility="hidden"><line id="hoverL" y1="${m.t}" y2="${h - m.b}" stroke="#54483C"/><circle id="hoverD" r="4.5" fill="#B53D0A" stroke="#FFFCF7" stroke-width="2"/></g>
+    <rect id="hit" x="${m.l}" y="${m.t}" width="${w - m.l - m.r}" height="${h - m.t - m.b}" fill="transparent"/>
+  </svg><div class="tip" id="tip" hidden></div>`;
+
+  const svg = $('#chartSvg'), tip = $('#tip'), g = $('#hoverG');
+  const show = i => {
+    state.chartActive = i;
+    const d = data[i];
+    g.setAttribute('visibility', 'visible');
+    $('#hoverL').setAttribute('x1', x(i)); $('#hoverL').setAttribute('x2', x(i));
+    $('#hoverD').setAttribute('cx', x(i)); $('#hoverD').setAttribute('cy', y(d.v));
+    tip.hidden = false;
+    tip.innerHTML = `${d.full}${d.current ? ' to date' : ''}<b>${money(d.v)}</b>${Math.round(d.v / QUOTA * 100)}% of quota`;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.max(0, Math.min(w - tw, x(i) + (x(i) + tw + 14 > w ? -tw - 10 : 10))) + 'px';
+  };
+  const hide = () => { state.chartActive = null; g.setAttribute('visibility', 'hidden'); tip.hidden = true; };
+  const fromEvent = e => {
+    const r = svg.getBoundingClientRect();
+    const t = (e.clientX - r.left - m.l) / (w - m.l - m.r);
+    show(Math.max(0, Math.min(n - 1, Math.round(t * (n - 1)))));
+  };
+  $('#hit').addEventListener('pointermove', fromEvent);
+  $('#hit').addEventListener('pointerdown', fromEvent);
+  svg.addEventListener('pointerleave', hide);
+  svg.addEventListener('blur', hide);
+  svg.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      const cur = state.chartActive == null ? n - 1 : state.chartActive + (e.key === 'ArrowRight' ? 1 : -1);
+      show(Math.max(0, Math.min(n - 1, cur)));
+    } else if (e.key === 'Escape') hide();
+  });
+}
+
+// Pipeline view
+function dealCard(d) {
+  const c = contact(d.contactId);
+  const late = isOpen(d) && parse(d.close) < TODAY;
+  return `<article class="deal${state.flash === d.id ? ' flash' : ''}" draggable="true" data-deal="${d.id}">
+    <h3>${esc(d.name)}</h3>
+    <div class="co">${whoBtn(c, c.company, 'quiet')}</div>
+    <div class="amt"><span class="num">${money(d.value)}</span><span class="due${late ? ' over' : ''}">${late ? 'Past due ' : ''}${fmtDay.format(parse(d.close))}</span></div>
+    <div class="foot">${ownerChip(d.owner)}<label class="vh" for="st-${d.id}">Stage for ${esc(d.name)}</label><select id="st-${d.id}" data-stage-for="${d.id}">${STAGES.map(s => `<option value="${s.id}"${s.id === d.stage ? ' selected' : ''}>${s.name}</option>`).join('')}</select></div>
+  </article>`;
+}
+
+function viewPipeline() {
+  const pool = DEALS.filter(d => state.ownerFilter === 'all' || d.owner === state.ownerFilter);
+  const open = pool.filter(isOpen);
+  const openTotal = open.reduce((s, d) => s + d.value, 0);
+  const weighted = open.reduce((s, d) => s + d.value * STAGES.find(x => x.id === d.stage).p, 0);
+  const won = pool.filter(d => d.stage === 'won').reduce((s, d) => s + d.value, 0);
+  return `
+  <div class="pipe-bar">
+    <div class="stat"><span class="label">Open value</span><b id="pipeOpen">${money(openTotal)}</b></div>
+    <div class="stat"><span class="label">Weighted forecast</span><b id="pipeWeighted">${money(Math.round(weighted))}</b></div>
+    <div class="stat"><span class="label">Won</span><b id="pipeWon">${money(won)}</b></div>
+    <div class="field"><label for="ownerFilter">Owner</label><select id="ownerFilter"><option value="all">All owners</option>${Object.entries(OWNERS).map(([k, v]) => `<option value="${k}"${state.ownerFilter === k ? ' selected' : ''}>${v}</option>`).join('')}</select></div>
+  </div>
+  <div class="board" id="board" tabindex="0" role="region" aria-label="Deals by stage">
+    ${STAGES.map(s => {
+      const ds = pool.filter(d => d.stage === s.id);
+      return `<section class="col" data-col="${s.id}" aria-labelledby="col-${s.id}">
+        <div class="col-head">
+          <div class="top"><h2 id="col-${s.id}">${s.name}</h2><span class="c">${ds.length}</span>${s.id === 'lost' ? '' : `<button type="button" class="btn icon add" data-act="new-deal" data-stage="${s.id}" aria-label="Add deal to ${s.name}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button>`}</div>
+          <div class="tot"><span class="num" data-total="${s.id}">${money(ds.reduce((t, d) => t + d.value, 0))}</span><span>${Math.round(s.p * 100)}%</span></div>
+        </div>
+        <div class="cards">${ds.length ? ds.map(dealCard).join('') : '<div class="col-empty">No deals in this stage</div>'}</div>
+      </section>`;
+    }).join('')}
+  </div>`;
+}
+
+let lastMove = null;
+
+// Moves a deal to a new stage and logs it on the contact
+function moveDeal(id, stage, opts = {}) {
+  const d = DEALS.find(x => x.id === id);
+  if (!d || d.stage === stage) return;
+  const prev = { stage: d.stage, close: d.close };
+  const from = stageName(d.stage);
+  d.stage = stage;
+  if (stage === 'won' || stage === 'lost') { if (parse(d.close) > TODAY) d.close = iso(TODAY); }
+  if (prev.stage === 'won' || prev.stage === 'lost') { if (isOpen(d) && parse(d.close) <= TODAY) d.close = inDays(30); }
+  const entry = addActivity(d.contactId, 'stage', `${d.name} moved from ${from} to ${stageName(stage)}.`);
+  lastMove = { id, prev, entry };
+  state.flash = id;
+  render();
+  state.flash = null;
+  if (opts.focus) { const sel = document.getElementById('st-' + id); if (sel) sel.focus(); }
+  showToast(`${d.name} moved to ${stageName(stage)}.`, 'undo-move');
+}
+
+function undoMove() {
+  if (!lastMove) return;
+  const d = DEALS.find(x => x.id === lastMove.id);
+  d.stage = lastMove.prev.stage;
+  d.close = lastMove.prev.close;
+  dropActivity(d.contactId, lastMove.entry);
+  lastMove = null;
+  hideToast();
+  render();
+}
+
+// Contacts view
+const SORTS = {
+  name: c => c.name,
+  company: c => c.company,
+  status: c => status(c),
+  owner: c => OWNERS[c.owner],
+  value: c => openValue(c),
+  last: c => lastActivity(c)
+};
+
+function filteredContacts() {
+  const q = state.search.trim().toLowerCase();
+  const key = SORTS[state.sortKey];
+  return CONTACTS.filter(c => (state.statusFilter === 'all' || status(c) === state.statusFilter) && (!q || [c.name, c.company, c.email, c.title, c.phone].join(' ').toLowerCase().includes(q)))
+    .sort((a, b) => {
+      const x = key(a), y = key(b);
+      const r = typeof x === 'number' ? x - y : x.localeCompare(y);
+      return (r || a.name.localeCompare(b.name)) * state.sortDir;
+    });
+}
+
+function contactRows() {
+  const rows = filteredContacts();
+  const tally = $('#contactTally');
+  if (tally) tally.textContent = `${rows.length} of ${CONTACTS.length} contacts`;
+  if (!rows.length) return `<tr><td colspan="8" style="cursor:default"><p class="empty">No contacts match your search. <button type="button" class="btn link" data-act="clear-search">Clear filters</button></p></td></tr>`;
+  return rows.map(c => {
+    const st = status(c), v = openValue(c);
+    return `<tr data-act="open-contact" data-id="${c.id}">
+      <td><div class="namecell">${avatar(c)}<div>${whoBtn(c, c.name)}<small>${esc(c.title)}</small></div></div></td>
+      <td>${esc(c.company)}</td>
+      <td>${esc(c.email)}</td>
+      <td class="num">${esc(c.phone)}</td>
+      <td>${esc(OWNERS[c.owner])}</td>
+      <td><span class="badge ${st}">${st}</span></td>
+      <td class="r num">${v ? money(v) : '<span aria-label="None">-</span>'}</td>
+      <td>${whenLabel(lastActivity(c))}</td>
+    </tr>`;
+  }).join('');
+}
+
+function th(key, label, cls = '') {
+  const on = state.sortKey === key;
+  return `<th scope="col" class="${cls}"${on ? ` aria-sort="${state.sortDir > 0 ? 'ascending' : 'descending'}"` : ''}><button type="button" data-act="sort" data-key="${key}">${label}<span class="arrow" aria-hidden="true">${on ? (state.sortDir > 0 ? '&#9650;' : '&#9660;') : ''}</span></button></th>`;
+}
+
+function viewContacts() {
+  return `
+  <div class="toolbar">
+    <div class="field grow"><label for="contactSearch">Search contacts</label><input type="search" id="contactSearch" placeholder="Name, company, email or phone" value="${esc(state.search)}" autocomplete="off"></div>
+    <div class="field fix"><label for="statusFilter">Status</label><select id="statusFilter">${['all', 'Customer', 'Prospect', 'Inactive'].map(s => `<option value="${s}"${state.statusFilter === s ? ' selected' : ''}>${s === 'all' ? 'All statuses' : s}</option>`).join('')}</select></div>
+    <span class="tally" id="contactTally" role="status"></span>
+  </div>
+  <div class="pane scroll-x" id="contactWrap" tabindex="0" role="region" aria-label="Contacts table">
+    <table class="contacts">
+      <thead><tr>${th('name', 'Name')}${th('company', 'Company')}<th scope="col">Email</th><th scope="col">Phone</th>${th('owner', 'Owner')}${th('status', 'Status')}${th('value', 'Open value', 'r')}${th('last', 'Last activity')}</tr></thead>
+      <tbody id="contactBody"></tbody>
+    </table>
+  </div>`;
+}
+
+function refreshContactRows() {
+  const body = $('#contactBody');
+  if (body) body.innerHTML = contactRows();
+}
+
+// Contact side panel
+function panelHTML(c) {
+  const deals = DEALS.filter(d => d.contactId === c.id);
+  const st = status(c);
+  const tl = [...c.activity].sort((a, b) => b.at - a.at);
+  const typeName = { note: 'Note', call: 'Call', email: 'Email', meeting: 'Meeting', stage: 'Deal update' };
+  return `<div class="panel-in">
+    <div class="panel-head">${avatar(c, 'lg')}<div><h2 id="panelName">${esc(c.name)}</h2><p>${esc(c.title)}, ${esc(c.company)}</p></div><button type="button" class="btn icon" data-act="close-panel" aria-label="Close contact details"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div>
+    <div class="panel-body">
+      <dl class="kv"><dt>Email</dt><dd>${esc(c.email)}</dd><dt>Phone</dt><dd class="num">${esc(c.phone)}</dd><dt>Owner</dt><dd>${esc(OWNERS[c.owner])}</dd><dt>Status</dt><dd><span class="badge ${st}">${st}</span></dd></dl>
+      <h3 class="sect">Deals</h3>
+      ${deals.length ? `<ul class="mini">${deals.map(d => `<li><span>${esc(d.name)}</span><span class="right"><span class="num">${money(d.value)}</span><span class="badge ${d.stage === 'won' ? 'won' : d.stage === 'lost' ? 'lost' : 'open'}">${stageName(d.stage)}</span></span></li>`).join('')}</ul>` : '<p class="hint">No deals yet.</p>'}
+      <form class="noteform" id="noteForm" novalidate>
+        <label class="label" for="noteText">Add a note</label>
+        <textarea id="noteText" rows="3" aria-describedby="noteErr" placeholder="What happened, and what comes next?"></textarea>
+        <span class="err" id="noteErr" hidden>Write something before saving the note.</span>
+        <button class="btn primary" type="submit">Save note</button>
+      </form>
+      <h3 class="sect">Activity</h3>
+      <ol class="timeline" id="timeline">${tl.map(a => `<li class="${a.type}"><div class="meta"><b>${typeName[a.type]}</b> &middot; ${whenLabel(a.at)} &middot; ${esc(a.by)}</div><div class="body">${esc(a.text)}</div></li>`).join('')}</ol>
+    </div>
+  </div>`;
+}
+
+function openContact(id) {
+  const dlg = $('#contactPanel');
+  state.panel = id;
+  dlg.innerHTML = panelHTML(contact(id));
+  if (!dlg.open) dlg.showModal();
+}
+
+// Tasks view
+function taskRow(t) {
+  const c = t.contactId ? contact(t.contactId) : null;
+  const due = dueInfo(t.due);
+  return `<li class="${t.done ? 'done' : ''}" data-task-row="${t.id}">
+    <input type="checkbox" id="tk-${t.id}" data-task="${t.id}"${t.done ? ' checked' : ''}>
+    <div class="task-title"><label for="tk-${t.id}">${esc(t.title)}</label>${c ? `<div class="meta">${whoBtn(c, c.company, 'quiet')}</div>` : ''}</div>
+    <span class="due ${t.done ? '' : due.cls}">${t.done ? fmtDay.format(parse(t.due)) : due.text}</span>
+    ${ownerChip(t.owner)}
+  </li>`;
+}
+
+function viewTasks() {
+  const sorted = [...TASKS].sort((a, b) => a.due.localeCompare(b.due));
+  const open = sorted.filter(t => !t.done);
+  const done = sorted.filter(t => t.done);
+  const t = iso(TODAY);
+  const groups = [];
+  if (state.taskFilter !== 'done') {
+    groups.push(['Overdue', open.filter(x => x.due < t), 'over'], ['Today', open.filter(x => x.due === t), ''], ['Upcoming', open.filter(x => x.due > t), '']);
+  }
+  if (state.taskFilter !== 'open') groups.push(['Completed', done, '']);
+  const shown = groups.filter(g => g[1].length);
+  const f = (v, label, n) => `<button type="button" data-act="task-filter" data-v="${v}" aria-pressed="${state.taskFilter === v}">${label} ${n}</button>`;
+  return `
+  <section class="pane" aria-label="Add a task">
+    <form class="addtask" id="taskForm" novalidate>
+      <div class="field wide"><label for="tTitle">New task</label><input type="text" id="tTitle" autocomplete="off" aria-describedby="tTitleErr" placeholder="Send the revised quote"><span class="err" id="tTitleErr" hidden></span></div>
+      <div class="field"><label for="tDue">Due date</label><input type="date" id="tDue" value="${inDays(1)}" aria-describedby="tDueErr"><span class="err" id="tDueErr" hidden></span></div>
+      <div class="field"><label for="tContact">Contact (optional)</label><select id="tContact"><option value="">No contact</option>${contactOptions()}</select></div>
+      <div class="go"><button class="btn primary" type="submit">Add task</button></div>
+    </form>
+  </section>
+  <div class="taskbar">
+    <div class="seg" role="group" aria-label="Filter tasks">${f('all', 'All', TASKS.length)}${f('open', 'Open', open.length)}${f('done', 'Done', done.length)}</div>
+    <span class="tally">${open.length} open, ${done.length} completed</span>
+  </div>
+  <div id="taskGroups">
+  ${shown.length ? shown.map(([name, items, cls]) => `<section class="pane group" aria-labelledby="g-${name}"><h2 id="g-${name}" class="${cls}">${name} (${items.length})</h2><ul class="list">${items.map(taskRow).join('')}</ul></section>`).join('') : '<div class="pane"><p class="empty">Nothing here.</p></div>'}
+  </div>`;
+}
+
+const contactOptions = () => [...CONTACTS].sort((a, b) => a.name.localeCompare(b.name)).map(c => `<option value="${c.id}">${esc(c.name)}, ${esc(c.company)}</option>`).join('');
+
+let lastTask = null;
+
+// Toggles a task and offers undo when it is completed
+function toggleTask(id, done) {
+  const t = TASKS.find(x => x.id === id);
+  t.done = done;
+  if (t.contactId) {
+    if (done) t.entry = addActivity(t.contactId, 'note', `Completed task: ${t.title}`);
+    else if (t.entry) { dropActivity(t.contactId, t.entry); t.entry = null; }
+  }
+  lastTask = id;
+  const rows = [...document.querySelectorAll('[data-task]')].map(i => i.dataset.task);
+  const pos = rows.indexOf(id);
+  render();
+  const back = document.getElementById('tk-' + id) || document.getElementById('tk-' + rows[pos + 1]) || document.getElementById('tk-' + rows[pos - 1]);
+  if (back) back.focus();
+  if (done) showToast('Task completed.', 'undo-task'); else hideToast();
+}
+
+// Toast with optional undo action
+let toastTimer;
+function showToast(msg, action) {
+  const el = $('#toast');
+  el.innerHTML = `<span>${esc(msg)}</span>${action ? `<button type="button" data-act="${action}">Undo</button>` : ''}`;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 7000);
+}
+function hideToast() { $('#toast').hidden = true; }
+
+// Renders the current view and keeps inner scroll positions
+function render() {
+  const view = $('#view');
+  const boardX = $('#board') ? $('#board').scrollLeft : 0;
+  const wrapX = $('#contactWrap') ? $('#contactWrap').scrollLeft : 0;
+  const titles = { dashboard: 'Dashboard', pipeline: 'Pipeline', contacts: 'Contacts', tasks: 'Tasks' };
+  view.innerHTML = { dashboard: viewDashboard, pipeline: viewPipeline, contacts: viewContacts, tasks: viewTasks }[state.view]();
+  $('#pageTitle').textContent = titles[state.view];
+  document.title = `${titles[state.view]} - Hearth CRM`;
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    if (a.dataset.nav === state.view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  $('#countPipeline').textContent = DEALS.filter(isOpen).length;
+  $('#countContacts').textContent = CONTACTS.length;
+  $('#countTasks').textContent = TASKS.filter(t => !t.done).length;
+  if (state.view === 'contacts') refreshContactRows();
+  if (state.view === 'dashboard') drawChart();
+  if ($('#board')) $('#board').scrollLeft = boardX;
+  if ($('#contactWrap')) $('#contactWrap').scrollLeft = wrapX;
+}
+
+function go(view) {
+  state.view = view;
+  if (location.hash !== '#' + view) location.hash = view;
+  render();
+  $('#view').scrollTop = 0;
+}
+
+// Mobile menu drawer
+const mobile = window.matchMedia('(max-width: 860px)');
+function setMenu(open, restore = true) {
+  const side = $('#sidebar'), btn = $('#menuBtn');
+  side.classList.toggle('open', open);
+  $('#scrim').classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+  btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  side.inert = mobile.matches && !open;
+  $('#workspace').inert = mobile.matches && open;
+  if (open) { const a = $('#nav a[aria-current]') || $('#nav a'); a.focus(); }
+  else if (restore && mobile.matches) btn.focus();
+}
+mobile.addEventListener('change', () => setMenu(false, false));
+
+// New deal dialog
+function setErr(inputId, errId, msg) {
+  const input = document.getElementById(inputId), err = document.getElementById(errId);
+  err.textContent = msg || '';
+  err.hidden = !msg;
+  if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+  return !msg;
+}
+const parseValue = s => Number(String(s).replace(/[$,\s]/g, ''));
+
+const dealChecks = {
+  fName: () => { const v = $('#fName').value.trim(); return setErr('fName', 'eName', !v ? 'Enter a deal name.' : v.length < 3 ? 'Use at least 3 characters.' : ''); },
+  fContact: () => setErr('fContact', 'eContact', $('#fContact').value ? '' : 'Choose a contact.'),
+  fValue: () => { const raw = $('#fValue').value.trim(), v = parseValue(raw); return setErr('fValue', 'eValue', !raw ? 'Enter a value.' : !Number.isFinite(v) ? 'Enter a number, such as 25000.' : v <= 0 ? 'Value must be above zero.' : v > 10000000 ? 'Value must be under $10,000,000.' : ''); },
+  fClose: () => { const v = $('#fClose').value; return setErr('fClose', 'eClose', !v ? 'Pick an expected close date.' : v < iso(TODAY) ? 'Close date cannot be in the past.' : ''); }
+};
+
+function openDealDialog(stage) {
+  const form = $('#dealForm');
+  form.reset();
+  $('#fContact').innerHTML = `<option value="">Choose a contact</option>${contactOptions()}`;
+  $('#fStage').innerHTML = STAGES.filter(s => s.id !== 'lost').map(s => `<option value="${s.id}">${s.name} (${Math.round(s.p * 100)}%)</option>`).join('');
+  $('#fOwner').innerHTML = Object.entries(OWNERS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
+  const usable = STAGES.some(s => s.id === stage) && stage !== 'lost';
+  $('#fStage').value = usable ? stage : 'lead';
+  $('#fClose').min = iso(TODAY);
+  $('#fClose').value = inDays(30);
+  Object.keys(dealChecks).forEach(id => { document.getElementById(id).removeAttribute('aria-invalid'); document.getElementById(id).parentElement.querySelector('.err').hidden = true; });
+  form.dataset.tried = '';
+  $('#dealDialog').showModal();
+  $('#fName').focus();
+}
+
+$('#dealForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const form = e.target;
+  form.dataset.tried = '1';
+  const bad = Object.keys(dealChecks).filter(id => !dealChecks[id]());
+  if (bad.length) { document.getElementById(bad[0]).focus(); return; }
+  const stage = $('#fStage').value;
+  const deal = { id: 'd' + (++dealSeq), name: $('#fName').value.trim(), contactId: $('#fContact').value, value: Math.round(parseValue($('#fValue').value)), stage, owner: $('#fOwner').value, close: stage === 'won' ? iso(TODAY) : $('#fClose').value };
+  DEALS.unshift(deal);
+  addActivity(deal.contactId, 'stage', `${deal.name} created in ${stageName(stage)}.`);
+  $('#dealDialog').close();
+  state.ownerFilter = 'all';
+  state.flash = deal.id;
+  go('pipeline');
+  state.flash = null;
+  const sel = document.getElementById('st-' + deal.id);
+  if (sel) sel.focus();
+  showToast(`${deal.name} added to ${stageName(stage)}.`);
+});
+
+$('#dealForm').addEventListener('input', e => {
+  if (e.target.form.dataset.tried && dealChecks[e.target.id]) dealChecks[e.target.id]();
+});
+
+// Shared click handling
+document.addEventListener('click', e => {
+  if (e.target.id === 'contactPanel') { e.target.close(); return; }
+  if (e.target.id === 'dealDialog') { e.target.close(); return; }
+  const t = e.target.closest('[data-act]');
+  if (!t) return;
+  const act = t.dataset.act;
+  if (act === 'toggle-menu') setMenu(!$('#sidebar').classList.contains('open'));
+  else if (act === 'close-menu') setMenu(false);
+  else if (act === 'new-deal') openDealDialog(t.dataset.stage);
+  else if (act === 'close-deal') $('#dealDialog').close();
+  else if (act === 'open-contact') openContact(t.dataset.id);
+  else if (act === 'close-panel') $('#contactPanel').close();
+  else if (act === 'chart-range') { state.range = Number(t.dataset.v); render(); document.querySelector(`[data-act="chart-range"][data-v="${t.dataset.v}"]`).focus(); }
+  else if (act === 'chart-mode') { state.chartMode = t.dataset.v; render(); document.querySelector(`[data-act="chart-mode"][data-v="${t.dataset.v}"]`).focus(); }
+  else if (act === 'sort') {
+    const k = t.dataset.key;
+    if (state.sortKey === k) state.sortDir *= -1;
+    else { state.sortKey = k; state.sortDir = k === 'value' || k === 'last' ? -1 : 1; }
+    render();
+    document.querySelector(`[data-act="sort"][data-key="${k}"]`).focus();
+  }
+  else if (act === 'clear-search') { state.search = ''; state.statusFilter = 'all'; render(); $('#contactSearch').focus(); }
+  else if (act === 'task-filter') { state.taskFilter = t.dataset.v; render(); document.querySelector(`[data-act="task-filter"][data-v="${t.dataset.v}"]`).focus(); }
+  else if (act === 'undo-move') undoMove();
+  else if (act === 'undo-task') { if (lastTask) toggleTask(lastTask, false); }
+});
+
+// Shared change handling
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.dataset.stageFor) moveDeal(el.dataset.stageFor, el.value, { focus: true });
+  else if (el.dataset.task) toggleTask(el.dataset.task, el.checked);
+  else if (el.id === 'ownerFilter') { state.ownerFilter = el.value; render(); $('#ownerFilter').focus(); }
+  else if (el.id === 'statusFilter') { state.statusFilter = el.value; refreshContactRows(); }
+});
+
+// Live contact search
+document.addEventListener('input', e => {
+  if (e.target.id === 'contactSearch') { state.search = e.target.value; refreshContactRows(); }
+});
+
+// Forms inside re-rendered views
+document.addEventListener('submit', e => {
+  if (e.target.id === 'noteForm') {
+    e.preventDefault();
+    const box = $('#noteText'), text = box.value.trim(), err = $('#noteErr');
+    if (!text) { err.hidden = false; box.setAttribute('aria-invalid', 'true'); box.focus(); return; }
+    addActivity(state.panel, 'note', text);
+    const scroll = $('.panel-body').scrollTop;
+    $('#contactPanel').innerHTML = panelHTML(contact(state.panel));
+    $('.panel-body').scrollTop = scroll;
+    $('#noteText').focus();
+    render();
+  }
+  if (e.target.id === 'taskForm') {
+    e.preventDefault();
+    const title = $('#tTitle').value.trim(), due = $('#tDue').value;
+    const a = setErr('tTitle', 'tTitleErr', title ? '' : 'Enter a task name.');
+    const b = setErr('tDue', 'tDueErr', due ? '' : 'Pick a due date.');
+    if (!a) { $('#tTitle').focus(); return; }
+    if (!b) { $('#tDue').focus(); return; }
+    TASKS.push({ id: 't' + (++taskSeq), title, due, contactId: $('#tContact').value, owner: 'MO', done: false });
+    if (state.taskFilter === 'done') state.taskFilter = 'all';
+    render();
+    $('#tTitle').focus();
+    showToast('Task added.');
+  }
+});
+
+// Restores focus and background content when the panel closes
+$('#contactPanel').addEventListener('close', () => {
+  const id = state.panel;
+  state.panel = null;
+  const target = document.querySelector(`button[data-act="open-contact"][data-id="${id}"]`);
+  if (target) target.focus();
+});
+
+// Drag and drop between pipeline columns
+let dragId = null;
+const view = $('#view');
+view.addEventListener('dragstart', e => {
+  const card = e.target.closest && e.target.closest('[data-deal]');
+  if (!card) return;
+  dragId = card.dataset.deal;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragId);
+  requestAnimationFrame(() => card.classList.add('drag'));
+});
+view.addEventListener('dragend', () => {
+  dragId = null;
+  document.querySelectorAll('.drag, .col.over').forEach(el => el.classList.remove('drag', 'over'));
+});
+view.addEventListener('dragover', e => {
+  const col = e.target.closest('[data-col]');
+  if (!col || !dragId) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.col.over').forEach(el => { if (el !== col) el.classList.remove('over'); });
+  col.classList.add('over');
+});
+view.addEventListener('dragleave', e => {
+  const col = e.target.closest('[data-col]');
+  if (col && !col.contains(e.relatedTarget)) col.classList.remove('over');
+});
+view.addEventListener('drop', e => {
+  const col = e.target.closest('[data-col]');
+  if (!col || !dragId) return;
+  e.preventDefault();
+  const id = dragId;
+  dragId = null;
+  col.classList.remove('over');
+  moveDeal(id, col.dataset.col);
+});
+
+// Escape closes the mobile drawer
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#sidebar').classList.contains('open')) setMenu(false);
+});
+
+// Nav links close the drawer and move focus to the content
+$('#nav').addEventListener('click', e => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  setMenu(false, false);
+  setTimeout(() => $('#view').focus({ preventScroll: true }), 0);
+});
+
+// Hash routing
+window.addEventListener('hashchange', () => {
+  const v = location.hash.slice(1);
+  if (['dashboard', 'pipeline', 'contacts', 'tasks'].includes(v) && v !== state.view) { state.view = v; hideToast(); render(); $('#view').scrollTop = 0; }
+});
+
+// Keeps layout offsets and the chart width in sync
+const ro = new ResizeObserver(() => {
+  document.documentElement.style.setProperty('--bar-h', $('#disclosure').offsetHeight + 'px');
+  const box = $('#chart');
+  if (box && Number(box.dataset.w) !== box.clientWidth) drawChart();
+});
+ro.observe($('#disclosure'));
+ro.observe($('#view'));
+
+// Start the app
+$('#todayLabel').textContent = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(TODAY);
+const startView = location.hash.slice(1);
+if (['dashboard', 'pipeline', 'contacts', 'tasks'].includes(startView)) state.view = startView;
+setMenu(false, false);
+render();
+</script>
+</body>
+</html>

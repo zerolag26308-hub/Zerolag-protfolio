@@ -1,18 +1,42 @@
-// Site behaviour: header, mobile nav, active links, work filter, scroll progress and motion
+// Site behaviour: theme toggle, mobile nav, active links, work filter and scroll reveals
 (() => {
   "use strict";
 
   // Tell the head safety timer that scripts are running
   window.zlReady = true;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Light and dark theme toggle, starting from the system setting
+  const root = document.documentElement;
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+  const currentTheme = () => root.dataset.theme || (systemDark.matches ? "dark" : "light");
+  const themeToggle = document.querySelector(".theme-toggle");
 
-  // Add a shadow to the header once the page scrolls
-  const header = document.querySelector(".site-header");
-  if (header) {
-    const setScrolled = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
-    setScrolled();
-    window.addEventListener("scroll", setScrolled, { passive: true });
+  if (themeToggle) {
+    const setLabel = () => {
+      const next = currentTheme() === "dark" ? "light" : "dark";
+      themeToggle.setAttribute("aria-label", `Switch to ${next} theme`);
+    };
+    setLabel();
+    systemDark.addEventListener("change", setLabel);
+
+    // Keep the browser chrome colour in step with the chosen theme
+    const setBarColor = () => {
+      const color = currentTheme() === "dark" ? "#11111b" : "#eff1f5";
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute("content", color));
+    };
+    if (root.dataset.theme) setBarColor();
+
+    themeToggle.addEventListener("click", () => {
+      const next = currentTheme() === "dark" ? "light" : "dark";
+      root.classList.add("theme-switching");
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      setLabel();
+      setBarColor();
+      setTimeout(() => root.classList.remove("theme-switching"), 400);
+    });
   }
 
   // Mobile navigation with focus trap and Escape to close
@@ -106,131 +130,23 @@
     });
   }
 
-  // Thin progress line under the header that tracks page scroll
-  if (header) {
-    const bar = document.createElement("span");
-    bar.className = "scroll-progress";
-    bar.setAttribute("aria-hidden", "true");
-    header.appendChild(bar);
-    let ticking = false;
-    const update = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.setProperty("--progress", max > 0 ? Math.min(window.scrollY / max, 1).toFixed(4) : 0);
-      ticking = false;
-    };
-    update();
-    window.addEventListener("scroll", () => {
-      if (!ticking) requestAnimationFrame(update);
-      ticking = true;
-    }, { passive: true });
-  }
-
-  // Soft light that follows the cursor across cards
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    document.querySelectorAll(".card, .list-card, .team-card, .work-card__media, .board, .form-card, .checklist").forEach((el) => {
-      el.classList.add("spotlight");
-      el.addEventListener("pointermove", (e) => {
-        const r = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-        el.style.setProperty("--my", `${e.clientY - r.top}px`);
-      });
-    });
-  }
-
-  // Stagger reveals that sit side by side in the same container
-  document.querySelectorAll(".reveal").forEach((el) => {
-    const siblings = Array.from(el.parentElement.children).filter((c) => c.classList.contains("reveal"));
-    const index = siblings.indexOf(el);
-    if (index > 0) el.style.setProperty("--d", Math.min(index, 6));
-  });
-  document.querySelectorAll(".steps").forEach((list) => {
-    Array.from(list.children).forEach((step, i) => step.style.setProperty("--d", i));
-  });
-
-  // Split page headlines into words so they can rise in one after another
-  const headlines = document.querySelectorAll(".hero__title, .page-hero .h1, .case-hero .h1, .not-found h1");
-  if (!reduceMotion) {
-    headlines.forEach((h) => {
-      h.setAttribute("aria-label", h.textContent.replace(/\s+/g, " ").trim());
-      let wi = 0;
-      const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
-      const textNodes = [];
-      while (walker.nextNode()) textNodes.push(walker.currentNode);
-      textNodes.forEach((node) => {
-        const frag = document.createDocumentFragment();
-        node.textContent.split(/([ \t\n]+)/).forEach((part) => {
-          if (!part) return;
-          if (/^[ \t\n]+$/.test(part)) {
-            frag.appendChild(document.createTextNode(part));
-            return;
-          }
-          const word = document.createElement("span");
-          word.className = "split-word";
-          word.setAttribute("aria-hidden", "true");
-          word.style.setProperty("--wi", wi++);
-          word.textContent = part;
-          frag.appendChild(word);
-        });
-        node.replaceWith(frag);
-      });
-      h.classList.remove("reveal");
-      h.classList.add("is-split");
-    });
-  }
-
-  // Count small numbers up (or down to zero) when they come into view
-  const counters = Array.from(document.querySelectorAll(".fact strong")).filter((el) => /^\d+$/.test(el.textContent.trim()));
-  const runCounter = (el) => {
-    const text = el.textContent.trim();
-    const end = parseInt(text, 10);
-    const start = end === 0 ? 9 : 0;
-    const width = text.length;
-    const duration = 1200;
-    const t0 = performance.now();
-    const step = (now) => {
-      const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = String(Math.round(start + (end - start) * eased)).padStart(width, "0");
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
-  // Reveal elements, draw highlights and run counters as they scroll into view
+  // Fade elements in as they scroll into view
   const revealTargets = document.querySelectorAll(".reveal");
-  const drawTargets = document.querySelectorAll(".accent-text, .cta__title em, .steps");
-  const splitTargets = document.querySelectorAll(".is-split");
-  const show = (el) => {
-    if (el.classList.contains("reveal")) el.classList.add("is-visible");
-    if (el.classList.contains("is-split")) el.classList.add("is-in");
-    if (el.matches(".accent-text, .cta__title em, .steps")) el.classList.add("is-drawn");
-    if (counters.includes(el) && !reduceMotion) runCounter(el);
-  };
-  const all = [...revealTargets, ...drawTargets, ...splitTargets, ...counters];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
-    all.forEach((el) => {
-      if (el.classList.contains("reveal")) el.classList.add("is-visible");
-      if (el.matches(".accent-text, .cta__title em, .steps")) el.classList.add("is-drawn");
-    });
+    revealTargets.forEach((el) => el.classList.add("is-visible"));
   } else {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          show(entry.target);
+          entry.target.classList.add("is-visible");
           observer.unobserve(entry.target);
         });
       },
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
-    all.forEach((el) => observer.observe(el));
-
-    // Play the top-of-page intro straight away instead of waiting for the observer
-    setTimeout(() => {
-      document.querySelectorAll(".hero, .page-hero, .case-hero, .not-found").forEach((intro) => {
-        intro.querySelectorAll(".reveal, .is-split, .accent-text").forEach(show);
-      });
-    }, 40);
+    revealTargets.forEach((el) => observer.observe(el));
   }
 })();
