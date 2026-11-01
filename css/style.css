@@ -1715,55 +1715,59 @@ a.work-card:hover .work-card__media {
 .team-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .team-card {
-  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: var(--surface-2);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s;
 }
 
-.team-card__avatar {
-  display: grid;
-  place-items: center;
-  width: 96px;
-  height: 96px;
-  overflow: hidden;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  background: var(--accent-tint);
-  border-radius: 50%;
+.team-card:hover {
+  border-color: var(--accent);
 }
 
-.team-card__avatar img {
+/* Black and white keeps mixed photos looking like one set, colour returns on hover */
+.team-card__photo {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
+  filter: grayscale(1);
+  transition: filter 0.4s var(--ease);
+}
+
+.team-card:hover .team-card__photo {
+  filter: none;
+}
+
+.team-card__body {
+  padding: 1.25rem 1.35rem 1.5rem;
 }
 
 .team-card h3 {
-  margin-top: 1.25rem;
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .team-card__role {
-  display: block;
   margin-top: 0.25rem;
-  font-size: 0.7rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
   color: var(--accent-ink);
 }
 
-.team-card p {
-  margin-top: 0.9rem;
-  font-size: 0.92rem;
+.team-card p:not(.team-card__role) {
+  margin-top: 0.75rem;
+  font-size: var(--text-sm);
   color: var(--ink-2);
 }
 
@@ -2302,13 +2306,21 @@ a.work-card:hover .work-card__media {
 }
 
 
-.team-card .team-card__avatar {
-  border: 1px solid var(--line-strong);
-}
-
 /* Get a quote button that stays in reach on phones */
 .mobile-cta {
   display: none;
+}
+
+/* Team cards sit side by side on phones so faces and names stay together */
+@media (max-width: 600px) {
+  .team-card {
+    flex-direction: row;
+  }
+
+  .team-card__photo {
+    flex: none;
+    width: 38%;
+  }
 }
 
 @media (max-width: 960px) {
