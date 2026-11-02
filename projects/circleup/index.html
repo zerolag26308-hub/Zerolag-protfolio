@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1F6F5B">
+<meta name="description" content="Circleup brings niche interest groups together: feeds, groups, events and members in one place.">
+<title>Circleup</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%231F6F5B' stroke-width='4'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23E8A33D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --nav-h: 58px;
+  --bg: #F7F4EE;
+  --surface: #FFFFFF;
+  --sunken: #EFEAE1;
+  --line: #E3DDD2;
+  --line-strong: #9E968A;
+  --ink: #1E1B18;
+  --ink-2: #4E4842;
+  --ink-3: #6F6861;
+  --accent: #1F6F5B;
+  --accent-hover: #185847;
+  --accent-soft: #DDEEE7;
+  --accent-ink: #15584A;
+  --gold: #E8A33D;
+  --gold-soft: #FBEBD0;
+  --red: #B6412F;
+  --red-soft: #F8E3DE;
+  --shadow: 0 1px 2px rgba(30,27,24,.06), 0 6px 20px rgba(30,27,24,.08);
+  --display: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif;
+  --sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --radius: 10px;
+  --radius-sm: 7px;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #141614;
+  --surface: #1D201E;
+  --sunken: #262A27;
+  --line: #2F3431;
+  --line-strong: #6D746F;
+  --ink: #EDEAE4;
+  --ink-2: #C3BFB7;
+  --ink-3: #948F87;
+  --accent: #3FA68A;
+  --accent-hover: #55B99E;
+  --accent-soft: #1E3A32;
+  --accent-ink: #7CCBB3;
+  --gold: #E8A33D;
+  --gold-soft: #3B2E17;
+  --red: #E07A6A;
+  --red-soft: #3E2420;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100dvh; background: var(--bg); color: var(--ink); font: 400 14.5px/1.5 var(--sans); }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+a { color: var(--accent-ink); }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.015em; }
+
+/* Zero Lag bar */
+.zl-bar { position: sticky; top: 0; z-index: 100; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; background: #1E1B18; color: #C9C3BA; font-size: 13px; line-height: 1; }
+:root[data-theme="dark"] .zl-bar { background: #0C0D0C; }
+.zl-bar a { color: #EDE8E0; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar a:focus-visible { outline-color: #fff; outline-offset: -2px; }
+.zl-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 90; background: var(--surface); padding: 8px 12px; border-radius: var(--radius-sm); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+
+/* Top navigation */
+.nav { position: sticky; top: var(--bar-h); z-index: 60; background: var(--surface); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; gap: 10px; min-height: var(--nav-h); }
+.wrap { width: min(1240px, 100% - 40px); margin-inline: auto; }
+.logo { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font: 700 21px/1 var(--display); letter-spacing: -.02em; margin-right: 8px; }
+.logo svg { width: 26px; height: 26px; }
+.nav-links { display: flex; gap: 2px; }
+.nav-links a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border-radius: 999px; color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.nav-links a:hover { background: var(--sunken); color: var(--ink); }
+.nav-links a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.nav-links svg, .tabbar svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.search { margin-left: auto; position: relative; flex: 0 1 300px; min-width: 0; }
+.search input { width: 100%; min-height: 38px; padding: 6px 12px 6px 36px; border: 1px solid var(--line); border-radius: 999px; background: var(--sunken); }
+.search input:focus { background: var(--surface); border-color: var(--line-strong); outline-offset: 0; }
+.ghost-wrap { position: relative; display: block; min-width: 0; }
+.ghost { position: absolute; left: 12px; top: 50%; translate: 0 -50%; color: var(--ink-3); pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 24px); }
+.search .ghost { left: 36px; }
+.ghost-wrap:has(textarea) .ghost { top: 10px; translate: none; }
+.ghost-wrap:focus-within .ghost, .ghost-wrap.filled .ghost, .search:focus-within .ghost, .search.filled .ghost { display: none; }
+.search svg { position: absolute; left: 12px; top: 50%; translate: 0 -50%; width: 16px; height: 16px; fill: none; stroke: var(--ink-3); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+.icon-btn { position: relative; width: 38px; height: 38px; display: inline-grid; place-items: center; border-radius: 999px; color: var(--ink-2); border: 1px solid transparent; }
+.icon-btn:hover { background: var(--sunken); color: var(--ink); }
+.icon-btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.icon-btn .badge { position: absolute; top: 4px; right: 3px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 999px; background: var(--red); color: #fff; font-size: 11px; font-weight: 700; line-height: 17px; text-align: center; }
+.icon-btn .badge[hidden] { display: none; }
+.me-btn { border-radius: 999px; display: inline-flex; }
+.me-btn:focus-visible { outline-offset: 1px; }
+.theme-icon-dark, :root[data-theme="dark"] .theme-icon-light { display: none; }
+:root[data-theme="dark"] .theme-icon-dark { display: block; }
+
+/* Notifications dropdown */
+.menu-wrap { position: relative; }
+.dropdown { position: absolute; right: 0; top: calc(100% + 8px); width: 340px; max-width: calc(100vw - 32px); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 70; }
+.dropdown[hidden] { display: none; }
+.dropdown-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.dropdown-head h2 { font-size: 15px; }
+.dropdown-head button { color: var(--accent-ink); font-weight: 600; font-size: 13px; }
+.notif { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: left; width: 100%; }
+.notif:last-child { border-bottom: 0; }
+.notif:hover { background: var(--sunken); }
+.notif p { font-size: 13.5px; line-height: 1.4; }
+.notif time { font-size: 12px; color: var(--ink-3); }
+.notif.unread { background: var(--accent-soft); }
+.notif.unread p::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 6px; }
+.notif-empty { padding: 20px 14px; text-align: center; color: var(--ink-3); }
+
+/* Avatar */
+.avatar { width: 38px; height: 38px; border-radius: 50%; flex: none; }
+.avatar text { font: 700 14px var(--display); fill: #fff; }
+.avatar.sm { width: 28px; height: 28px; }
+.avatar.sm text { font-size: 11px; }
+.avatar.lg { width: 72px; height: 72px; }
+.avatar.lg text { font-size: 26px; }
+.who { display: inline; color: inherit; font-weight: 600; text-decoration: none; }
+.who:hover { text-decoration: underline; }
+
+/* Layout */
+.app { display: grid; grid-template-columns: 240px minmax(0, 1fr) 300px; gap: 24px; padding: 22px 0 60px; align-items: start; }
+.side { position: sticky; top: calc(var(--bar-h) + var(--nav-h) + 18px); display: grid; gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px 8px; }
+.card-head h2 { font-size: 15px; }
+.card-head a { font-size: 13px; font-weight: 600; text-decoration: none; }
+.side-list { padding: 0 6px 8px; }
+.side-list a, .side-list button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 8px; border-radius: var(--radius-sm); color: var(--ink); text-decoration: none; text-align: left; }
+.side-list a:hover, .side-list button:hover { background: var(--sunken); }
+.side-list .meta { margin-left: auto; font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.gdot { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; flex: none; }
+.gdot svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.side-empty { padding: 4px 14px 14px; color: var(--ink-3); font-size: 13.5px; }
+
+/* Page headers */
+.page-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+.page-head h1 { font-size: 26px; font-weight: 700; }
+.page-head p { color: var(--ink-3); flex-basis: 100%; }
+.page-head .tools { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.seg { display: inline-flex; background: var(--sunken); border-radius: 999px; padding: 3px; }
+.seg button { padding: 5px 12px; border-radius: 999px; font-weight: 600; font-size: 13px; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); font-weight: 600; white-space: nowrap; color: var(--ink); }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.joined { background: var(--accent-soft); border-color: transparent; color: var(--accent-ink); }
+.btn.joined:hover { background: var(--red-soft); color: var(--red); }
+.btn.joined:hover .lbl::after { content: " · leave"; }
+.btn.small { min-height: 30px; padding: 3px 11px; font-size: 13px; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Compose */
+.compose { padding: 14px; display: grid; grid-template-columns: 38px 1fr; gap: 12px; }
+.compose textarea { width: 100%; min-height: 64px; resize: vertical; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 11px; background: var(--bg); }
+.compose textarea:focus { background: var(--surface); }
+.compose-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.compose select { min-height: 34px; padding: 4px 30px 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 500; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236F6861' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 14px; }
+.compose .count { margin-left: auto; font-size: 12.5px; color: var(--ink-3); }
+.compose .count.over { color: var(--red); font-weight: 600; }
+.compose .btn { margin-left: 0; }
+.compose .err { flex-basis: 100%; color: var(--red); font-size: 13px; font-weight: 500; }
+.compose .err[hidden] { display: none; }
+
+/* Feed */
+.feed { display: grid; gap: 12px; margin-top: 12px; }
+.post { padding: 14px 16px 10px; }
+.post-head { display: grid; grid-template-columns: 38px 1fr; gap: 12px; align-items: center; }
+.post-head .line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; line-height: 1.3; }
+.post-head .line2 { font-size: 12.5px; color: var(--ink-3); display: flex; gap: 6px; flex-wrap: wrap; }
+.gchip { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; text-decoration: none; color: var(--ink-2); padding: 1px 8px 1px 5px; border-radius: 999px; background: var(--sunken); }
+.gchip i { width: 8px; height: 8px; border-radius: 50%; }
+.post-body { margin: 10px 0 8px; font-size: 15px; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
+.post-body a { font-weight: 500; }
+.post-actions { display: flex; gap: 4px; border-top: 1px solid var(--line); padding-top: 6px; margin-top: 4px; }
+.act { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; color: var(--ink-2); font-weight: 500; font-size: 13.5px; }
+.act:hover { background: var(--sunken); color: var(--ink); }
+.act svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.act[aria-pressed="true"] { color: var(--red); }
+.act[aria-pressed="true"] svg { fill: var(--red); }
+.act .pop { display: inline-block; }
+.act[aria-pressed="true"] .pop { animation: pop .3s ease; }
+@keyframes pop { 40% { transform: scale(1.3); } }
+.comments { border-top: 1px solid var(--line); margin: 6px -16px -10px; padding: 10px 16px 12px; background: var(--bg); border-radius: 0 0 var(--radius) var(--radius); display: grid; gap: 10px; }
+.comments[hidden] { display: none; }
+.comment { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 14px; }
+.comment .bubble { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 7px 10px; }
+.comment .bubble b { font-weight: 600; }
+.comment .bubble time { font-size: 12px; color: var(--ink-3); margin-left: 6px; font-weight: 400; }
+.comment-form { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; }
+.comment-form input { min-height: 34px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; background: var(--surface); width: 100%; min-width: 0; }
+.empty { padding: 36px 20px; text-align: center; color: var(--ink-3); }
+.empty b { display: block; color: var(--ink); font-family: var(--display); font-size: 17px; margin-bottom: 4px; }
+
+/* Groups directory */
+.group-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.gcard { overflow: hidden; display: flex; flex-direction: column; }
+.gcard .cover { height: 84px; position: relative; }
+.gcard .cover svg.pat { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gcard .gicon { position: absolute; left: 14px; bottom: -18px; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; border: 3px solid var(--surface); }
+.gcard .gicon svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.gcard .body { padding: 26px 14px 14px; display: grid; gap: 6px; flex: 1; }
+.gcard h3 { font-size: 17px; }
+.gcard h3 a { color: inherit; text-decoration: none; }
+.gcard h3 a:hover { text-decoration: underline; }
+.gcard p { color: var(--ink-2); font-size: 13.5px; }
+.gcard .foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 6px; font-size: 13px; color: var(--ink-3); }
+
+/* Group page */
+.ghero { overflow: hidden; }
+.ghero .cover { height: 150px; position: relative; }
+.ghero .cover svg.pat { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ghero .ghead { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; padding: 0 18px 16px; margin-top: -26px; }
+.ghero .gicon { width: 60px; height: 60px; border-radius: 16px; display: grid; place-items: center; border: 4px solid var(--surface); }
+.ghero .gicon svg { width: 28px; height: 28px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ghero h1 { font-size: 26px; font-weight: 700; margin-top: 30px; }
+.ghero .gmeta { color: var(--ink-3); font-size: 13.5px; }
+.ghero .gdesc { padding: 0 18px 16px; color: var(--ink-2); max-width: 70ch; }
+.ghero .gactions { margin-left: auto; display: flex; gap: 8px; }
+.members-row { display: flex; align-items: center; padding: 0 18px 16px; gap: 8px; }
+.members-row .stack { display: flex; }
+.members-row .stack svg { margin-left: -8px; outline: 2px solid var(--surface); }
+.members-row .stack svg:first-child { margin-left: 0; }
+.members-row span { font-size: 13px; color: var(--ink-3); }
+
+/* Events */
+.day-group { display: grid; gap: 10px; margin-bottom: 18px; }
+.day-label { font: 600 13px var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+.event { display: grid; grid-template-columns: 64px 1fr auto; gap: 14px; padding: 14px; align-items: center; }
+.event .date { text-align: center; border-radius: var(--radius-sm); background: var(--sunken); padding: 7px 4px; line-height: 1.1; }
+.event .date b { display: block; font: 700 22px var(--display); }
+.event .date span { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+.event h3 { font-size: 16px; }
+.event .ev-meta { color: var(--ink-3); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 3px; }
+.event .ev-side { display: grid; gap: 4px; justify-items: end; }
+.event .going-n { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.event.past { opacity: .7; }
+.mini-ev { display: grid; grid-template-columns: 42px 1fr; gap: 10px; padding: 8px 14px; text-decoration: none; color: inherit; }
+.mini-ev:hover { background: var(--sunken); }
+.mini-ev .date { text-align: center; border-radius: 6px; background: var(--sunken); padding: 4px 2px; line-height: 1.05; }
+.mini-ev .date b { display: block; font: 700 17px var(--display); }
+.mini-ev .date span { font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+.mini-ev b.t { font-weight: 600; display: block; font-size: 13.5px; line-height: 1.3; }
+.mini-ev span.m { font-size: 12.5px; color: var(--ink-3); }
+
+/* Search results */
+.results h2 { font-size: 17px; margin: 18px 0 10px; }
+mark { background: var(--gold-soft); color: inherit; border-radius: 3px; padding: 0 2px; }
+
+/* Profile modal */
+.modal-scrim { position: fixed; inset: 0; background: rgba(20,18,16,.5); z-index: 120; display: grid; place-items: center; padding: 16px; }
+.modal-scrim[hidden] { display: none; }
+.modal { width: min(460px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 20px; position: relative; }
+.modal .close { position: absolute; top: 10px; right: 10px; }
+.profile-top { display: flex; gap: 14px; align-items: center; }
+.profile-top h2 { font-size: 21px; }
+.profile-top .handle { color: var(--ink-3); font-size: 13.5px; }
+.profile-bio { margin: 14px 0; color: var(--ink-2); }
+.profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.profile-stats div { background: var(--sunken); border-radius: var(--radius-sm); padding: 9px 10px; }
+.profile-stats b { display: block; font: 700 20px var(--display); }
+.profile-stats span { font-size: 12.5px; color: var(--ink-3); }
+.pgroups { display: flex; flex-wrap: wrap; gap: 6px; }
+.modal h3 { font-size: 14px; margin-bottom: 8px; }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 22px; translate: -50% 0; background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-weight: 500; box-shadow: var(--shadow); z-index: 150; max-width: calc(100% - 32px); }
+.toast[hidden] { display: none; }
+
+/* Bottom tab bar for narrow screens */
+.tabbar { display: none; }
+
+/* Responsive */
+@media (max-width: 1100px) { .app { grid-template-columns: 220px minmax(0, 1fr); } .side.right { display: none; } .wrap { width: min(1240px, 100% - 32px); } }
+@media (max-width: 760px) {
+  .app { grid-template-columns: minmax(0, 1fr); padding-bottom: 90px; }
+  .side.left { display: none; }
+  .nav-links { display: none; }
+  .search { flex: 1 1 auto; }
+  .tabbar { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line); z-index: 60; padding-bottom: env(safe-area-inset-bottom); }
+  .tabbar a { display: grid; justify-items: center; gap: 3px; padding: 9px 4px 8px; font-size: 12px; font-weight: 600; color: var(--ink-3); text-decoration: none; }
+  .tabbar a[aria-current="page"] { color: var(--accent-ink); }
+  .group-grid { grid-template-columns: minmax(0, 1fr); }
+  .event { grid-template-columns: 56px 1fr; }
+  .event .ev-side { grid-column: 1 / -1; justify-items: start; grid-auto-flow: column; align-items: center; gap: 10px; }
+}
+@media (max-width: 480px) {
+  .wrap { width: calc(100% - 24px); }
+  .logo span { display: none; }
+  .post { padding: 12px 12px 8px; }
+  .comments { margin: 6px -12px -8px; padding: 10px 12px; }
+  .comment-form { grid-template-columns: 28px 1fr; }
+  .comment-form .btn { grid-column: 2; justify-self: end; }
+  .compose { grid-template-columns: 1fr; }
+  .compose > .avatar { display: none; }
+  .ghero .ghead { margin-top: -22px; }
+  .ghero h1 { font-size: 22px; }
+  .page-head h1 { font-size: 22px; }
+  .profile-stats { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 359px) { .icon-btn.theme { display: none; } .seg button { padding: 5px 9px; } }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Circleup</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<a class="skip" href="#view">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#/" aria-label="Circleup home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="var(--accent)" stroke-width="4.5"/><circle cx="16" cy="16" r="5" fill="var(--gold)"/></svg>
+      <span>Circleup</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#/" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+      <a href="#/groups" data-nav="groups"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 19c.6-3.3 3.3-5 6.5-5s5.9 1.7 6.5 5M15 15.3c2.8-.2 5.4 1 6.5 3.7"/></svg>Groups</a>
+      <a href="#/events" data-nav="events"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Events</a>
+    </nav>
+    <form class="search" role="search" id="search-form">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <label for="q" class="ghost">Search posts and groups</label>
+      <input type="search" id="q" autocomplete="off">
+    </form>
+    <button class="icon-btn theme" id="theme-btn" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="theme-icon-light" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      <svg class="theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+    <div class="menu-wrap">
+      <button class="icon-btn" id="notif-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="notif-menu" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></svg>
+        <span class="badge" id="notif-badge" hidden></span>
+      </button>
+      <div class="dropdown" id="notif-menu" hidden>
+        <div class="dropdown-head"><h2>Notifications</h2><button type="button" id="notif-read">Mark all read</button></div>
+        <div id="notif-list"></div>
+      </div>
+    </div>
+    <button class="me-btn" id="me-btn" type="button" aria-label="Your profile"></button>
+  </div>
+</header>
+
+<div class="wrap app">
+  <aside class="side left" aria-label="Your groups">
+    <section class="card">
+      <div class="card-head"><h2>Your groups</h2><a href="#/groups">Browse</a></div>
+      <ul class="side-list" id="my-groups"></ul>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Discover</h2></div>
+      <ul class="side-list" id="discover-groups"></ul>
+    </section>
+  </aside>
+
+  <main id="view" tabindex="-1" aria-live="polite" aria-busy="false"></main>
+
+  <aside class="side right" aria-label="Upcoming">
+    <section class="card">
+      <div class="card-head"><h2>Coming up</h2><a href="#/events">All events</a></div>
+      <div id="upcoming"></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Active members</h2></div>
+      <ul class="side-list" id="active-members"></ul>
+    </section>
+  </aside>
+</div>
+
+<nav class="tabbar" aria-label="Main">
+  <a href="#/" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="#/groups" data-nav="groups"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 19c.6-3.3 3.3-5 6.5-5s5.9 1.7 6.5 5M15 15.3c2.8-.2 5.4 1 6.5 3.7"/></svg>Groups</a>
+  <a href="#/events" data-nav="events"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Events</a>
+</nav>
+
+<div class="modal-scrim" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" id="modal-box"></div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const KEY = 'zl-circleup';
+  const NOW = Date.now();
+  const DAY = 86400000;
+
+  // Members
+  const ME = 'u0';
+  const members = [
+    { id: 'u0', name: 'Priya Nair', handle: 'priya', color: '#1F6F5B', bio: 'Weekend climber, weekday product designer. Keeping 23 houseplants alive and counting.', joined: 'Feb 2025' },
+    { id: 'u1', name: 'Tom Adeyemi', handle: 'tomadeyemi', color: '#2E5AAC', bio: 'Rides fixed-gear through Hackney. Will talk about tyre pressure for hours.', joined: 'Mar 2024' },
+    { id: 'u2', name: 'Sofia Marchetti', handle: 'sofiabakes', color: '#B3541E', bio: 'Sourdough since 2019. Starter is named Gerald.', joined: 'Jun 2024' },
+    { id: 'u3', name: 'Jonas Lindqvist', handle: 'grainandlight', color: '#5B4A9E', bio: 'Shoots Portra 400 on a Pentax 67. Develops at home.', joined: 'Jan 2024' },
+    { id: 'u4', name: 'Amara Okafor', handle: 'amarao', color: '#9A3F6F', bio: 'Monstera collector. Propagation station in the spare room.', joined: 'Sep 2024' },
+    { id: 'u5', name: 'Daniel Reyes', handle: 'dreyes64', color: '#2A7A8C', bio: '1800 rapid on lichess. Studying the Catalan this winter.', joined: 'Nov 2023' },
+    { id: 'u6', name: 'Hana Kobayashi', handle: 'hanaruns', color: '#C0392B', bio: 'Trail runner. Training for the Lakeland 50.', joined: 'Apr 2025' },
+    { id: 'u7', name: 'Marcus Bell', handle: 'deepgroove', color: '#444B52', bio: 'Jazz on vinyl, mostly Blue Note. Technics 1210 since 2008.', joined: 'Aug 2024' },
+    { id: 'u8', name: 'Elena Petrova', handle: 'meeplequeen', color: '#7B6D1E', bio: 'Heavy euros and co-ops. Hosting game nights every other Thursday.', joined: 'May 2024' },
+    { id: 'u9', name: 'Liam O’Connor', handle: 'liamoc', color: '#1F6F5B', bio: 'Gravel bikes, long ferries, cold swims.', joined: 'Oct 2024' },
+    { id: 'u10', name: 'Nadia Rahman', handle: 'nadiar', color: '#8A4F2D', bio: 'Rye and spelt experiments. Also: chess, badly.', joined: 'Jul 2025' },
+    { id: 'u11', name: 'Owen Price', handle: 'owenshoots', color: '#2E5AAC', bio: 'Half-frame cameras and fast walks.', joined: 'Dec 2024' }
+  ];
+  const mById = Object.fromEntries(members.map(m => [m.id, m]));
+
+  // Groups
+  const icons = {
+    bike: '<circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l4-8h5l3 8M10 9l-2-3h3"/>',
+    bread: '<path d="M4 12a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6H4zM4 12c0-3 3.6-6 8-6s8 3 8 6"/>',
+    camera: '<rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/>',
+    leaf: '<path d="M5 19C5 10 11 5 20 4c0 9-5 15-14 15z"/><path d="M5 19c3-4 6-7 10-10"/>',
+    chess: '<path d="M8 20h8M9 17h6l-1-4h-4zM12 4a4 4 0 0 1 4 4c0 2-1.5 3.5-2 5h-4c-.5-1.5-2-3-2-5a4 4 0 0 1 4-4z"/>',
+    trail: '<path d="M3 19l6-9 4 5 3-4 5 8z"/><circle cx="17" cy="6" r="2"/>',
+    vinyl: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 6.5a5.5 5.5 0 0 0-5.5 5.5"/>',
+    dice: '<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1" fill="#fff"/><circle cx="15.5" cy="8.5" r="1" fill="#fff"/><circle cx="12" cy="12" r="1" fill="#fff"/><circle cx="8.5" cy="15.5" r="1" fill="#fff"/><circle cx="15.5" cy="15.5" r="1" fill="#fff"/>'
+  };
+  const groups = [
+    { slug: 'saddle-up', name: 'Saddle Up', topic: 'Cycling', color: '#2E5AAC', icon: 'bike', members: 1284, desc: 'Road, gravel and commuter riders across the city. Weekly club rides, route swaps and the occasional café debate about mudguards.', since: 'Mar 2023' },
+    { slug: 'crumb-and-crust', name: 'Crumb & Crust', topic: 'Sourdough', color: '#B3541E', icon: 'bread', members: 2117, desc: 'Starters, hydration ratios, oven spring and the crumb shots to prove it. Beginners very welcome.', since: 'Jan 2023' },
+    { slug: 'grain', name: 'Grain', topic: 'Film photography', color: '#5B4A9E', icon: 'camera', members: 968, desc: 'Shooting, developing and scanning film. Darkroom meetups the first Sunday of every month.', since: 'Jun 2023' },
+    { slug: 'leaf-club', name: 'Leaf Club', topic: 'Houseplants', color: '#1F6F5B', icon: 'leaf', members: 3402, desc: 'Propagation swaps, pest first aid and honest reviews of grow lights. Yes, your fern can be saved.', since: 'Feb 2023' },
+    { slug: 'knight-moves', name: 'Knight Moves', topic: 'Chess', color: '#444B52', icon: 'chess', members: 742, desc: 'Casual over-the-board nights, puzzle threads and a monthly rapid ladder. All ratings.', since: 'Sep 2023' },
+    { slug: 'dirt-miles', name: 'Dirt Miles', topic: 'Trail running', color: '#C0392B', icon: 'trail', members: 1156, desc: 'Early-morning trail runs, race planning and the long debate over poles. Headtorch season is here.', since: 'Apr 2024' },
+    { slug: 'deep-groove', name: 'Deep Groove', topic: 'Vinyl', color: '#7B6D1E', icon: 'vinyl', members: 889, desc: 'Record hauls, turntable setups and listening nights. Bring a record you think nobody else owns.', since: 'Nov 2023' },
+    { slug: 'meeple-hall', name: 'Meeple Hall', topic: 'Board games', color: '#9A3F6F', icon: 'dice', members: 1530, desc: 'Game nights, rules clarifications and the trading post. From Catan to 4-hour euros.', since: 'May 2023' }
+  ];
+  const gBySlug = Object.fromEntries(groups.map(g => [g.slug, g]));
+
+  // Seed posts, times are minutes ago
+  const seedPosts = [
+    { id: 'p1', g: 'leaf-club', a: 'u4', m: 18, likes: 42, text: 'Six months after the mealybug disaster, my Monstera albo has pushed out its first properly variegated leaf. Patience and a lot of neem oil.', comments: [{ a: 'u0', t: 'This is the comeback story I needed today.', m: 12 }, { a: 'u10', t: 'How often were you treating it? Mine keep coming back.', m: 7 }] },
+    { id: 'p2', g: 'saddle-up', a: 'u1', m: 44, likes: 31, text: 'Sunday club ride: 62 km out to Epping via the forest road, café stop at the mill. Steady pace, no drops. Meeting at the fountain 08:00.', comments: [{ a: 'u9', t: 'In. Bringing the gravel bike for the forest section.', m: 30 }] },
+    { id: 'p3', g: 'crumb-and-crust', a: 'u2', m: 75, likes: 88, text: 'Tried 82% hydration for the first time and the dough was a puddle for the first hour. Held my nerve, did four coil folds, and the crumb is the most open I have ever had.', comments: [{ a: 'u10', t: 'Four folds at 82%? Brave. What flour?', m: 60 }, { a: 'u2', t: 'Half strong white, half heritage wheat from the Saturday market.', m: 52 }, { a: 'u0', t: 'Gerald delivers again.', m: 40 }] },
+    { id: 'p4', g: 'grain', a: 'u3', m: 120, likes: 57, text: 'Developed three rolls of HP5 pushed to 1600 in Rodinal 1:50 stand. Grain like sandpaper, exactly what I wanted for the night market shots.', comments: [{ a: 'u11', t: 'Stand development is the lazy genius move. 1 hour?', m: 100 }] },
+    { id: 'p5', g: 'knight-moves', a: 'u5', m: 160, likes: 19, text: 'Puzzle of the week: White to play, Nf5 looks obvious but there is a quiet move first. Solutions in the comments after Thursday.', comments: [] },
+    { id: 'p6', g: 'dirt-miles', a: 'u6', m: 200, likes: 36, text: 'Headtorch run tonight, 10 km on the ridge loop, 18:45 at the car park. Pace is conversational. Bring a spare layer, it was 4°C up there yesterday.', comments: [{ a: 'u9', t: 'Any chance of a shorter option? Coming back from a calf niggle.', m: 180 }, { a: 'u6', t: 'Yes, there is a 6 km cut-through at the second gate.', m: 170 }] },
+    { id: 'p7', g: 'deep-groove', a: 'u7', m: 260, likes: 64, text: 'Found a first pressing of Lee Morgan’s Search for the New Land in a charity shop for £4. Sleeve is rough, vinyl is near mint. Still shaking.', comments: [{ a: 'u8', t: 'This is the dream. Which shop, or is that classified?', m: 240 }, { a: 'u7', t: 'Classified.', m: 230 }] },
+    { id: 'p8', g: 'meeple-hall', a: 'u8', m: 310, likes: 27, text: 'Thursday game night: teaching Brass Birmingham at table one, Cascadia and Azul for lighter options. Doors 19:00, we have 14 seats.', comments: [{ a: 'u5', t: 'Save me a seat at Brass, I have watched three rules videos and understood none.', m: 290 }] },
+    { id: 'p9', g: 'leaf-club', a: 'u0', m: 400, likes: 23, text: 'Honest question: is a £120 grow light actually better than two £25 ones? North-facing flat, winter is coming for my calatheas.', comments: [{ a: 'u4', t: 'Two cheap ones, full spectrum, 12 hours on a timer. Spend the difference on a humidifier.', m: 380 }] },
+    { id: 'p10', g: 'saddle-up', a: 'u9', m: 520, likes: 48, text: 'Route swap: the canal path from Limehouse to Hertford is finally resurfaced. 45 km of flat, car-free riding with three cafés. GPX in the group files.', comments: [] },
+    { id: 'p11', g: 'crumb-and-crust', a: 'u10', m: 610, likes: 15, text: 'My rye starter smells like nail polish remover. Hungry or dead? It is bubbling but sluggish.', comments: [{ a: 'u2', t: 'Hungry. Feed it twice a day for three days and keep it warmer.', m: 590 }] },
+    { id: 'p12', g: 'grain', a: 'u11', m: 700, likes: 33, text: 'Half-frame roll from a week of commuting: 72 shots, 70 of them are pigeons. I regret nothing.', comments: [] },
+    { id: 'p13', g: 'knight-moves', a: 'u10', m: 790, likes: 12, text: 'Lost in 11 moves to the Fried Liver last night. Is it worth learning the Two Knights properly or should I just play 3...Bc5?', comments: [{ a: 'u5', t: 'Learn the Traxler for fun, play Bc5 for results.', m: 760 }] },
+    { id: 'p14', g: 'dirt-miles', a: 'u9', m: 900, likes: 41, text: 'Lakeland 50 entries open Friday 09:00. Last year sold out in 20 minutes. Who is in?', comments: [{ a: 'u6', t: 'Already set an alarm.', m: 880 }] },
+    { id: 'p15', g: 'deep-groove', a: 'u8', m: 1000, likes: 22, text: 'Listening night theme for November: albums recorded live. I am bringing Bill Evans at the Village Vanguard. Sunday 19:30.', comments: [] },
+    { id: 'p16', g: 'meeple-hall', a: 'u5', m: 1100, likes: 18, text: 'Trading post: have Terraforming Mars (base, played twice), want Ark Nova or Dune Imperium. Can meet at Thursday night.', comments: [{ a: 'u8', t: 'I have a spare Dune Imperium. Deal.', m: 1050 }] },
+    { id: 'p17', g: 'leaf-club', a: 'u10', m: 1300, likes: 71, text: 'Propagation swap this Saturday at the community hall, 11:00 to 13:00. Bring cuttings, labels and a jar. Last time 60 people came.', comments: [{ a: 'u4', t: 'Bringing pothos and a very leggy string of hearts.', m: 1250 }, { a: 'u0', t: 'Could someone bring a hoya cutting? Any variety.', m: 1200 }] },
+    { id: 'p18', g: 'saddle-up', a: 'u6', m: 1500, likes: 9, text: 'First winter commuting. Mudguards or waterproof trousers, which actually matters more?', comments: [{ a: 'u1', t: 'Mudguards. Always mudguards. Fenders save your back and everyone behind you.', m: 1480 }] },
+    { id: 'p19', g: 'crumb-and-crust', a: 'u0', m: 1700, likes: 54, text: 'Baked my first focaccia in a 12-inch cast iron. Rosemary, flaky salt, far too much olive oil. No regrets.', comments: [] },
+    { id: 'p20', g: 'grain', a: 'u3', m: 1900, likes: 29, text: 'Darkroom meetup recap: 11 of us, 40 prints, one accidentally exposed box of paper. Next session first Sunday of December.', comments: [] },
+    { id: 'p21', g: 'knight-moves', a: 'u5', m: 2100, likes: 26, text: 'Rapid ladder standings after round 3: Nadia leads with 2.5, three players on 2. Round 4 pairings posted Wednesday.', comments: [{ a: 'u10', t: 'This will not last.', m: 2050 }] },
+    { id: 'p22', g: 'dirt-miles', a: 'u6', m: 2300, likes: 38, text: 'Shoe review after 400 km: grip is excellent on wet rock, cushioning gone by 300 km. Good for races, not for daily training.', comments: [] },
+    { id: 'p23', g: 'deep-groove', a: 'u7', m: 2500, likes: 17, text: 'Cleaning records with a Spin Clean versus the ultrasonic machine at the shop: the ultrasonic wins, but the Spin Clean gets 80% of the way for 10% of the price.', comments: [] },
+    { id: 'p24', g: 'meeple-hall', a: 'u8', m: 2700, likes: 45, text: 'We have the hall booked for a full-day session on Saturday 22 November. Twilight Imperium table from 10:00 if six brave people sign up.', comments: [{ a: 'u5', t: 'One brave person here.', m: 2650 }] },
+    { id: 'p25', g: 'leaf-club', a: 'u4', m: 2900, likes: 60, text: 'Repotting season is over. If your plant is dropping leaves now it is probably light, not water. Move it closer to the window before you change anything else.', comments: [] },
+    { id: 'p26', g: 'saddle-up', a: 'u1', m: 3100, likes: 35, text: 'Club kit order closes Sunday. Same design as last year, new navy colourway. Sizing runs small.', comments: [] },
+    { id: 'p27', g: 'crumb-and-crust', a: 'u2', m: 3400, likes: 93, text: 'Scoring tutorial from Saturday is now written up: one deep ear cut at 30 degrees, then decorative scoring only on a cold, well-floured surface.', comments: [{ a: 'u10', t: 'Saved. My ears have been more like ridges.', m: 3300 }] },
+    { id: 'p28', g: 'grain', a: 'u11', m: 3700, likes: 21, text: 'Reminder that the lab on Market Street does C-41 in 24 hours for £7 if you bring three rolls or more.', comments: [] },
+    { id: 'p29', g: 'dirt-miles', a: 'u9', m: 4000, likes: 14, text: 'Poles or no poles for a hilly 50k? Genuinely torn.', comments: [{ a: 'u6', t: 'Poles if you have trained with them. Otherwise they are just expensive sticks to carry.', m: 3900 }] },
+    { id: 'p30', g: 'meeple-hall', a: 'u0', m: 4300, likes: 11, text: 'Won my first game of Wingspan last night after 14 attempts. Framing the scoresheet.', comments: [{ a: 'u8', t: 'Fourteen is a respectable apprenticeship.', m: 4200 }] }
+  ];
+
+  // Events, day offsets from today
+  const seedEvents = [
+    { id: 'e1', g: 'dirt-miles', title: 'Headtorch ridge loop', day: 0, time: '18:45', where: 'Ridge car park', going: 14 },
+    { id: 'e2', g: 'meeple-hall', title: 'Thursday game night', day: 3, time: '19:00', where: 'Meeple Hall, St Peter’s Hall', going: 11 },
+    { id: 'e3', g: 'leaf-club', title: 'Propagation swap', day: 5, time: '11:00', where: 'Community hall, Oak Street', going: 46 },
+    { id: 'e4', g: 'saddle-up', title: 'Sunday club ride: Epping loop', day: 6, time: '08:00', where: 'The fountain, Victoria Park', going: 22 },
+    { id: 'e5', g: 'deep-groove', title: 'Listening night: live albums', day: 6, time: '19:30', where: 'Marcus’s place, flat 3', going: 8 },
+    { id: 'e6', g: 'knight-moves', title: 'Rapid ladder, round 4', day: 10, time: '19:00', where: 'The Crown, back room', going: 16 },
+    { id: 'e7', g: 'crumb-and-crust', title: 'Shaping and scoring workshop', day: 13, time: '10:00', where: 'Sofia’s kitchen studio', going: 9 },
+    { id: 'e8', g: 'meeple-hall', title: 'All-day session: Twilight Imperium', day: 20, time: '10:00', where: 'St Peter’s Hall', going: 5 },
+    { id: 'e9', g: 'grain', title: 'Darkroom meetup', day: 34, time: '13:00', where: 'Studio 4, Print House', going: 7 },
+    { id: 'e10', g: 'saddle-up', title: 'Canal path social ride', day: 27, time: '09:30', where: 'Limehouse Basin', going: 13 }
+  ];
+
+  // Notifications, minutes ago
+  const seedNotifs = [
+    { id: 'n1', m: 12, text: '<b>Amara Okafor</b> replied to your comment in Leaf Club.', to: '#/' },
+    { id: 'n2', m: 55, text: '<b>Sofia Marchetti</b> liked your post in Crumb & Crust.', to: '#/' },
+    { id: 'n3', m: 180, text: 'Propagation swap is this Saturday. 46 people are going.', to: '#/events' },
+    { id: 'n4', m: 420, text: '<b>Elena Petrova</b> mentioned you in Meeple Hall.', to: '#/g/meeple-hall' },
+    { id: 'n5', m: 1400, text: 'Knight Moves posted round 3 standings.', to: '#/g/knight-moves' },
+    { id: 'n6', m: 2900, text: 'Welcome to Circleup. Join a few groups to fill your feed.', to: '#/groups' }
+  ];
+
+  // Persistent state
+  const defaults = { theme: 'light', joined: ['leaf-club', 'crumb-and-crust', 'saddle-up', 'meeple-hall'], liked: [], rsvp: ['e3', 'e4'], posts: [], comments: {}, likeDelta: {}, readNotifs: [], sort: 'new', scope: 'all' };
+  let state = load();
+  function load() {
+    const base = JSON.parse(JSON.stringify(defaults));
+    try { return Object.assign(base, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { return base; }
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  // Helpers
+  function initials(name) { return name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase(); }
+  function avatar(id, size) {
+    const m = mById[id];
+    return '<svg class="avatar ' + (size || '') + '" viewBox="0 0 40 40" role="img" aria-label="' + esc(m.name) + '"><circle cx="20" cy="20" r="20" fill="' + m.color + '"/><text x="20" y="20" text-anchor="middle" dominant-baseline="central">' + initials(m.name) + '</text></svg>';
+  }
+  function ago(ms) {
+    const min = Math.max(1, Math.round((NOW - ms) / 60000));
+    if (min < 60) return min + 'm';
+    const h = Math.round(min / 60);
+    if (h < 24) return h + 'h';
+    const d = Math.round(h / 24);
+    return d < 7 ? d + 'd' : Math.round(d / 7) + 'w';
+  }
+  function fmtDate(d, opts) { return d.toLocaleDateString('en-GB', opts); }
+  function startOfDay(d) { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; }
+  function eventDate(ev) { const d = startOfDay(NOW); d.setDate(d.getDate() + ev.day); return d; }
+  function groupIcon(g, cls) { return '<span class="' + (cls || 'gdot') + '" style="background:' + g.color + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + icons[g.icon] + '</svg></span>'; }
+  function pattern(g, id) {
+    return '<svg class="pat" aria-hidden="true" preserveAspectRatio="none"><defs><pattern id="' + id + '" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="14" cy="14" r="2.2" fill="#fff" opacity=".35"/><circle cx="0" cy="0" r="2.2" fill="#fff" opacity=".2"/></pattern></defs><rect width="100%" height="100%" fill="' + g.color + '"/><rect width="100%" height="100%" fill="url(#' + id + ')"/></svg>';
+  }
+  function who(id) { return '<a href="#" class="who" data-profile="' + id + '">' + esc(mById[id].name) + '</a>'; }
+  function gchip(g) { return '<a class="gchip" href="#/g/' + g.slug + '"><i style="background:' + g.color + '"></i>' + esc(g.name) + '</a>'; }
+  function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+  let toastTimer;
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+  }
+  function linkify(text) {
+    return esc(text).replace(/(^|\s)#(\w[\w-]*)/g, (m, sp, tag) => sp + '<a href="#/search?q=' + encodeURIComponent(tag) + '">#' + tag + '</a>');
+  }
+
+  // Derived data
+  function allPosts() {
+    const mine = state.posts.map(p => ({ id: p.id, g: p.g, a: ME, ts: p.ts, likes: 0, text: p.text, comments: [] }));
+    const seeded = seedPosts.map(p => ({ id: p.id, g: p.g, a: p.a, ts: NOW - p.m * 60000, likes: p.likes, text: p.text, comments: p.comments.map(c => ({ a: c.a, t: c.t, ts: NOW - c.m * 60000 })) }));
+    return mine.concat(seeded).map(p => {
+      const extra = (state.comments[p.id] || []).map(c => ({ a: ME, t: c.t, ts: c.ts }));
+      return Object.assign({}, p, { comments: p.comments.concat(extra), likes: p.likes + (state.likeDelta[p.id] || 0), liked: state.liked.includes(p.id) });
+    });
+  }
+  function memberCount(g) { return g.members + (state.joined.includes(g.slug) ? 1 : 0) - (defaults.joined.includes(g.slug) ? 1 : 0); }
+  function going(ev) { return ev.going + (state.rsvp.includes(ev.id) ? 1 : 0) - (defaults.rsvp.includes(ev.id) ? 1 : 0); }
+  function sortPosts(list, mode) {
+    return list.slice().sort((a, b) => mode === 'top' ? (b.likes + b.comments.length * 2) - (a.likes + a.comments.length * 2) || b.ts - a.ts : b.ts - a.ts);
+  }
+
+  // Router
+  const view = $('#view');
+  function route() {
+    const hash = location.hash || '#/';
+    const path = hash.slice(1).split('?')[0];
+    const q = new URLSearchParams(hash.split('?')[1] || '');
+    closeNotifs();
+    let nav = 'home';
+    if (path === '/' || path === '') renderHome();
+    else if (path === '/groups') { nav = 'groups'; renderGroups(); }
+    else if (path.indexOf('/g/') === 0) { nav = 'groups'; renderGroup(path.slice(3)); }
+    else if (path === '/events') { nav = 'events'; renderEvents(); }
+    else if (path === '/search') { nav = ''; renderSearch(q.get('q') || ''); }
+    else renderHome();
+    $$('[data-nav]').forEach(a => { if (a.dataset.nav === nav) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (path !== '/search') $('#q').value = '';
+    $('#search-form').classList.toggle('filled', $('#q').value.length > 0);
+    renderSides();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  // Post rendering
+  function postCard(p) {
+    const g = gBySlug[p.g];
+    const open = openComments.has(p.id);
+    return '<article class="card post" data-post="' + p.id + '">' +
+      '<div class="post-head">' + avatar(p.a) + '<div><div class="line1">' + who(p.a) + gchip(g) + '</div><div class="line2"><span>@' + esc(mById[p.a].handle) + '</span><span aria-hidden="true">&middot;</span><time datetime="' + new Date(p.ts).toISOString() + '">' + ago(p.ts) + '</time></div></div></div>' +
+      '<p class="post-body">' + linkify(p.text) + '</p>' +
+      '<div class="post-actions">' +
+        '<button type="button" class="act like" aria-pressed="' + p.liked + '" aria-label="' + (p.liked ? 'Unlike' : 'Like') + ', ' + plural(p.likes, 'like') + '"><span class="pop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7.5 2.5c0 5.4-7.5 10-7.5 10z"/></svg></span><span class="num">' + p.likes + '</span></button>' +
+        '<button type="button" class="act cmt" aria-expanded="' + open + '" aria-controls="c-' + p.id + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4z"/></svg><span class="num">' + p.comments.length + '</span><span class="vh"> comments</span></button>' +
+      '</div>' +
+      '<div class="comments" id="c-' + p.id + '"' + (open ? '' : ' hidden') + '>' + p.comments.map(c => '<div class="comment">' + avatar(c.a, 'sm') + '<div class="bubble"><b>' + esc(mById[c.a].name) + '</b><time>' + ago(c.ts) + '</time><br>' + esc(c.t) + '</div></div>').join('') +
+        '<form class="comment-form">' + avatar(ME, 'sm') + '<span class="ghost-wrap"><label class="ghost" for="ci-' + p.id + '">Write a comment</label><input id="ci-' + p.id + '" type="text" maxlength="280" autocomplete="off"></span><button class="btn small primary" type="submit">Reply</button></form>' +
+      '</div></article>';
+  }
+  const openComments = new Set();
+
+  function composeBox(groupSlug) {
+    const opts = groups.filter(g => state.joined.includes(g.slug) || g.slug === groupSlug);
+    const list = opts.length ? opts : groups;
+    return '<section class="card compose" aria-label="Create a post">' + avatar(ME) + '<form id="compose">' +
+      '<span class="ghost-wrap"><label class="ghost" for="compose-text">Share something with your circles</label><textarea id="compose-text" maxlength="420"></textarea></span>' +
+      '<div class="compose-foot"><label class="vh" for="compose-group">Post to group</label><select id="compose-group">' + list.map(g => '<option value="' + g.slug + '"' + (g.slug === groupSlug ? ' selected' : '') + '>' + esc(g.name) + '</option>').join('') + '</select>' +
+      '<span class="count num" id="compose-count">0 / 420</span><button class="btn primary" type="submit">Post</button><p class="err" id="compose-err" hidden></p></div></form></section>';
+  }
+
+  function feedHtml(list) {
+    if (!list.length) return '<div class="card empty"><b>Nothing here yet</b>Join a group or be the first to post.</div>';
+    return list.map(postCard).join('');
+  }
+
+  // Home
+  function renderHome() {
+    let list = allPosts();
+    if (state.scope === 'mine') list = list.filter(p => state.joined.includes(p.g));
+    list = sortPosts(list, state.sort);
+    view.innerHTML = '<div class="page-head"><h1>Home</h1><div class="tools">' +
+      '<div class="seg" role="group" aria-label="Feed scope"><button type="button" data-scope="all" aria-pressed="' + (state.scope === 'all') + '">All circles</button><button type="button" data-scope="mine" aria-pressed="' + (state.scope === 'mine') + '">My groups</button></div>' +
+      '<div class="seg" role="group" aria-label="Sort"><button type="button" data-sort="new" aria-pressed="' + (state.sort === 'new') + '">New</button><button type="button" data-sort="top" aria-pressed="' + (state.sort === 'top') + '">Top</button></div></div></div>' +
+      composeBox() + '<div class="feed" id="feed">' + feedHtml(list) + '</div>';
+  }
+
+  // Groups directory
+  function renderGroups() {
+    view.innerHTML = '<div class="page-head"><h1>Groups</h1><p>' + groups.length + ' circles. Join the ones that match how you spend your weekends.</p></div>' +
+      '<div class="group-grid">' + groups.map(g => '<article class="card gcard" data-group="' + g.slug + '"><div class="cover">' + pattern(g, 'pt-' + g.slug) + groupIcon(g, 'gicon') + '</div><div class="body"><h3><a href="#/g/' + g.slug + '">' + esc(g.name) + '</a></h3><p>' + esc(g.desc) + '</p><div class="foot"><span><span class="num mc">' + memberCount(g).toLocaleString('en-GB') + '</span> members &middot; ' + esc(g.topic) + '</span>' + joinBtn(g) + '</div></div></article>').join('') + '</div>';
+  }
+  function joinBtn(g) {
+    const j = state.joined.includes(g.slug);
+    return '<button type="button" class="btn small join' + (j ? ' joined' : ' primary') + '" data-join="' + g.slug + '" aria-pressed="' + j + '"><span class="lbl">' + (j ? 'Joined' : 'Join') + '</span></button>';
+  }
+
+  // Group page
+  function renderGroup(slug) {
+    const g = gBySlug[slug];
+    if (!g) { view.innerHTML = '<div class="card empty"><b>That group does not exist</b><a href="#/groups">Browse all groups</a></div>'; return; }
+    const posts = sortPosts(allPosts().filter(p => p.g === slug), 'new');
+    const evs = seedEvents.filter(e => e.g === slug && e.day >= 0).sort((a, b) => a.day - b.day);
+    const faces = Array.from(new Set(posts.map(p => p.a))).slice(0, 5);
+    view.innerHTML = '<section class="card ghero"><div class="cover">' + pattern(g, 'pt-hero') + '</div>' +
+      '<div class="ghead">' + groupIcon(g, 'gicon') + '<div><h1>' + esc(g.name) + '</h1><div class="gmeta"><span class="num mc">' + memberCount(g).toLocaleString('en-GB') + '</span> members &middot; ' + esc(g.topic) + ' &middot; since ' + g.since + '</div></div><div class="gactions">' + joinBtn(g) + '</div></div>' +
+      '<p class="gdesc">' + esc(g.desc) + '</p>' +
+      '<div class="members-row"><div class="stack">' + faces.map(id => avatar(id, 'sm')).join('') + '</div><span>' + faces.map(id => mById[id].name.split(' ')[0]).slice(0, 3).join(', ') + ' and others post here</span></div></section>' +
+      (evs.length ? '<section class="card" style="margin-top:12px"><div class="card-head"><h2>Upcoming in ' + esc(g.name) + '</h2><a href="#/events">All events</a></div><div style="padding-bottom:6px">' + evs.map(miniEvent).join('') + '</div></section>' : '') +
+      '<div style="margin-top:12px">' + composeBox(slug) + '</div><div class="feed" id="feed">' + feedHtml(posts) + '</div>';
+  }
+  function miniEvent(ev) {
+    const d = eventDate(ev);
+    return '<a class="mini-ev" href="#/events"><div class="date"><b>' + d.getDate() + '</b><span>' + fmtDate(d, { month: 'short' }) + '</span></div><div><b class="t">' + esc(ev.title) + '</b><span class="m">' + ev.time + ' &middot; ' + esc(gBySlug[ev.g].name) + (state.rsvp.includes(ev.id) ? ' &middot; going' : '') + '</span></div></a>';
+  }
+
+  // Events
+  let eventFilter = 'all';
+  function renderEvents() {
+    let evs = seedEvents.slice().sort((a, b) => a.day - b.day || a.time.localeCompare(b.time));
+    if (eventFilter === 'going') evs = evs.filter(e => state.rsvp.includes(e.id));
+    if (eventFilter === 'mine') evs = evs.filter(e => state.joined.includes(e.g));
+    const byDay = {};
+    evs.forEach(e => { (byDay[e.day] = byDay[e.day] || []).push(e); });
+    const days = Object.keys(byDay).map(Number).sort((a, b) => a - b);
+    view.innerHTML = '<div class="page-head"><h1>Events</h1><div class="tools"><div class="seg" role="group" aria-label="Filter events"><button type="button" data-evf="all" aria-pressed="' + (eventFilter === 'all') + '">All</button><button type="button" data-evf="mine" aria-pressed="' + (eventFilter === 'mine') + '">My groups</button><button type="button" data-evf="going" aria-pressed="' + (eventFilter === 'going') + '">Going</button></div></div>' +
+      '<p>' + plural(evs.length, 'event') + ' across the next ' + Math.max.apply(null, seedEvents.map(e => e.day)) + ' days. RSVP so hosts know how many to expect.</p></div>' +
+      (days.length ? days.map(day => {
+        const d = eventDate({ day });
+        const label = day === 0 ? 'Today' : day === 1 ? 'Tomorrow' : fmtDate(d, { weekday: 'long', day: 'numeric', month: 'long' });
+        return '<section class="day-group"><h2 class="day-label">' + label + '</h2>' + byDay[day].map(eventCard).join('') + '</section>';
+      }).join('') : '<div class="card empty"><b>No events match</b>Try another filter or join more groups.</div>');
+  }
+  function eventCard(ev) {
+    const d = eventDate(ev), g = gBySlug[ev.g], on = state.rsvp.includes(ev.id);
+    return '<article class="card event" data-event="' + ev.id + '"><div class="date"><b>' + d.getDate() + '</b><span>' + fmtDate(d, { month: 'short' }) + '</span></div>' +
+      '<div><h3>' + esc(ev.title) + '</h3><div class="ev-meta"><span>' + ev.time + '</span><span>' + esc(ev.where) + '</span>' + gchip(g) + '</div></div>' +
+      '<div class="ev-side"><button type="button" class="btn small rsvp' + (on ? ' joined' : '') + '" data-rsvp="' + ev.id + '" aria-pressed="' + on + '"><span class="lbl">' + (on ? 'Going' : 'RSVP') + '</span></button><span class="going-n"><span class="num">' + going(ev) + '</span> going</span></div></article>';
+  }
+
+  // Search
+  function renderSearch(q) {
+    $('#q').value = q;
+    $('#search-form').classList.toggle('filled', q.length > 0);
+    const term = q.trim().toLowerCase();
+    if (!term) { view.innerHTML = '<div class="page-head"><h1>Search</h1><p>Type to find posts and groups.</p></div>'; return; }
+    const hl = s => esc(s).replace(new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
+    const gs = groups.filter(g => (g.name + ' ' + g.topic + ' ' + g.desc).toLowerCase().includes(term));
+    const ps = sortPosts(allPosts().filter(p => (p.text + ' ' + mById[p.a].name + ' ' + gBySlug[p.g].name + ' ' + gBySlug[p.g].topic).toLowerCase().includes(term)), 'new');
+    view.innerHTML = '<div class="page-head"><h1>Search</h1><p>' + plural(gs.length, 'group') + ' and ' + plural(ps.length, 'post') + ' for “' + esc(q) + '”</p></div><div class="results">' +
+      (gs.length ? '<h2>Groups</h2><div class="group-grid">' + gs.map(g => '<article class="card gcard" data-group="' + g.slug + '"><div class="cover">' + pattern(g, 'ps-' + g.slug) + groupIcon(g, 'gicon') + '</div><div class="body"><h3><a href="#/g/' + g.slug + '">' + hl(g.name) + '</a></h3><p>' + hl(g.desc) + '</p><div class="foot"><span><span class="num mc">' + memberCount(g).toLocaleString('en-GB') + '</span> members</span>' + joinBtn(g) + '</div></div></article>').join('') + '</div>' : '') +
+      (ps.length ? '<h2>Posts</h2><div class="feed" id="feed">' + ps.map(p => postCard(p).replace(linkify(p.text), hl(p.text))).join('') + '</div>' : '') +
+      (!gs.length && !ps.length ? '<div class="card empty"><b>No results</b>Try a group name, a topic or a member.</div>' : '') + '</div>';
+  }
+
+  // Sidebars
+  function renderSides() {
+    const mine = groups.filter(g => state.joined.includes(g.slug));
+    $('#my-groups').innerHTML = mine.length ? mine.map(g => '<li><a href="#/g/' + g.slug + '">' + groupIcon(g) + esc(g.name) + '<span class="meta num">' + memberCount(g).toLocaleString('en-GB') + '</span></a></li>').join('') : '<li class="side-empty">You have not joined a group yet.</li>';
+    const disc = groups.filter(g => !state.joined.includes(g.slug)).slice(0, 4);
+    $('#discover-groups').innerHTML = disc.length ? disc.map(g => '<li><a href="#/g/' + g.slug + '">' + groupIcon(g) + esc(g.name) + '<span class="meta">' + esc(g.topic) + '</span></a></li>').join('') : '<li class="side-empty">You are in every circle. Impressive.</li>';
+    const up = seedEvents.filter(e => e.day >= 0).sort((a, b) => a.day - b.day).slice(0, 4);
+    $('#upcoming').innerHTML = up.map(miniEvent).join('');
+    const counts = {};
+    allPosts().forEach(p => { counts[p.a] = (counts[p.a] || 0) + 1; p.comments.forEach(c => { counts[c.a] = (counts[c.a] || 0) + 1; }); });
+    const active = Object.keys(counts).filter(id => id !== ME).sort((a, b) => counts[b] - counts[a]).slice(0, 5);
+    $('#active-members').innerHTML = active.map(id => '<li><button type="button" data-profile="' + id + '">' + avatar(id, 'sm') + esc(mById[id].name) + '<span class="meta num">' + plural(counts[id], 'post') + '</span></button></li>').join('');
+    $('#me-btn').innerHTML = avatar(ME, 'sm');
+  }
+
+  // Notifications
+  function renderNotifs() {
+    const unread = seedNotifs.filter(n => !state.readNotifs.includes(n.id)).length;
+    const badge = $('#notif-badge'); badge.textContent = unread; badge.hidden = !unread;
+    $('#notif-btn').setAttribute('aria-label', 'Notifications' + (unread ? ', ' + unread + ' unread' : ''));
+    $('#notif-list').innerHTML = seedNotifs.map(n => '<button type="button" class="notif' + (state.readNotifs.includes(n.id) ? '' : ' unread') + '" data-notif="' + n.id + '" data-to="' + n.to + '">' + avatar(n.text.indexOf('Amara') > -1 ? 'u4' : n.text.indexOf('Sofia') > -1 ? 'u2' : n.text.indexOf('Elena') > -1 ? 'u8' : 'u0', 'sm') + '<div><p>' + n.text + '</p><time>' + ago(NOW - n.m * 60000) + ' ago</time></div></button>').join('');
+  }
+  function closeNotifs() { $('#notif-menu').hidden = true; $('#notif-btn').setAttribute('aria-expanded', 'false'); }
+  $('#notif-btn').addEventListener('click', () => {
+    const menu = $('#notif-menu'); menu.hidden = !menu.hidden;
+    $('#notif-btn').setAttribute('aria-expanded', String(!menu.hidden));
+    if (!menu.hidden) { const first = $('.notif', menu); if (first) first.focus(); }
+  });
+  $('#notif-read').addEventListener('click', () => { state.readNotifs = seedNotifs.map(n => n.id); save(); renderNotifs(); toast('All notifications marked as read'); });
+  $('#notif-list').addEventListener('click', e => {
+    const b = e.target.closest('[data-notif]'); if (!b) return;
+    if (!state.readNotifs.includes(b.dataset.notif)) { state.readNotifs.push(b.dataset.notif); save(); }
+    closeNotifs(); renderNotifs();
+    if (location.hash === b.dataset.to) route(); else location.hash = b.dataset.to;
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.menu-wrap')) closeNotifs(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeNotifs(); closeModal(); } });
+
+  // Theme
+  function applyTheme() {
+    document.documentElement.dataset.theme = state.theme;
+    const b = $('#theme-btn'); b.setAttribute('aria-pressed', String(state.theme === 'dark'));
+    b.setAttribute('aria-label', state.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    $('meta[name=theme-color]').content = state.theme === 'dark' ? '#141614' : '#1F6F5B';
+  }
+  $('#theme-btn').addEventListener('click', () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; save(); applyTheme(); });
+
+  // Profile modal
+  let lastFocus;
+  function openProfile(id) {
+    const m = mById[id];
+    const posts = allPosts().filter(p => p.a === id);
+    const cmts = allPosts().reduce((n, p) => n + p.comments.filter(c => c.a === id).length, 0);
+    const gs = id === ME ? groups.filter(g => state.joined.includes(g.slug)) : groups.filter(g => posts.some(p => p.g === g.slug) || allPosts().some(p => p.g === g.slug && p.comments.some(c => c.a === id)));
+    lastFocus = document.activeElement;
+    $('#modal-box').innerHTML = '<button type="button" class="icon-btn close" id="modal-close" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<div class="profile-top">' + avatar(id, 'lg') + '<div><h2 id="modal-title">' + esc(m.name) + '</h2><div class="handle">@' + esc(m.handle) + ' &middot; joined ' + m.joined + '</div></div></div>' +
+      '<p class="profile-bio">' + esc(m.bio) + '</p>' +
+      '<div class="profile-stats"><div><b class="num">' + posts.length + '</b><span>posts</span></div><div><b class="num">' + cmts + '</b><span>comments</span></div><div><b class="num">' + gs.length + '</b><span>groups</span></div></div>' +
+      '<h3>' + (id === ME ? 'Your groups' : 'Active in') + '</h3><div class="pgroups">' + (gs.length ? gs.map(gchip).join('') : '<span class="side-empty" style="padding:0">No groups yet</span>') + '</div>';
+    $('#modal').hidden = false;
+    $('#modal-close').focus();
+  }
+  function closeModal() {
+    const mo = $('#modal'); if (mo.hidden) return;
+    mo.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $('#modal').addEventListener('click', e => { if (e.target === e.currentTarget || e.target.closest('#modal-close')) closeModal(); });
+  $('#modal-box').addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const f = $$('button, a[href]', e.currentTarget); if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  // Delegated clicks for profiles, likes, comments, joins, rsvps, filters
+  document.addEventListener('click', e => {
+    const prof = e.target.closest('[data-profile]');
+    if (prof) { e.preventDefault(); openProfile(prof.dataset.profile); return; }
+    const like = e.target.closest('.act.like');
+    if (like) {
+      const id = like.closest('[data-post]').dataset.post;
+      const i = state.liked.indexOf(id);
+      if (i > -1) { state.liked.splice(i, 1); state.likeDelta[id] = (state.likeDelta[id] || 0) - 1; }
+      else { state.liked.push(id); state.likeDelta[id] = (state.likeDelta[id] || 0) + 1; }
+      save();
+      const p = allPosts().find(x => x.id === id);
+      like.setAttribute('aria-pressed', String(p.liked));
+      like.setAttribute('aria-label', (p.liked ? 'Unlike' : 'Like') + ', ' + plural(p.likes, 'like'));
+      $('.num', like).textContent = p.likes;
+      return;
+    }
+    const cmt = e.target.closest('.act.cmt');
+    if (cmt) {
+      const id = cmt.closest('[data-post]').dataset.post;
+      const box = $('#c-' + id);
+      box.hidden = !box.hidden;
+      cmt.setAttribute('aria-expanded', String(!box.hidden));
+      if (box.hidden) openComments.delete(id); else { openComments.add(id); $('input', box).focus(); }
+      return;
+    }
+    const join = e.target.closest('[data-join]');
+    if (join) {
+      const slug = join.dataset.join, g = gBySlug[slug];
+      const i = state.joined.indexOf(slug);
+      if (i > -1) { state.joined.splice(i, 1); toast('You left ' + g.name); } else { state.joined.push(slug); toast('Welcome to ' + g.name); }
+      save();
+      $$('[data-join="' + slug + '"]').forEach(b => { b.outerHTML = joinBtn(g); });
+      $$('[data-group="' + slug + '"] .mc, .ghero .mc').forEach(el => { el.textContent = memberCount(g).toLocaleString('en-GB'); });
+      renderSides();
+      return;
+    }
+    const rsvp = e.target.closest('[data-rsvp]');
+    if (rsvp) {
+      const id = rsvp.dataset.rsvp, ev = seedEvents.find(x => x.id === id);
+      const i = state.rsvp.indexOf(id);
+      if (i > -1) { state.rsvp.splice(i, 1); toast('RSVP removed'); } else { state.rsvp.push(id); toast('You are going to ' + ev.title); }
+      save();
+      const card = rsvp.closest('[data-event]');
+      card.outerHTML = eventCard(ev);
+      renderSides();
+      return;
+    }
+    const scope = e.target.closest('[data-scope]');
+    if (scope) { state.scope = scope.dataset.scope; save(); renderHome(); return; }
+    const sort = e.target.closest('[data-sort]');
+    if (sort) { state.sort = sort.dataset.sort; save(); renderHome(); return; }
+    const evf = e.target.closest('[data-evf]');
+    if (evf) { eventFilter = evf.dataset.evf; renderEvents(); return; }
+  });
+
+  // Compose and comment forms
+  document.addEventListener('submit', e => {
+    if (e.target.id === 'compose') {
+      e.preventDefault();
+      const ta = $('#compose-text'), err = $('#compose-err');
+      const text = ta.value.trim();
+      if (text.length < 3) { err.textContent = 'Write a few words first.'; err.hidden = false; ta.setAttribute('aria-invalid', 'true'); ta.focus(); return; }
+      err.hidden = true; ta.removeAttribute('aria-invalid');
+      const g = $('#compose-group').value;
+      if (!state.joined.includes(g)) state.joined.push(g);
+      state.posts.unshift({ id: 'me' + Date.now(), g, text, ts: Date.now() });
+      save();
+      ta.value = '';
+      route();
+      toast('Posted to ' + gBySlug[g].name);
+      return;
+    }
+    if (e.target.classList.contains('comment-form')) {
+      e.preventDefault();
+      const input = $('input', e.target);
+      const text = input.value.trim(); if (!text) { input.focus(); return; }
+      const art = e.target.closest('[data-post]'), id = art.dataset.post;
+      (state.comments[id] = state.comments[id] || []).push({ t: text, ts: Date.now() });
+      save();
+      openComments.add(id);
+      const p = allPosts().find(x => x.id === id);
+      art.outerHTML = postCard(p);
+      $('#ci-' + id).focus();
+      renderSides();
+    }
+  });
+  document.addEventListener('input', e => {
+    const wrap = e.target.closest('.ghost-wrap, .search');
+    if (wrap) wrap.classList.toggle('filled', e.target.value.length > 0);
+    if (e.target.id === 'compose-text') {
+      const c = $('#compose-count'); c.textContent = e.target.value.length + ' / 420'; c.classList.toggle('over', e.target.value.length > 400);
+    }
+  });
+
+  // Search
+  $('#search-form').addEventListener('submit', e => { e.preventDefault(); location.hash = '#/search?q=' + encodeURIComponent($('#q').value.trim()); });
+  let searchTimer;
+  $('#q').addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      const v = $('#q').value.trim();
+      if (v.length >= 2) { const h = '#/search?q=' + encodeURIComponent(v); if (location.hash !== h) history.replaceState(null, '', h); renderSearch(v); $('#q').focus(); }
+    }, 220);
+  });
+
+  // Boot
+  applyTheme();
+  renderNotifs();
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulseloop paid acquisition | Zero Lag</title>
+<meta name="description" content="Paid acquisition campaign for the Pulseloop fitness app: campaign structure, twelve ad variants across search, Meta and app store, two landing page variants, audience definitions and a budget planner.">
+<meta name="theme-color" content="#0F1218">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F1117'/%3E%3Cpath d='M5 17h5l3-7 4 12 3-9 2 4h5' fill='none' stroke='%23C8F542' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+<style>
+/* Design tokens for Pulseloop */
+:root{
+  --ink:#0F1218; --ink-2:#171C25; --ink-3:#1F2630; --paper:#F4F5F0; --surface:#FFFFFF; --muted:#5B6473; --line:#DDE0D6; --line-dark:#262E3A;
+  --lime:#C8F44D; --lime-deep:#9CC43A; --lime-tint:#EEF9C9; --violet:#A78BFA; --violet-tint:#E8E5FF; --coral:#FF6F59; --coral-tint:#FFE4DC; --sky:#3B82F6;
+  --display:"Sora","Segoe UI",system-ui,sans-serif; --text:"DM Sans","Segoe UI",system-ui,sans-serif; --mono:ui-monospace,Menlo,Consolas,monospace;
+  --bar-h:34px; --nav-h:52px; --gut:clamp(16px,3.4vw,48px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + var(--nav-h) + 12px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:4px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:clamp(30px,3.6vw,46px);line-height:1.06}
+h3{font-size:20px;line-height:1.25}
+.wrap{padding-inline:var(--gut);max-width:1380px;margin-inline:auto}
+.num{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.04em;display:block;margin-bottom:10px}
+
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:80;height:var(--bar-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--gut);background:#000;color:#9AA0AE;font-size:13px;line-height:1}
+.zl-bar a{color:#E6E8E0;text-decoration:none;font-weight:600;white-space:nowrap}
+.zl-bar a:hover{text-decoration:underline;text-underline-offset:3px}
+.zl-bar a:focus-visible{outline-color:var(--lime)}
+.zl-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl-bar strong{color:#fff;font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Hero */
+.hero{background:var(--ink);color:#fff;overflow:hidden;position:relative}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px 56px;padding-block:clamp(44px,6vw,84px);align-items:center}
+.brandline{display:flex;align-items:center;gap:10px;font:700 24px/1 var(--display);margin-bottom:22px;letter-spacing:-.02em}
+.brandline svg{width:30px;height:30px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#9AA0AE;margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--lime)}
+h1{font-size:clamp(40px,5vw,70px);line-height:1;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--lime)}
+.lede{font-size:clamp(17px,1.35vw,20px);color:#B5BAC6;max-width:32em}
+.facts{display:grid;border-top:1px solid var(--line-dark)}
+.facts div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-dark);font-size:15px}
+.facts dt{color:#9AA0AE;font-weight:500}
+.facts dd{font-weight:500}
+.pulse{margin-bottom:22px;background:var(--ink-2);border:1px solid var(--line-dark);border-radius:16px;padding:18px 20px}
+.pulse svg{width:100%;height:auto}
+.pulse .lbl{display:flex;justify-content:space-between;font-size:12.5px;color:#9AA0AE;margin-top:8px;font-family:var(--mono)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Section nav */
+.secnav{position:sticky;top:var(--bar-h);z-index:60;background:var(--paper);border-bottom:1px solid var(--line)}
+.secnav ul{display:flex;gap:4px;height:var(--nav-h);align-items:center;padding-inline:var(--gut);max-width:1380px;margin-inline:auto;overflow-x:auto;scrollbar-width:none}
+.secnav ul::-webkit-scrollbar{display:none}
+.secnav a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:8px;font-size:14.5px;font-weight:500;text-decoration:none;white-space:nowrap;color:var(--muted);transition:background-color .15s,color .15s}
+.secnav a:hover{background:#E8EAE2;color:var(--ink)}
+.secnav a[aria-current="true"]{background:var(--ink);color:var(--lime)}
+
+/* Sections */
+.sec{padding-block:clamp(52px,6.5vw,96px);border-bottom:1px solid var(--line)}
+.sec:nth-of-type(even){background:var(--surface)}
+.sec-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:14px 48px;align-items:end;margin-bottom:30px}
+.sec-head p{color:var(--muted);max-width:34em}
+@media (max-width:860px){.sec-head{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.sec:nth-of-type(even) .card{background:var(--paper)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;transition:background-color .18s,color .18s}
+.btn-solid{background:var(--ink);color:var(--lime)}
+.btn-solid:hover{background:var(--ink-3)}
+.btn-ghost{box-shadow:inset 0 0 0 1.5px var(--line);background:var(--surface)}
+.btn-ghost:hover{background:#E8EAE2}
+.btn-sm{min-height:36px;padding:6px 13px;font-size:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:2px 9px;border-radius:6px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.tag-lime{background:var(--lime-tint);color:#4F6A00}.tag-violet{background:var(--violet-tint);color:#4A3CC9}.tag-coral{background:var(--coral-tint);color:#B33E22}.tag-ghost{box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}.tag-ink{background:var(--ink);color:var(--lime)}
+.seg{display:inline-flex;background:var(--surface);border-radius:10px;padding:3px;box-shadow:inset 0 0 0 1px var(--line);flex-wrap:wrap}
+.seg button{min-height:34px;padding:4px 14px;border-radius:8px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* Structure tree */
+.tree-tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:16px}
+.tree-sum{font-size:14.5px;color:var(--muted)}
+.tree-sum b{color:var(--ink);font-weight:600}
+.tree{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.camp{overflow:hidden}
+.camp-h{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.camp-h i{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-style:normal;background:var(--ink);color:var(--lime)}
+.camp-h i svg{width:20px;height:20px}
+.camp-h b{display:block;font-family:var(--display);font-size:17px;font-weight:700}
+.camp-h small{display:block;color:var(--muted);font-size:13px}
+.camp-h .share{font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap}
+.ag{border-bottom:1px solid var(--line)}
+.ag:last-child{border-bottom:0}
+.ag-h{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;padding:12px 18px 12px 18px;font-size:15px;font-weight:600}
+.ag-h:hover{background:rgba(0,0,0,.03)}
+.ag-h svg{width:16px;height:16px;transition:transform .2s;color:var(--muted)}
+.ag-h[aria-expanded="true"] svg{transform:rotate(90deg)}
+.ag-h .cnt{font-family:var(--mono);font-size:12px;color:var(--muted);font-weight:400}
+.kws{padding:0 18px 12px 50px;display:grid;gap:4px;position:relative}
+.kws::before{content:"";position:absolute;left:28px;top:0;bottom:14px;border-left:1.5px dashed var(--line)}
+.kw{display:flex;align-items:center;gap:8px;font-size:14px;position:relative}
+.kw::before{content:"";position:absolute;left:-22px;top:50%;width:14px;border-top:1.5px dashed var(--line)}
+.kw .m{font-family:var(--mono);font-size:11.5px;padding:1px 6px;border-radius:4px;background:#E8EAE2;color:var(--muted);white-space:nowrap}
+.kw .m.exact{background:var(--lime-tint);color:#4F6A00}.kw .m.phrase{background:var(--violet-tint);color:#4A3CC9}
+.kw .neg{color:var(--coral);font-weight:600}
+.asset{font-size:14px;color:var(--muted);padding:2px 0}
+.asset b{color:var(--ink);font-weight:500}
+@media (max-width:1000px){.tree{grid-template-columns:minmax(0,1fr)}}
+
+/* Ads */
+.ad-tools{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:20px}
+.ads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.ads.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ad{display:grid;gap:12px}
+.ad-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13.5px;color:var(--muted)}
+.ad-meta .why{width:100%;margin-top:2px}
+/* Google search ad */
+.gad{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-family:Arial,Helvetica,sans-serif;color:#202124}
+.gad .sp{font-size:14px;font-weight:700;margin-bottom:10px}
+.gad .site{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.gad .fav{width:26px;height:26px;border-radius:50%;background:#f1f3f4;display:grid;place-items:center}
+.gad .fav svg{width:16px;height:16px}
+.gad .site b{display:block;font-size:14px;font-weight:400;line-height:1.3}
+.gad .site span{display:block;font-size:12px;color:#4d5156;line-height:1.3}
+.gad .hl{font-size:20px;line-height:1.3;color:#1a0dab;margin-bottom:4px}
+.gad .ds{font-size:14px;line-height:1.58;color:#4d5156}
+.gad .sl{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:8px;font-size:14px;color:#1a0dab}
+/* Meta feed ad */
+.mad{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-family:Helvetica,Arial,sans-serif;color:#050505}
+.mad .top{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.mad .avt{width:40px;height:40px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+.mad .avt svg{width:22px;height:22px}
+.mad .top b{display:block;font-size:15px;font-weight:600}
+.mad .top span{display:block;font-size:12.5px;color:#65676b}
+.mad .pt{padding:0 14px 12px;font-size:15px;line-height:1.4}
+.mad .cr{aspect-ratio:1;position:relative;overflow:hidden;background:var(--ink);color:#fff;container-type:inline-size}
+.mad .cr svg{position:absolute;inset:0;width:100%;height:100%}
+.mad .cr::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(15,18,24,.9) 0%,rgba(15,18,24,.35) 45%,transparent 70%)}
+.mad .cr .big,.mad .cr .pill,.mad .cr .stat,.mad .cr .ring{z-index:2}
+.mad .cr .big{position:absolute;left:7cqw;bottom:7cqw;font-family:var(--display);font-weight:700;font-size:11cqw;line-height:.95;letter-spacing:-.03em;max-width:80%}
+.mad .cr .big em{font-style:normal;color:var(--lime)}
+.mad .cr .pill{position:absolute;left:7cqw;top:7cqw;font-size:3.6cqw;font-weight:600;padding:1.4cqw 3cqw;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(4px)}
+.mad .cr .ring{position:absolute;right:7cqw;top:7cqw;width:30cqw;height:30cqw}
+.mad .cr .stat{position:absolute;right:7cqw;bottom:7cqw;text-align:right}
+.mad .cr .stat b{display:block;font-family:var(--display);font-size:12cqw;line-height:1;color:var(--lime)}
+.mad .cr .stat span{font-size:3.6cqw;color:#B5BAC6}
+.mad .ft{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:#f0f2f5}
+.mad .ft small{display:block;font-size:12px;color:#65676b;text-transform:uppercase}
+.mad .ft b{display:block;font-size:15px;font-weight:600}
+.mad .cta{flex:none;padding:9px 14px;border-radius:6px;background:#e4e6eb;font-weight:600;font-size:14px}
+/* App store ad */
+.aad{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;color:#1c1c1e}
+.aad .row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center}
+.aad .icon{width:64px;height:64px;border-radius:15px;background:var(--ink);display:grid;place-items:center;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2)}
+.aad .icon svg{width:40px;height:40px}
+.aad .row b{display:block;font-size:16px;font-weight:600;line-height:1.25}
+.aad .row span{display:block;font-size:13px;color:#6e6e73}
+.aad .row .adb{display:inline-block;font-size:10px;font-weight:700;padding:1px 5px;border:1px solid #6e6e73;border-radius:4px;color:#6e6e73;margin-right:6px;vertical-align:middle}
+.aad .get{padding:7px 18px;border-radius:999px;background:#007aff;color:#fff;font-weight:700;font-size:14px}
+.aad .shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.aad .shot{aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:var(--ink);position:relative;container-type:inline-size;color:#fff;border:.5px solid rgba(0,0,0,.15)}
+.aad .shot .t{position:absolute;left:8cqw;top:9cqw;font-size:7cqw;font-weight:600;line-height:1.2;max-width:84%}
+.aad .shot .ring{position:absolute;left:50%;top:40%;width:60cqw;height:60cqw;transform:translateX(-50%)}
+.aad .shot .n{position:absolute;left:0;right:0;top:58%;text-align:center;font-family:var(--display);font-size:16cqw;font-weight:700;color:var(--lime)}
+.aad .shot .sub{position:absolute;left:0;right:0;top:78%;text-align:center;font-size:5.5cqw;color:#B5BAC6}
+.aad .shot .bars{position:absolute;left:8cqw;right:8cqw;bottom:10cqw;display:flex;align-items:flex-end;gap:3cqw;height:34cqw}
+.aad .shot .bars i{flex:1;background:var(--ink-3);border-radius:2cqw 2cqw 0 0}
+.aad .shot .bars i.on{background:var(--lime)}
+.aad .shot .map{position:absolute;inset:0}
+.aad .sub-line{margin-top:10px;font-size:13px;color:#6e6e73}
+@media (max-width:900px){.ads,.ads.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.ads,.ads.three{grid-template-columns:minmax(0,1fr)}}
+
+/* Landing pages */
+.lp-tools{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:16px}
+.browser{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 14px 40px rgba(15,17,23,.08)}
+.browser-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#EEF0E8;border-bottom:1px solid var(--line)}
+.browser-bar .dots{display:flex;gap:6px}
+.browser-bar .dots i{width:11px;height:11px;border-radius:50%;background:#C9CDBF}
+.browser-bar .url{flex:1;background:#fff;border-radius:8px;padding:6px 12px;font-size:13px;color:var(--muted);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lp{display:none;container-type:inline-size}
+.lp.on{display:block}
+.lp-nav{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;border-bottom:1px solid var(--line)}
+.lp-nav .lg{display:flex;align-items:center;gap:8px;font:700 18px var(--display);letter-spacing:-.02em}
+.lp-nav .lg svg{width:24px;height:24px}
+.lp-nav a{font-size:14px;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:8px;background:var(--ink);color:var(--lime)}
+.lp-hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:28px;padding:40px 28px;align-items:center;background:var(--ink);color:#fff}
+.lp-hero h3{font-size:clamp(28px,4.4cqw,46px);line-height:1.02;letter-spacing:-.025em;margin-bottom:12px}
+.lp-hero h3 em{font-style:normal;color:var(--lime)}
+.lp-hero p{color:#B5BAC6;font-size:16px;max-width:30em;margin-bottom:18px}
+.lp-cta{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 20px;border-radius:10px;background:var(--lime);color:var(--ink);font-weight:700;font-size:15px;text-decoration:none}
+.lp-cta.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px var(--line-dark);margin-left:8px}
+.lp-hero .fine{font-size:12.5px;color:#9AA0AE;margin:10px 0 0}
+.lp-phone{width:min(100%,230px);margin-inline:auto;aspect-ratio:9/18.5;border-radius:30px;background:#000;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,.5),inset 0 0 0 1.5px #333}
+.lp-phone .scr{height:100%;border-radius:24px;background:var(--ink-2);position:relative;overflow:hidden;container-type:inline-size;color:#fff}
+.lp-phone .scr .wk{position:absolute;left:7cqw;top:8cqw;font-size:4.5cqw;color:#9AA0AE}
+.lp-phone .scr .big{position:absolute;left:7cqw;top:15cqw;font:700 9cqw/1.1 var(--display);max-width:86%}
+.lp-phone .scr .days{position:absolute;left:7cqw;right:7cqw;top:38cqw;display:grid;grid-template-columns:repeat(7,1fr);gap:2cqw}
+.lp-phone .scr .days i{display:block;aspect-ratio:1;border-radius:50%;background:var(--ink-3);font-style:normal;font-size:3.6cqw;display:grid;place-items:center;color:#9AA0AE}
+.lp-phone .scr .days i.on{background:var(--lime);color:var(--ink);font-weight:700}
+.lp-phone .scr .sess{position:absolute;left:7cqw;right:7cqw;top:58cqw;display:grid;gap:3cqw}
+.lp-phone .scr .sess div{padding:4cqw;border-radius:4cqw;background:var(--ink-3);font-size:4cqw;line-height:1.3}
+.lp-phone .scr .sess b{display:block;font-size:4.4cqw}
+.lp-phone .scr .sess span{color:#9AA0AE}
+.lp-feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:32px 28px}
+.lp-feats div{padding:18px;border-radius:12px;background:var(--paper)}
+.lp-feats b{display:block;font-family:var(--display);font-size:17px;margin-bottom:6px}
+.lp-feats p{font-size:14px;color:var(--muted)}
+.lp-foot{padding:16px 28px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+.goal{padding:36px 28px;background:var(--ink);color:#fff}
+.goal h3{font-size:clamp(28px,4.4cqw,44px);line-height:1.02;letter-spacing:-.025em;margin-bottom:6px;text-align:center}
+.goal h3 em{font-style:normal;color:var(--lime)}
+.goal>p{text-align:center;color:#B5BAC6;margin-bottom:22px}
+.goals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:760px;margin-inline:auto}
+.goals button{padding:16px 12px;border-radius:12px;background:var(--ink-2);box-shadow:inset 0 0 0 1.5px var(--line-dark);color:#fff;text-align:left;transition:box-shadow .15s,background-color .15s}
+.goals button:hover{background:var(--ink-3)}
+.goals button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--lime);background:var(--ink-3)}
+.goals b{display:block;font-family:var(--display);font-size:18px}
+.goals span{display:block;font-size:12.5px;color:#9AA0AE;margin-top:2px}
+.dpw{display:flex;justify-content:center;align-items:center;gap:10px;margin:18px 0 4px;font-size:14px;color:#B5BAC6;flex-wrap:wrap}
+.dpw .seg{background:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line-dark)}
+.dpw .seg button{color:#B5BAC6}
+.dpw .seg button[aria-pressed="true"]{background:var(--lime);color:var(--ink)}
+.plan{max-width:760px;margin:18px auto 0;background:var(--ink-2);border:1px solid var(--line-dark);border-radius:14px;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+.plan b{display:block;font-family:var(--display);font-size:20px;margin-bottom:4px}
+.plan p{font-size:14px;color:#B5BAC6}
+.plan .wkz{display:flex;gap:4px;margin-top:12px;flex-wrap:wrap}
+.plan .wkz i{width:22px;height:8px;border-radius:2px;background:var(--ink-3)}
+.plan .wkz i.e{background:var(--lime)}.plan .wkz i.b{background:var(--violet)}.plan .wkz i.p{background:var(--coral)}
+.plan-leg{display:flex;gap:14px;font-size:12px;color:#9AA0AE;margin-top:6px}
+.plan-leg span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.plan-leg .e::before{background:var(--lime)}.plan-leg .b::before{background:var(--violet)}.plan-leg .p::before{background:var(--coral)}
+.lp-diff{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.lp-diff .card{padding:18px 20px}
+.lp-diff h4{font-family:var(--display);font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.lp-diff ul{display:grid;gap:5px;font-size:14px;color:var(--muted)}
+.lp-diff li{display:grid;grid-template-columns:14px 1fr;gap:8px}
+.lp-diff li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--violet);margin-top:8px}
+@media (max-width:760px){.lp-hero{grid-template-columns:minmax(0,1fr)}.lp-feats{grid-template-columns:minmax(0,1fr)}.goals{grid-template-columns:repeat(2,minmax(0,1fr))}.plan{grid-template-columns:minmax(0,1fr)}.lp-diff{grid-template-columns:minmax(0,1fr)}}
+
+/* Audiences */
+.aud{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.aud .card{padding:20px 22px;display:grid;gap:10px;align-content:start}
+.aud .card h3{display:flex;align-items:center;gap:10px}
+.aud .card h3 i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--lime-tint);color:#4F6A00;font:700 13px var(--mono);font-style:normal}
+.aud .card.ex h3 i{background:var(--coral-tint);color:#B33E22}
+.aud dl{display:grid;grid-template-columns:86px 1fr;gap:5px 12px;font-size:14px}
+.aud dt{color:var(--muted);font-weight:500}
+.aud .msg{padding:10px 12px;border-radius:8px;background:var(--violet-tint);color:#3A2EA8;font-size:13.5px}
+@media (max-width:1000px){.aud{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.aud{grid-template-columns:minmax(0,1fr)}}
+
+/* Budget planner */
+.budget{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:22px;align-items:start}
+.bform{padding:22px}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:13.5px;font-weight:600}
+.field input[type=number],.field input[type=text],.field select{min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;width:100%;font-variant-numeric:tabular-nums}
+.money{position:relative}
+.money::before{content:"$";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.money input{padding-left:26px!important;font-size:18px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.share{display:grid;gap:4px;margin-bottom:10px}
+.share .lab{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.share .lab output{font-family:var(--mono);color:var(--muted);font-weight:500}
+.share input[type=range]{width:100%;accent-color:var(--ink);height:28px}
+.bnote{margin-top:6px;padding:12px 14px;border-radius:10px;background:var(--lime-tint);font-size:13.5px;color:#3F5600}
+.bout .card{padding:20px 22px;margin-bottom:14px}
+.bigrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bigrow div{padding:14px 16px;border-radius:10px;background:var(--ink);color:#fff}
+.bigrow small{display:block;font-size:12px;color:#9AA0AE;text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px}
+.bigrow b{display:block;font-family:var(--display);font-size:clamp(20px,2vw,28px);line-height:1.1;color:var(--lime);font-variant-numeric:tabular-nums}
+.tbl-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:#EEF0E8}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:13.5px}
+tbody tr:last-child td{border-bottom:0}
+tr.sub td{color:var(--muted);font-size:13.5px}
+tr.sub td:first-child{padding-left:30px}
+tr.tot td{font-weight:700;background:#F7F8F3}
+.stack{height:14px;border-radius:7px;overflow:hidden;display:flex;margin:4px 0 12px}
+.stack i{display:block;height:100%}
+@media (max-width:900px){.budget{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.bigrow{grid-template-columns:minmax(0,1fr)}.two{grid-template-columns:minmax(0,1fr)}}
+
+.foot-site{padding:28px 0 40px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+.foot-site a{color:var(--ink);font-weight:600}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Pulseloop paid acquisition</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="brandline"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#C8F44D"/><path d="M5 17h5l3-7 4 12 3-9 2 4h5" fill="none" stroke="#0F1218" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Pulseloop</p>
+      <p class="eyebrow">Digital marketing &middot; Paid acquisition</p>
+      <h1>Three campaigns, twelve ads and two landing pages, built to be <em>switched on</em></h1>
+      <p class="lede">Pulseloop is a running and habit app. This is the paid plan to grow it: a campaign structure that keeps intent separate from reach, ads built for each placement, a landing page test, the audiences each campaign talks to, and a planner that turns one monthly number into daily budgets.</p>
+    </div>
+    <div>
+      <div class="pulse" aria-hidden="true">
+        <svg viewBox="0 0 400 110"><path d="M0 70 H60 l12-22 14 44 16-62 14 70 12-40 10 10 H200 l12-22 14 44 16-62 14 70 12-40 10 10 H400" fill="none" stroke="#C8F44D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 70 H400" stroke="#262E3A" stroke-dasharray="3 5"/></svg>
+        <div class="lbl"><span>SEARCH · APP INSTALL · RETARGETING</span><span>12 ADS · 2 PAGES</span></div>
+      </div>
+      <dl class="facts">
+        <div><dt>Platforms</dt><dd>Google Search, Google App campaigns, Meta, Apple Search Ads</dd></div>
+        <div><dt>Deliverables</dt><dd>Structure, ads, landing pages, audiences, budget planner</dd></div>
+        <div><dt>Team</dt><dd>Hammad (structure, budget), Ali (ads), Ebad (landing pages)</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Deliverables">
+  <ul>
+    <li><a href="#structure">Campaign structure</a></li>
+    <li><a href="#ads">Ad variants</a></li>
+    <li><a href="#landing">Landing pages</a></li>
+    <li><a href="#audiences">Audiences</a></li>
+    <li><a href="#budget">Budget planner</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- Structure -->
+<section class="sec" id="structure" aria-labelledby="st-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">01 / 05</span><h2 id="st-h">Campaign structure</h2></div>
+      <p>Three campaigns with one job each. Search catches people already looking, app install campaigns find people like them, and retargeting talks only to people who have met Pulseloop before. Open any ad group to see its keywords or assets.</p>
+    </div>
+    <div class="tree-tools">
+      <p class="tree-sum" id="tree-sum"></p>
+      <div class="seg"><button id="exp-all" aria-pressed="false">Expand all</button><button id="col-all" aria-pressed="true">Collapse all</button></div>
+    </div>
+    <div class="tree" id="tree"></div>
+  </div>
+</section>
+
+<!-- Ads -->
+<section class="sec" id="ads" aria-labelledby="ads-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">02 / 05</span><h2 id="ads-h">Twelve ad variants</h2></div>
+      <p>Four for each placement, each with a different angle so the test tells us something. Everything is drawn in HTML, CSS and SVG at the real placement proportions.</p>
+    </div>
+    <div class="ad-tools">
+      <div class="seg" role="group" aria-label="Placement"><button data-p="google" aria-pressed="true">Google Search</button><button data-p="meta" aria-pressed="false">Meta feed</button><button data-p="app" aria-pressed="false">App store</button></div>
+      <p class="tree-sum" id="ad-note"></p>
+    </div>
+    <div class="ads" id="ads-grid"></div>
+  </div>
+</section>
+
+<!-- Landing pages -->
+<section class="sec" id="landing" aria-labelledby="lp-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">03 / 05</span><h2 id="lp-h">Landing page test</h2></div>
+      <p>Two pages with the same offer and one difference: A explains the plan, B asks the visitor to pick a goal first. Both are working pages; try the goal picker in B.</p>
+    </div>
+    <div class="lp-tools">
+      <div class="seg" role="group" aria-label="Variant"><button data-v="a" aria-pressed="true">Variant A · Plan-led</button><button data-v="b" aria-pressed="false">Variant B · Goal-led</button></div>
+      <span class="tag tag-ghost">50 / 50 split by campaign URL parameter</span>
+    </div>
+    <div class="browser">
+      <div class="browser-bar"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><div class="url" id="lp-url">pulseloop.example/start?v=a</div></div>
+      <div class="lp on" id="lp-a">
+        <div class="lp-nav"><span class="lg"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0F1218"/><path d="M5 17h5l3-7 4 12 3-9 2 4h5" fill="none" stroke="#C8F44D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Pulseloop</span><a href="#landing">Get the app</a></div>
+        <div class="lp-hero">
+          <div><h3>A running plan that <em>adapts to your week</em>, not the other way round.</h3><p>Tell Pulseloop how many days you have. It builds the sessions, moves them when life moves, and keeps your streak honest.</p><a class="lp-cta" href="#landing">Start free for 14 days</a><a class="lp-cta ghost" href="#landing">See a plan</a><p class="fine">No card to start. Cancel in the app.</p></div>
+          <div class="lp-phone" aria-hidden="true"><div class="scr"><span class="wk">Week 3 of 8</span><span class="big">Tuesday easy run</span><div class="days"><i>M</i><i class="on">T</i><i>W</i><i class="on">T</i><i>F</i><i class="on">S</i><i>S</i></div><div class="sess"><div><b>Easy run · 30 min</b><span>Zone 2, talk pace</span></div><div><b>Intervals · 6 × 2 min</b><span>Thursday, moved from Wed</span></div></div></div></div>
+        </div>
+        <div class="lp-feats"><div><b>Moves with you</b><p>Miss a day and the plan reshuffles the week instead of guilt-tripping you.</p></div><div><b>Heart-rate zones, explained</b><p>Every session says what effort it wants in plain words, not just numbers.</p></div><div><b>Streaks that bend</b><p>Rest days count. A streak is about showing up, not about running every day.</p></div></div>
+        <div class="lp-foot"><span>Pulseloop · Privacy · Terms</span><span>iOS and Android</span></div>
+      </div>
+      <div class="lp" id="lp-b">
+        <div class="lp-nav"><span class="lg"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0F1218"/><path d="M5 17h5l3-7 4 12 3-9 2 4h5" fill="none" stroke="#C8F44D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Pulseloop</span><a href="#landing">Get the app</a></div>
+        <div class="goal">
+          <h3 id="goal-h">What are you <em>training for</em>?</h3>
+          <p>Pick one and we will show you the plan before you install anything.</p>
+          <div class="goals" id="goals" role="group" aria-label="Goal">
+            <button data-g="5k" aria-pressed="false"><b>5K</b><span>First one, or faster</span></button>
+            <button data-g="10k" aria-pressed="false"><b>10K</b><span>Hold a steady pace</span></button>
+            <button data-g="half" aria-pressed="false"><b>Half marathon</b><span>Go long, stay whole</span></button>
+            <button data-g="habit" aria-pressed="false"><b>Just move</b><span>Three days a week, kept</span></button>
+          </div>
+          <div class="dpw"><span>Days you can run each week</span><div class="seg" id="dpw" role="group" aria-label="Days per week"><button data-d="2" aria-pressed="false">2</button><button data-d="3" aria-pressed="true">3</button><button data-d="4" aria-pressed="false">4</button><button data-d="5" aria-pressed="false">5</button></div></div>
+          <div class="plan" id="plan" aria-live="polite"><div><b>Pick a goal to see your plan</b><p>The plan length, the mix of easy and hard sessions, and the first week change with your choice.</p></div></div>
+        </div>
+        <div class="lp-feats"><div><b>Built around your days</b><p>The plan only schedules the days you said you have.</p></div><div><b>Starts where you are</b><p>The first week is a check-in, not a test. Everything scales from it.</p></div><div><b>Free for 14 days</b><p>Run the first two weeks before paying anything.</p></div></div>
+        <div class="lp-foot"><span>Pulseloop · Privacy · Terms</span><span>iOS and Android</span></div>
+      </div>
+    </div>
+    <div class="lp-diff">
+      <div class="card"><h4><span class="tag tag-ink">A</span>Plan-led</h4><ul><li>Headline states the product's one idea</li><li>Phone shows a real week with a moved session</li><li>Primary button goes straight to the store</li><li>Best for search traffic that already knows what it wants</li></ul></div>
+      <div class="card"><h4><span class="tag tag-violet">B</span>Goal-led</h4><ul><li>Visitor commits to a goal before the pitch</li><li>Plan preview is generated from their answers</li><li>Store link carries the goal so onboarding is pre-filled</li><li>Best for Meta and app campaign traffic that arrived curious</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- Audiences -->
+<section class="sec" id="audiences" aria-labelledby="aud-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">04 / 05</span><h2 id="aud-h">Audience definitions</h2></div>
+      <p>Who each campaign is allowed to reach, how they are identified, and what we say to them. The exclusion list applies everywhere.</p>
+    </div>
+    <div class="aud" id="aud"></div>
+  </div>
+</section>
+
+<!-- Budget -->
+<section class="sec" id="budget" aria-labelledby="bud-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">05 / 05</span><h2 id="bud-h">Budget planner</h2></div>
+      <p>Type a monthly total and the planner divides it across the three campaigns and their ad groups, by day and by week. It is arithmetic on the number you enter: it does not estimate clicks, installs or costs.</p>
+    </div>
+    <div class="budget">
+      <form class="card bform" id="bform" autocomplete="off">
+        <div class="field"><label for="b-total">Monthly budget</label><div class="money"><input type="number" id="b-total" min="0" step="50" value="6000" inputmode="decimal"></div></div>
+        <div class="two">
+          <div class="field"><label for="b-days">Days in month</label><select id="b-days"><option value="28">28</option><option value="30" selected>30</option><option value="31">31</option></select></div>
+          <div class="field"><label for="b-reserve">Held back for tests</label><select id="b-reserve"><option value="0">0%</option><option value="5">5%</option><option value="10" selected>10%</option><option value="15">15%</option></select></div>
+        </div>
+        <p class="field label" style="font-weight:600;font-size:13.5px;margin-bottom:8px">Split across campaigns</p>
+        <div class="share"><div class="lab"><label for="s-search">Search</label><output id="o-search"></output></div><input type="range" id="s-search" min="0" max="100" value="35" data-k="search"></div>
+        <div class="share"><div class="lab"><label for="s-install">App install</label><output id="o-install"></output></div><input type="range" id="s-install" min="0" max="100" value="40" data-k="install"></div>
+        <div class="share"><div class="lab"><label for="s-retarget">Retargeting</label><output id="o-retarget"></output></div><input type="range" id="s-retarget" min="0" max="100" value="25" data-k="retarget"></div>
+        <div class="stack" id="stack" aria-hidden="true"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-ghost btn-sm" id="b-reset">Reset to 35 / 40 / 25</button></div>
+        <p class="bnote">Planning tool. Moving one slider rebalances the other two so the split always adds to 100%. Your inputs are kept in this browser.</p>
+      </form>
+      <div class="bout">
+        <div class="card"><div class="bigrow" id="bigrow"></div></div>
+        <div class="tbl-wrap"><table id="btable"><thead><tr><th>Campaign / ad group</th><th class="n">Share</th><th class="n">Per month</th><th class="n">Per week</th><th class="n">Per day</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot-site">
+  <span>Paid acquisition plan for Pulseloop by <a href="../../index.html">Zero Lag</a></span>
+  <span>The planner divides what you type; nothing on this page is a forecast.</span>
+</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LOGO = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0F1218"/><path d="M5 17h5l3-7 4 12 3-9 2 4h5" fill="none" stroke="#C8F44D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const LOGO_LIME = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 17h5l3-7 4 12 3-9 2 4h5" fill="none" stroke="#C8F44D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Section nav highlights the section in view
+(function(){
+  const links = $$('.secnav a');
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false')); }); }, { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach(a => { io.observe($(a.getAttribute('href'))); a.addEventListener('click', () => a.scrollIntoView({ inline: 'center', block: 'nearest' })); });
+})();
+
+// Campaign structure
+const STRUCT = [
+  { key:'search', name:'Search', sub:'Google Search · intent', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>', groups:[
+    { name:'Running plans', kws:[['running training plan app','phrase'],['5k training plan','exact'],['couch to 5k app','exact'],['10k training plan','phrase'],['half marathon training plan','phrase'],['beginner running plan','phrase']] },
+    { name:'Habit and streaks', kws:[['workout habit tracker','phrase'],['running streak app','exact'],['habit tracker for exercise','phrase'],['app to stay consistent working out','broad']] },
+    { name:'Heart-rate training', kws:[['heart rate zone training app','phrase'],['zone 2 running app','exact'],['train by heart rate','broad']] },
+    { name:'Brand', kws:[['pulseloop','exact'],['pulseloop app','exact'],['pulse loop running','phrase']] },
+    { name:'Negatives (campaign level)', kws:[['free','neg'],['treadmill','neg'],['jobs','neg'],['watch','neg'],['gym near me','neg']] }
+  ] },
+  { key:'install', name:'App install', sub:'Google App campaign + Apple Search Ads', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>', groups:[
+    { name:'Asset group: Start a streak', assets:[['Headlines','Start a streak you can keep','Three runs a week. Kept.','Rest days count'],['Descriptions','A running plan that reshuffles when life does.','Built around the days you actually have.'],['Images','4 square, 4 landscape, 2 portrait from the ad set below'],['Video','15s vertical: a week reshuffling itself']] },
+    { name:'Asset group: Train by heart rate', assets:[['Headlines','Run by effort, not pace','Zone 2 made obvious','Know what easy means'],['Descriptions','Every session tells you the effort it wants, in words.','Works with any watch or just your phone.'],['Images','4 square, 4 landscape, 2 portrait'],['Video','15s vertical: zone ring filling on a run']] },
+    { name:'Apple Search Ads: category and competitor-adjacent', assets:[['Keywords','running app, run tracker, 5k trainer, running coach, interval timer'],['Match','Broad with search-match off; exact on the top ten'],['Custom product page','Goal-led page, mirrors landing page B']] }
+  ] },
+  { key:'retarget', name:'Retargeting', sub:'Meta + Google Display', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>', groups:[
+    { name:'Installed, no first run (72h)', assets:[['Audience','App event install, no workout_started within 3 days'],['Message','"Your first run is 20 minutes. We picked an easy one."'],['Placements','Meta feed and stories, Display in-app']] },
+    { name:'Trial ending in 2 days', assets:[['Audience','trial_started 12 days ago, no subscription'],['Message','"Two days left. Keep the plan, keep the streak."'],['Placements','Meta feed only, frequency cap 2 per day']] },
+    { name:'Site visitors, not installed (14d)', assets:[['Audience','Pixel: landing page visit, no app_install event, 14 days'],['Message','"The plan you looked at is still here."'],['Placements','Meta feed, Display responsive']] }
+  ] }
+];
+const M = { exact:'[exact]', phrase:'"phrase"', broad:'broad', neg:'negative' };
+$('#tree').innerHTML = STRUCT.map((c, ci) => `<div class="card camp"><div class="camp-h"><i>${c.icon}</i><div><b>${esc(c.name)}</b><small>${esc(c.sub)}</small></div><span class="share" id="share-${c.key}"></span></div>
+  ${c.groups.map((g, gi) => `<div class="ag"><button class="ag-h" aria-expanded="false" aria-controls="ag-${ci}-${gi}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg><span>${esc(g.name)}</span><span class="cnt">${g.kws ? g.kws.length + ' kw' : g.assets.length + ' items'}</span></button>
+    <div class="kws" id="ag-${ci}-${gi}" hidden>${g.kws ? g.kws.map(k => `<div class="kw">${k[1] === 'neg' ? `<span class="neg">−</span><span>${esc(k[0])}</span>` : `<span>${esc(k[0])}</span><span class="m ${k[1]}">${M[k[1]]}</span>`}</div>`).join('') : g.assets.map(a => `<div class="kw asset"><span><b>${esc(a[0])}:</b> ${a.slice(1).map(esc).join(' · ')}</span></div>`).join('')}</div></div>`).join('')}</div>`).join('');
+const nKw = STRUCT[0].groups.reduce((s, g) => s + g.kws.filter(k => k[1] !== 'neg').length, 0);
+$('#tree-sum').innerHTML = `<b>3</b> campaigns · <b>${STRUCT.reduce((s, c) => s + c.groups.length, 0)}</b> ad groups · <b>${nKw}</b> keywords`;
+function setAll(open) { $$('.ag-h').forEach(b => { b.setAttribute('aria-expanded', String(open)); $('#' + b.getAttribute('aria-controls')).hidden = !open; }); $('#exp-all').setAttribute('aria-pressed', String(open)); $('#col-all').setAttribute('aria-pressed', String(!open)); }
+$('#tree').addEventListener('click', e => { const b = e.target.closest('.ag-h'); if (!b) return; const o = b.getAttribute('aria-expanded') === 'true'; b.setAttribute('aria-expanded', String(!o)); $('#' + b.getAttribute('aria-controls')).hidden = o; });
+$('#exp-all').addEventListener('click', () => setAll(true));
+$('#col-all').addEventListener('click', () => setAll(false));
+$$('.ag-h').slice(0, 1).forEach(b => b.click());
+
+// Ads
+const ADS = {
+  google: { note:'Responsive search ads shown as one assembled combination each. Pinned headline 1 per ad group.', items:[
+    { angle:'Plan', aud:'Running plans', h:['Running Plan That Adapts', '5K to Half, 3 Days a Week', 'Free 14 Days'], d:'Tell Pulseloop which days you have. It builds the sessions and moves them when your week moves. No card to start.', sl:['See a week of the plan','Heart-rate zones explained','iOS and Android','How the free trial works'] },
+    { angle:'Habit', aud:'Habit and streaks', h:['A Streak You Can Keep', 'Rest Days Count', 'Pulseloop'], d:'Three runs a week, kept. Pulseloop plans around your calendar and treats rest as part of the streak, not a break in it.', sl:['Start a streak','Why rest days count','Plans for beginners','Free 14 days'] },
+    { angle:'Effort', aud:'Heart-rate training', h:['Train by Heart Rate', 'Zone 2 Made Obvious', 'Works With Any Watch'], d:'Every session says the effort it wants in plain words. Easy means easy. Pulseloop reads your watch or just your phone.', sl:['What zone 2 means','Pair your watch','See a session','Free 14 days'] },
+    { angle:'Brand', aud:'Brand', h:['Pulseloop', 'Official App', 'Running Plans and Streaks'], d:'The running and habit app. Plans that adapt to your week, heart-rate zones in plain words, streaks that bend. Free for 14 days.', sl:['Download for iOS','Download for Android','Pricing','Help centre'] }
+  ] },
+  meta: { note:'1:1 feed creatives. Each is a layout, not a photo, so it can be re-coloured and re-copied per audience in minutes.', items:[
+    { angle:'Reshuffle', aud:'Prospecting: runners 25 to 44', pt:'Missed Tuesday? The plan moves. That is the whole point.', hl:'A running plan that adapts to your week', kind:'week' },
+    { angle:'Effort', aud:'Prospecting: watch owners', pt:'"Easy" should feel easy. Pulseloop tells you the effort in words, not just a number.', hl:'Train by heart rate, in plain words', kind:'ring' },
+    { angle:'First run', aud:'Retargeting: installed, no first run', pt:'Your first run is 20 minutes and we picked an easy one. It is in the app, waiting.', hl:'Your first run is ready', kind:'first' },
+    { angle:'Trial ending', aud:'Retargeting: trial ends in 2 days', pt:'Two days left on the trial. Keep the plan and the streak goes with it.', hl:'Keep the plan, keep the streak', kind:'streak' }
+  ] },
+  app: { note:'App store search placements: icon, title, subtitle and the first three screenshots are the whole ad. Each variant leads with a different screen.', items:[
+    { angle:'Plan', aud:'Keyword: running plan', title:'Pulseloop: Run & Habit Coach', sub:'Plans that adapt to your week', shots:['week','ring','streak'] },
+    { angle:'Zones', aud:'Keyword: heart rate training', title:'Pulseloop: Run & Habit Coach', sub:'Heart-rate zones in plain words', shots:['ring','week','map'] },
+    { angle:'Streak', aud:'Keyword: habit tracker', title:'Pulseloop: Run & Habit Coach', sub:'Streaks where rest days count', shots:['streak','week','ring'] },
+    { angle:'Beginner', aud:'Keyword: couch to 5k', title:'Pulseloop: Run & Habit Coach', sub:'Your first 5K, three days a week', shots:['map','week','streak'] }
+  ] }
+};
+const ringSVG = (pct, w = '100%') => `<svg viewBox="0 0 100 100" style="width:${w};height:auto" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="#1F2630" stroke-width="10"/><circle cx="50" cy="50" r="40" fill="none" stroke="#C8F44D" stroke-width="10" stroke-linecap="round" stroke-dasharray="${2 * Math.PI * 40}" stroke-dashoffset="${2 * Math.PI * 40 * (1 - pct)}" transform="rotate(-90 50 50)"/></svg>`;
+const lineSVG = '<svg viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true"><g transform="translate(0,-100)"><path d="M0 300 H80 l14-26 16 52 18-74 16 84 14-48 12 12 H400" fill="none" stroke="#1F2630" stroke-width="3"/><path d="M0 230 H60 l12-22 14 44 16-62 14 70 12-40 10 10 H200 l12-22 14 44 16-62 14 70 12-40 10 10 H400" fill="none" stroke="#C8F44D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>';
+const mapSVG = '<svg class="map" viewBox="0 0 100 180" aria-hidden="true"><rect width="100" height="180" fill="#171C25"/><path d="M10 160 C20 120 40 130 45 100 S30 60 55 50 S85 40 80 20" fill="none" stroke="#262E3A" stroke-width="10" stroke-linecap="round"/><path d="M10 160 C20 120 40 130 45 100 S30 60 55 50 S85 40 80 20" fill="none" stroke="#C8F44D" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="20" r="5" fill="#C8F44D"/></svg>';
+function creative(kind) {
+  if (kind === 'week') return `<div class="cr">${lineSVG}<span class="pill">Week 3 of 8</span><p class="big">Missed Tuesday?<br><em>The plan moved.</em></p></div>`;
+  if (kind === 'ring') return `<div class="cr"><span class="pill">Zone 2 · easy</span><div class="ring">${ringSVG(.62)}</div><p class="big">Easy should<br><em>feel easy.</em></p></div>`;
+  if (kind === 'first') return `<div class="cr">${lineSVG}<span class="pill">Run 1 of 24</span><div class="stat"><b>20</b><span>minutes, easy pace</span></div><p class="big">Your first run<br><em>is ready.</em></p></div>`;
+  return `<div class="cr"><span class="pill">Trial · 2 days left</span><div class="stat"><b>11</b><span>day streak</span></div><p class="big">Keep the plan.<br><em>Keep the streak.</em></p></div>`;
+}
+function shot(kind) {
+  if (kind === 'week') return `<div class="shot"><span class="t">Week 3 of 8</span><div class="bars"><i class="on" style="height:50%"></i><i style="height:30%"></i><i class="on" style="height:70%"></i><i style="height:30%"></i><i class="on" style="height:90%"></i><i style="height:30%"></i><i class="on" style="height:60%"></i></div></div>`;
+  if (kind === 'ring') return `<div class="shot"><span class="t">Zone 2 · easy</span><div class="ring">${ringSVG(.62)}</div><span class="sub" style="top:84%">142 bpm · talk pace</span></div>`;
+  if (kind === 'streak') return `<div class="shot"><span class="t">Streak</span><span class="n">11</span><span class="sub">days, rest included</span></div>`;
+  return `<div class="shot">${mapSVG}<span class="t">5.0 km · 31:40</span></div>`;
+}
+function renderAds(p) {
+  const set = ADS[p];
+  $('#ad-note').textContent = set.note;
+  $('#ads-grid').className = 'ads' + (p === 'app' ? '' : '');
+  $('#ads-grid').innerHTML = set.items.map((a, i) => {
+    let body = '';
+    if (p === 'google') body = `<div class="gad"><div class="sp">Sponsored</div><div class="site"><span class="fav">${LOGO}</span><div><b>Pulseloop</b><span>pulseloop.example/start</span></div></div><div class="hl">${a.h.map(esc).join(' | ')}</div><div class="ds">${esc(a.d)}</div><div class="sl">${a.sl.map(esc).join('<span aria-hidden="true"></span>')}</div></div>`;
+    else if (p === 'meta') body = `<div class="mad"><div class="top"><span class="avt">${LOGO_LIME}</span><div><b>Pulseloop</b><span>Sponsored · <svg style="display:inline;width:11px;height:11px;vertical-align:-1px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span></div></div><div class="pt">${esc(a.pt)}</div>${creative(a.kind)}<div class="ft"><div><small>pulseloop.example</small><b>${esc(a.hl)}</b></div><span class="cta">Install now</span></div></div>`;
+    else body = `<div class="aad"><div class="row"><span class="icon">${LOGO_LIME}</span><div><b>${esc(a.title)}</b><span><span class="adb">Ad</span>${esc(a.sub)}</span></div><span class="get">GET</span></div><div class="shots">${a.shots.map(shot).join('')}</div><p class="sub-line">In-App Purchases · Health &amp; Fitness</p></div>`;
+    return `<article class="ad">${body}<div class="ad-meta"><span class="tag tag-lime">${esc(a.angle)}</span><span class="tag tag-ghost">${esc(a.aud)}</span><span class="tag tag-ghost">Variant ${i + 1} of 4</span></div></article>`;
+  }).join('');
+}
+renderAds('google');
+$('#ads .seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; $$('#ads .seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderAds(b.dataset.p); });
+
+// Landing page switcher and goal picker
+$('#landing .lp-tools .seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  $$('#landing .lp-tools .seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  $('#lp-a').classList.toggle('on', b.dataset.v === 'a'); $('#lp-b').classList.toggle('on', b.dataset.v === 'b');
+  $('#lp-url').textContent = 'pulseloop.example/start?v=' + b.dataset.v;
+});
+const GOALS = { '5k':{ name:'5K', base:8, mix:[.6,.25,.15], first:'Three easy runs of 20 minutes to find your talk pace.' }, '10k':{ name:'10K', base:10, mix:[.55,.3,.15], first:'Two easy runs and one steady 30 minutes.' }, half:{ name:'Half marathon', base:14, mix:[.55,.25,.2], first:'Two easy runs and a long one of 50 minutes, slower than feels right.' }, habit:{ name:'Just move', base:6, mix:[.8,.1,.1], first:'Three sessions of whatever you like, 20 minutes each. Walking counts.' } };
+let goal = null, dpw = 3;
+function renderPlan() {
+  if (!goal) return;
+  const g = GOALS[goal]; const weeks = Math.max(4, Math.round(g.base + (3 - dpw) * 1.5));
+  const total = weeks * dpw; const e = Math.round(total * g.mix[0]), b = Math.round(total * g.mix[1]), p = total - e - b;
+  const blocks = Array.from({ length: weeks }, (_, i) => `<i class="${i === weeks - 1 && goal !== 'habit' ? 'p' : i % 3 === 2 ? 'b' : 'e'}"></i>`).join('');
+  $('#goal-h').innerHTML = `Your <em>${esc(g.name)}</em> plan`;
+  $('#plan').innerHTML = `<div><b>${weeks} weeks · ${dpw} runs a week · ${total} sessions</b><p>${e} easy, ${b} build, ${p} ${goal === 'habit' ? 'your choice' : 'peak or race'}. First week: ${esc(g.first)}</p><div class="wkz">${blocks}</div><div class="plan-leg"><span class="e">Easy week</span><span class="b">Build week</span><span class="p">Peak</span></div></div><a class="lp-cta" href="#landing">Start this plan free</a>`;
+}
+$('#goals').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; goal = b.dataset.g; $$('#goals button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderPlan(); });
+$('#dpw').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; dpw = +b.dataset.d; $$('#dpw button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderPlan(); });
+
+// Audiences
+const AUD = [
+  { n:'A1', t:'Search intent', k:'Search', who:'Anyone typing a plan, habit or heart-rate query from the keyword list', signal:'Query match', window:'Live', ex:'Current subscribers (customer match)', msg:'Answer the query in the headline. No brand talk until the description.' },
+  { n:'A2', t:'App campaign reach', k:'App install', who:'People Google and Apple find similar to our first 1,000 paying runners', signal:'Platform modelling from in-app subscribe event', window:'Rolling', ex:'Installed in last 180 days', msg:'One idea per asset group: the streak, or the effort.' },
+  { n:'A3', t:'Installed, no first run', k:'Retargeting', who:'Installed and opened the app, no workout started', signal:'App event: install without workout_started', window:'72 hours', ex:'Anyone who started a workout', msg:'Lower the bar: the first run is 20 minutes and already chosen.' },
+  { n:'A4', t:'Trial ending', k:'Retargeting', who:'Day 12 of a 14-day trial, no subscription', signal:'App event: trial_started, date math', window:'48 hours', ex:'Subscribed, or trial cancelled in settings', msg:'Remind them what they would keep, not what they would lose.' },
+  { n:'A5', t:'Visited, not installed', k:'Retargeting', who:'Landing page visitors who did not reach the store', signal:'Web pixel page view without install event', window:'14 days', ex:'Installed on any device', msg:'Pick up where they left off: show the plan they looked at.' },
+  { n:'X', t:'Exclusions, everywhere', k:'All campaigns', who:'Subscribers, refunds in the last 90 days, employees, anyone who opted out of ads in the app', signal:'Customer match lists uploaded daily', window:'Always', ex:'—', msg:'We do not pay to reach people who already pay us, or who asked us to stop.', ex2:true }
+];
+$('#aud').innerHTML = AUD.map(a => `<div class="card${a.ex2 ? ' ex' : ''}"><h3><i>${a.n}</i>${esc(a.t)}</h3><dl><dt>Campaign</dt><dd>${esc(a.k)}</dd><dt>Who</dt><dd>${esc(a.who)}</dd><dt>Signal</dt><dd>${esc(a.signal)}</dd><dt>Window</dt><dd>${esc(a.window)}</dd><dt>Excludes</dt><dd>${esc(a.ex)}</dd></dl><p class="msg">${esc(a.msg)}</p></div>`).join('');
+
+// Budget planner
+const SUB = { search:[['Running plans', .4], ['Habit and streaks', .25], ['Heart-rate training', .2], ['Brand', .15]], install:[['Google App campaign', .6], ['Apple Search Ads', .4]], retarget:[['Installed, no first run', .4], ['Trial ending', .35], ['Site visitors', .25]] };
+const NAMES = { search:'Search', install:'App install', retarget:'Retargeting' };
+const KEYS = ['search', 'install', 'retarget'];
+let shares = { search:35, install:40, retarget:25 };
+const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+function load() { try { const s = JSON.parse(localStorage.getItem('pulseloop-budget') || 'null'); if (s) { shares = s.shares; $('#b-total').value = s.total; $('#b-days').value = s.days; $('#b-reserve').value = s.reserve; } } catch (err) {} }
+function save() { try { localStorage.setItem('pulseloop-budget', JSON.stringify({ shares, total:$('#b-total').value, days:$('#b-days').value, reserve:$('#b-reserve').value })); } catch (err) {} }
+function rebalance(changed, val) {
+  val = Math.max(0, Math.min(100, Math.round(val)));
+  const others = KEYS.filter(k => k !== changed); const rest = 100 - val; const cur = others.reduce((s, k) => s + shares[k], 0);
+  if (cur === 0) { shares[others[0]] = rest; shares[others[1]] = 0; } else { shares[others[0]] = Math.round(shares[others[0]] / cur * rest); shares[others[1]] = rest - shares[others[0]]; }
+  shares[changed] = val;
+}
+function renderBudget() {
+  const total = Math.max(0, parseFloat($('#b-total').value) || 0), days = +$('#b-days').value, reserve = +$('#b-reserve').value / 100;
+  const held = total * reserve, spend = total - held;
+  KEYS.forEach(k => { $('#s-' + k).value = shares[k]; $('#o-' + k).textContent = shares[k] + '%'; $('#share-' + k).textContent = shares[k] + '% of media'; });
+  $('#stack').innerHTML = `<i style="width:${shares.search}%;background:var(--ink)"></i><i style="width:${shares.install}%;background:var(--violet)"></i><i style="width:${shares.retarget}%;background:var(--lime)"></i>`;
+  $('#bigrow').innerHTML = `<div><small>Media per month</small><b>${money(spend)}</b></div><div><small>Media per day</small><b>${money(spend / days)}</b></div><div><small>Held for tests</small><b>${money(held)}</b></div>`;
+  let rows = '';
+  KEYS.forEach(k => {
+    const m = spend * shares[k] / 100;
+    rows += `<tr><td><strong>${NAMES[k]}</strong></td><td class="n">${shares[k]}%</td><td class="n">${money(m)}</td><td class="n">${money(m / days * 7)}</td><td class="n">${money(m / days)}</td></tr>`;
+    SUB[k].forEach(([n, f]) => { const s = m * f; rows += `<tr class="sub"><td>${n}</td><td class="n">${Math.round(f * 100)}% of ${NAMES[k].toLowerCase()}</td><td class="n">${money(s)}</td><td class="n">${money(s / days * 7)}</td><td class="n">${money(s / days)}</td></tr>`; });
+  });
+  rows += `<tr class="tot"><td>Media total</td><td class="n">100%</td><td class="n">${money(spend)}</td><td class="n">${money(spend / days * 7)}</td><td class="n">${money(spend / days)}</td></tr>`;
+  rows += `<tr class="sub"><td style="padding-left:14px">Held back for tests (${Math.round(reserve * 100)}%)</td><td class="n"></td><td class="n">${money(held)}</td><td class="n"></td><td class="n"></td></tr>`;
+  $('#btable tbody').innerHTML = rows;
+  save();
+}
+load(); renderBudget();
+$$('#bform input[type=range]').forEach(r => r.addEventListener('input', () => { rebalance(r.dataset.k, +r.value); renderBudget(); }));
+['#b-total', '#b-days', '#b-reserve'].forEach(s => $(s).addEventListener('input', renderBudget));
+$('#b-reset').addEventListener('click', () => { shares = { search:35, install:40, retarget:25 }; $('#b-total').value = 6000; $('#b-days').value = 30; $('#b-reserve').value = 10; renderBudget(); });
+</script>
+</body>
+</html>

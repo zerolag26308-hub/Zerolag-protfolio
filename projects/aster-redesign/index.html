@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3F3F1">
+<title>Aster &amp; Co. Redesign</title>
+<meta name="description" content="A storefront redesign for Aster &amp; Co.: UX audit, wireframes, key screens and a two-step checkout, all rendered live.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233B4FD8'/%3E%3Cpath d='M9 23 16 8l7 15h-3.4l-1.4-3.2h-4.4L12.4 23z M14.9 17.2h2.3L16 14.5z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Caslon+Display&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Page tokens */
+:root{
+  --canvas:#F3F3F1; --card:#FFFFFF; --sunken:#EAEAE6; --line:#DCDDD8; --line-2:#C5C7C1;
+  --ink:#17191C; --ink-2:#464B52; --muted:#5F656D;
+  --accent:#3B4FD8; --accent-deep:#2A3BB0; --accent-soft:#E8EBFB;
+  --high:#B42318; --high-soft:#FBEAE7; --med:#B54708; --med-soft:#FCEFE3; --low:#1F6F43; --low-soft:#E3F2E8;
+  --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --bar-h:32px; --gut:clamp(16px,4vw,56px); --r:8px;
+}
+/* Store tokens used inside rendered screens */
+.st{
+  --s-stone:#EFEBE3; --s-stone-2:#E4DED2; --s-paper:#F9F7F2; --s-ink:#1B2826; --s-muted:#56605B; --s-line:#CDC6B8;
+  --s-teal:#0E4A4A; --s-teal-deep:#0A3536; --s-mustard:#E0AC2B; --s-err:#96281A;
+  --s-display:"Libre Caslon Display",Georgia,serif; --s-text:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + 12px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:3px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.wrap{max-width:1240px;margin-inline:auto;padding-inline:var(--gut)}
+.skip{position:absolute;left:8px;top:calc(var(--bar-h) + 8px);z-index:50;background:var(--card);padding:8px 12px;border-radius:var(--r);transform:translateY(-300%)}
+.skip:focus{transform:none}
+
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:60;height:var(--bar-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--gut);background:#E9E9E5;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1}
+.zl-bar a{color:var(--ink-2);text-decoration:none;font-weight:500;white-space:nowrap}
+.zl-bar a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.zl-bar strong{color:var(--ink);font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Hero */
+.hero{padding:clamp(40px,7vw,88px) 0 clamp(28px,4vw,48px);border-bottom:1px solid var(--line);background:linear-gradient(180deg,#FAFAF8,var(--canvas))}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(38px,6vw,76px);line-height:1;letter-spacing:-.03em;font-weight:600;margin-top:12px;text-wrap:balance}
+.hero h1 span{color:var(--muted);font-weight:400}
+.lede{font-size:clamp(17px,1.6vw,21px);color:var(--ink-2);max-width:620px;margin-top:18px;text-wrap:pretty}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chips li{font-size:13px;font-weight:500;padding:5px 11px;border:1px solid var(--line-2);border-radius:999px;background:var(--card);color:var(--ink-2)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:var(--r);border:1px solid var(--line-2);background:var(--card);font-weight:600;font-size:15px;text-decoration:none;transition:background-color .15s,border-color .15s}
+.btn:hover{background:var(--sunken)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+.btn.small{min-height:34px;padding:5px 12px;font-size:13.5px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.toc{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:14px}
+.toc a{text-decoration:none;color:var(--muted);font-weight:500;display:inline-flex;gap:8px;align-items:center;min-height:32px}
+.toc a b{font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.toc a:hover{color:var(--ink)}
+
+/* Sections */
+section{padding:clamp(48px,7vw,96px) 0}
+section + section{border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:16px 48px;align-items:end;margin-bottom:clamp(24px,3.5vw,44px)}
+.sec-head h2{font-size:clamp(28px,3.4vw,44px);line-height:1.08;letter-spacing:-.025em;font-weight:600}
+.sec-head h2 small{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;font-weight:600}
+.sec-head p{color:var(--ink-2);font-size:16px}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr}}
+
+/* Audit */
+.filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:20px}
+.filter span{font-size:13px;color:var(--muted);margin-right:4px}
+.filter button{min-height:36px;padding:4px 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--card);font-size:14px;font-weight:500;color:var(--ink-2)}
+.filter button:hover{border-color:var(--ink-2)}
+.filter button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.filter output{font-size:13px;color:var(--muted);margin-left:auto}
+.audit{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.issue{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.issue[hidden]{display:none}
+.issue-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sev{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 9px 3px 7px;border-radius:999px}
+.sev::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.sev.high{color:var(--high);background:var(--high-soft)}
+.sev.med{color:var(--med);background:var(--med-soft)}
+.sev.low{color:var(--low);background:var(--low-soft)}
+.issue .num{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:500}
+.issue h3{font-size:17px;line-height:1.3;letter-spacing:-.01em;font-weight:600}
+.issue dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13.5px}
+.issue dt{color:var(--muted);font-weight:500}
+.issue dd{color:var(--ink-2)}
+.issue .fix{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);font-size:14px;line-height:1.5}
+.issue .fix b{color:var(--low);font-weight:600}
+
+/* Wireframes */
+.wf-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
+.wf{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;grid-column:span 6;display:flex;flex-direction:column;gap:12px;min-width:0}
+.wf.narrow{grid-column:span 3}
+.wf.wide{grid-column:span 9}
+.wf header{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.wf h3{font-size:15.5px;font-weight:600}
+.wf header span{font-size:12.5px;color:var(--muted)}
+.wf svg{width:100%;height:auto;display:block;background:#F7F7F5;border:1px solid var(--line);border-radius:6px;font-family:var(--sans)}
+.wf svg rect{fill:#E6E7E3;stroke:#B6B9B2;stroke-width:1;vector-effect:non-scaling-stroke}
+.wf svg rect.pg{fill:#FBFBFA;stroke:#C9CBC5}
+.wf svg rect.img{fill:#D7D9D3}
+.wf svg rect.cta{fill:#9A9D97}
+.wf svg line{stroke:#B6B9B2;vector-effect:non-scaling-stroke}
+.wf svg text{fill:#4A4F55;font-size:10px}
+.wf svg text.sm{font-size:8px;fill:#6A7079}
+.wf svg text.hd{font-size:13px;fill:#2E333A;font-weight:600}
+.wf svg .note circle{fill:var(--accent);stroke:none}
+.wf svg .note text{fill:#fff;font-size:9px;font-weight:700;text-anchor:middle}
+.notes{display:grid;gap:6px;font-size:13.5px;color:var(--ink-2)}
+.notes li{display:flex;gap:9px;align-items:flex-start}
+.notes b{flex:none;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-top:2px}
+@media (max-width:960px){.wf,.wf.wide,.wf.narrow{grid-column:span 12}.wf.narrow svg{max-width:300px;margin-inline:auto}}
+
+/* Screens: browser frame */
+.frame-tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:16px}
+.tabs{display:inline-flex;gap:2px;background:var(--sunken);padding:3px;border-radius:10px}
+.tabs button{min-height:36px;padding:4px 14px;border-radius:8px;font-weight:500;font-size:14px;color:var(--ink-2)}
+.tabs button:hover{color:var(--ink)}
+.tabs button[disabled]{opacity:.45;cursor:not-allowed}
+.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.device{margin-left:auto}
+.device button{display:inline-flex;align-items:center;gap:6px}
+.device svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.stage{background:var(--sunken);border:1px solid var(--line);border-radius:16px;padding:clamp(12px,3vw,40px);display:flex;justify-content:center;overflow:hidden}
+.frame{width:100%;max-width:1120px;background:#fff;border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 50px -24px rgba(23,25,28,.35);overflow:hidden;transition:max-width .35s ease}
+.frame.mobile{max-width:390px}
+.chrome{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#F1F1EF;border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%;background:#D9DAD6;border:1px solid #C2C4BE}
+.dots i:nth-child(1){background:#F26B5E}.dots i:nth-child(2){background:#F5BF4F}.dots i:nth-child(3){background:#5EC454}
+.url{flex:1;min-width:0;display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.url svg{width:11px;height:11px;flex:none;fill:none;stroke:currentColor;stroke-width:2}
+.url b{color:var(--ink);font-weight:500}
+.frame.mobile .dots{display:none}
+.screen{position:relative;min-height:420px}
+.screen > [role=tabpanel][hidden]{display:none}
+
+/* Store screens */
+.st{background:var(--s-stone);color:var(--s-ink);font:400 15px/1.5 var(--s-text)}
+.st *{box-sizing:border-box}
+.st-nav{display:flex;align-items:center;gap:28px;height:60px;padding:0 28px;border-bottom:1px solid var(--s-line);background:var(--s-stone)}
+.st-logo{display:flex;align-items:center;gap:8px;font-family:var(--s-display);font-size:22px;color:var(--s-teal);white-space:nowrap}
+.st-logo svg{width:24px;height:24px}
+.st-logo em{font-style:italic;font-size:.82em}
+.st-links{display:flex;gap:22px;font-size:14.5px;font-weight:500}
+.st-links a{text-decoration:none}
+.st-links a:hover{text-decoration:underline;text-underline-offset:5px}
+.st-tools{margin-left:auto;display:flex;align-items:center;gap:4px}
+.st-icon{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:2px}
+.st-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.st-badge{position:absolute;top:1px;right:0;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--s-teal);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center}
+.st-burger{display:none}
+.st-hero{display:grid;grid-template-columns:1.1fr 1fr;min-height:360px}
+.st-hero-copy{padding:48px 40px;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.st-hero h2{font-family:var(--s-display);font-weight:400;font-size:clamp(30px,3.4vw,48px);line-height:1.05;letter-spacing:-.005em}
+.st-hero p{color:var(--s-muted);font-size:16px;max-width:400px}
+.st-hero-img{position:relative;overflow:hidden;min-height:240px}
+.st-hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:48% 70%}
+.st-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 20px;border-radius:2px;font-weight:600;font-size:14.5px;text-decoration:none;background:var(--s-teal);color:#fff;transition:background-color .15s}
+.st-btn:hover{background:var(--s-teal-deep)}
+.st-btn.ghost{background:none;color:var(--s-ink);box-shadow:inset 0 0 0 1px var(--s-ink)}
+.st-btn.ghost:hover{background:var(--s-ink);color:var(--s-paper)}
+.st-btn[disabled]{opacity:.55;cursor:not-allowed}
+.st-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;padding:30px 28px 12px}
+.st-row h3{font-family:var(--s-display);font-weight:400;font-size:26px}
+.st-filters{display:flex;flex-wrap:wrap;gap:6px}
+.st-filters button{font-size:13px;font-weight:500;padding:5px 11px;border-radius:999px;border:1px solid var(--s-line);background:var(--s-paper)}
+.st-filters button[aria-pressed="true"]{background:var(--s-ink);border-color:var(--s-ink);color:#fff}
+.st-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:8px 28px 36px}
+.st-card{display:flex;flex-direction:column;gap:8px;min-width:0}
+.st-card figure{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--s-stone-2);border-radius:2px}
+.st-card img{width:100%;height:100%;object-fit:cover}
+.st-tag{position:absolute;left:10px;top:10px;background:var(--s-paper);font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:2px}
+.st-quick{position:absolute;left:10px;right:10px;bottom:10px;min-height:38px;background:var(--s-paper);color:var(--s-ink);border-radius:2px;font-weight:600;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:6px;opacity:0;transform:translateY(6px);transition:opacity .15s,transform .15s;box-shadow:0 2px 8px rgba(27,40,38,.12)}
+.st-card:hover .st-quick,.st-card:focus-within .st-quick,.st-quick.done{opacity:1;transform:none}
+.st-quick:hover{background:var(--s-teal);color:#fff}
+.st-quick.done{background:var(--s-teal);color:#fff}
+.st-card-meta{display:flex;justify-content:space-between;gap:10px;font-size:14.5px}
+.st-card-meta b{font-weight:500}
+.st-card-meta .lead{display:block;font-size:12.5px;color:var(--s-muted);margin-top:1px}
+.st-price{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.st-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding:20px 28px;border-top:1px solid var(--s-line);font-size:13px;color:var(--s-muted)}
+
+/* Store product page */
+.st-crumbs{padding:16px 28px 0;font-size:13px;color:var(--s-muted)}
+.st-pdp{display:grid;grid-template-columns:1.15fr 1fr;gap:36px;padding:16px 28px 40px}
+.st-gallery{display:grid;grid-template-columns:1fr;gap:10px}
+.st-gallery .main{aspect-ratio:5/4;overflow:hidden;border-radius:2px;background:var(--s-stone-2)}
+.st-gallery .main img{width:100%;height:100%;object-fit:cover;object-position:48% 72%}
+.st-thumbs{display:flex;gap:8px}
+.st-thumbs button{width:64px;height:64px;border-radius:2px;overflow:hidden;border:2px solid transparent;background:var(--s-stone-2)}
+.st-thumbs button[aria-pressed="true"]{border-color:var(--s-teal)}
+.st-thumbs img{width:100%;height:100%;object-fit:cover}
+.st-buy{display:flex;flex-direction:column;gap:18px}
+.st-buy h2{font-family:var(--s-display);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1.08}
+.st-buy .st-price{font-size:22px}
+.st-buy p{color:var(--s-muted);font-size:15px}
+.st-opt legend{font-size:13.5px;font-weight:600;display:flex;justify-content:space-between;width:100%;margin-bottom:8px}
+.st-opt legend span{color:var(--s-muted);font-weight:400}
+.st-opt{border:0;padding:0;margin:0;min-width:0}
+.st-swatches{display:flex;flex-wrap:wrap;gap:8px}
+.st-swatch{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:5px 12px 5px 7px;border:1px solid var(--s-line);border-radius:2px;background:var(--s-paper);font-size:13.5px;font-weight:500}
+.st-swatch i{width:20px;height:20px;border-radius:50%;background:var(--c);border:1px solid rgba(0,0,0,.12)}
+.st-swatch[aria-pressed="true"]{border-color:var(--s-ink);box-shadow:inset 0 0 0 1px var(--s-ink)}
+.st-swatch small{color:var(--s-muted);font-weight:400}
+.st-stock{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.st-stock::before{content:"";width:9px;height:9px;border-radius:50%;background:#2E7D4F}
+.st-stock.mto::before{background:var(--s-mustard)}
+.st-delivery{display:grid;gap:6px;padding:14px;border:1px solid var(--s-line);border-radius:2px;background:var(--s-paper);font-size:14px}
+.st-delivery div{display:flex;justify-content:space-between;gap:10px}
+.st-delivery b{font-weight:600}
+.st-delivery span{color:var(--s-muted)}
+.st-acc{border-top:1px solid var(--s-line)}
+.st-acc summary{cursor:pointer;padding:12px 0;font-weight:600;font-size:14.5px;list-style:none;display:flex;justify-content:space-between}
+.st-acc summary::after{content:"+";color:var(--s-muted)}
+.st-acc[open] summary::after{content:"\2013"}
+.st-acc p{padding-bottom:12px;font-size:14px}
+
+/* Store checkout */
+.st-co{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:36px;padding:28px 28px 40px}
+.st-stepper{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:600;margin-bottom:22px;flex-wrap:wrap}
+.st-stepper span{display:inline-flex;align-items:center;gap:8px}
+.st-stepper i{width:22px;height:22px;border-radius:50%;background:var(--s-stone-2);color:var(--s-muted);font-style:normal;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.st-stepper span.on i{background:var(--s-teal);color:#fff}
+.st-stepper span.off{color:var(--s-muted)}
+.st-stepper hr{flex:1;min-width:16px;border:0;border-top:1px solid var(--s-line);margin:0}
+.st-field{display:grid;gap:5px;font-size:13.5px;font-weight:600}
+.st-field input,.st-field select{min-height:44px;padding:8px 12px;border:1px solid var(--s-line);border-radius:2px;background:var(--s-paper);font-weight:400;font-size:15px;width:100%}
+.st-field input:focus-visible{outline:2px solid var(--s-teal);outline-offset:0}
+.st-field small{font-weight:400;color:var(--s-muted)}
+.st-form{display:grid;gap:14px}
+.st-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.st-radio{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--s-line);border-radius:2px;background:var(--s-paper);font-size:14.5px;cursor:pointer}
+.st-radio input{accent-color:var(--s-teal);width:18px;height:18px;margin:0}
+.st-radio span{flex:1}
+.st-radio small{display:block;color:var(--s-muted)}
+.st-radio:has(input:checked){border-color:var(--s-ink);box-shadow:inset 0 0 0 1px var(--s-ink)}
+.st-summary{background:var(--s-paper);border:1px solid var(--s-line);border-radius:2px;padding:20px;align-self:start;display:grid;gap:12px;font-size:14.5px}
+.st-summary h4{font-family:var(--s-display);font-weight:400;font-size:20px}
+.st-line{display:flex;gap:12px;align-items:center}
+.st-line figure{width:56px;height:56px;border-radius:2px;overflow:hidden;background:var(--s-stone-2);flex:none}
+.st-line img{width:100%;height:100%;object-fit:cover}
+.st-line div{flex:1;min-width:0}
+.st-line small{display:block;color:var(--s-muted)}
+.st-tot{display:flex;justify-content:space-between;gap:10px;padding-top:8px;border-top:1px solid var(--s-line)}
+.st-tot.grand{font-weight:600;font-size:16px}
+.st-section-title{font-family:var(--s-display);font-weight:400;font-size:24px;margin-bottom:14px}
+
+/* Mobile frame adaptations */
+.frame.mobile .st-nav{padding:0 16px;gap:16px}
+.frame.mobile .st-links{display:none}
+.frame.mobile .st-burger{display:inline-flex}
+.frame.mobile .st-hero{grid-template-columns:1fr}
+.frame.mobile .st-hero-copy{padding:28px 18px;order:2}
+.frame.mobile .st-hero-img{order:1;min-height:220px}
+.frame.mobile .st-row,.frame.mobile .st-grid,.frame.mobile .st-foot,.frame.mobile .st-crumbs,.frame.mobile .st-pdp,.frame.mobile .st-co{padding-inline:16px}
+.frame.mobile .st-grid{grid-template-columns:1fr 1fr;gap:14px}
+.frame.mobile .st-quick{opacity:1;transform:none;min-height:34px;font-size:12.5px}
+.frame.mobile .st-pdp,.frame.mobile .st-co{grid-template-columns:1fr;gap:22px}
+.frame.mobile .st-summary{order:-1;padding:14px}
+.frame.mobile .st-two{grid-template-columns:1fr}
+
+/* Checkout comparison */
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.flow{--s-line:var(--line-2);--s-paper:#fff;--s-muted:var(--muted);--s-ink:var(--ink);--s-teal:var(--accent);--s-stone-2:var(--sunken);background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.flow-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.flow-head h3{font-size:16px;font-weight:600;display:flex;align-items:center;gap:10px}
+.flow-head h3 span{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.flow.old .flow-head h3 span{background:var(--high-soft);color:var(--high)}
+.flow.new .flow-head h3 span{background:var(--low-soft);color:var(--low)}
+.flow-head button{font-size:13px;color:var(--accent);font-weight:600;min-height:32px;text-decoration:underline;text-underline-offset:3px}
+.steps{display:flex;gap:6px;padding:14px 20px 0;flex-wrap:wrap}
+.steps li{flex:1;min-width:52px;display:grid;gap:5px;font-size:11.5px;color:var(--muted);font-weight:500}
+.steps li::before{content:"";height:4px;border-radius:2px;background:var(--line)}
+.steps li.done::before{background:var(--low)}
+.steps li.on::before{background:var(--accent)}
+.steps li.on{color:var(--ink)}
+.flow-body{padding:18px 20px 8px;display:grid;gap:14px;min-height:300px;align-content:start}
+.flow-body h4{font-size:19px;letter-spacing:-.015em;font-weight:600;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.flow-body h4 small{font-size:12.5px;color:var(--muted);font-weight:500}
+.flow .st-field{font-family:var(--sans)}
+.flow .st-field input,.flow .st-field select{background:#fff;border-color:var(--line-2);border-radius:6px}
+.flow .st-field input[aria-invalid="true"]{border-color:var(--high);box-shadow:inset 0 0 0 1px var(--high)}
+.flow .st-radio{border-radius:6px;background:#fff;border-color:var(--line-2)}
+.flow .st-radio input{accent-color:var(--accent)}
+.flow .st-radio:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.flow .st-two{gap:12px}
+.flow .st-three{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.hint{font-size:13px;color:var(--muted)}
+.hint a{color:var(--muted);font-size:12px}
+.err{color:var(--high);font-size:13px;font-weight:500}
+.chk{display:flex;align-items:center;gap:9px;font-size:14px}
+.chk input{width:17px;height:17px;margin:0;accent-color:var(--accent)}
+.review{display:grid;gap:8px;font-size:14px;padding:14px;border:1px solid var(--line);border-radius:8px;background:var(--canvas)}
+.review div{display:flex;justify-content:space-between;gap:12px}
+.review .grand{font-weight:600;border-top:1px solid var(--line);padding-top:8px}
+.review small{color:var(--muted)}
+.flow-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 20px 18px;flex-wrap:wrap}
+.flow-foot .btn.primary{margin-left:auto}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:var(--canvas)}
+.counts div{padding:12px 14px;border-right:1px solid var(--line);font-size:12.5px;color:var(--muted);font-weight:500}
+.counts div:last-child{border-right:0}
+.counts output{display:block;font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.placed{display:grid;gap:10px;padding:22px;border-radius:10px;background:var(--low-soft);color:var(--low)}
+.placed h4{font-size:20px}
+.placed p{color:var(--ink-2);font-size:14.5px}
+.placed svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.compare-note{margin-top:22px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:14.5px;color:var(--ink-2);display:flex;gap:14px;align-items:flex-start}
+.compare-note svg{flex:none;width:20px;height:20px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+@media (max-width:820px){.compare{grid-template-columns:1fr}}
+@media (max-width:420px){.flow .st-three{grid-template-columns:1fr}.counts output{font-size:18px}}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:32px 0 48px;font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;align-items:center}
+footer a{color:var(--ink-2);font-weight:500;text-decoration:none}
+footer a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+footer nav{display:flex;gap:18px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Aster &amp; Co. Redesign</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">UI/UX Design &middot; Storefront</p>
+    <h1>Aster &amp; Co. <span>Redesign</span></h1>
+    <p class="lede">Storefront redesign: audit, wireframes, key screens and a shorter checkout.</p>
+    <ul class="chips" aria-label="Scope">
+      <li>UX audit, 10 findings</li><li>Wireframes</li><li>Key screens</li><li>Two-step checkout</li><li>Desktop and mobile</li>
+    </ul>
+    <div class="hero-actions">
+      <a class="btn primary" href="../aster-and-co/index.html">Open the live store</a>
+      <a class="btn" href="#screens">Jump to the screens</a>
+    </div>
+    <nav class="toc" aria-label="Sections">
+      <a href="#audit"><b>01</b> Audit findings</a>
+      <a href="#wireframes"><b>02</b> Wireframes</a>
+      <a href="#screens"><b>03</b> Key screens</a>
+      <a href="#checkout"><b>04</b> Checkout comparison</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Audit -->
+<section id="audit">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><small>01 &middot; Audit</small>What was getting in the way</h2>
+      <p>A walkthrough of the storefront on desktop and a 390px phone, scored against Nielsen's heuristics and WCAG 2.2 AA. Severity reflects how often shoppers hit the issue and how much it blocks them.</p>
+    </div>
+    <div class="filter" role="group" aria-label="Filter findings by severity">
+      <span>Show</span>
+      <button type="button" data-sev="all" aria-pressed="true">All</button>
+      <button type="button" data-sev="high" aria-pressed="false">High</button>
+      <button type="button" data-sev="med" aria-pressed="false">Medium</button>
+      <button type="button" data-sev="low" aria-pressed="false">Low</button>
+      <output id="audit-count" aria-live="polite">10 findings</output>
+    </div>
+    <ul class="audit" id="audit-list">
+      <li class="issue" data-sev="high">
+        <div class="issue-top"><span class="sev high">High</span><span class="num">A-01</span></div>
+        <h3>Checkout is spread across five screens</h3>
+        <dl><dt>Heuristic</dt><dd>Flexibility and efficiency of use</dd><dt>Where</dt><dd>Checkout, every step</dd></dl>
+        <p class="fix"><b>Fix.</b> Collapse to two steps: details and delivery together, then payment and review on one screen with the summary always visible.</p>
+      </li>
+      <li class="issue" data-sev="high">
+        <div class="issue-top"><span class="sev high">High</span><span class="num">A-02</span></div>
+        <h3>Guest checkout hidden under account creation</h3>
+        <dl><dt>Heuristic</dt><dd>User control and freedom</dd><dt>Where</dt><dd>Checkout step 1</dd></dl>
+        <p class="fix"><b>Fix.</b> Start with an email field only. Offer to save an account on the confirmation page, after the order is placed.</p>
+      </li>
+      <li class="issue" data-sev="high">
+        <div class="issue-top"><span class="sev high">High</span><span class="num">A-03</span></div>
+        <h3>Shipping cost appears only at the payment step</h3>
+        <dl><dt>Heuristic</dt><dd>Visibility of system status</dd><dt>Where</dt><dd>Cart and checkout</dd></dl>
+        <p class="fix"><b>Fix.</b> Show delivery options with prices on the product page and in the cart drawer, and keep the running total in the summary.</p>
+      </li>
+      <li class="issue" data-sev="med">
+        <div class="issue-top"><span class="sev med">Medium</span><span class="num">A-04</span></div>
+        <h3>Fabric and leg options give no stock or lead-time state</h3>
+        <dl><dt>Heuristic</dt><dd>Visibility of system status</dd><dt>Where</dt><dd>Product page</dd></dl>
+        <p class="fix"><b>Fix.</b> Each option shows "ready to ship" or "made to order, 5 weeks", and the add button repeats the chosen lead time.</p>
+      </li>
+      <li class="issue" data-sev="med">
+        <div class="issue-top"><span class="sev med">Medium</span><span class="num">A-05</span></div>
+        <h3>Filter and sort state lost on the way back</h3>
+        <dl><dt>Heuristic</dt><dd>Recognition rather than recall</dd><dt>Where</dt><dd>Shop grid to product and back</dd></dl>
+        <p class="fix"><b>Fix.</b> Keep category and sort in the URL and restore the scroll position, so the back button returns shoppers to where they were.</p>
+      </li>
+      <li class="issue" data-sev="med">
+        <div class="issue-top"><span class="sev med">Medium</span><span class="num">A-06</span></div>
+        <h3>Product cards need a page visit to add anything</h3>
+        <dl><dt>Heuristic</dt><dd>Flexibility and efficiency of use</dd><dt>Where</dt><dd>Shop grid</dd></dl>
+        <p class="fix"><b>Fix.</b> Quick add on the card for single-variant goods; for sized or upholstered items the same button opens the option sheet.</p>
+      </li>
+      <li class="issue" data-sev="med">
+        <div class="issue-top"><span class="sev med">Medium</span><span class="num">A-07</span></div>
+        <h3>Caption grey falls below the contrast minimum</h3>
+        <dl><dt>Heuristic</dt><dd>WCAG 1.4.3 contrast (minimum)</dd><dt>Where</dt><dd>Lead times, hints, card captions</dd></dl>
+        <p class="fix"><b>Fix.</b> Replace #8A9490 on stone (2.6:1) with #56605B (5.5:1). Lead times move from caption grey to the regular ink.</p>
+      </li>
+      <li class="issue" data-sev="low">
+        <div class="issue-top"><span class="sev low">Low</span><span class="num">A-08</span></div>
+        <h3>Cart count disappears inside the mobile menu</h3>
+        <dl><dt>Heuristic</dt><dd>Visibility of system status</dd><dt>Where</dt><dd>Navigation under 860px</dd></dl>
+        <p class="fix"><b>Fix.</b> The cart icon and badge stay in the header on every width. Only the category links collapse into the menu.</p>
+      </li>
+      <li class="issue" data-sev="low">
+        <div class="issue-top"><span class="sev low">Low</span><span class="num">A-09</span></div>
+        <h3>Form errors listed at the top, after submit</h3>
+        <dl><dt>Heuristic</dt><dd>Help users recognise and recover from errors</dd><dt>Where</dt><dd>Checkout forms</dd></dl>
+        <p class="fix"><b>Fix.</b> Validate on blur, print the message under the field it belongs to and move focus to the first problem.</p>
+      </li>
+      <li class="issue" data-sev="low">
+        <div class="issue-top"><span class="sev low">Low</span><span class="num">A-10</span></div>
+        <h3>Made-to-order lead time buried in the description</h3>
+        <dl><dt>Heuristic</dt><dd>Match between system and the real world</dd><dt>Where</dt><dd>Product page, cart line</dd></dl>
+        <p class="fix"><b>Fix.</b> Lead time sits beside the add button and repeats on the cart line and in the order summary, as a date range, not a number of weeks.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Wireframes -->
+<section id="wireframes">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><small>02 &middot; Wireframes</small>Structure before styling</h2>
+      <p>Low-fidelity layouts drawn to settle hierarchy and flow. Numbered notes map each decision back to an audit finding.</p>
+    </div>
+    <div class="wf-grid">
+
+      <figure class="wf wide">
+        <header><h3>Home</h3><span>Desktop &middot; 1280</span></header>
+        <svg viewBox="0 0 640 400" role="img" aria-labelledby="wf-home-t"><title id="wf-home-t">Home page wireframe: header with cart, hero, filter row and a four-column product grid with quick add</title>
+          <rect class="pg" x="0" y="0" width="640" height="400"/>
+          <rect x="0" y="0" width="640" height="34"/>
+          <rect x="18" y="10" width="78" height="14"/><text x="22" y="21">Aster &amp; Co.</text>
+          <text x="200" y="22">Furniture</text><text x="256" y="22">Lighting</text><text x="306" y="22">Everyday</text><text x="360" y="22">Visit</text>
+          <rect x="586" y="8" width="18" height="18"/><rect x="560" y="8" width="18" height="18"/>
+          <circle cx="604" cy="9" r="5" fill="#9A9D97"/>
+          <rect class="img" x="0" y="34" width="640" height="150"/>
+          <text class="hd" x="36" y="88">Objects made to stay</text>
+          <text class="sm" x="36" y="104">Small-run furniture, lighting and everyday goods</text>
+          <rect class="cta" x="36" y="118" width="86" height="22"/><text x="48" y="133" fill="#fff" style="fill:#fff">Shop the edit</text>
+          <text class="sm" x="430" y="112">hero photo 1400 &times; 1235</text>
+          <text class="hd" x="18" y="212">Shop</text>
+          <rect x="400" y="200" width="46" height="16"/><text class="sm" x="406" y="211">All</text>
+          <rect x="450" y="200" width="56" height="16"/><text class="sm" x="456" y="211">Furniture</text>
+          <rect x="510" y="200" width="52" height="16"/><text class="sm" x="516" y="211">Lighting</text>
+          <rect x="566" y="200" width="56" height="16"/><text class="sm" x="572" y="211">Everyday</text>
+          <g id="wf-card">
+            <rect class="img" x="18" y="226" width="140" height="112"/>
+            <rect x="26" y="312" width="124" height="18"/><text class="sm" x="68" y="324">+ Quick add</text>
+            <text x="18" y="354">Marlow Sofa</text><text x="128" y="354">$1,480</text>
+            <text class="sm" x="18" y="366">Made to order, 5 weeks</text>
+          </g>
+          <g transform="translate(154 0)"><rect class="img" x="18" y="226" width="140" height="112"/><rect x="26" y="312" width="124" height="18"/><text class="sm" x="68" y="324">+ Quick add</text><text x="18" y="354">Tidewater Planter</text><text x="138" y="354">$42</text><text class="sm" x="18" y="366">Ready to ship</text></g>
+          <g transform="translate(308 0)"><rect class="img" x="18" y="226" width="140" height="112"/><rect x="26" y="312" width="124" height="18"/><text class="sm" x="68" y="324">+ Quick add</text><text x="18" y="354">Ferry Day Pack</text><text x="132" y="354">$128</text><text class="sm" x="18" y="366">Ready to ship</text></g>
+          <g transform="translate(462 0)"><rect class="img" x="18" y="226" width="140" height="112"/><rect x="26" y="312" width="124" height="18"/><text class="sm" x="68" y="324">Choose size</text><text x="18" y="354">Everyday Heavy Tee</text><text x="138" y="354">$38</text><text class="sm" x="18" y="366">S M L XL</text></g>
+          <rect x="0" y="384" width="640" height="16"/>
+          <g class="note"><circle cx="604" cy="9" r="7"/><text x="604" y="12">1</text></g>
+          <g class="note"><circle cx="390" cy="208" r="7"/><text x="390" y="211">2</text></g>
+          <g class="note"><circle cx="160" cy="321" r="7"/><text x="160" y="324">3</text></g>
+          <g class="note"><circle cx="150" cy="364" r="7"/><text x="150" y="367">4</text></g>
+        </svg>
+        <ol class="notes">
+          <li><b>1</b>Cart icon with count stays in the header at every width (A-08).</li>
+          <li><b>2</b>Category filters write to the URL so back returns to the same view (A-05).</li>
+          <li><b>3</b>Quick add on the card; sized goods open an option sheet instead (A-06).</li>
+          <li><b>4</b>Lead time printed under every card in regular ink, not caption grey (A-07, A-10).</li>
+        </ol>
+      </figure>
+
+      <figure class="wf narrow">
+        <header><h3>Home</h3><span>Mobile &middot; 390</span></header>
+        <svg viewBox="0 0 200 400" role="img" aria-labelledby="wf-mob-t"><title id="wf-mob-t">Mobile home wireframe: compact header with menu and cart badge, hero image, two-column product grid</title>
+          <rect class="pg" x="0" y="0" width="200" height="400"/>
+          <rect x="0" y="0" width="200" height="34"/>
+          <rect x="10" y="11" width="14" height="12"/><text x="40" y="22">Aster &amp; Co.</text>
+          <rect x="172" y="9" width="16" height="16"/><circle cx="188" cy="9" r="5" fill="#9A9D97"/>
+          <rect class="img" x="0" y="34" width="200" height="120"/>
+          <text class="hd" x="12" y="176">Objects made to stay</text>
+          <rect class="cta" x="12" y="186" width="72" height="18"/>
+          <text class="hd" x="12" y="232">Shop</text>
+          <rect x="12" y="242" width="28" height="12"/><rect x="44" y="242" width="40" height="12"/><rect x="88" y="242" width="40" height="12"/><rect x="132" y="242" width="44" height="12"/>
+          <g><rect class="img" x="12" y="262" width="84" height="80"/><rect x="18" y="320" width="72" height="16"/><text class="sm" x="30" y="331">+ Quick add</text><text class="sm" x="12" y="354">Marlow Sofa</text><text class="sm" x="12" y="364">$1,480</text></g>
+          <g transform="translate(92 0)"><rect class="img" x="12" y="262" width="84" height="80"/><rect x="18" y="320" width="72" height="16"/><text class="sm" x="30" y="331">+ Quick add</text><text class="sm" x="12" y="354">Tidewater Planter</text><text class="sm" x="12" y="364">$42</text></g>
+          <rect x="0" y="384" width="200" height="16"/>
+          <g class="note"><circle cx="188" cy="9" r="7"/><text x="188" y="12">5</text></g>
+          <g class="note"><circle cx="100" cy="328" r="7"/><text x="100" y="331">6</text></g>
+        </svg>
+        <ol class="notes">
+          <li><b>5</b>Menu collapses the links only; cart badge remains visible (A-08).</li>
+          <li><b>6</b>Quick add is always shown on touch, since there is no hover (A-06).</li>
+        </ol>
+      </figure>
+
+      <figure class="wf">
+        <header><h3>Product page</h3><span>Desktop &middot; 1280</span></header>
+        <svg viewBox="0 0 640 400" role="img" aria-labelledby="wf-pdp-t"><title id="wf-pdp-t">Product page wireframe: gallery on the left, options with stock state, delivery box and add button on the right</title>
+          <rect class="pg" x="0" y="0" width="640" height="400"/>
+          <rect x="0" y="0" width="640" height="34"/>
+          <rect x="18" y="10" width="78" height="14"/><text x="22" y="21">Aster &amp; Co.</text>
+          <rect x="586" y="8" width="18" height="18"/><rect x="560" y="8" width="18" height="18"/>
+          <text class="sm" x="18" y="52">Home / Furniture / Brae Reading Armchair</text>
+          <rect class="img" x="18" y="62" width="300" height="236"/>
+          <text class="sm" x="118" y="186">gallery 5 : 4</text>
+          <rect class="img" x="18" y="306" width="48" height="48"/><rect class="img" x="72" y="306" width="48" height="48"/><rect class="img" x="126" y="306" width="48" height="48"/>
+          <text class="hd" x="344" y="78">Brae Reading Armchair</text>
+          <text x="344" y="98">$640</text>
+          <text class="sm" x="344" y="116">A compact wing chair with a sprung seat and solid legs.</text>
+          <text x="344" y="140">Fabric</text><text class="sm" x="570" y="140">Ochre wool</text>
+          <rect x="344" y="148" width="86" height="22"/><text class="sm" x="350" y="162">Ochre, 3 ready</text>
+          <rect x="436" y="148" width="86" height="22"/><text class="sm" x="442" y="162">Oat, 5 wks</text>
+          <rect x="528" y="148" width="86" height="22"/><text class="sm" x="534" y="162">Slate, 5 wks</text>
+          <text x="344" y="194">Legs</text><text class="sm" x="590" y="194">Oak</text>
+          <rect x="344" y="202" width="60" height="22"/><text class="sm" x="356" y="216">Oak</text>
+          <rect x="410" y="202" width="60" height="22"/><text class="sm" x="418" y="216">Walnut</text>
+          <rect x="476" y="202" width="60" height="22"/><text class="sm" x="486" y="216">Black</text>
+          <rect x="344" y="236" width="270" height="46"/>
+          <text class="sm" x="352" y="252">Delivery to 04101</text><text class="sm" x="520" y="252">Free over $150</text>
+          <text class="sm" x="352" y="266">Ready to ship: arrives 8 to 11 Nov</text>
+          <text class="sm" x="352" y="278">Made to order: arrives 8 to 12 Dec</text>
+          <rect class="cta" x="344" y="292" width="270" height="26"/><text x="400" y="309" style="fill:#fff">Add to cart, ready to ship</text>
+          <line x1="344" y1="334" x2="614" y2="334"/><text x="344" y="350">Materials and care</text>
+          <line x1="344" y1="360" x2="614" y2="360"/><text x="344" y="376">Dimensions</text>
+          <line x1="344" y1="386" x2="614" y2="386"/>
+          <g class="note"><circle cx="624" cy="159" r="7"/><text x="624" y="162">7</text></g>
+          <g class="note"><circle cx="624" cy="259" r="7"/><text x="624" y="262">8</text></g>
+          <g class="note"><circle cx="624" cy="305" r="7"/><text x="624" y="308">9</text></g>
+        </svg>
+        <ol class="notes">
+          <li><b>7</b>Every option carries its stock or lead-time state (A-04).</li>
+          <li><b>8</b>Delivery options and cost shown before the cart (A-03).</li>
+          <li><b>9</b>Add button repeats the lead time of the current selection (A-10).</li>
+        </ol>
+      </figure>
+
+      <figure class="wf">
+        <header><h3>Checkout</h3><span>Desktop &middot; two steps</span></header>
+        <svg viewBox="0 0 640 400" role="img" aria-labelledby="wf-co-t"><title id="wf-co-t">Checkout wireframe: two-step indicator, one form column with details and delivery, and a persistent order summary</title>
+          <rect class="pg" x="0" y="0" width="640" height="400"/>
+          <rect x="0" y="0" width="640" height="34"/>
+          <rect x="18" y="10" width="78" height="14"/><text x="22" y="21">Aster &amp; Co.</text>
+          <text class="sm" x="560" y="22">Secure checkout</text>
+          <circle cx="26" cy="60" r="8" fill="#9A9D97"/><text x="40" y="64">Details and delivery</text>
+          <line x1="140" y1="60" x2="200" y2="60"/>
+          <circle cx="210" cy="60" r="8"/><text x="224" y="64">Payment and review</text>
+          <text x="18" y="96">Email</text><rect x="18" y="102" width="370" height="24"/><text class="sm" x="26" y="118">mara@ellison.co</text>
+          <text class="sm" x="18" y="140">No account needed. We will offer to save one after the order.</text>
+          <text x="18" y="164">Full name</text><rect x="18" y="170" width="370" height="24"/>
+          <text x="18" y="208">Address</text><rect x="18" y="214" width="370" height="24"/>
+          <text x="18" y="252">City</text><rect x="18" y="258" width="180" height="24"/>
+          <text x="208" y="252">Postcode</text><rect x="208" y="258" width="180" height="24"/>
+          <text x="18" y="300">Delivery</text>
+          <rect x="18" y="306" width="370" height="24"/><text class="sm" x="40" y="321">Standard, 8 to 11 Nov</text><text class="sm" x="340" y="321">Free</text>
+          <rect x="18" y="334" width="370" height="24"/><text class="sm" x="40" y="349">Express, 6 to 7 Nov</text><text class="sm" x="348" y="349">$24</text>
+          <rect class="cta" x="18" y="368" width="370" height="24"/><text x="150" y="384" style="fill:#fff">Continue to payment</text>
+          <rect x="412" y="50" width="210" height="236"/>
+          <text class="hd" x="424" y="72">Your order</text>
+          <rect class="img" x="424" y="84" width="40" height="40"/><text class="sm" x="472" y="98">Brae Reading Armchair</text><text class="sm" x="472" y="110">Ochre wool, Oak</text><text class="sm" x="590" y="98">$640</text>
+          <rect class="img" x="424" y="132" width="40" height="40"/><text class="sm" x="472" y="146">Tidewater Planter &times; 2</text><text class="sm" x="590" y="146">$84</text>
+          <line x1="424" y1="186" x2="610" y2="186"/>
+          <text class="sm" x="424" y="202">Subtotal</text><text class="sm" x="586" y="202">$724</text>
+          <text class="sm" x="424" y="218">Delivery</text><text class="sm" x="590" y="218">Free</text>
+          <text x="424" y="242">Total</text><text x="586" y="242">$724</text>
+          <text class="sm" x="424" y="270">Ochre wool is ready to ship.</text>
+          <g class="note"><circle cx="400" cy="60" r="7"/><text x="400" y="63">10</text></g>
+          <g class="note"><circle cx="400" cy="114" r="7"/><text x="400" y="117">11</text></g>
+          <g class="note"><circle cx="400" cy="320" r="7"/><text x="400" y="323">12</text></g>
+        </svg>
+        <ol class="notes">
+          <li><b>10</b>Two steps instead of five; the summary never leaves the screen (A-01).</li>
+          <li><b>11</b>Email first, no password; account offered after the order (A-02).</li>
+          <li><b>12</b>Delivery chosen alongside the address, with prices (A-03).</li>
+        </ol>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- Key screens -->
+<section id="screens">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><small>03 &middot; Key screens</small>The redesigned storefront, rendered live</h2>
+      <p>Home, product page and checkout built in the store's own type and palette. Switch between desktop and mobile; hover or tap the cards and options, everything responds.</p>
+    </div>
+    <div class="frame-tools">
+      <div class="tabs" role="tablist" aria-label="Screen">
+        <button type="button" role="tab" id="tab-home" aria-selected="true" aria-controls="scr-home" data-url="aster.co/">Home</button>
+        <button type="button" role="tab" id="tab-pdp" aria-selected="false" aria-controls="scr-pdp" data-url="aster.co/furniture/brae-reading-armchair" tabindex="-1">Product</button>
+        <button type="button" role="tab" id="tab-co" aria-selected="false" aria-controls="scr-co" data-url="aster.co/checkout" tabindex="-1">Checkout</button>
+      </div>
+      <div class="device tabs" role="group" aria-label="Device width">
+        <button type="button" data-device="desktop" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg>Desktop</button>
+        <button type="button" data-device="mobile" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>Mobile</button>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="frame" id="frame">
+        <div class="chrome" aria-hidden="true">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="url"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b id="url-text">aster.co/</b></div>
+        </div>
+        <div class="screen st">
+
+          <!-- Home screen -->
+          <div role="tabpanel" id="scr-home" aria-labelledby="tab-home">
+            <div class="st-nav">
+              <button class="st-icon st-burger" type="button" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+              <a class="st-logo" href="#scr-home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0E4A4A"/><circle cx="16" cy="16" r="7" fill="#E0AC2B"/></svg>Aster <em>&amp; Co.</em></a>
+              <ul class="st-links"><li><a href="#scr-home">Furniture</a></li><li><a href="#scr-home">Lighting</a></li><li><a href="#scr-home">Everyday</a></li><li><a href="#scr-home">Visit</a></li></ul>
+              <div class="st-tools">
+                <button class="st-icon" type="button" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+                <button class="st-icon" type="button" aria-label="Cart, 2 items"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5zM9 7a3 3 0 0 1 6 0"/></svg><span class="st-badge cart-count">2</span></button>
+              </div>
+            </div>
+            <div class="st-hero">
+              <div class="st-hero-copy">
+                <h2>Objects made to stay</h2>
+                <p>Small-run furniture, lighting and everyday goods from Portmere, Maine. Repaired for free for five years.</p>
+                <div><a class="st-btn" href="#scr-home">Shop the edit</a></div>
+              </div>
+              <div class="st-hero-img"><img src="../../assets/projects/home-armchair-room.jpg" width="1400" height="1235" alt="A calm living room with an ochre armchair, a slim brass floor lamp and framed art on a pale wall." loading="lazy"></div>
+            </div>
+            <div class="st-row">
+              <h3>Shop</h3>
+              <div class="st-filters" role="group" aria-label="Category">
+                <button type="button" aria-pressed="true" data-cat="all">All</button>
+                <button type="button" aria-pressed="false" data-cat="furniture">Furniture</button>
+                <button type="button" aria-pressed="false" data-cat="accents">Lighting and accents</button>
+                <button type="button" aria-pressed="false" data-cat="everyday">Everyday</button>
+              </div>
+            </div>
+            <ul class="st-grid" id="st-grid">
+              <li class="st-card" data-cat="furniture"><figure><img src="../../assets/projects/home-sofa.jpg" alt="Marlow three-seat sofa in oat fabric" loading="lazy" style="object-position:50% 62%"><span class="st-tag">Made to order</span><button class="st-quick" type="button" data-add="Marlow Three-Seat Sofa">Choose fabric</button></figure><div class="st-card-meta"><div><b>Marlow Three-Seat Sofa</b><span class="lead">Made to order, 5 weeks</span></div><span class="st-price">$1,480</span></div></li>
+              <li class="st-card" data-cat="accents"><figure><img src="../../assets/projects/home-planter.jpg" alt="Tidewater planter in grey stoneware" loading="lazy"><button class="st-quick" type="button" data-add="Tidewater Planter">+ Quick add</button></figure><div class="st-card-meta"><div><b>Tidewater Planter</b><span class="lead">Ready to ship</span></div><span class="st-price">$42</span></div></li>
+              <li class="st-card" data-cat="everyday"><figure><img src="../../assets/projects/home-backpack.jpg" alt="Ferry day pack in waxed canvas" loading="lazy" style="object-position:50% 45%"><button class="st-quick" type="button" data-add="Ferry Day Pack">+ Quick add</button></figure><div class="st-card-meta"><div><b>Ferry Day Pack</b><span class="lead">Ready to ship</span></div><span class="st-price">$128</span></div></li>
+              <li class="st-card" data-cat="everyday"><figure><img src="../../assets/projects/home-tee.jpg" alt="Everyday heavy tee folded on a table" loading="lazy" style="object-position:50% 20%"><span class="st-tag">Back in stock</span><button class="st-quick" type="button" data-add="Everyday Heavy Tee">Choose size</button></figure><div class="st-card-meta"><div><b>Everyday Heavy Tee</b><span class="lead">S, M, L, XL</span></div><span class="st-price">$38</span></div></li>
+              <li class="st-card" data-cat="furniture"><figure><img src="../../assets/projects/home-armchair-room.jpg" alt="Brae reading armchair in ochre wool" loading="lazy" style="object-position:48% 72%"><button class="st-quick" type="button" data-add="Brae Reading Armchair">Choose fabric</button></figure><div class="st-card-meta"><div><b>Brae Reading Armchair</b><span class="lead">Ochre wool ready to ship</span></div><span class="st-price">$640</span></div></li>
+              <li class="st-card" data-cat="accents"><figure><img src="../../assets/projects/home-lamp.jpg" alt="Quay pendant lamp against a teal wall" loading="lazy" style="object-position:30% 50%"><button class="st-quick" type="button" data-add="Quay Pendant Lamp">+ Quick add</button></figure><div class="st-card-meta"><div><b>Quay Pendant Lamp</b><span class="lead">Ready to ship</span></div><span class="st-price">$148</span></div></li>
+              <li class="st-card" data-cat="everyday"><figure><img src="../../assets/projects/home-watch.jpg" alt="Tern field watch with a canvas strap" loading="lazy"><button class="st-quick" type="button" data-add="Tern Field Watch">+ Quick add</button></figure><div class="st-card-meta"><div><b>Tern Field Watch</b><span class="lead">Ready to ship</span></div><span class="st-price">$165</span></div></li>
+              <li class="st-card" data-cat="furniture"><figure><img src="../../assets/projects/home-lounge.jpg" alt="Holm shell chair in a bright showroom" loading="lazy" style="object-position:40% 92%"><button class="st-quick" type="button" data-add="Holm Shell Chair">+ Quick add</button></figure><div class="st-card-meta"><div><b>Holm Shell Chair</b><span class="lead">Ready to ship</span></div><span class="st-price">$395</span></div></li>
+            </ul>
+            <div class="st-foot"><span>Free delivery over $150 &middot; Repairs free for five years</span><span>Portmere, Maine</span></div>
+          </div>
+
+          <!-- Product screen -->
+          <div role="tabpanel" id="scr-pdp" aria-labelledby="tab-pdp" hidden>
+            <div class="st-nav">
+              <button class="st-icon st-burger" type="button" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+              <a class="st-logo" href="#scr-home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0E4A4A"/><circle cx="16" cy="16" r="7" fill="#E0AC2B"/></svg>Aster <em>&amp; Co.</em></a>
+              <ul class="st-links"><li><a href="#scr-home">Furniture</a></li><li><a href="#scr-home">Lighting</a></li><li><a href="#scr-home">Everyday</a></li><li><a href="#scr-home">Visit</a></li></ul>
+              <div class="st-tools">
+                <button class="st-icon" type="button" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+                <button class="st-icon" type="button" aria-label="Cart"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5zM9 7a3 3 0 0 1 6 0"/></svg><span class="st-badge cart-count">2</span></button>
+              </div>
+            </div>
+            <p class="st-crumbs">Home / Furniture / Brae Reading Armchair</p>
+            <div class="st-pdp">
+              <div class="st-gallery">
+                <div class="main"><img id="pdp-img" src="../../assets/projects/home-armchair-room.jpg" alt="Brae reading armchair in ochre wool beside a brass floor lamp" width="1400" height="1235" loading="lazy"></div>
+                <div class="st-thumbs" role="group" aria-label="Photos">
+                  <button type="button" aria-pressed="true" data-img="home-armchair-room" data-pos="48% 72%"><img src="../../assets/projects/home-armchair-room.jpg" alt="In a living room" loading="lazy" style="object-position:48% 72%"></button>
+                  <button type="button" aria-pressed="false" data-img="home-lounge" data-pos="40% 92%"><img src="../../assets/projects/home-lounge.jpg" alt="In the showroom" loading="lazy" style="object-position:40% 92%"></button>
+                  <button type="button" aria-pressed="false" data-img="home-lamp" data-pos="30% 50%"><img src="../../assets/projects/home-lamp.jpg" alt="With the Quay pendant" loading="lazy"></button>
+                </div>
+              </div>
+              <div class="st-buy">
+                <div>
+                  <h2>Brae Reading Armchair</h2>
+                  <p class="st-price" style="margin-top:8px">$640</p>
+                </div>
+                <p>A compact wing chair with a sprung seat, feather-wrapped cushion and solid timber legs. Sized for reading corners.</p>
+                <fieldset class="st-opt">
+                  <legend>Fabric <span id="fab-name">Ochre wool</span></legend>
+                  <div class="st-swatches" id="fabrics">
+                    <button type="button" class="st-swatch" aria-pressed="true" data-name="Ochre wool" data-stock="ready" style="--c:#C98A2E"><i aria-hidden="true"></i>Ochre wool <small>3 ready</small></button>
+                    <button type="button" class="st-swatch" aria-pressed="false" data-name="Oat bouclé" data-stock="mto" style="--c:#D9CBB2"><i aria-hidden="true"></i>Oat bouclé <small>5 weeks</small></button>
+                    <button type="button" class="st-swatch" aria-pressed="false" data-name="Slate linen" data-stock="mto" style="--c:#5A6B74"><i aria-hidden="true"></i>Slate linen <small>5 weeks</small></button>
+                  </div>
+                </fieldset>
+                <fieldset class="st-opt">
+                  <legend>Legs <span id="leg-name">Oak</span></legend>
+                  <div class="st-swatches" id="legs">
+                    <button type="button" class="st-swatch" aria-pressed="true" data-name="Oak" style="--c:#C9A974"><i aria-hidden="true"></i>Oak</button>
+                    <button type="button" class="st-swatch" aria-pressed="false" data-name="Walnut" style="--c:#5C3A22"><i aria-hidden="true"></i>Walnut</button>
+                    <button type="button" class="st-swatch" aria-pressed="false" data-name="Black" style="--c:#1B1B1B"><i aria-hidden="true"></i>Black</button>
+                  </div>
+                </fieldset>
+                <p class="st-stock" id="pdp-stock">Ochre wool is ready to ship, 3 in stock</p>
+                <div class="st-delivery" aria-live="polite">
+                  <div><b>Delivery to 04101</b><span>Free over $150</span></div>
+                  <div><span>Standard</span><b id="del-std">Arrives 8 to 11 Nov</b></div>
+                  <div><span>Express, $24</span><b id="del-exp">Arrives 6 to 7 Nov</b></div>
+                </div>
+                <button class="st-btn" type="button" id="pdp-add">Add to cart, ready to ship</button>
+                <details class="st-acc"><summary>Materials and care</summary><p>Beech frame, serpentine springs, feather-wrapped foam cushion. Fabric is 90% wool, 10% nylon; brush and spot clean.</p></details>
+                <details class="st-acc"><summary>Dimensions</summary><p>W 74 &times; D 82 &times; H 96 cm. Seat height 44 cm. Weight 23 kg. Fits through a standard 76 cm doorway.</p></details>
+                <details class="st-acc"><summary>Repairs and returns</summary><p>Free repairs for five years. Returns within 30 days for ready-to-ship items; made-to-order pieces can be exchanged for a different fabric.</p></details>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout screen -->
+          <div role="tabpanel" id="scr-co" aria-labelledby="tab-co" hidden>
+            <div class="st-nav">
+              <a class="st-logo" href="#scr-home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0E4A4A"/><circle cx="16" cy="16" r="7" fill="#E0AC2B"/></svg>Aster <em>&amp; Co.</em></a>
+              <div class="st-tools"><span style="font-size:13px;color:var(--s-muted)">Secure checkout</span></div>
+            </div>
+            <div class="st-co">
+              <div>
+                <div class="st-stepper" aria-label="Progress">
+                  <span class="on"><i>1</i>Details and delivery</span><hr><span class="off"><i>2</i>Payment and review</span>
+                </div>
+                <h3 class="st-section-title">Where should it go?</h3>
+                <div class="st-form">
+                  <label class="st-field">Email<input type="email" value="mara@ellison.co" autocomplete="email"><small>No account needed. We will offer to save one after the order.</small></label>
+                  <label class="st-field">Full name<input type="text" value="Mara Ellison" autocomplete="name"></label>
+                  <label class="st-field">Address<input type="text" value="14 Harbor Lane" autocomplete="street-address"></label>
+                  <div class="st-two">
+                    <label class="st-field">City<input type="text" value="Portmere" autocomplete="address-level2"></label>
+                    <label class="st-field">Postcode<input type="text" value="04101" autocomplete="postal-code" inputmode="numeric"></label>
+                  </div>
+                  <fieldset class="st-opt"><legend>Delivery</legend>
+                    <div class="st-form" style="gap:8px">
+                      <label class="st-radio"><input type="radio" name="scr-del" checked><span>Standard<small>Arrives 8 to 11 Nov</small></span><b>Free</b></label>
+                      <label class="st-radio"><input type="radio" name="scr-del"><span>Express<small>Arrives 6 to 7 Nov</small></span><b>$24</b></label>
+                    </div>
+                  </fieldset>
+                  <button class="st-btn" type="button">Continue to payment</button>
+                </div>
+              </div>
+              <aside class="st-summary" aria-label="Your order">
+                <h4>Your order</h4>
+                <div class="st-line"><figure><img src="../../assets/projects/home-armchair-room.jpg" alt="" loading="lazy" style="object-position:48% 72%"></figure><div>Brae Reading Armchair<small>Ochre wool, Oak &middot; ready to ship</small></div><span class="st-price">$640</span></div>
+                <div class="st-line"><figure><img src="../../assets/projects/home-planter.jpg" alt="" loading="lazy"></figure><div>Tidewater Planter &times; 2<small>Ready to ship</small></div><span class="st-price">$84</span></div>
+                <div class="st-tot"><span>Subtotal</span><span class="st-price">$724</span></div>
+                <div class="st-tot"><span>Delivery</span><span class="st-price">Free</span></div>
+                <div class="st-tot grand"><span>Total</span><span class="st-price">$724</span></div>
+              </aside>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Checkout comparison -->
+<section id="checkout">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><small>04 &middot; Checkout comparison</small>Five steps against two</h2>
+      <p>Both flows are live. Work through each one, or use "Fill in for me", and watch the counters: every step, field and click is counted as you go.</p>
+    </div>
+    <div class="compare">
+      <article class="flow old" id="flow-old" aria-labelledby="flow-old-h">
+        <div class="flow-head"><h3 id="flow-old-h"><span>Before</span>5-step checkout</h3><button type="button" data-fill="old">Fill in for me</button></div>
+        <ol class="steps" aria-label="Steps"></ol>
+        <form class="flow-body" novalidate aria-live="polite"></form>
+        <div class="flow-foot"></div>
+        <div class="counts" aria-label="Effort so far">
+          <div>Steps<output data-c="steps">0 / 5</output></div>
+          <div>Fields<output data-c="fields">0 / 15</output></div>
+          <div>Clicks<output data-c="clicks">0</output></div>
+        </div>
+      </article>
+      <article class="flow new" id="flow-new" aria-labelledby="flow-new-h">
+        <div class="flow-head"><h3 id="flow-new-h"><span>After</span>2-step checkout</h3><button type="button" data-fill="new">Fill in for me</button></div>
+        <ol class="steps" aria-label="Steps"></ol>
+        <form class="flow-body" novalidate aria-live="polite"></form>
+        <div class="flow-foot"></div>
+        <div class="counts" aria-label="Effort so far">
+          <div>Steps<output data-c="steps">0 / 2</output></div>
+          <div>Fields<output data-c="fields">0 / 9</output></div>
+          <div>Clicks<output data-c="clicks">0</output></div>
+        </div>
+      </article>
+    </div>
+    <p class="compare-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Nothing is sent anywhere. The forms accept any values, and the card fields are plain text so you can type freely. Counts measure the work a shopper does: screens visited, fields typed into and buttons pressed.</span></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Aster &amp; Co. redesign by <a href="../../index.html">Zero Lag</a></span>
+    <nav aria-label="Zero Lag"><a href="../../work.html">All work</a><a href="../aster-and-co/index.html">Live store</a><a href="../../contact.html">Start a project</a></nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // Audit severity filter
+  const issues = $$('#audit-list .issue');
+  const countOut = $('#audit-count');
+  $$('.filter button').forEach(btn => btn.addEventListener('click', () => {
+    const sev = btn.dataset.sev;
+    $$('.filter button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    let n = 0;
+    issues.forEach(li => { const show = sev === 'all' || li.dataset.sev === sev; li.hidden = !show; if (show) n++; });
+    countOut.textContent = `${n} finding${n === 1 ? '' : 's'}`;
+  }));
+
+  // Screen tabs
+  const tabs = $$('.tabs [role=tab]');
+  const urlText = $('#url-text');
+  function showTab(tab) {
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      $('#' + t.getAttribute('aria-controls')).hidden = !on;
+    });
+    urlText.textContent = tab.dataset.url;
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => showTab(t));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus(); showTab(next);
+    });
+  });
+
+  // Desktop / mobile toggle, forced to mobile when the page itself is narrow
+  const frame = $('#frame');
+  const narrow = matchMedia('(max-width: 720px)');
+  let device = 'desktop';
+  function applyDevice() {
+    const mobile = device === 'mobile' || narrow.matches;
+    frame.classList.toggle('mobile', mobile);
+    $$('.device button').forEach(b => {
+      b.setAttribute('aria-pressed', String(b.dataset.device === (mobile ? 'mobile' : 'desktop')));
+      b.disabled = narrow.matches && b.dataset.device === 'desktop';
+    });
+  }
+  $$('.device button').forEach(btn => btn.addEventListener('click', () => { device = btn.dataset.device; applyDevice(); }));
+  narrow.addEventListener('change', applyDevice);
+  applyDevice();
+
+  // Store cart count shared across screens
+  let cart = 2;
+  function setCart(n) { cart = n; $$('.cart-count').forEach(el => el.textContent = n); }
+  $$('.st-quick').forEach(btn => btn.addEventListener('click', () => {
+    if (btn.textContent.startsWith('Choose')) { showTab($('#tab-pdp')); $('#tab-pdp').focus(); return; }
+    setCart(cart + 1);
+    btn.classList.add('done'); btn.textContent = 'Added';
+    setTimeout(() => { btn.classList.remove('done'); btn.textContent = '+ Quick add'; }, 1400);
+  }));
+
+  // Store category filter
+  $$('.st-filters button').forEach(btn => btn.addEventListener('click', () => {
+    $$('.st-filters button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    $$('#st-grid .st-card').forEach(li => li.hidden = btn.dataset.cat !== 'all' && li.dataset.cat !== btn.dataset.cat);
+  }));
+
+  // Product gallery
+  const pdpImg = $('#pdp-img');
+  $$('.st-thumbs button').forEach(btn => btn.addEventListener('click', () => {
+    $$('.st-thumbs button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    pdpImg.src = `../../assets/projects/${btn.dataset.img}.jpg`;
+    pdpImg.style.objectPosition = btn.dataset.pos || '50% 50%';
+  }));
+
+  // Product options with stock state
+  const stock = $('#pdp-stock'), addBtn = $('#pdp-add');
+  function pickSwatch(group, btn, label) {
+    $$('.st-swatch', group).forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    $(label).textContent = btn.dataset.name;
+  }
+  $$('#fabrics .st-swatch').forEach(btn => btn.addEventListener('click', () => {
+    pickSwatch($('#fabrics'), btn, '#fab-name');
+    const ready = btn.dataset.stock === 'ready';
+    stock.classList.toggle('mto', !ready);
+    stock.textContent = ready ? `${btn.dataset.name} is ready to ship, 3 in stock` : `${btn.dataset.name} is made to order, about 5 weeks`;
+    $('#del-std').textContent = ready ? 'Arrives 8 to 11 Nov' : 'Arrives 8 to 12 Dec';
+    $('#del-exp').textContent = ready ? 'Arrives 6 to 7 Nov' : 'Arrives 5 to 6 Dec';
+    addBtn.textContent = ready ? 'Add to cart, ready to ship' : 'Add to cart, ships in 5 weeks';
+  }));
+  $$('#legs .st-swatch').forEach(btn => btn.addEventListener('click', () => pickSwatch($('#legs'), btn, '#leg-name')));
+  addBtn.addEventListener('click', () => {
+    setCart(cart + 1);
+    const was = addBtn.textContent; addBtn.textContent = 'Added to cart'; addBtn.disabled = true;
+    setTimeout(() => { addBtn.textContent = was; addBtn.disabled = false; }, 1400);
+  });
+
+  // Checkout flows
+  const F = (id, label, type = 'text', extra = {}) => ({ id, label, type, ...extra });
+  const DELIVERY = [
+    { v: 'standard', l: 'Standard', s: 'Arrives 8 to 11 Nov', p: 0 },
+    { v: 'express', l: 'Express', s: 'Arrives 6 to 7 Nov', p: 24 }
+  ];
+  const FLOWS = {
+    old: {
+      steps: [
+        { title: 'Account', fields: [F('email', 'Email', 'email', { ac: 'email' }), F('pw', 'Create a password', 'password'), F('pw2', 'Confirm password', 'password')], hint: 'Have an account? Sign in.', guest: true },
+        { title: 'Shipping address', fields: [F('first', 'First name', 'text', { ac: 'given-name' }), F('last', 'Last name', 'text', { ac: 'family-name' }), F('addr', 'Address', 'text', { ac: 'street-address' }), F('city', 'City', 'text', { ac: 'address-level2' }), F('zip', 'Postcode', 'text', { ac: 'postal-code' }), F('country', 'Country', 'select', { options: ['United States', 'Canada'] })], pairs: [['first', 'last'], ['city', 'zip']] },
+        { title: 'Delivery method', fields: [F('del', 'Delivery', 'radio')], hint: 'Delivery cost is added to your total on the next step.' },
+        { title: 'Payment', fields: [F('card', 'Card number', 'text', { ac: 'cc-number', mode: 'numeric' }), F('exp', 'Expiry', 'text', { ac: 'cc-exp', small: 'MM / YY' }), F('cvc', 'Security code', 'text', { ac: 'cc-csc', mode: 'numeric' }), F('ccname', 'Name on card', 'text', { ac: 'cc-name' }), F('bill', 'Billing address is the same as shipping', 'checkbox')], triple: ['card', 'exp', 'cvc'] },
+        { title: 'Review', fields: [], review: true }
+      ],
+      fill: { email: 'mara@ellison.co', pw: 'harbor-lane-14', pw2: 'harbor-lane-14', first: 'Mara', last: 'Ellison', addr: '14 Harbor Lane', city: 'Portmere', zip: '04101', country: 'United States', del: 'standard', card: '4242 4242 4242 4242', exp: '09 / 28', cvc: '123', ccname: 'Mara Ellison', bill: true }
+    },
+    new: {
+      steps: [
+        { title: 'Details and delivery', fields: [F('email', 'Email', 'email', { ac: 'email', small: 'No account needed. We will offer to save one after the order.' }), F('name', 'Full name', 'text', { ac: 'name' }), F('addr', 'Address', 'text', { ac: 'street-address' }), F('city', 'City', 'text', { ac: 'address-level2' }), F('zip', 'Postcode', 'text', { ac: 'postal-code' }), F('del', 'Delivery', 'radio')], pairs: [['city', 'zip']] },
+        { title: 'Payment and review', fields: [F('card', 'Card number', 'text', { ac: 'cc-number', mode: 'numeric' }), F('exp', 'Expiry', 'text', { ac: 'cc-exp', small: 'MM / YY' }), F('cvc', 'Security code', 'text', { ac: 'cc-csc', mode: 'numeric' })], triple: ['card', 'exp', 'cvc'], review: true }
+      ],
+      fill: { email: 'mara@ellison.co', name: 'Mara Ellison', addr: '14 Harbor Lane', city: 'Portmere', zip: '04101', del: 'standard', card: '4242 4242 4242 4242', exp: '09 / 28', cvc: '123' }
+    }
+  };
+  const money = n => '$' + n.toLocaleString('en-US');
+
+  function makeFlow(key) {
+    const def = FLOWS[key];
+    const root = $('#flow-' + key);
+    const stepsEl = $('.steps', root), body = $('.flow-body', root), foot = $('.flow-foot', root);
+    const outs = { steps: $('[data-c=steps]', root), fields: $('[data-c=fields]', root), clicks: $('[data-c=clicks]', root) };
+    const total = def.steps.reduce((n, s) => n + s.fields.length, 0);
+    const state = { step: 0, values: {}, touched: new Set(), clicks: 0, placed: false, error: '' };
+
+    // Count every press on buttons and radios inside the flow
+    root.addEventListener('click', e => { if (e.target.closest('button')) { state.clicks++; counts(); } });
+    root.addEventListener('change', e => { if (e.target.type === 'radio' || e.target.type === 'checkbox') { state.clicks++; counts(); } });
+
+    function counts() {
+      outs.steps.textContent = `${state.step + 1} / ${def.steps.length}`;
+      outs.fields.textContent = `${state.touched.size} / ${total}`;
+      outs.clicks.textContent = state.clicks;
+    }
+
+    function fieldHtml(f) {
+      const v = state.values[f.id] ?? '';
+      const inv = state.error && f.type !== 'checkbox' && !v ? ' aria-invalid="true"' : '';
+      if (f.type === 'radio') {
+        return `<fieldset class="st-opt"><legend>${f.label}</legend><div class="st-form" style="gap:8px">${DELIVERY.map(d => `<label class="st-radio"><input type="radio" name="${key}-del" value="${d.v}" ${v === d.v ? 'checked' : ''} data-id="${f.id}"><span>${d.l}<small>${d.s}</small></span><b>${d.p ? money(d.p) : 'Free'}</b></label>`).join('')}</div></fieldset>`;
+      }
+      if (f.type === 'checkbox') {
+        return `<label class="chk"><input type="checkbox" data-id="${f.id}" ${v ? 'checked' : ''}>${f.label}</label>`;
+      }
+      if (f.type === 'select') {
+        return `<label class="st-field">${f.label}<select data-id="${f.id}">${f.options.map(o => `<option ${v === o ? 'selected' : ''}>${o}</option>`).join('')}</select></label>`;
+      }
+      return `<label class="st-field">${f.label}<input type="${f.type}" data-id="${f.id}" value="${v}" autocomplete="${f.ac || 'off'}"${f.mode ? ` inputmode="${f.mode}"` : ''}${inv}>${f.small ? `<small>${f.small}</small>` : ''}</label>`;
+    }
+
+    function reviewHtml() {
+      const d = DELIVERY.find(x => x.v === state.values.del) || DELIVERY[0];
+      const who = state.values.name || [state.values.first, state.values.last].filter(Boolean).join(' ') || 'Mara Ellison';
+      return `<div class="review">
+        <div><span>Brae Reading Armchair <small>Ochre wool, Oak</small></span><span>${money(640)}</span></div>
+        <div><span>Tidewater Planter &times; 2</span><span>${money(84)}</span></div>
+        <div><span>Delivery <small>${d.l}, ${d.s.toLowerCase()}</small></span><span>${d.p ? money(d.p) : 'Free'}</span></div>
+        <div class="grand"><span>Total</span><span>${money(724 + d.p)}</span></div>
+        <div><small>Ship to ${who}, ${state.values.addr || '14 Harbor Lane'}, ${state.values.city || 'Portmere'} ${state.values.zip || '04101'}</small></div>
+      </div>`;
+    }
+
+    function render() {
+      const s = def.steps[state.step];
+      stepsEl.innerHTML = def.steps.map((st, i) => `<li class="${i < state.step || state.placed ? 'done' : i === state.step ? 'on' : ''}" ${i === state.step ? 'aria-current="step"' : ''}>${st.title}</li>`).join('');
+      if (state.placed) {
+        body.innerHTML = `<div class="placed"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg><h4>Order placed</h4><p>Order AC-${key === 'old' ? '24816' : '24817'} is confirmed. Through this flow you visited ${def.steps.length} screens, typed into ${state.touched.size} fields and pressed ${state.clicks} times.</p></div>`;
+        foot.innerHTML = `<button class="btn small" type="button" data-act="reset">Start again</button>`;
+        counts(); return;
+      }
+      const used = new Set();
+      let html = `<h4>${s.title}<small>Step ${state.step + 1} of ${def.steps.length}</small></h4>`;
+      s.fields.forEach(f => {
+        if (used.has(f.id)) return;
+        const pair = (s.pairs || []).find(p => p[0] === f.id);
+        if (s.triple && s.triple[0] === f.id) {
+          html += `<div class="st-three">${s.triple.map(id => { used.add(id); return fieldHtml(s.fields.find(x => x.id === id)); }).join('')}</div>`;
+        } else if (pair) {
+          html += `<div class="st-two">${pair.map(id => { used.add(id); return fieldHtml(s.fields.find(x => x.id === id)); }).join('')}</div>`;
+        } else { used.add(f.id); html += fieldHtml(f); }
+      });
+      if (s.hint) html += `<p class="hint">${s.hint}</p>`;
+      if (s.guest) html += `<p class="hint"><a href="#flow-old" data-act="guest">Continue as guest</a></p>`;
+      if (s.review) html += reviewHtml();
+      if (state.error) html += `<p class="err" role="alert">${state.error}</p>`;
+      body.innerHTML = html;
+      const last = state.step === def.steps.length - 1;
+      foot.innerHTML = `${state.step > 0 ? '<button class="btn small" type="button" data-act="back">Back</button>' : ''}<button class="btn small primary" type="button" data-act="next">${last ? 'Place order' : s.title === 'Account' ? 'Create account and continue' : 'Continue'}</button>`;
+      counts();
+    }
+
+    function validate() {
+      const s = def.steps[state.step];
+      const missing = s.fields.filter(f => f.type !== 'checkbox' && !state.values[f.id]);
+      if (!missing.length) { state.error = ''; return true; }
+      state.error = missing.length === 1 ? `Fill in ${missing[0].label.toLowerCase()} to continue.` : `Fill in the ${missing.length} highlighted fields to continue.`;
+      return false;
+    }
+
+    body.addEventListener('input', e => {
+      const el = e.target, id = el.dataset.id;
+      if (!id) return;
+      state.values[id] = el.type === 'checkbox' ? el.checked : el.value;
+      if (el.type === 'checkbox' ? el.checked : el.value) state.touched.add(id); else state.touched.delete(id);
+      if (el.type === 'radio' || el.tagName === 'SELECT') render(); else counts();
+    });
+    body.addEventListener('change', e => { if (e.target.type === 'radio') body.dispatchEvent(new Event('input', { bubbles: true })); });
+    body.addEventListener('click', e => {
+      if (e.target.dataset.act === 'guest') { e.preventDefault(); state.step = 1; state.error = ''; render(); }
+    });
+    foot.addEventListener('click', e => {
+      const act = e.target.dataset.act;
+      if (act === 'back') { state.step--; state.error = ''; render(); }
+      if (act === 'next') {
+        if (!validate()) { render(); const bad = $('[aria-invalid="true"]', body); if (bad) bad.focus(); return; }
+        if (state.step === def.steps.length - 1) state.placed = true; else state.step++;
+        render();
+        if (!state.placed) $('h4', body).scrollIntoView({ block: 'nearest' });
+      }
+      if (act === 'reset') { Object.assign(state, { step: 0, values: {}, touched: new Set(), clicks: 0, placed: false, error: '' }); render(); }
+    });
+    $(`[data-fill=${key}]`).addEventListener('click', () => {
+      Object.entries(def.fill).forEach(([k, v]) => { state.values[k] = v; state.touched.add(k); });
+      state.error = ''; render();
+    });
+    render();
+  }
+  makeFlow('old');
+  makeFlow('new');
+})();
+</script>
+</body>
+</html>

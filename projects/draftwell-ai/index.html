@@ -1,0 +1,1521 @@
+<!doctype html>
+<html lang="en" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draftwell | First drafts from a simple brief</title>
+<meta name="description" content="Draftwell turns a short brief into product copy, emails, social posts and blog outlines, then lets you regenerate, change the tone and copy the draft out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+/* Paper theme tokens */
+:root {
+  --bg: #f6f2e9;
+  --sheet: #fffdf8;
+  --raised: #efe9dc;
+  --ink: #1e2329;
+  --muted: #595c5f;
+  --line: #ddd5c5;
+  --field-line: #85806f;
+  --accent: #1f4a7d;
+  --accent-strong: #173a63;
+  --accent-soft: #e3e9ef;
+  --on-accent: #ffffff;
+  --danger: #9b2c1f;
+  --bar-bg: #1e2329;
+  --bar-ink: #f4f0e6;
+  --bar-link: #c2d8f2;
+  --shadow: 0 1px 2px rgba(50, 40, 20, .06);
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --bar-h: 36px;
+}
+/* Ink theme tokens */
+[data-theme="ink"] {
+  --bg: #10151c;
+  --sheet: #171d26;
+  --raised: #1f2631;
+  --ink: #ebe6db;
+  --muted: #a9adb2;
+  --line: #2d3540;
+  --field-line: #737c88;
+  --accent: #93b8e5;
+  --accent-strong: #b2cdee;
+  --accent-soft: #1f2d3f;
+  --on-accent: #0e141b;
+  --danger: #f0a397;
+  --bar-bg: #090c11;
+  --bar-ink: #ebe6db;
+  --bar-link: #b2cdee;
+  --shadow: none;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 15px/1.5 var(--sans);
+  overflow-wrap: break-word;
+}
+h1, h2, h3, h4, p, ol, ul, fieldset, legend { margin: 0; padding: 0; }
+fieldset { border: 0; min-width: 0; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Zero Lag project bar */
+.zl-bar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 6px 16px;
+  background: var(--bar-bg); color: var(--bar-ink); opacity: .96;
+  font-size: 13px; line-height: 1.3;
+}
+.zl-bar span { text-align: center; opacity: .72; }
+.zl-bar strong { font-weight: 600; }
+.zl-bar a { color: var(--bar-link); font-weight: 600; white-space: nowrap; text-decoration: none; }
+.zl-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.zl-bar a:focus-visible { outline-color: var(--bar-link); }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* Masthead */
+.top, .intro, .app-wrap { max-width: 1240px; margin: 0 auto; padding-inline: 24px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 14px 0; }
+.brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font: 500 22px/1 var(--serif); letter-spacing: -.01em; }
+.brand svg { width: 26px; height: 26px; color: var(--accent); flex: none; }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+
+/* Shared buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 36px; padding: 6px 12px;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--field-line); border-radius: 6px;
+  font-size: 14px; font-weight: 500; line-height: 1.2; text-decoration: none;
+  transition: background-color .12s, border-color .12s, color .12s;
+}
+.btn:hover { background: var(--raised); }
+.btn svg { width: 15px; height: 15px; flex: none; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+.btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.btn.primary:disabled { background: var(--raised); border-color: var(--line); color: var(--muted); cursor: default; }
+.btn.quiet { border-color: transparent; color: var(--muted); white-space: nowrap; }
+.btn.quiet:hover { color: var(--ink); }
+
+/* Product intro */
+.intro {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px 56px; align-items: end;
+  padding-block: 22px 22px;
+}
+.intro h1 { font: 400 clamp(32px, 4vw, 46px)/1.08 var(--serif); letter-spacing: -.018em; max-width: 17em; }
+.intro h1 em { font-weight: 400; color: var(--accent); }
+.intro .lede { margin-top: 10px; color: var(--muted); font-size: 16px; max-width: 34em; }
+.steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-top: 1px solid var(--field-line); padding-top: 10px; }
+.steps b { display: block; font: 500 17px/1.25 var(--serif); margin-bottom: 2px; }
+.steps span { display: block; color: var(--muted); font-size: 13.5px; line-height: 1.4; }
+
+/* App frame */
+.app-wrap { padding-bottom: 28px; }
+.app {
+  display: grid; grid-template-columns: 268px minmax(0, 1fr);
+  height: clamp(620px, calc(100vh - var(--bar-h) - 262px), 900px);
+  background: var(--bg);
+  border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  scroll-margin-top: calc(var(--bar-h) + 10px);
+}
+
+/* Saved drafts sidebar */
+.side { display: flex; flex-direction: column; min-height: 0; background: var(--raised); border-right: 1px solid var(--line); }
+.side-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 12px 10px 16px; }
+.side-head h2 { font: 600 13px/1.2 var(--sans); }
+.side-head h2 span { color: var(--muted); font-weight: 500; margin-left: 4px; }
+.drafts-toggle { display: none; }
+.side-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.draft-list { list-style: none; flex: 1; min-height: 0; overflow-y: auto; padding: 0 8px 8px; }
+.draft-item { position: relative; display: flex; align-items: stretch; border-radius: 6px; }
+.draft-item + .draft-item { margin-top: 2px; }
+.draft-item:hover { background: rgba(127, 120, 100, .12); }
+.draft-item.current { background: var(--sheet); box-shadow: inset 2px 0 0 var(--accent), 0 0 0 1px var(--line); }
+.draft-open { flex: 1; min-width: 0; padding: 8px 4px 8px 10px; background: none; border: 0; text-align: left; border-radius: 6px; }
+.draft-open strong { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font: 500 16px/1.25 var(--serif); overflow: hidden; }
+.draft-open small { display: block; margin-top: 2px; color: var(--muted); font-size: 12.5px; line-height: 1.35; }
+.draft-del { flex: none; width: 34px; background: none; border: 0; color: var(--muted); border-radius: 6px; display: grid; place-items: center; }
+.draft-del:hover { color: var(--danger); }
+.draft-del svg { width: 13px; height: 13px; }
+.side-note { padding: 10px 16px 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+
+/* Work area */
+.work { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.thread { position: relative; flex: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 20px; }
+.thread:focus-visible { outline-offset: -2px; }
+.thread-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+/* Empty state */
+.empty { padding: 7vh 0 20px; }
+.empty h3 { font: 400 32px/1.15 var(--serif); letter-spacing: -.012em; }
+.empty p { margin-top: 8px; color: var(--muted); max-width: 34em; }
+.try { margin-top: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.try-label { font-size: 13px; color: var(--muted); }
+.try button { padding: 6px 12px; text-align: left; background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; font: 400 16px/1.3 var(--serif); }
+.try button:hover { border-color: var(--accent); }
+
+/* Conversation turns */
+.brief { align-self: flex-end; max-width: 86%; padding: 8px 12px; background: var(--accent-soft); border-radius: 10px 10px 2px 10px; font-size: 14.5px; line-height: 1.4; }
+.reply { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+.reply-head { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; padding: 12px 22px 0; color: var(--muted); font-size: 13px; }
+.reply-head svg { width: 16px; height: 16px; color: var(--accent); }
+.reply-head strong { color: var(--ink); font-weight: 600; }
+.doc { padding: 10px 22px 16px; font: 400 19px/1.52 var(--serif); }
+.doc > * + * { margin-top: .72em; }
+.doc h3 { font: 500 29px/1.14 var(--serif); letter-spacing: -.012em; margin-bottom: .1em; }
+.doc h4 { font: 600 20px/1.25 var(--serif); margin-top: 1em; }
+.doc h4 + ul { margin-top: .25em; }
+.doc ul { padding-left: 1.1em; }
+.doc li + li { margin-top: .15em; }
+.doc li::marker { color: var(--accent); }
+.doc .subject { font: 500 14px/1.4 var(--sans); padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.doc .subject span { color: var(--muted); font-weight: 400; margin-right: 6px; }
+.doc .ph { background: var(--accent-soft); color: var(--accent-strong); border-radius: 3px; padding: 0 3px; }
+.caret { display: inline-block; width: 2px; height: .95em; margin-left: 2px; vertical-align: -.1em; background: var(--accent); }
+
+/* Reply footer */
+.foot {
+  position: sticky; bottom: -20px; z-index: 2;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  padding: 10px 22px;
+  background: var(--sheet); border-top: 1px solid var(--line); border-radius: 0 0 8px 8px;
+}
+.count { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.count small { font-size: 13px; font-weight: 400; color: var(--muted); }
+.foot-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+.rewrite { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.rewrite-label { font-size: 13px; color: var(--muted); margin-right: 2px; }
+.chip { min-height: 32px; padding: 4px 10px; background: transparent; border: 1px solid var(--line); border-radius: 16px; font-size: 13.5px; font-weight: 500; }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.foot .btn { min-height: 34px; padding: 5px 10px; font-size: 13.5px; }
+.stopped-note { font-size: 13px; color: var(--muted); }
+
+/* Earlier versions */
+.older { background: transparent; border: 1px solid var(--line); border-radius: 8px; }
+.older summary { padding: 9px 14px; cursor: pointer; color: var(--muted); font-size: 13.5px; }
+.older summary:hover { color: var(--ink); }
+.older[open] { background: var(--sheet); }
+.older .doc { padding-top: 2px; font-size: 17px; }
+.older .doc h3 { font-size: 24px; }
+.older .older-foot { padding: 0 22px 14px; }
+
+/* Composer form */
+.composer { flex: none; display: grid; gap: 10px; padding: 12px 24px 14px; background: var(--sheet); border-top: 1px solid var(--line); }
+.composer-inner { width: 100%; max-width: 900px; margin: 0 auto; display: grid; gap: 10px; }
+.field-label, .composer legend { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.composer legend span { font-weight: 400; color: var(--muted); margin-left: 4px; }
+.templates-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.opt { position: relative; display: inline-flex; }
+.opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.opt span { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 34px; padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; font-weight: 500; line-height: 1.2; text-align: center; }
+.opt input:hover + span { border-color: var(--field-line); }
+.opt input:checked + span { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-strong); font-weight: 600; }
+.opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.brief-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 12px; }
+.f-topic { flex: 1 1 280px; min-width: 0; }
+.f-tone { flex: 0 1 136px; min-width: 110px; }
+.f-submit { flex: 0 0 auto; align-self: flex-start; padding-top: 23px; }
+.text-input { width: 100%; height: 38px; padding: 6px 10px; background: var(--sheet); border: 1px solid var(--field-line); border-radius: 6px; font-size: 15px; }
+select.text-input { appearance: auto; padding-right: 4px; }
+.text-input[aria-invalid="true"] { border-color: var(--danger); }
+.seg { display: flex; }
+.seg .opt span { min-height: 38px; border-radius: 0; margin-left: -1px; }
+.seg .opt:first-child span { border-radius: 6px 0 0 6px; margin-left: 0; }
+.seg .opt:last-child span { border-radius: 0 6px 6px 0; }
+.seg .opt input:checked + span { position: relative; z-index: 1; }
+.seg .opt input { z-index: 2; }
+.error { margin-top: 4px; color: var(--danger); font-size: 13px; font-weight: 500; }
+.f-submit .btn { height: 38px; padding-inline: 16px; }
+
+/* Stack layout for tablets and phones */
+@media (max-width: 1000px) {
+  .intro { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+@media (max-width: 860px) {
+  .app { display: block; height: auto; overflow: visible; }
+  .side { border-right: 0; border-bottom: 1px solid var(--line); border-radius: 10px 10px 0 0; }
+  .side-head { padding: 8px 8px 8px 8px; }
+  .side-head h2 { display: none; }
+  .drafts-toggle { display: inline-flex; }
+  .drafts-toggle svg { transition: transform .12s; }
+  .drafts-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .side-body { display: none; }
+  .side.open .side-body { display: flex; }
+  .draft-list { max-height: 280px; }
+  .thread { overflow: visible; padding: 16px; }
+  .foot { position: static; }
+  .foot.streaming { position: sticky; bottom: 0; }
+  .composer { padding: 12px 16px 16px; border-radius: 0 0 10px 10px; }
+}
+@media (max-width: 560px) {
+  .top, .intro, .app-wrap { padding-inline: 16px; }
+  .app-wrap { padding-inline: 8px; }
+  .steps, .top-actions a { display: none; }
+  .intro { padding-block: 16px 16px; }
+  .thread { padding: 12px 8px; }
+  .reply-head { padding: 12px 14px 0; }
+  .doc { padding: 10px 14px 14px; font-size: 18px; }
+  .doc h3 { font-size: 25px; }
+  .foot { padding: 10px 14px; }
+  .foot-actions { margin-left: 0; width: 100%; }
+  .foot-actions .btn { flex: 1 1 auto; }
+  .older .older-foot { padding: 0 14px 12px; }
+  .composer { padding-inline: 12px; }
+  .templates-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .opt span { padding-inline: 6px; }
+  .f-topic, .f-length { flex-basis: 100%; }
+  .f-tone { flex: 1 1 100%; }
+  .seg .opt { flex: 1; }
+  .f-submit { flex-basis: 100%; padding-top: 0; }
+  .f-submit .btn { width: 100%; }
+  .empty { padding-top: 16px; }
+  .empty h3 { font-size: 27px; }
+  .try button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Draftwell</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="logo" viewBox="0 0 28 28">
+    <path d="M9.2 2.5h9.6L21 10.5 14 20.5 7 10.5Z" fill="currentColor"/>
+    <path d="M14 20v-8" stroke="var(--logo-cut, #fffdf8)" stroke-width="1.3" stroke-linecap="round"/>
+    <circle cx="14" cy="10.8" r="1.7" fill="var(--logo-cut, #fffdf8)"/>
+    <path d="M3.5 17.5c0 4.8 4.4 8 10.5 8s10.5-3.2 10.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<header class="top">
+  <a class="brand" href="#workspace" aria-label="Draftwell, go to workspace">
+    <svg aria-hidden="true"><use href="#logo"/></svg>
+    <span>Draftwell</span>
+  </a>
+  <div class="top-actions">
+    <button class="btn quiet" type="button" id="themeBtn">Switch to ink</button>
+    <a class="btn" href="#workspace">Open workspace</a>
+  </div>
+</header>
+
+<main>
+  <section class="intro" aria-labelledby="introTitle">
+    <div>
+      <h1 id="introTitle">Give it a topic.<br>Get a draft <em>worth editing.</em></h1>
+      <p class="lede">Draftwell turns a short brief into product copy, emails, social posts and blog outlines, so you start with something on the page.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Choose a form</b><span>Four templates, each with its own structure.</span></li>
+      <li><b>Write the brief</b><span>A topic, a tone and how long it should run.</span></li>
+      <li><b>Shape the draft</b><span>Regenerate, change the tone, then copy it out.</span></li>
+    </ol>
+  </section>
+
+  <div class="app-wrap">
+    <section class="app" id="workspace" aria-label="Draftwell workspace">
+      <aside class="side" id="side" aria-label="Saved drafts">
+        <div class="side-head">
+          <h2>Drafts <span id="sideCount"></span></h2>
+          <button class="btn quiet drafts-toggle" type="button" id="draftsToggle" aria-expanded="false" aria-controls="sideBody">
+            <span id="toggleLabel">Drafts</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+          </button>
+          <button class="btn" type="button" id="newBtn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
+            New draft
+          </button>
+        </div>
+        <div class="side-body" id="sideBody">
+          <ul class="draft-list" id="draftList"></ul>
+          <p class="side-note">Drafts are saved in this browser, so they are here when you come back.</p>
+        </div>
+      </aside>
+
+      <div class="work">
+        <div class="thread" id="thread" tabindex="0" role="region" aria-label="Conversation" aria-busy="false">
+          <div class="thread-inner" id="threadInner"></div>
+        </div>
+
+        <form class="composer" id="composer" novalidate>
+          <div class="composer-inner">
+            <fieldset>
+              <legend>Template</legend>
+              <div class="templates-row" id="templates">
+                <label class="opt"><input type="radio" name="template" value="product" checked><span>Product description</span></label>
+                <label class="opt"><input type="radio" name="template" value="email"><span>Email</span></label>
+                <label class="opt"><input type="radio" name="template" value="social"><span>Social post</span></label>
+                <label class="opt"><input type="radio" name="template" value="outline"><span>Blog outline</span></label>
+              </div>
+            </fieldset>
+            <div class="brief-row">
+              <div class="f-topic">
+                <label class="field-label" for="topic">Topic</label>
+                <input class="text-input" id="topic" name="topic" type="text" maxlength="120" autocomplete="off" aria-describedby="topicErr">
+                <p class="error" id="topicErr" hidden>Add a topic of at least three characters so there is something to write about.</p>
+              </div>
+              <div class="f-tone">
+                <label class="field-label" for="tone">Tone</label>
+                <select class="text-input" id="tone" name="tone"></select>
+              </div>
+              <fieldset class="f-length">
+                <legend>Length <span id="lenHint"></span></legend>
+                <div class="seg">
+                  <label class="opt"><input type="radio" name="draftLength" value="short"><span>Short</span></label>
+                  <label class="opt"><input type="radio" name="draftLength" value="medium" checked><span>Medium</span></label>
+                  <label class="opt"><input type="radio" name="draftLength" value="long"><span>Long</span></label>
+                </div>
+              </fieldset>
+              <div class="f-submit">
+                <button class="btn primary" type="submit" id="writeBtn">Write draft</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+<script>
+(function () {
+  "use strict";
+
+  // Tone labels shown in the form and buttons
+  var TONES = { warm: "Warm", confident: "Confident", plain: "Plain", playful: "Playful", formal: "Formal" };
+
+  // Template labels, word targets and example topics
+  var TEMPLATES = {
+    product: { label: "Product description", short: "product description", targets: { short: 55, medium: 100, long: 150 }, examples: ["a standing desk for small apartments", "hand-thrown ceramic coffee mugs", "a weatherproof backpack for cycling to work"] },
+    email: { label: "Email", short: "email", targets: { short: 50, medium: 95, long: 145 }, examples: ["moving the client workshop to next week", "the new parental leave policy", "renewing our office lease in March"] },
+    social: { label: "Social post", short: "social post", targets: { short: 25, medium: 50, long: 90 }, examples: ["why we stopped sending weekly status reports", "what our first hundred customers taught us", "the case for shorter product roadmaps"] },
+    outline: { label: "Blog outline", short: "blog outline", targets: { short: 65, medium: 105, long: 195 }, examples: ["how to plan a first vegetable garden", "choosing a bookkeeping system for a small studio", "what to do in your first week as a manager"] }
+  };
+
+  // Product description sentences, grouped by tone and writing move
+  var PRODUCT = {
+    warm: {
+      hook: ["Some things just make the day a little easier, and {the} {is} one of them.", "You'll reach for {the} more often than you expect, and you'll be glad every time."],
+      what: ["{It} {is} made with care and built around the small moments that matter, so using {short} never feels like a chore."],
+      who: ["We made {short} {aud}, with real routines and real people in mind.", "Whether it's a gift or a treat for yourself, {short} {is} made {aud}."],
+      detail: ["Every detail has been thought through, from the first time you use {them} to the hundredth."],
+      daily: ["Give {them} a week and {short} will feel like {it} {has} always been part of your routine."],
+      care: ["{It} {is} easy to look after, too, so you can spend your time on the things you love instead."],
+      fit: ["{It} will fit easily into a busy life, on packed mornings and slow weekends alike."],
+      value: ["It's the kind of purchase you stop thinking about, because it simply keeps being useful year after year."],
+      proof: ["Customers keep telling us {short} {is} what they recommend first, and that's the nicest compliment we could ask for."],
+      close: ["Bring {short} home and see how much nicer an ordinary day can feel.", "Treat yourself, or someone you love, to {the}."]
+    },
+    confident: {
+      hook: ["{The} {is} what this category should have been all along.", "Stop settling. {The} {is} built to outperform everything you've tried before."],
+      what: ["{It} {is} engineered to do one job exceptionally well, and {it} will keep doing it long after the alternatives give out."],
+      who: ["Built {aud}, by people who refuse to accept good enough.", "Designed {aud} and tested until there was nothing left to fix."],
+      detail: ["No filler and no compromises: every feature of {short} earns its place."],
+      daily: ["You will notice the difference on day one, and you will still notice it on day one thousand."],
+      care: ["Minimal upkeep. Maximum return. {Short} {is} ready when you are."],
+      fit: ["Put {short} next to anything else on the market and the comparison ends quickly."],
+      value: ["You buy {short} once, because {it} {is} built to last."],
+      proof: ["The people who switch to {short} do not switch back, and the reviews make that clear."],
+      close: ["Get {the} today and raise your standard.", "Make the upgrade. Choose {the}."]
+    },
+    plain: {
+      hook: ["{The} {is} a simple, reliable choice.", "{The} {is} easy to use and not overcomplicated."],
+      what: ["{It} will do the job you bought {them} for, without extra steps or a long setup."],
+      who: ["{It} {is} designed {aud}.", "{Short} {is} a good fit if you want something {aud} that just works."],
+      detail: ["The design is practical. Each part has a clear purpose, and nothing is there just for show."],
+      daily: ["You can start using {short} right away, and {it} will fit into what you already do."],
+      care: ["Upkeep is minimal and takes only a few minutes."],
+      fit: ["{It} will work well on busy days and quiet ones, with no changes needed."],
+      value: ["The price is fair for something that will last for years, and you are unlikely to need a replacement."],
+      proof: ["Most buyers choose {short} because {it} {is} dependable and fairly priced."],
+      close: ["Order {the} when you are ready.", "See the options for {the} and pick the one that suits you."]
+    },
+    playful: {
+      hook: ["Meet {the}: your new favorite thing, and frankly, your old stuff saw this coming.", "Plot twist: {the} {is} about to become the most talked-about thing in your week."],
+      what: ["{It} {is} clever without being smug about it, which is more than we can say for most of your shopping list."],
+      who: ["Made {aud}, and for anyone who has ever muttered, 'there has to be a better way.'", "Designed {aud}, and for people with better things to do than read instructions."],
+      detail: ["We sweated the tiny details so you never have to. You're welcome."],
+      daily: ["Warning: side effects of {short} may include smugness, extra free time and unsolicited recommendations to friends."],
+      care: ["Looking after {them} takes about as much effort as ignoring a group chat."],
+      fit: ["{It} will get along with your routine, your schedule and possibly your in-laws."],
+      value: ["Think of it as an investment, the kind you can explain to your accountant with a straight face."],
+      proof: ["Early fans have started using the phrase 'life-changing,' and we haven't even paid them."],
+      close: ["Go on, get {the}. Future you is already grateful.", "Get {the} and enjoy being slightly insufferable about it."]
+    },
+    formal: {
+      hook: ["We are pleased to present {the}, developed to meet a high standard of quality and reliability.", "{The} {is} offered to customers who require dependable performance and considered design."],
+      what: ["{It} {has} been designed to deliver consistent results under everyday conditions, with careful attention to materials and finish."],
+      who: ["This product has been developed {aud}, in consultation with those who use it most.", "{Short} {has} been developed specifically {aud}."],
+      detail: ["Each component has been selected for durability, and every unit is inspected prior to dispatch."],
+      daily: ["Customers may expect straightforward operation from first use, with no specialist knowledge required."],
+      care: ["Routine maintenance is minimal, and full guidance is provided with every purchase."],
+      fit: ["{It} will integrate readily into existing routines, with no additional equipment required."],
+      value: ["Considered over its working life, this purchase represents sound long-term value."],
+      proof: ["{Short} {has} been well received by customers who value long-term reliability over short-term convenience."],
+      close: ["We invite you to place your order or to contact our team for further information.", "For availability and pricing of {the}, please contact our team."]
+    }
+  };
+
+  // Email sentences, grouped by tone and writing move
+  var EMAIL = {
+    warm: {
+      subject: ["A quick note about {raw}", "Thinking about {raw}"],
+      greet: ["Hi [Name],"],
+      open: ["I hope your week is going well. I wanted to reach out about {raw}, because I think you'd want to hear about it from me first.", "Thanks for all your help lately. I've been meaning to write to you about {raw}."],
+      why: ["It's been on my mind for a few days, and I'd really value your thoughts before anything is settled."],
+      context: ["I know you've got a lot on right now, so I've tried to keep this short and to the point."],
+      timing: ["There's no pressure to decide right away, though having your view by the end of the week would be a real help."],
+      detail: ["Nothing about it needs to be complicated. A few of us have looked at where things stand, and I've put together a short summary so you can catch up in a couple of minutes."],
+      ask: ["Would you have a little time on [day] to talk it through?"],
+      next: ["If that doesn't work, just tell me what does and I'll happily fit around you."],
+      extra: ["And if you have any worries, please do share them. It's much better to hear them early."],
+      close: ["Thanks so much, and speak soon."],
+      sign: ["Warmly,\n[Your name]"],
+      ps: ["P.S. No rush on the reading. The summary will keep."]
+    },
+    confident: {
+      subject: ["{Raw}: decision needed by [date]", "Next steps on {raw}"],
+      greet: ["Hi [Name],"],
+      open: ["I'm writing about {raw}, and I'd like to move it forward this week.", "It's time to make a call on {raw}, and I have a clear recommendation."],
+      why: ["Waiting will cost us more than acting, and the case for moving now is strong."],
+      context: ["I've spoken with the people closest to this, and we all see the same way forward."],
+      timing: ["We need this settled by the end of the week so the rest of the plan stays on track."],
+      detail: ["I've reviewed where we stand and the options are clear. I recommend we commit to the simplest path and put one owner on it."],
+      ask: ["Please confirm by [day] that you're on board."],
+      next: ["Once I have your answer, I'll take it from there and send you the plan the same day."],
+      extra: ["If you see a risk I've missed, tell me now and I'll account for it."],
+      close: ["Looking forward to getting this done."],
+      sign: ["Best,\n[Your name]"],
+      ps: ["P.S. I've held time on [day] in case we need to talk it through."]
+    },
+    plain: {
+      subject: ["{Raw}", "About {raw}"],
+      greet: ["Hi [Name],"],
+      open: ["I'm writing about {raw}.", "I'm emailing to give you an update on {raw}."],
+      why: ["You need to know because it affects what we do next."],
+      context: ["I have checked the details with the team, and the summary is up to date."],
+      timing: ["The goal is to have this settled by the end of the week so other work is not delayed."],
+      detail: ["Here is where things stand: the main points are in the attached summary, and there are no open problems so far."],
+      ask: ["Can you reply by [day] with your thoughts?"],
+      next: ["After that, I will share the next steps with everyone involved."],
+      extra: ["If you have questions, send them to me and I will answer them."],
+      close: ["Let me know if I missed anything."],
+      sign: ["Thanks,\n[Your name]"],
+      ps: ["P.S. The summary is one page long."]
+    },
+    playful: {
+      subject: ["Quick one: {raw} (no homework, promise)", "{Raw}: a very short saga"],
+      greet: ["Hey [Name],"],
+      open: ["Good news: this is not another email that could have been a meeting. It's about {raw}.", "Consider this your friendly nudge about {raw}."],
+      why: ["I'd love to get it sorted before it grows legs and starts attending meetings on its own."],
+      context: ["I've already bribed the team with biscuits, so they're mostly on board."],
+      timing: ["The deadline is the end of the week, after which I'll start sending increasingly cheerful reminders."],
+      detail: ["The short version fits on a sticky note, and the long version is in the summary I've attached for anyone who enjoys that sort of thing."],
+      ask: ["Could you spare ten minutes on [day]? I'll bring the agenda and you bring the opinions."],
+      next: ["Once we've chatted, I'll handle the boring bits. Scout's honor."],
+      extra: ["If you've got a better idea, I'm all ears and have zero ego about it. Well, very little."],
+      close: ["Thanks for being a good sport."],
+      sign: ["Cheers,\n[Your name]"],
+      ps: ["P.S. There will be no pop quiz. Probably."]
+    },
+    formal: {
+      subject: ["Regarding {raw}", "Correspondence regarding {raw}"],
+      greet: ["Dear [Name],"],
+      open: ["I am writing to you regarding {raw}.", "I am writing to inform you of recent developments concerning {raw}."],
+      why: ["The matter requires your attention, as it has a direct bearing on our plans for the coming period."],
+      context: ["I have consulted with the colleagues closest to the matter, and their views are reflected in the summary."],
+      timing: ["We would ideally conclude this matter by the end of the week in order to avoid delays to related work."],
+      detail: ["A summary of the current position is attached for your review. I would draw your attention in particular to the timing and to the responsibilities of each party."],
+      ask: ["I would be grateful if you could provide your response by [date]."],
+      next: ["Upon receipt, I will circulate the agreed next steps to all relevant parties."],
+      extra: ["Should you require any further information, please do not hesitate to contact me."],
+      close: ["Thank you for your attention to this matter."],
+      sign: ["Yours sincerely,\n[Your name]"],
+      ps: ["P.S. A copy of this message has been shared with the relevant team."]
+    }
+  };
+
+  // Social post sentences, grouped by tone and writing move
+  var SOCIAL = {
+    warm: {
+      hook: ["Can we talk about {raw} for a minute?", "A small thought about {raw} that's been staying with me."],
+      point: ["It's one of those things that seems minor until you see what a difference it makes for real people."],
+      detail: ["What I keep coming back to is how much easier everything gets when someone takes the time to do it well."],
+      lesson: ["The best part is that you don't have to get it perfect. You just have to start, and be kind to yourself along the way."],
+      proof: ["I've seen it help people who thought it wasn't for them, and those are my favorite stories."],
+      ask: ["What has your experience been? I'd love to hear."]
+    },
+    confident: {
+      hook: ["Let's talk about {raw}. Most people get this wrong.", "{Raw}: here's what most people miss."],
+      point: ["The ones who take it seriously are already pulling ahead, and the gap is widening."],
+      detail: ["Treat it as a priority, give it an owner and measure the result. That's the whole playbook."],
+      lesson: ["Waiting for perfect conditions is how you lose. Start now and improve as you go."],
+      proof: ["We've seen it work again and again. The results aren't close."],
+      ask: ["If you're not acting on this yet, what's stopping you?"]
+    },
+    plain: {
+      hook: ["Some notes on {raw}.", "Here is what I've learned about {raw}."],
+      point: ["It matters more than most people think, and it isn't hard to get right."],
+      detail: ["Start small, check what works, and drop what doesn't."],
+      lesson: ["You don't need special tools or a large budget. You need a clear goal and a bit of time each week."],
+      proof: ["This has worked for the teams I've spoken with, at different sizes and budgets."],
+      ask: ["What would you add?"]
+    },
+    playful: {
+      hook: ["Me, at 11pm, instead of sleeping: thinking about {raw}.", "Hot take incoming, and it's about {raw}."],
+      point: ["Yes, I have feelings about this. No, I will not be taking questions. (I will. Please ask questions.)"],
+      detail: ["It's basically flossing: everyone nods, few people do it, and the ones who do are suspiciously smug."],
+      lesson: ["You don't need a five-step framework and a ring light. You just need to start before the snacks run out."],
+      proof: ["My own trial was unscientific, but I'm calling it a triumph anyway."],
+      ask: ["Agree? Disagree? Argue with me politely in the comments."]
+    },
+    formal: {
+      hook: ["A brief reflection on {raw}.", "We are pleased to share our perspective on {raw}."],
+      point: ["It merits closer attention from leaders, given its growing influence on long-term outcomes."],
+      detail: ["Organizations that address it early tend to report greater clarity and more consistent results."],
+      lesson: ["A measured approach, with clear objectives and regular review, remains the most reliable path forward."],
+      proof: ["Our experience across a range of projects supports this view."],
+      ask: ["We welcome your perspective and invite you to continue the conversation."]
+    }
+  };
+
+  // Blog outline headings and bullets, grouped by tone
+  var OUTLINE = {
+    warm: {
+      suffix: ["A Friendly Guide", "What I Wish Someone Had Told Me"],
+      angle: ["A reassuring walk through {raw} for readers who feel a little unsure where to begin.", "A kind, practical look at {raw}, written as if for a friend who just asked for advice."],
+      why: ["Why this matters more than it seems", "Open with a small, familiar moment readers will recognize", "Show how {key} changes someone's day"],
+      mistakes: ["The easy missteps (we've all made them)", "Share a mistake of your own to set readers at ease", "Offer a kinder way to think about each one"],
+      start: ["A gentle way to begin", "Suggest one first step that takes under an hour", "Reassure readers that imperfect is fine"],
+      example: ["A story from real life", "Walk through one person's experience, from first step to last", "Pull out the moment things clicked"],
+      measure: ["How you'll know it's working", "Describe the small signs of progress", "Encourage readers to notice them early"],
+      next: ["Where to go from here", "Recap the one idea to hold onto", "Invite readers to share their own stories"]
+    },
+    confident: {
+      suffix: ["What Actually Works", "The No-Excuses Playbook"],
+      angle: ["A direct argument for getting {raw} right, with a clear plan readers can act on this week.", "The definitive take on {raw}: what to do, what to stop doing and why it pays off."],
+      why: ["Why this can't wait", "State the cost of doing nothing, in concrete terms", "Make the claim early and defend it"],
+      mistakes: ["The mistakes holding most people back", "Call out the three most common {key} errors by name", "Give the fix right beside each one"],
+      start: ["The playbook", "Lay out the steps in order of impact", "Cut anything that doesn't move the result"],
+      example: ["Proof it works", "Present one strong case with before-and-after numbers", "Answer the obvious objection directly"],
+      measure: ["The numbers to hold yourself to", "Set two or three clear targets", "Review them weekly and act on what they show"],
+      next: ["Your move", "End with one specific action for this week", "Make the cost of delay plain"]
+    },
+    plain: {
+      suffix: ["A Practical Guide", "The Basics"],
+      angle: ["A clear introduction to {raw} for readers who are new to the subject.", "A step-by-step explanation of {raw}, with no jargon and no filler."],
+      why: ["What this involves and why it matters", "Define the key terms around {key}", "Explain who this is useful for"],
+      mistakes: ["Common mistakes", "List the errors beginners make most often", "Explain how to avoid each one"],
+      start: ["How to get started", "Give the steps in order", "List what readers need before they begin"],
+      example: ["A worked example", "Follow one example from start to finish", "Note where it could go differently"],
+      measure: ["How to check your progress", "Describe what good results look like", "Suggest a simple way to track them"],
+      next: ["Next steps", "Summarize the main points", "Point to further reading"]
+    },
+    playful: {
+      suffix: ["A Slightly Unhinged Guide", "Everything Nobody Warned You About"],
+      angle: ["A cheerful romp through {raw}, featuring questionable decisions and real lessons.", "All the useful advice on {raw}, minus the boring bits and the stock photos of handshakes."],
+      why: ["So, why should anyone care?", "Open with an absurd but true-ish scenario", "Admit you were once a total skeptic"],
+      mistakes: ["Greatest hits of getting it wrong", "Rank the classic {key} blunders from mild to catastrophic", "Award each one a tiny imaginary trophy"],
+      start: ["Step one: don't panic", "Give a starter plan that fits on a napkin", "Ban all use of the word 'synergy'"],
+      example: ["A cautionary tale, with a happy ending", "Tell the story of one glorious failure", "Reveal what finally worked, to everyone's surprise"],
+      measure: ["Signs you're winning (besides the smugness)", "List funny but real markers of progress", "Include a quiz nobody asked for"],
+      next: ["Okay, now go do the thing", "Sum it all up in one sticker-sized line", "Dare readers to report back"]
+    },
+    formal: {
+      suffix: ["An Overview of Key Considerations", "Principles and Practice"],
+      angle: ["A structured examination of {raw}, intended for readers who require a reliable overview.", "An evidence-led discussion of {raw}, with recommendations for practitioners."],
+      why: ["Why the subject merits attention", "Establish the scope of the discussion on {key}", "Outline the principal considerations"],
+      mistakes: ["Common misunderstandings", "Identify prevailing assumptions and their limitations", "Present the evidence that qualifies each one"],
+      start: ["Recommended approach", "Describe the recommended process in sequence", "Note the prerequisites and resources required"],
+      example: ["Illustrative case", "Examine a representative case in detail", "Summarize the findings and their implications"],
+      measure: ["Evaluating outcomes", "Define appropriate criteria for assessment", "Recommend a schedule for periodic review"],
+      next: ["Conclusion and recommendations", "Restate the principal findings", "Set out recommended actions"]
+    }
+  };
+
+  // Editor notes added as a third bullet on long outlines
+  var OUTLINE_NOTES = {
+    why: "Add one statistic or first-hand story that shows the stakes",
+    mistakes: "Quote a reader question that shows where the confusion starts",
+    start: "Include a short checklist readers can copy",
+    example: "Add a photo, screenshot or simple before-and-after",
+    measure: "Name a realistic time frame so expectations stay honest",
+    next: "Link to one related post and one useful resource"
+  };
+
+  var STOPWORDS = "a an and are as at be but by for from how i in into is it its my of on or our that the their this to we what when why with you your should can will not do does first new".split(" ");
+  var SMALL_WORDS = "a an and as at but by for from in into of on or the to with".split(" ");
+
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  // Title-case a phrase and leave acronyms alone
+  function titleCase(s) {
+    return s.split(/\s+/).map(function (w, i) {
+      if (i > 0 && SMALL_WORDS.indexOf(w.toLowerCase()) > -1) return w.toLowerCase();
+      return cap(w);
+    }).join(" ");
+  }
+
+  // Read grammar and keywords out of the topic text
+  function analyze(topic) {
+    var raw = topic.trim().replace(/\s+/g, " ").replace(/[.!?,;:]+$/, "");
+    var detMatch = raw.match(/^(a|an|the|our|my|your|this)\s+/i);
+    var det = detMatch ? detMatch[1].toLowerCase() : "";
+    var noun = raw.slice(detMatch ? detMatch[0].length : 0);
+    var split = noun.match(/^(.*?)\s(for|with|that|to|about|in|on|from|of|by|at|which)\s(.*)$/i);
+    var head = split ? split[1] : noun;
+    var aud = split && split[2].toLowerCase() === "for" ? "for " + split[3] : "for everyday use";
+    var words = head.split(" ");
+    var last = words[words.length - 1];
+    var clausal = /ing$/i.test(words[0]) || /^(why|how|what|when|where|who)$/i.test(words[0]);
+    var plural = !clausal && /[^su]s$/i.test(last) && !/(ss|us|is)$/i.test(last);
+    var keep = det === "our" || det === "my" || det === "your" || det === "this";
+    var the = clausal ? noun : (keep ? det : "the") + " " + noun;
+    var short = clausal ? noun : (keep ? det : "the") + " " + last;
+    var source = !clausal || head.split(" ").length >= 3 ? head : noun;
+    var parts = source.toLowerCase().replace(/[^a-z0-9\s-]/g, "").split(/[\s-]+/);
+    var isKey = function (w) { return w && w.length > 1 && STOPWORDS.indexOf(w) === -1; };
+    var keyWords = isKey(parts[parts.length - 1]) ? parts.slice(-1) : [];
+    if (keyWords.length && isKey(parts[parts.length - 2])) keyWords.unshift(parts[parts.length - 2]);
+    if (!keyWords.length) keyWords = [parts[parts.length - 1] || "topic"];
+    var tags = keyWords.map(function (w) { return "#" + cap(w); }).join(" ");
+    return {
+      raw: raw, Raw: cap(raw), noun: noun, the: the, The: cap(the), short: short, Short: cap(short), aud: aud,
+      title: titleCase(noun), tags: tags, key: keyWords.join(" "),
+      is: plural ? "are" : "is", has: plural ? "have" : "has",
+      it: plural ? "they" : "it", It: plural ? "They" : "It", them: plural ? "them" : "it"
+    };
+  }
+
+  function fill(s, c) {
+    return s.replace(/\{(\w+)\}/g, function (m, k) { return c[k] !== undefined ? c[k] : m; });
+  }
+
+  // Small string hash used to derive stable choices from a seed
+  function hash(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+
+  // Choose a sentence variant that stays stable for a given seed
+  function pick(list, key, seed) { return list[hash(key + ":" + seed) % list.length]; }
+
+  // Shuffle a list with a seed so rewrites keep the same plan
+  function seededShuffle(list, seed) {
+    return list.slice().sort(function (a, b) { return hash(a + seed) - hash(b + seed); });
+  }
+
+  function roughWords(s) { return (s.match(/\S+/g) || []).length; }
+
+  // Add optional moves until the word target for this length is met
+  function chooseMoves(core, extras, bank, c, seed, target) {
+    var chosen = core.slice();
+    var total = core.reduce(function (n, k) { return n + roughWords(fill(pick(bank[k], k, seed), c)); }, 0);
+    seededShuffle(extras, seed).forEach(function (k) {
+      if (total >= target - 6) return;
+      chosen.push(k);
+      total += roughWords(fill(pick(bank[k], k, seed), c));
+    });
+    return chosen;
+  }
+
+  // Turn a layout of moves into paragraphs of text
+  function assemble(layout, chosen, bank, c, seed) {
+    return layout.map(function (group) {
+      return group.filter(function (k) { return chosen.indexOf(k) > -1; }).map(function (k) {
+        return fill(pick(bank[k], k, seed), c);
+      }).join(" ");
+    }).filter(Boolean).join("\n\n");
+  }
+
+  function writeProduct(c, tone, target, seed) {
+    var bank = PRODUCT[tone];
+    var chosen = chooseMoves(["hook", "what", "close"], ["who", "detail", "daily", "care", "fit", "value", "proof"], bank, c, seed, target);
+    var body = assemble([["hook", "what"], ["who", "daily", "fit"], ["detail", "care"], ["value", "proof"], ["close"]], chosen, bank, c, seed);
+    return "# " + c.title + "\n\n" + body;
+  }
+
+  function writeEmail(c, tone, target, seed) {
+    var bank = EMAIL[tone];
+    var chosen = chooseMoves(["subject", "greet", "open", "ask", "close", "sign"], ["why", "context", "detail", "timing", "next", "extra", "ps"], bank, c, seed, target);
+    var body = assemble([["greet"], ["open", "why", "context"], ["detail", "timing"], ["ask", "next"], ["extra"], ["close"], ["sign"], ["ps"]], chosen, bank, c, seed);
+    return "Subject: " + fill(pick(bank.subject, "subject", seed), c) + "\n\n" + body;
+  }
+
+  function writeSocial(c, tone, length, target, seed) {
+    var bank = SOCIAL[tone];
+    var tags = c.tags ? "\n\n" + c.tags : "";
+    if (length === "long") {
+      // Long social posts become a numbered thread
+      var posts = [["hook", "point"], ["detail", "lesson"], ["proof", "ask"]].map(function (g, i) {
+        return (i + 1) + "/3 " + g.map(function (k) { return fill(pick(bank[k], k, seed), c); }).join(" ");
+      });
+      return posts.join("\n\n") + tags;
+    }
+    var chosen = chooseMoves(["hook", "ask"], ["point", "detail", "lesson", "proof"], bank, c, seed, target);
+    return assemble([["hook"], ["point", "detail", "lesson", "proof"], ["ask"]], chosen, bank, c, seed) + tags;
+  }
+
+  function writeOutline(c, tone, length, seed) {
+    var bank = OUTLINE[tone];
+    var size = { short: 1, medium: 2, long: 3 }[length];
+    var middle = seededShuffle(["mistakes", "start", "example", "measure"], seed);
+    var count = { short: 1, medium: 2, long: 4 }[length];
+    var keys = ["why"].concat(middle.slice(0, count)).concat(["next"]);
+    var out = ["# " + c.title + ": " + pick(bank.suffix, "suffix", seed), fill(pick(bank.angle, "angle", seed), c)];
+    keys.forEach(function (k) {
+      var row = bank[k];
+      var lines = row.slice(1, 1 + Math.min(size, 2)).map(function (b) { return "- " + fill(b, c); });
+      if (size === 3) lines.push("- " + OUTLINE_NOTES[k]);
+      out.push("## " + cap(fill(row[0], c)) + "\n" + lines.join("\n"));
+    });
+    return out.join("\n\n");
+  }
+
+  // Local template engine that produces every draft
+  function generate(brief, seed) {
+    var c = analyze(brief.topic);
+    var target = TEMPLATES[brief.template].targets[brief.length];
+    if (brief.template === "product") return writeProduct(c, brief.tone, target, seed);
+    if (brief.template === "email") return writeEmail(c, brief.tone, target, seed);
+    if (brief.template === "social") return writeSocial(c, brief.tone, brief.length, target, seed);
+    return writeOutline(c, brief.tone, brief.length, seed);
+  }
+
+  // Remove markup characters so copied text reads cleanly
+  function toPlain(text) { return text.replace(/^#{1,2}\s+/gm, "").trim(); }
+
+  function countWords(text) {
+    var clean = text.replace(/^#{1,2}\s*/gm, "").replace(/^-\s*/gm, "");
+    return (clean.match(/\S+/g) || []).length;
+  }
+
+  function wordLabel(n) { return n + (n === 1 ? " word" : " words"); }
+
+  function readingTime(n) { return n < 200 ? "under a minute to read" : Math.round(n / 200) + " min read"; }
+
+  // App state, held only in memory
+  var state = { drafts: [], activeId: null, stream: null, nextId: 1, stick: true };
+  var STORE = "draftwell-drafts";
+
+  // Save finished drafts to this browser
+  function persist() {
+    try {
+      var done = state.drafts.filter(function (d) { return d.turns.every(function (t) { return t.status !== "streaming"; }); });
+      localStorage.setItem(STORE, JSON.stringify({ drafts: done, nextId: state.nextId }));
+    } catch (err) {}
+  }
+
+  // Load saved drafts, returning false when there are none
+  function restore() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(STORE) || "null");
+      if (!saved || !saved.drafts || !saved.drafts.length) return false;
+      state.drafts = saved.drafts;
+      state.nextId = saved.nextId || 1;
+      return true;
+    } catch (err) { return false; }
+  }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var els = {
+    thread: $("thread"), inner: $("threadInner"), list: $("draftList"), form: $("composer"), topic: $("topic"),
+    tone: $("tone"), err: $("topicErr"), write: $("writeBtn"), live: $("live"), side: $("side"), toggle: $("draftsToggle"),
+    lenHint: $("lenHint"), sideCount: $("sideCount"), toggleLabel: $("toggleLabel")
+  };
+
+  function reduced() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+  function narrow() { return window.matchMedia("(max-width: 860px)").matches; }
+  function announce(msg) { els.live.textContent = msg; }
+  function active() { return state.drafts.filter(function (d) { return d.id === state.activeId; })[0] || null; }
+  function replies(d) { return d.turns.filter(function (t) { return t.kind === "reply"; }); }
+  function latest(d) { var r = replies(d); return r[r.length - 1]; }
+
+  function makeReply(d, tone, seed) {
+    var full = generate({ topic: d.topic, template: d.template, tone: tone, length: d.length }, seed);
+    return { kind: "reply", id: state.nextId++, full: full, text: "", tokens: full.match(/\S+\s*/g) || [], shown: 0, tone: tone, seed: seed, status: "streaming", version: replies(d).length + 1 };
+  }
+
+  function briefText(d) {
+    return "Write a " + TEMPLATES[d.template].short + " about “" + d.topic + "”. " + TONES[d.tone] + " tone, " + d.length + " length.";
+  }
+
+  function makeDraft(input) {
+    return { id: state.nextId++, topic: input.topic, template: input.template, tone: input.tone, length: input.length, title: analyze(input.topic).title, updated: input.updated || Date.now(), turns: [] };
+  }
+
+  // Render document text into headings, lists and paragraphs
+  function renderDoc(el, text, withCaret) {
+    el.textContent = "";
+    var list = null;
+    var lastBlock = null;
+    text.replace(/\n+$/, "").split(/\n{2,}/).forEach(function (block) {
+      block.split("\n").reduce(function (paragraph, line, i, lines) {
+        var node;
+        if (/^#\s/.test(line)) { node = document.createElement("h3"); inline(node, line.slice(2)); }
+        else if (/^##\s/.test(line)) { node = document.createElement("h4"); inline(node, line.slice(3)); }
+        else if (/^-\s/.test(line)) {
+          if (!list) { list = document.createElement("ul"); el.appendChild(list); }
+          node = document.createElement("li");
+          inline(node, line.slice(2));
+          list.appendChild(node);
+          lastBlock = node;
+          return null;
+        }
+        else if (/^Subject:\s/.test(line)) {
+          node = document.createElement("p");
+          node.className = "subject";
+          var tag = document.createElement("span");
+          tag.textContent = "Subject";
+          node.appendChild(tag);
+          inline(node, line.slice(9));
+        }
+        else {
+          if (paragraph) { paragraph.appendChild(document.createElement("br")); inline(paragraph, line); lastBlock = paragraph; return paragraph; }
+          node = document.createElement("p");
+          inline(node, line);
+          list = null;
+          el.appendChild(node);
+          lastBlock = node;
+          return node;
+        }
+        list = null;
+        el.appendChild(node);
+        lastBlock = node;
+        return null;
+      }, null);
+    });
+    if (withCaret) {
+      var caret = document.createElement("span");
+      caret.className = "caret";
+      caret.setAttribute("aria-hidden", "true");
+      (lastBlock || el).appendChild(caret);
+    }
+  }
+
+  // Add text to a node and mark square bracket fill-ins
+  function inline(node, text) {
+    text.split(/(\[[^\]]+\])/).forEach(function (part) {
+      if (!part) return;
+      if (part.charAt(0) === "[" && part.slice(-1) === "]") {
+        var mark = document.createElement("span");
+        mark.className = "ph";
+        mark.textContent = part;
+        node.appendChild(mark);
+      } else {
+        node.appendChild(document.createTextNode(part));
+      }
+    });
+  }
+
+  function makeBtn(cls, action, label, aria) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = cls;
+    b.dataset.action = action;
+    b.textContent = label;
+    if (aria) b.setAttribute("aria-label", aria);
+    return b;
+  }
+
+  function countEl(d, r) {
+    var span = document.createElement("span");
+    span.className = "count";
+    var n = countWords(r.text);
+    span.textContent = wordLabel(n);
+    span.dataset.count = n;
+    var note = document.createElement("small");
+    if (r.status === "streaming") note.textContent = " of about " + TEMPLATES[d.template].targets[d.length];
+    else if (d.template === "social") note.textContent = " · " + toPlain(r.text).length + " characters";
+    else note.textContent = " · " + readingTime(n);
+    span.appendChild(note);
+    return span;
+  }
+
+  // Build the action row under the latest draft
+  function renderFoot(foot, d, r) {
+    foot.textContent = "";
+    foot.classList.toggle("streaming", r.status === "streaming");
+    foot.appendChild(countEl(d, r));
+    var actions = document.createElement("div");
+    actions.className = "foot-actions";
+    if (r.status === "streaming") {
+      var stop = makeBtn("btn", "stop", "Stop");
+      stop.id = "stopBtn";
+      actions.appendChild(stop);
+      foot.appendChild(actions);
+      return;
+    }
+    if (r.status === "stopped") {
+      var note = document.createElement("span");
+      note.className = "stopped-note";
+      note.textContent = "Stopped early";
+      foot.appendChild(note);
+      actions.appendChild(makeBtn("btn", "continue", "Continue"));
+    }
+    actions.appendChild(makeBtn("btn", "regenerate", "Regenerate"));
+    actions.appendChild(makeBtn("btn primary", "copy", "Copy"));
+    foot.appendChild(actions);
+    var row = document.createElement("div");
+    row.className = "rewrite";
+    row.setAttribute("role", "group");
+    row.setAttribute("aria-label", "Rewrite in another tone");
+    var label = document.createElement("span");
+    label.className = "rewrite-label";
+    label.textContent = "Rewrite as";
+    row.appendChild(label);
+    Object.keys(TONES).forEach(function (t) {
+      if (t === r.tone) return;
+      var chip = makeBtn("chip", "rewrite", TONES[t], "Rewrite in a " + TONES[t].toLowerCase() + " tone");
+      chip.dataset.tone = t;
+      row.appendChild(chip);
+    });
+    foot.appendChild(row);
+  }
+
+  function renderEmpty() {
+    var tpl = TEMPLATES[currentTemplate()];
+    var wrap = document.createElement("div");
+    wrap.className = "empty";
+    var h = document.createElement("h3");
+    h.textContent = "What are we writing?";
+    var p = document.createElement("p");
+    p.textContent = "Pick a template below, describe the topic and choose a tone. Your " + tpl.short + " will appear here and save itself to the sidebar.";
+    var tr = document.createElement("div");
+    tr.className = "try";
+    var lab = document.createElement("span");
+    lab.className = "try-label";
+    lab.textContent = "Or start from one of these topics";
+    tr.appendChild(lab);
+    tpl.examples.forEach(function (ex) {
+      var b = makeBtn("", "example", ex);
+      tr.appendChild(b);
+    });
+    wrap.appendChild(h);
+    wrap.appendChild(p);
+    wrap.appendChild(tr);
+    els.inner.textContent = "";
+    els.inner.appendChild(wrap);
+  }
+
+  // Draw the whole conversation for the open draft
+  function renderThread() {
+    var d = active();
+    if (!d) { renderEmpty(); return; }
+    els.inner.textContent = "";
+    var last = latest(d);
+    d.turns.forEach(function (t) {
+      if (t.kind === "brief") {
+        var b = document.createElement("div");
+        b.className = "brief";
+        b.textContent = t.text;
+        els.inner.appendChild(b);
+      } else if (t === last) {
+        els.inner.appendChild(renderLatest(d, t));
+      } else {
+        els.inner.appendChild(renderOlder(t));
+      }
+    });
+  }
+
+  function renderLatest(d, r) {
+    var art = document.createElement("article");
+    art.className = "reply";
+    art.id = "latestReply";
+    art.setAttribute("aria-label", "Draft, version " + r.version);
+    var head = document.createElement("div");
+    head.className = "reply-head";
+    head.innerHTML = '<svg aria-hidden="true"><use href="#logo"/></svg><strong>Draftwell</strong>';
+    var meta = document.createElement("span");
+    meta.textContent = "Version " + r.version + " · " + TONES[r.tone] + " · " + cap(d.length);
+    head.appendChild(meta);
+    var doc = document.createElement("div");
+    doc.className = "doc";
+    doc.id = "liveDoc";
+    renderDoc(doc, r.text, r.status === "streaming");
+    var foot = document.createElement("div");
+    foot.className = "foot";
+    foot.id = "liveFoot";
+    renderFoot(foot, d, r);
+    art.appendChild(head);
+    art.appendChild(doc);
+    art.appendChild(foot);
+    return art;
+  }
+
+  function renderOlder(r) {
+    var det = document.createElement("details");
+    det.className = "older";
+    var sum = document.createElement("summary");
+    sum.textContent = "Version " + r.version + " · " + TONES[r.tone] + " · " + wordLabel(countWords(r.text));
+    var doc = document.createElement("div");
+    doc.className = "doc";
+    renderDoc(doc, r.text, false);
+    var foot = document.createElement("div");
+    foot.className = "older-foot";
+    var copy = makeBtn("btn", "copy-old", "Copy this version");
+    copy.dataset.rid = r.id;
+    foot.appendChild(copy);
+    det.appendChild(sum);
+    det.appendChild(doc);
+    det.appendChild(foot);
+    return det;
+  }
+
+  function relTime(ts) {
+    var m = Math.round((Date.now() - ts) / 60000);
+    if (m < 1) return "just now";
+    if (m < 60) return m + " min ago";
+    return Math.round(m / 60) + " hr ago";
+  }
+
+  // Draw the saved drafts list
+  function renderSide() {
+    els.list.textContent = "";
+    state.drafts.forEach(function (d) {
+      var li = document.createElement("li");
+      li.className = "draft-item" + (d.id === state.activeId ? " current" : "");
+      var open = document.createElement("button");
+      open.type = "button";
+      open.className = "draft-open";
+      open.dataset.open = d.id;
+      if (d.id === state.activeId) open.setAttribute("aria-current", "true");
+      var title = document.createElement("strong");
+      title.textContent = d.title;
+      var small = document.createElement("small");
+      small.textContent = TEMPLATES[d.template].label + " · " + (latest(d).status === "streaming" ? "Writing…" : wordLabel(countWords(latest(d).text)) + " · " + relTime(d.updated));
+      open.appendChild(title);
+      open.appendChild(small);
+      var del = document.createElement("button");
+      del.type = "button";
+      del.className = "draft-del";
+      del.dataset.del = d.id;
+      del.setAttribute("aria-label", "Delete draft: " + d.title);
+      del.innerHTML = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m3 3 8 8M11 3l-8 8"/></svg>';
+      li.appendChild(open);
+      li.appendChild(del);
+      els.list.appendChild(li);
+    });
+    els.sideCount.textContent = state.drafts.length;
+    els.toggleLabel.textContent = "Drafts (" + state.drafts.length + ")";
+  }
+
+  function currentTemplate() { return els.form.elements.template.value; }
+  function currentLength() { return els.form.elements.draftLength.value; }
+
+  // Update hints that depend on the chosen template and length
+  function syncHints() {
+    var tpl = TEMPLATES[currentTemplate()];
+    els.lenHint.textContent = "about " + tpl.targets[currentLength()] + " words";
+  }
+
+  // Copy a draft's settings back into the form
+  function syncForm(d) {
+    els.form.elements.template.value = d.template;
+    els.form.elements.draftLength.value = d.length;
+    els.tone.value = d.tone;
+    els.topic.value = d.topic;
+    clearError();
+    syncHints();
+  }
+
+  function clearError() {
+    els.err.hidden = true;
+    els.topic.removeAttribute("aria-invalid");
+  }
+
+  function setBusy(busy) {
+    els.write.disabled = busy;
+    els.write.textContent = busy ? "Writing…" : "Write draft";
+    els.thread.setAttribute("aria-busy", busy ? "true" : "false");
+  }
+
+  function scrollToBottom() {
+    if (!narrow() && state.stick) els.thread.scrollTop = els.thread.scrollHeight;
+  }
+
+  // Show the top of the newest reply without moving the page on wide screens
+  function revealLatest(movePage) {
+    var el = $("latestReply");
+    if (narrow()) {
+      if (movePage && el) {
+        var bar = document.querySelector(".zl-bar").offsetHeight;
+        var target = el.previousElementSibling || el;
+        window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - bar - 10);
+      }
+      return;
+    }
+    if (!el) { els.thread.scrollTop = 0; return; }
+    var prev = el.previousElementSibling;
+    var anchor = prev || el;
+    els.thread.scrollTop = anchor.getBoundingClientRect().top - els.thread.getBoundingClientRect().top + els.thread.scrollTop - 16;
+  }
+
+  // Refresh the streaming document and the live count
+  function paintStream(d, r) {
+    var doc = $("liveDoc");
+    var foot = $("liveFoot");
+    if (doc) renderDoc(doc, r.text, r.status === "streaming");
+    if (foot) {
+      var old = foot.querySelector(".count");
+      if (old) foot.replaceChild(countEl(d, r), old);
+    }
+    scrollToBottom();
+  }
+
+  function tick() {
+    var s = state.stream;
+    if (!s) return;
+    var r = s.reply;
+    var word = r.tokens[r.shown];
+    r.shown += 1;
+    r.text = r.tokens.slice(0, r.shown).join("");
+    paintStream(s.draft, r);
+    if (r.shown >= r.tokens.length) { settle("done"); return; }
+    var delay = 24 + (hash(word + r.shown) % 26);
+    if (/[.!?:]\s*$/.test(word)) delay += 90;
+    if (/\n/.test(word)) delay += 120;
+    s.timer = setTimeout(tick, delay);
+  }
+
+  // End streaming and swap the footer to its finished state
+  function settle(status) {
+    var s = state.stream;
+    if (!s) return;
+    clearTimeout(s.timer);
+    state.stream = null;
+    var r = s.reply;
+    r.status = status;
+    if (status === "done") { r.text = r.full; r.shown = r.tokens.length; }
+    s.draft.updated = Date.now();
+    persist();
+    setBusy(false);
+    var hadFocus = document.activeElement && document.activeElement.id === "stopBtn";
+    if (state.activeId === s.draft.id) {
+      var doc = $("liveDoc");
+      var foot = $("liveFoot");
+      if (doc) renderDoc(doc, r.text, false);
+      if (foot) renderFoot(foot, s.draft, r);
+      if (hadFocus && foot) foot.querySelector('[data-action="regenerate"]').focus();
+    }
+    renderSide();
+    var n = countWords(r.text);
+    announce(status === "done" ? "Draft ready, " + wordLabel(n) + "." : "Stopped at " + wordLabel(n) + ".");
+  }
+
+  // Begin writing a reply, streamed or instant
+  function startStream(d, r) {
+    state.stick = true;
+    if (reduced()) {
+      r.text = r.full;
+      r.shown = r.tokens.length;
+      r.status = "done";
+      d.updated = Date.now();
+      renderSide();
+      renderThread();
+      announce("Draft ready, " + wordLabel(countWords(r.text)) + ".");
+      return;
+    }
+    r.status = "streaming";
+    state.stream = { draft: d, reply: r, timer: null };
+    setBusy(true);
+    renderThread();
+    announce("Writing draft.");
+    state.stream.timer = setTimeout(tick, 240);
+  }
+
+  function addTurn(d, text, tone, seed) {
+    d.turns.push({ kind: "brief", text: text });
+    var r = makeReply(d, tone, seed);
+    d.turns.push(r);
+    return r;
+  }
+
+  function newSeed() { return Math.floor(Math.random() * 1e9); }
+
+  // Find a seed that gives different text from the last version
+  function freshSeed(d) {
+    var prev = latest(d);
+    var seed = newSeed();
+    for (var i = 0; i < 12; i++) {
+      var text = generate({ topic: d.topic, template: d.template, tone: prev.tone, length: d.length }, seed);
+      if (text !== prev.full) return seed;
+      seed = newSeed();
+    }
+    return seed;
+  }
+
+  function focusAfterStart() {
+    var target = $("stopBtn") || document.querySelector('#liveFoot [data-action="regenerate"]');
+    if (target) target.focus({ preventScroll: true });
+  }
+
+  function submitBrief(e) {
+    e.preventDefault();
+    if (state.stream) return;
+    var topic = els.topic.value.trim();
+    if (topic.length < 3) {
+      els.err.hidden = false;
+      els.topic.setAttribute("aria-invalid", "true");
+      els.topic.focus();
+      announce("Add a topic before writing.");
+      return;
+    }
+    clearError();
+    var d = makeDraft({ topic: topic, template: currentTemplate(), tone: els.tone.value, length: currentLength() });
+    state.drafts.unshift(d);
+    state.activeId = d.id;
+    var r = addTurn(d, briefText(d), d.tone, newSeed());
+    renderSide();
+    startStream(d, r);
+    revealLatest(true);
+    focusAfterStart();
+  }
+
+  function regenerate() {
+    var d = active();
+    if (!d || state.stream) return;
+    var r = addTurn(d, "Try another version.", latest(d).tone, freshSeed(d));
+    startStream(d, r);
+    revealLatest(true);
+    focusAfterStart();
+  }
+
+  function rewrite(tone) {
+    var d = active();
+    if (!d || state.stream) return;
+    var prev = latest(d);
+    d.tone = tone;
+    els.tone.value = tone;
+    var r = addTurn(d, "Rewrite that in a " + TONES[tone].toLowerCase() + " tone.", tone, prev.seed);
+    startStream(d, r);
+    revealLatest(true);
+    focusAfterStart();
+  }
+
+  // Resume a stopped draft from where it ended
+  function resume() {
+    var d = active();
+    if (!d || state.stream) return;
+    var r = latest(d);
+    r.status = "streaming";
+    state.stream = { draft: d, reply: r, timer: null };
+    setBusy(true);
+    var foot = $("liveFoot");
+    if (foot) renderFoot(foot, d, r);
+    announce("Continuing draft.");
+    focusAfterStart();
+    state.stream.timer = setTimeout(tick, 120);
+  }
+
+  // Write to the clipboard with a fallback for older browsers
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+
+  function legacyCopy(text) {
+    return new Promise(function (resolve, reject) {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+      document.body.removeChild(area);
+      if (ok) resolve(); else reject(new Error("copy failed"));
+    });
+  }
+
+  function handleCopy(btn, text) {
+    var label = btn.textContent;
+    copyText(toPlain(text)).then(function () {
+      btn.textContent = "Copied";
+      announce("Draft copied to clipboard.");
+    }, function () {
+      btn.textContent = "Copy failed";
+      announce("Could not copy. Select the text and copy it manually.");
+    }).then(function () {
+      setTimeout(function () { btn.textContent = label; }, 1600);
+    });
+  }
+
+  // Open a saved draft, stopping any draft still being written
+  function openDraft(id) {
+    if (state.stream) settle("stopped");
+    state.activeId = id;
+    syncForm(active());
+    renderSide();
+    renderThread();
+    revealLatest(false);
+  }
+
+  function newDraft() {
+    if (state.stream) settle("stopped");
+    state.activeId = null;
+    els.topic.value = "";
+    clearError();
+    renderSide();
+    renderThread();
+    els.thread.scrollTop = 0;
+    els.topic.focus();
+  }
+
+  function deleteDraft(id) {
+    if (state.stream && state.stream.draft.id === id) settle("stopped");
+    var index = state.drafts.findIndex(function (d) { return d.id === id; });
+    var wasActive = state.activeId === id;
+    state.drafts.splice(index, 1);
+    persist();
+    if (wasActive) {
+      var next = state.drafts[index] || state.drafts[index - 1];
+      if (next) openDraft(next.id);
+      else newDraft();
+    } else {
+      renderSide();
+    }
+    announce("Draft deleted.");
+    var focusTarget = els.list.querySelector(".draft-open");
+    if (focusTarget) focusTarget.focus(); else $("newBtn").focus();
+  }
+
+  function setToggle(open) {
+    els.side.classList.toggle("open", open);
+    els.toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  function measureBar() {
+    document.documentElement.style.setProperty("--bar-h", document.querySelector(".zl-bar").offsetHeight + "px");
+  }
+
+  function syncLogoCut() {
+    var cut = document.documentElement.dataset.theme === "ink" ? "#171d26" : "#fffdf8";
+    document.documentElement.style.setProperty("--logo-cut", cut);
+  }
+
+  // Thread button actions
+  els.thread.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    var action = btn.dataset.action;
+    var d = active();
+    if (action === "stop") settle("stopped");
+    else if (action === "continue") resume();
+    else if (action === "regenerate") regenerate();
+    else if (action === "rewrite") rewrite(btn.dataset.tone);
+    else if (action === "copy" && d) handleCopy(btn, latest(d).text);
+    else if (action === "copy-old" && d) {
+      var r = replies(d).filter(function (x) { return String(x.id) === btn.dataset.rid; })[0];
+      if (r) handleCopy(btn, r.text);
+    } else if (action === "example") {
+      els.topic.value = btn.textContent;
+      clearError();
+      els.topic.focus();
+    }
+  });
+
+  // Follow the stream unless the reader scrolls up
+  els.thread.addEventListener("scroll", function () {
+    var t = els.thread;
+    state.stick = t.scrollHeight - t.scrollTop - t.clientHeight < 48;
+  });
+
+  els.list.addEventListener("click", function (e) {
+    var open = e.target.closest("[data-open]");
+    var del = e.target.closest("[data-del]");
+    if (del) { deleteDraft(Number(del.dataset.del)); return; }
+    if (!open) return;
+    var id = Number(open.dataset.open);
+    openDraft(id);
+    if (narrow()) {
+      setToggle(false);
+      els.toggle.focus({ preventScroll: true });
+    } else {
+      var again = els.list.querySelector('[data-open="' + id + '"]');
+      if (again) again.focus();
+    }
+  });
+
+  els.form.addEventListener("submit", submitBrief);
+
+  // Keep hints and the empty state in step with the form
+  els.form.addEventListener("change", function (e) {
+    if (e.target.name === "template" || e.target.name === "draftLength") syncHints();
+    if (e.target.name === "template" && !active()) renderEmpty();
+  });
+
+  els.topic.addEventListener("input", function () {
+    if (els.topic.value.trim().length >= 3) clearError();
+  });
+
+  $("newBtn").addEventListener("click", newDraft);
+  els.toggle.addEventListener("click", function () { setToggle(!els.side.classList.contains("open")); });
+
+  // Escape stops a running draft
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && state.stream) settle("stopped");
+  });
+
+  $("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var ink = root.dataset.theme !== "ink";
+    root.dataset.theme = ink ? "ink" : "paper";
+    $("themeBtn").textContent = ink ? "Switch to paper" : "Switch to ink";
+    syncLogoCut();
+  });
+
+  window.addEventListener("resize", measureBar);
+
+  // Fill the tone menu from the tone list
+  Object.keys(TONES).forEach(function (t) {
+    var opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = TONES[t];
+    els.tone.appendChild(opt);
+  });
+
+  // Restore saved drafts, or open the workspace with starter work in it
+  if (!restore()) [
+    { topic: "a refillable glass water bottle for daily commuters", template: "product", tone: "warm", length: "medium", updated: Date.now() - 6 * 60000, seed: 11 },
+    { topic: "moving the quarterly budget review to next month", template: "email", tone: "confident", length: "medium", updated: Date.now() - 48 * 60000, seed: 23 },
+    { topic: "why we cancelled the weekly status meeting", template: "social", tone: "playful", length: "medium", updated: Date.now() - 3 * 3600000, seed: 37 },
+    { topic: "how to plan a first vegetable garden", template: "outline", tone: "plain", length: "medium", updated: Date.now() - 5 * 3600000, seed: 41 }
+  ].forEach(function (s) {
+    var d = makeDraft(s);
+    d.turns.push({ kind: "brief", text: briefText(d) });
+    var r = makeReply(d, s.tone, s.seed);
+    r.text = r.full;
+    r.shown = r.tokens.length;
+    r.status = "done";
+    d.turns.push(r);
+    state.drafts.push(d);
+  });
+
+  measureBar();
+  syncLogoCut();
+  state.activeId = state.drafts[0].id;
+  syncForm(state.drafts[0]);
+  renderSide();
+  renderThread();
+})();
+</script>
+</body>
+</html>

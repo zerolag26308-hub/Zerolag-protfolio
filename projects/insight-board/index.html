@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F4F1EA">
+<title>Insight Board — analytics dashboard design</title>
+<meta name="description" content="Insight Board: research, information architecture, wireframes and a live high-fidelity analytics dashboard with density and colour-blind-safe palette controls.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316181D'/%3E%3Crect x='7' y='17' width='4' height='8' fill='%23F4F1EA'/%3E%3Crect x='14' y='11' width='4' height='14' fill='%23F4F1EA'/%3E%3Crect x='21' y='7' width='4' height='18' fill='%23D8552B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Page tokens */
+:root {
+  --paper: #F4F1EA;
+  --paper-2: #EBE7DD;
+  --card: #FFFFFF;
+  --ink: #16181D;
+  --ink-2: #4B4F58;
+  --ink-3: #6E727B;
+  --line: #D9D4C8;
+  --line-2: #C3BDAF;
+  --brick: #D8552B;
+  --brick-ink: #A83E1B;
+  --brick-soft: #F8E3DA;
+  --wire: #E6E4DE;
+  --wire-line: #AEAAA0;
+  --sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --gut: clamp(16px, 4vw, 48px);
+  --r: 6px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 48px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--brick); outline-offset: 2px; border-radius: 2px; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.mono { font-family: var(--mono); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Zero Lag bar */
+.zl-bar { position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 32px; padding: 0 var(--gut); background: var(--ink); color: #B9BCC4; font-size: 13px; line-height: 1; }
+.zl-bar a { color: #F4F1EA; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.zl-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.zl-bar a:focus-visible { outline-color: #F4F1EA; }
+.zl-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #F4F1EA; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* Layout */
+.wrap { max-width: 1180px; margin-inline: auto; padding-inline: var(--gut); }
+section { padding-block: clamp(48px, 7vw, 96px); border-top: 1px solid var(--line); }
+.sec-head { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 16px 32px; margin-bottom: clamp(24px, 4vw, 44px); }
+.eyebrow { font: 500 13px/1.4 var(--mono); color: var(--brick-ink); letter-spacing: .04em; text-transform: uppercase; padding-top: 6px; }
+.sec-head h2 { font-size: clamp(26px, 3.2vw, 38px); font-weight: 600; letter-spacing: -.02em; line-height: 1.12; text-wrap: balance; }
+.sec-head p { margin-top: 12px; max-width: 62ch; color: var(--ink-2); font-size: 17px; }
+@media (max-width: 720px) { .sec-head { grid-template-columns: 1fr; gap: 8px; } }
+
+/* Hero */
+.hero { padding: clamp(40px, 7vw, 92px) 0 clamp(36px, 5vw, 64px); }
+.hero .kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; font: 500 13px/1.4 var(--mono); color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase; }
+.hero .kicker .dot { width: 8px; height: 8px; background: var(--brick); border-radius: 50%; }
+.hero h1 { margin-top: 18px; font-size: clamp(40px, 7vw, 92px); font-weight: 600; letter-spacing: -.035em; line-height: .98; text-wrap: balance; }
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--ink-2); }
+.hero .lede { margin-top: 24px; max-width: 58ch; font-size: clamp(17px, 1.6vw, 21px); color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.chips li { font: 500 13px/1 var(--mono); padding: 9px 12px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--card); }
+.hero-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px 32px; margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+.hero-meta dt { font: 500 12px/1.4 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; }
+.hero-meta dd { margin-top: 4px; font-weight: 500; }
+
+/* Personas */
+.personas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.persona { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.persona .role { display: flex; align-items: center; gap: 12px; }
+.persona .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font: 600 14px var(--mono); color: #fff; background: var(--ink); flex: none; }
+.persona h3 { font-size: 18px; font-weight: 600; letter-spacing: -.01em; line-height: 1.2; }
+.persona .role div span { display: block; font-size: 13px; color: var(--ink-3); }
+.persona h4 { font: 500 12px/1.4 var(--mono); color: var(--brick-ink); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.persona ul li { position: relative; padding-left: 16px; font-size: 15px; color: var(--ink-2); margin-top: 5px; }
+.persona ul li::before { content: ""; position: absolute; left: 0; top: 10px; width: 6px; height: 2px; background: var(--brick); }
+.persona .q { font-style: italic; color: var(--ink); }
+.persona .freq { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line); font: 500 12.5px/1.4 var(--mono); color: var(--ink-3); }
+@media (max-width: 860px) { .personas { grid-template-columns: 1fr; } }
+
+/* IA map */
+.ia-wrap { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; overflow-x: auto; }
+.ia-wrap svg { width: 100%; min-width: 860px; height: auto; font-family: var(--sans); }
+.ia-wrap .node rect { fill: var(--paper); stroke: var(--line-2); }
+.ia-wrap .node.l0 rect { fill: var(--ink); stroke: var(--ink); }
+.ia-wrap .node.l0 text { fill: #fff; font-weight: 600; }
+.ia-wrap .node.l1 rect { fill: var(--card); stroke: var(--ink); stroke-width: 1.2; }
+.ia-wrap .node.l1 text { font-weight: 600; }
+.ia-wrap .node text { fill: var(--ink); font-size: 13px; }
+.ia-wrap .node.l2 text { font-size: 12px; fill: var(--ink-2); }
+.ia-wrap .edge { fill: none; stroke: var(--line-2); stroke-width: 1.2; }
+.ia-wrap .edge.primary { stroke: var(--ink); }
+.ia-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 32px; margin-top: 24px; font-size: 15px; color: var(--ink-2); }
+.ia-notes b { color: var(--ink); font-weight: 600; }
+
+/* Wireframes */
+.wires { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.wire { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; }
+.wire figcaption { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; font: 500 12.5px/1.4 var(--mono); color: var(--ink-2); }
+.wire svg { width: 100%; height: auto; font-family: var(--mono); }
+.wire .box { fill: var(--wire); stroke: var(--wire-line); stroke-width: .8; }
+.wire .box.dark { fill: #CFCCC4; }
+.wire .lbl { font-size: 7.5px; fill: var(--ink-2); }
+.wire .ttl { font-size: 9px; fill: var(--ink); font-weight: 600; }
+.wire .ln { stroke: var(--wire-line); stroke-width: .8; fill: none; }
+.wire .pin circle { fill: var(--brick); }
+.wire .pin text { fill: #fff; font-size: 8px; font-weight: 600; text-anchor: middle; }
+.legend { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 24px; }
+.legend li { display: flex; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+.legend .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--brick); color: #fff; font: 600 12px/22px var(--mono); text-align: center; }
+@media (max-width: 860px) { .wires { grid-template-columns: 1fr; } .wire svg { max-width: 460px; margin-inline: auto; } }
+
+/* Dashboard frame */
+.board-shell { border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden; background: var(--card); box-shadow: 0 1px 0 rgba(22,24,29,.04), 0 24px 60px -30px rgba(22,24,29,.25); }
+.board-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 12px 18px; border-bottom: 1px solid var(--line); background: var(--paper); }
+.board-toolbar .dots { display: flex; gap: 6px; }
+.board-toolbar .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); display: block; }
+.board-toolbar .url { flex: 1; min-width: 120px; font: 400 12.5px/1 var(--mono); color: var(--ink-3); background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 7px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ctl { display: flex; align-items: center; gap: 8px; }
+.ctl > span { font: 500 12px/1 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden; background: var(--card); }
+.seg button { padding: 6px 11px; font-size: 13px; font-weight: 500; color: var(--ink-2); min-height: 30px; }
+.seg button + button { border-left: 1px solid var(--line-2); }
+.seg button[aria-checked="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+@media (max-width: 600px) { .board-toolbar .url { display: none; } }
+
+/* Dashboard tokens, both densities and palettes */
+.board {
+  --surface: #FFFFFF;
+  --surface-2: #F6F7F9;
+  --b-line: #E3E5EA;
+  --b-ink: #15181F;
+  --b-ink-2: #4E5461;
+  --b-ink-3: #6F7582;
+  --b-accent: #2a78d6;
+  --b-good: #1A7F4B;
+  --b-bad: #C2322F;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #6250d6; --s5: #e87ba4;
+  --pad: 18px; --gap: 14px; --row: 44px; --kpi: 30px; --fs: 14px; --chart-h: 220px;
+  color-scheme: light; background: var(--surface-2); color: var(--b-ink); font-size: var(--fs); padding: var(--pad); display: grid; gap: var(--gap);
+}
+.board[data-palette="safe"] { --s1: #0072B2; --s2: #D55E00; --s3: #009E73; --s4: #56B4E9; --s5: #CC79A7; --b-accent: #0072B2; }
+.board[data-density="compact"] { --pad: 10px; --gap: 8px; --row: 32px; --kpi: 24px; --fs: 13px; --chart-h: 180px; }
+.board-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.board-top h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.board-top .range { margin-left: auto; display: inline-flex; gap: 4px; }
+.board-top .range button { font: 500 12.5px/1 var(--mono); padding: 7px 10px; border-radius: 4px; color: var(--b-ink-2); border: 1px solid transparent; }
+.board-top .range button[aria-pressed="true"] { background: var(--surface); border-color: var(--b-line); color: var(--b-ink); }
+.board-top .range button:hover { background: var(--surface); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.kpi { background: var(--surface); border: 1px solid var(--b-line); border-radius: 6px; padding: calc(var(--pad) * .75) var(--pad); display: grid; grid-template-columns: minmax(0, 1fr) 84px; gap: 4px 10px; align-items: end; }
+.kpi .k-label { grid-column: 1 / -1; font-size: 12.5px; font-weight: 500; color: var(--b-ink-2); }
+.kpi .k-val { font-size: var(--kpi); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .k-delta { grid-column: 1; font: 500 12px/1.3 var(--mono); color: var(--b-ink-3); }
+.kpi .k-delta b { font-weight: 600; }
+.kpi .k-delta.up b { color: var(--b-good); }
+.kpi .k-delta.down b { color: var(--b-bad); }
+.kpi svg { grid-column: 2; grid-row: 2 / 4; width: 84px; height: 34px; }
+.kpi svg path { fill: none; stroke: var(--s1); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.kpi svg circle { fill: var(--s1); }
+.charts { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--gap); }
+.card { background: var(--surface); border: 1px solid var(--b-line); border-radius: 6px; padding: calc(var(--pad) * .8) var(--pad) var(--pad); min-width: 0; position: relative; }
+.card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 10px; }
+.card-head h4 { font-size: 14px; font-weight: 600; }
+.card-head .sub { font-size: 12.5px; color: var(--b-ink-3); }
+.lgnd { margin-left: auto; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--b-ink-2); }
+.lgnd li { display: flex; align-items: center; gap: 6px; }
+.lgnd i { width: 12px; height: 3px; border-radius: 2px; display: block; }
+.lgnd i.sq { width: 10px; height: 10px; border-radius: 2px; }
+.chart { width: 100%; height: var(--chart-h); font-family: var(--sans); }
+.chart .grid line { stroke: var(--b-line); stroke-width: 1; }
+.chart .axis text { fill: var(--b-ink-3); font-size: 11px; }
+.chart .series-1 { stroke: var(--s1); } .chart .series-2 { stroke: var(--s2); }
+.chart .fill-1 { fill: var(--s1); } .chart .fill-2 { fill: var(--s2); } .chart .fill-3 { fill: var(--s3); } .chart .fill-4 { fill: var(--s4); } .chart .fill-5 { fill: var(--s5); }
+.chart .line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .cross { stroke: var(--b-ink-3); stroke-dasharray: 3 3; }
+.chart .ring { fill: var(--surface); stroke-width: 2; }
+.chart .label { fill: var(--b-ink); font-size: 12px; font-weight: 500; }
+.chart .label.muted { fill: var(--b-ink-2); font-weight: 400; }
+.chart .panel-title { fill: var(--b-ink-2); font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.chart .hit { fill: transparent; }
+.chart .bar { rx: 3; }
+.chart .bar:hover, .chart .fstep:hover rect { filter: brightness(.9); }
+.tip { position: absolute; z-index: 5; pointer-events: none; background: var(--b-ink); color: #fff; font-size: 12px; line-height: 1.4; padding: 7px 10px; border-radius: 5px; min-width: 150px; box-shadow: 0 6px 20px -8px rgba(0,0,0,.4); }
+.tip b { font-weight: 600; display: block; margin-bottom: 3px; font-family: var(--mono); font-size: 11.5px; color: #C9CCD3; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .row i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 1px; }
+.tip .row span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--gap); }
+table.seg-table { width: 100%; border-collapse: collapse; font-size: var(--fs); }
+.seg-table th, .seg-table td { height: var(--row); padding: 0 10px; text-align: left; border-bottom: 1px solid var(--b-line); white-space: nowrap; }
+.seg-table th { font-size: 12px; font-weight: 600; color: var(--b-ink-2); text-transform: uppercase; letter-spacing: .04em; }
+.seg-table td.n, .seg-table th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.seg-table tbody tr:last-child td { border-bottom: 0; }
+.seg-table tbody tr:hover td { background: var(--surface-2); }
+.seg-table .bar-cell { width: 34%; min-width: 110px; }
+.seg-table .mini { display: flex; align-items: center; gap: 8px; }
+.seg-table .mini i { display: block; height: 8px; border-radius: 2px; background: var(--s1); }
+.seg-table .mini span { font: 500 12px var(--mono); color: var(--b-ink-2); }
+.seg-table .trend { display: inline-flex; align-items: center; gap: 5px; font: 500 12px var(--mono); }
+.seg-table .trend.up { color: var(--b-good); } .seg-table .trend.down { color: var(--b-bad); }
+.seg-table .trend svg { width: 10px; height: 10px; stroke: currentColor; stroke-width: 2; fill: none; }
+.table-wrap { overflow-x: auto; margin: 0 calc(var(--pad) * -1); padding: 0 var(--pad); }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .charts, .two { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .kpis { grid-template-columns: 1fr; } .board { --pad: 12px; } }
+
+/* Accessibility panel */
+.a11y { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px 22px; min-width: 0; }
+.panel h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.panel h3 small { font: 500 12.5px/1.4 var(--mono); color: var(--ink-3); }
+.panel > p { margin-top: 6px; font-size: 14.5px; color: var(--ink-2); }
+.c-wrap { overflow-x: auto; margin-top: 14px; }
+table.contrast { width: 100%; border-collapse: collapse; font-size: 14px; }
+.contrast th, .contrast td { padding: 9px 8px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.contrast th { font: 500 12px/1.4 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.contrast td:first-child { min-width: 150px; }
+.contrast td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.contrast .sw { display: inline-grid; place-items: center; width: 54px; height: 30px; border-radius: 4px; border: 1px solid var(--line); font: 600 13px var(--mono); }
+.contrast .hex { font: 400 12px var(--mono); color: var(--ink-3); display: block; margin-top: 2px; white-space: nowrap; }
+.badge { display: inline-block; font: 600 11.5px/1 var(--mono); padding: 5px 7px; border-radius: 4px; letter-spacing: .03em; }
+.badge.pass { background: #DCF2E4; color: #155E38; }
+.badge.fail { background: #FBE1DF; color: #8E2420; }
+.contrast .pair-name { font-weight: 500; }
+.contrast .pair-name small { display: block; font-size: 12px; color: var(--ink-3); font-weight: 400; }
+.c-foot { margin-top: 12px; font-size: 13px; color: var(--ink-3); }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.swatches li { display: grid; gap: 4px; font: 400 11.5px/1.2 var(--mono); color: var(--ink-2); }
+.swatches i { display: block; width: 72px; height: 36px; border-radius: 4px; }
+.decisions { margin-top: 14px; display: grid; gap: 10px; }
+.decisions li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+.decisions li b { color: var(--ink); font-weight: 600; }
+.decisions svg { width: 20px; height: 20px; stroke: var(--brick); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; margin-top: 2px; }
+@media (max-width: 900px) { .a11y { grid-template-columns: 1fr; } }
+
+/* Footer */
+footer { border-top: 1px solid var(--line); padding: 32px 0 44px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; font-size: 14px; color: var(--ink-2); }
+footer nav { display: flex; gap: 20px; }
+footer a { color: var(--ink); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+footer a:hover { color: var(--brick-ink); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .seg button, .board-top .range button, .chart .bar { transition: background-color .15s, color .15s, filter .15s; }
+  .board { transition: background-color .25s; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Insight Board</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker"><span class="dot" aria-hidden="true"></span> UI/UX design <span aria-hidden="true">/</span> Analytics product <span aria-hidden="true">/</span> 2026</p>
+    <h1>Insight Board <em>for people who read numbers under pressure.</em></h1>
+    <p class="lede">A product analytics dashboard designed end to end: who uses it and why, how the information is organised, what the screens looked like before they looked like anything, and the finished interface itself. Every artefact below is the real thing, drawn in HTML and SVG, so you can resize it, tab through it and inspect it.</p>
+    <ul class="chips" aria-label="Deliverables">
+      <li>Research</li><li>IA</li><li>Wireframes</li><li>Dashboard UI</li><li>Accessibility</li>
+    </ul>
+    <dl class="hero-meta">
+      <div><dt>Scope</dt><dd>Web app, desktop first</dd></div>
+      <div><dt>Deliverables</dt><dd>Personas, IA, wireframes, hi-fi UI, a11y audit</dd></div>
+      <div><dt>Palette</dt><dd>Default and colour-blind-safe</dd></div>
+      <div><dt>Density</dt><dd>Comfortable and compact</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main id="main">
+<section id="research" aria-labelledby="h-research">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">01 &middot; Research</p>
+      <div>
+        <h2 id="h-research">Three people, three very different mornings</h2>
+        <p>The same dashboard has to answer a quick "are we on track?" for a director, support a deep dive for an analyst, and give an account manager one number to repeat in a customer call. Each persona below lists the questions the design must answer before anything else.</p>
+      </div>
+    </div>
+    <div class="personas">
+      <article class="persona">
+        <div class="role"><span class="avatar" aria-hidden="true">PO</span><div><h3>Priya Oduya</h3><span>Head of Growth</span></div></div>
+        <div><h4>Goals</h4><ul><li>See in under ten seconds whether this month is tracking to the target</li><li>Spot a channel that is drifting before the weekly review</li><li>Share one screen with the leadership team without editing it</li></ul></div>
+        <div><h4>Questions</h4><ul><li class="q">Are sessions and conversions moving together, or has paid search gone soft?</li><li class="q">Which segment carried the week?</li></ul></div>
+        <p class="freq">Checks daily, mostly on a laptop between meetings</p>
+      </article>
+      <article class="persona">
+        <div class="role"><span class="avatar" aria-hidden="true">TM</span><div><h3>Tomas Mäkelä</h3><span>Product analyst</span></div></div>
+        <div><h4>Goals</h4><ul><li>Break a drop in conversion down by channel, plan and region in a few clicks</li><li>Build a saved report once and reuse it every Monday</li><li>Trust the numbers: see exactly how each metric is defined</li></ul></div>
+        <div><h4>Questions</h4><ul><li class="q">Where in the funnel are trial users leaving, and did that change after the pricing page shipped?</li><li class="q">Is the dip real or a tracking gap?</li></ul></div>
+        <p class="freq">Lives in the product, dense tables, keyboard first</p>
+      </article>
+      <article class="persona">
+        <div class="role"><span class="avatar" aria-hidden="true">RB</span><div><h3>Rosa Benítez</h3><span>Account manager</span></div></div>
+        <div><h4>Goals</h4><ul><li>Pull one customer's activation numbers before a renewal call</li><li>Get an alert when a managed account goes quiet for a week</li><li>Export a clean PDF without touching a filter</li></ul></div>
+        <div><h4>Questions</h4><ul><li class="q">How many seats did Larkspur Logistics activate this month compared with last?</li><li class="q">Which of my accounts need a call this week?</li></ul></div>
+        <p class="freq">Weekly, often from a tablet, low tolerance for setup</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="ia" aria-labelledby="h-ia">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">02 &middot; Information architecture</p>
+      <div>
+        <h2 id="h-ia">Seven areas, two levels deep, nothing hidden in a settings menu</h2>
+        <p>The map is drawn from the navigation model itself. Overview is the landing page for everyone; the four metric areas share one filter bar; Reports and Alerts are where analysts and account managers do their saved work.</p>
+      </div>
+    </div>
+    <figure class="ia-wrap">
+      <svg id="ia-map" viewBox="0 0 1300 400" role="img" aria-labelledby="ia-title"><title id="ia-title">Site map: Insight Board with Overview, Acquisition, Retention, Revenue, Reports, Alerts and Settings, each with their child pages</title></svg>
+    </figure>
+    <ul class="ia-notes">
+      <li><b>Global filters</b> (date range, plan, region) live once in the top bar and persist across the four metric areas, so switching from Acquisition to Revenue never resets the question.</li>
+      <li><b>Reports</b> hold saved views built from any metric area. A report is a filter set plus a layout, not a copy of the data, so it stays current.</li>
+      <li><b>Alerts</b> are first-class pages, not a bell icon: each rule shows its history, its threshold and who gets notified.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="wireframes" aria-labelledby="h-wire">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">03 &middot; Wireframes</p>
+      <div>
+        <h2 id="h-wire">Low fidelity, real labels, decisions made early</h2>
+        <p>Grey boxes settle hierarchy, reading order and density before colour or type can distract. The numbered pins mark the decisions that carried through to the final interface.</p>
+      </div>
+    </div>
+    <div class="wires">
+      <figure class="wire">
+        <svg viewBox="0 0 360 240" role="img" aria-label="Wireframe of the Overview screen: top bar with filters, four KPI tiles, a trend chart, a channel chart and a segment table">
+          <rect x="0.5" y="0.5" width="359" height="239" fill="#fff" stroke="#AEAAA0"/>
+          <rect class="box dark" x="0.5" y="0.5" width="359" height="22"/>
+          <text class="ttl" x="10" y="15">Overview</text>
+          <rect class="box" x="214" y="6" width="54" height="11"/><text class="lbl" x="218" y="14">Last 30 days</text>
+          <rect class="box" x="272" y="6" width="42" height="11"/><text class="lbl" x="276" y="14">All plans</text>
+          <rect class="box" x="318" y="6" width="34" height="11"/><text class="lbl" x="322" y="14">Export</text>
+          <g><rect class="box" x="10" y="32" width="80" height="40"/><text class="lbl" x="15" y="43">Sessions</text><text class="ttl" x="15" y="60">128,4k</text><path class="ln" d="M58 66 l6-5 5 2 6-7 5 3 6-4"/></g>
+          <g><rect class="box" x="96" y="32" width="80" height="40"/><text class="lbl" x="101" y="43">Conversions</text><text class="ttl" x="101" y="60">3,9k</text><path class="ln" d="M144 66 l6-3 5-4 6 1 5-6 6-1"/></g>
+          <g><rect class="box" x="182" y="32" width="80" height="40"/><text class="lbl" x="187" y="43">Conv. rate</text><text class="ttl" x="187" y="60">3.0%</text><path class="ln" d="M230 64 l6 1 5-3 6 2 5-2 6 1"/></g>
+          <g><rect class="box" x="268" y="32" width="82" height="40"/><text class="lbl" x="273" y="43">New MRR</text><text class="ttl" x="273" y="60">$191k</text><path class="ln" d="M318 67 l6-4 5-2 6-5 5 1 6-6"/></g>
+          <rect class="box" x="10" y="80" width="204" height="90"/>
+          <text class="lbl" x="15" y="91">Sessions and conversions, daily</text>
+          <path class="ln" d="M16 150 C40 140,60 155,80 135 S120 120,140 128 S180 105,208 112"/>
+          <path class="ln" d="M16 162 C40 158,60 164,80 156 S120 150,140 154 S180 143,208 146" stroke-dasharray="3 2"/>
+          <rect class="box" x="220" y="80" width="130" height="90"/>
+          <text class="lbl" x="225" y="91">Sessions by channel</text>
+          <rect class="box dark" x="225" y="98" width="90" height="8"/><rect class="box dark" x="225" y="110" width="58" height="8"/><rect class="box dark" x="225" y="122" width="44" height="8"/><rect class="box dark" x="225" y="134" width="36" height="8"/><rect class="box dark" x="225" y="146" width="26" height="8"/><rect class="box dark" x="225" y="158" width="18" height="8"/>
+          <rect class="box" x="10" y="178" width="340" height="54"/>
+          <text class="lbl" x="15" y="189">Top segments</text>
+          <line class="ln" x1="15" y1="195" x2="345" y2="195"/><line class="ln" x1="15" y1="207" x2="345" y2="207"/><line class="ln" x1="15" y1="219" x2="345" y2="219"/>
+          <text class="lbl" x="15" y="204">Team plan, EU</text><text class="lbl" x="15" y="216">Starter, North America</text><text class="lbl" x="15" y="228">Enterprise, APAC</text>
+          <g class="pin"><circle cx="203" cy="12" r="7"/><text x="203" y="15">1</text></g>
+          <g class="pin"><circle cx="86" cy="36" r="7"/><text x="86" y="39">2</text></g>
+          <g class="pin"><circle cx="208" cy="86" r="7"/><text x="208" y="89">3</text></g>
+        </svg>
+        <figcaption><span>Overview</span><span>1440 &times; 960</span></figcaption>
+      </figure>
+      <figure class="wire">
+        <svg viewBox="0 0 360 240" role="img" aria-label="Wireframe of the Funnel detail screen: five funnel steps with drop-off, a breakdown selector and a comparison period">
+          <rect x="0.5" y="0.5" width="359" height="239" fill="#fff" stroke="#AEAAA0"/>
+          <rect class="box dark" x="0.5" y="0.5" width="359" height="22"/>
+          <text class="ttl" x="10" y="15">Acquisition / Funnel</text>
+          <rect class="box" x="214" y="6" width="54" height="11"/><text class="lbl" x="218" y="14">Last 30 days</text>
+          <rect class="box" x="272" y="6" width="78" height="11"/><text class="lbl" x="276" y="14">vs previous 30 days</text>
+          <rect class="box" x="10" y="32" width="230" height="200"/>
+          <text class="lbl" x="15" y="43">Trial funnel, all sessions to paid</text>
+          <rect class="box dark" x="15" y="52" width="220" height="22"/><text class="lbl" x="19" y="66">Sessions</text><text class="lbl" x="200" y="66">100%</text>
+          <rect class="box dark" x="15" y="86" width="150" height="22"/><text class="lbl" x="19" y="100">Viewed pricing</text><text class="lbl" x="170" y="100">31%</text>
+          <rect class="box dark" x="15" y="120" width="84" height="22"/><text class="lbl" x="19" y="134">Started trial</text><text class="lbl" x="104" y="134">9.4%</text>
+          <rect class="box dark" x="15" y="154" width="54" height="22"/><text class="lbl" x="19" y="168">Activated</text><text class="lbl" x="74" y="168">5.1%</text>
+          <rect class="box dark" x="15" y="188" width="34" height="22"/><text class="lbl" x="19" y="202">Paid</text><text class="lbl" x="54" y="202">3.0%</text>
+          <text class="lbl" x="200" y="82">-69%</text><text class="lbl" x="200" y="116">-70%</text><text class="lbl" x="200" y="150">-46%</text><text class="lbl" x="200" y="184">-41%</text>
+          <rect class="box" x="248" y="32" width="102" height="96"/>
+          <text class="lbl" x="253" y="43">Break down by</text>
+          <rect class="box dark" x="253" y="50" width="92" height="12"/><text class="lbl" x="257" y="59">Channel</text>
+          <rect class="box" x="253" y="66" width="92" height="12"/><text class="lbl" x="257" y="75">Plan</text>
+          <rect class="box" x="253" y="82" width="92" height="12"/><text class="lbl" x="257" y="91">Region</text>
+          <rect class="box" x="253" y="98" width="92" height="12"/><text class="lbl" x="257" y="107">Device</text>
+          <rect class="box" x="248" y="136" width="102" height="96"/>
+          <text class="lbl" x="253" y="147">Step definition</text>
+          <line class="ln" x1="253" y1="156" x2="345" y2="156"/><line class="ln" x1="253" y1="166" x2="330" y2="166"/><line class="ln" x1="253" y1="176" x2="340" y2="176"/><line class="ln" x1="253" y1="186" x2="310" y2="186"/>
+          <rect class="box dark" x="253" y="210" width="60" height="14"/><text class="lbl" x="257" y="220">Save as report</text>
+          <g class="pin"><circle cx="186" cy="60" r="7"/><text x="186" y="63">4</text></g>
+          <g class="pin"><circle cx="344" cy="146" r="7"/><text x="344" y="149">5</text></g>
+        </svg>
+        <figcaption><span>Funnel detail</span><span>1440 &times; 960</span></figcaption>
+      </figure>
+      <figure class="wire">
+        <svg viewBox="0 0 360 240" role="img" aria-label="Wireframe of the Report builder: a left rail of metrics and dimensions, a canvas with two placed charts and a right column of report settings">
+          <rect x="0.5" y="0.5" width="359" height="239" fill="#fff" stroke="#AEAAA0"/>
+          <rect class="box dark" x="0.5" y="0.5" width="359" height="22"/>
+          <text class="ttl" x="10" y="15">Reports / Monday growth review</text>
+          <rect class="box" x="272" y="6" width="36" height="11"/><text class="lbl" x="276" y="14">Share</text>
+          <rect class="box dark" x="312" y="6" width="38" height="11"/><text class="lbl" x="316" y="14">Save</text>
+          <rect class="box" x="10" y="32" width="84" height="200"/>
+          <text class="lbl" x="15" y="43">Metrics</text>
+          <rect class="box dark" x="15" y="50" width="74" height="11"/><text class="lbl" x="19" y="58">Sessions</text>
+          <rect class="box dark" x="15" y="65" width="74" height="11"/><text class="lbl" x="19" y="73">Conversions</text>
+          <rect class="box dark" x="15" y="80" width="74" height="11"/><text class="lbl" x="19" y="88">Conv. rate</text>
+          <rect class="box dark" x="15" y="95" width="74" height="11"/><text class="lbl" x="19" y="103">New MRR</text>
+          <rect class="box dark" x="15" y="110" width="74" height="11"/><text class="lbl" x="19" y="118">Churned seats</text>
+          <text class="lbl" x="15" y="139">Dimensions</text>
+          <rect class="box dark" x="15" y="146" width="74" height="11"/><text class="lbl" x="19" y="154">Channel</text>
+          <rect class="box dark" x="15" y="161" width="74" height="11"/><text class="lbl" x="19" y="169">Plan</text>
+          <rect class="box dark" x="15" y="176" width="74" height="11"/><text class="lbl" x="19" y="184">Region</text>
+          <rect class="box dark" x="15" y="191" width="74" height="11"/><text class="lbl" x="19" y="199">Account</text>
+          <rect class="box" x="102" y="32" width="160" height="200" stroke-dasharray="3 2"/>
+          <text class="lbl" x="107" y="43">Canvas, drag blocks here</text>
+          <rect class="box" x="108" y="50" width="148" height="80"/><text class="lbl" x="113" y="61">Conversions by channel, weekly</text>
+          <rect class="box dark" x="116" y="96" width="14" height="28"/><rect class="box dark" x="136" y="86" width="14" height="38"/><rect class="box dark" x="156" y="104" width="14" height="20"/><rect class="box dark" x="176" y="78" width="14" height="46"/><rect class="box dark" x="196" y="100" width="14" height="24"/><rect class="box dark" x="216" y="92" width="14" height="32"/>
+          <rect class="box" x="108" y="138" width="148" height="60"/><text class="lbl" x="113" y="149">New MRR by plan</text>
+          <line class="ln" x1="113" y1="158" x2="251" y2="158"/><line class="ln" x1="113" y1="170" x2="251" y2="170"/><line class="ln" x1="113" y1="182" x2="251" y2="182"/>
+          <text class="lbl" x="113" y="167">Starter</text><text class="lbl" x="113" y="179">Team</text><text class="lbl" x="113" y="191">Enterprise</text>
+          <rect class="box" x="108" y="206" width="148" height="20" stroke-dasharray="3 2"/><text class="lbl" x="150" y="219">+ Add block</text>
+          <rect class="box" x="270" y="32" width="80" height="200"/>
+          <text class="lbl" x="275" y="43">Report settings</text>
+          <text class="lbl" x="275" y="58">Schedule</text><rect class="box dark" x="275" y="62" width="70" height="11"/><text class="lbl" x="279" y="70">Mondays, 08:00</text>
+          <text class="lbl" x="275" y="86">Recipients</text><rect class="box dark" x="275" y="90" width="70" height="11"/><text class="lbl" x="279" y="98">Growth team (6)</text>
+          <text class="lbl" x="275" y="114">Format</text><rect class="box dark" x="275" y="118" width="70" height="11"/><text class="lbl" x="279" y="126">PDF + link</text>
+          <text class="lbl" x="275" y="142">Definitions</text><rect class="box" x="275" y="146" width="70" height="11"/><text class="lbl" x="279" y="154">Show footnotes</text>
+          <g class="pin"><circle cx="100" cy="36" r="7"/><text x="100" y="39">3</text></g>
+          <g class="pin"><circle cx="262" cy="60" r="7"/><text x="262" y="63">5</text></g>
+        </svg>
+        <figcaption><span>Report builder</span><span>1440 &times; 960</span></figcaption>
+      </figure>
+    </div>
+    <ol class="legend" aria-label="Wireframe annotations">
+      <li><span class="n">1</span><span>One filter bar, fixed to the top, shared by every metric area. Export sits beside the filters so a PDF always matches what is on screen.</span></li>
+      <li><span class="n">2</span><span>Four KPI tiles, each with a sparkline and a comparison to the previous period. Never more than four; the fifth question belongs in a report.</span></li>
+      <li><span class="n">3</span><span>Charts stack as small multiples instead of sharing a dual axis, so sessions and conversions can be compared without a misleading second scale.</span></li>
+      <li><span class="n">4</span><span>Funnel steps show absolute counts and drop-off between steps, and every step name links to its definition.</span></li>
+      <li><span class="n">5</span><span>Reports are saved filter sets with a schedule and recipients. The definitions footnote travels with the export.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="dashboard" aria-labelledby="h-dash">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">04 &middot; Hi-fi interface</p>
+      <div>
+        <h2 id="h-dash">The Overview screen, running</h2>
+        <p>Every chart is drawn from the same 30 days of data, so the KPI tiles, trend lines, channel bars, funnel and table all agree with one another. Switch the density for analysts who want more rows on screen, or the palette for readers with a colour vision deficiency.</p>
+      </div>
+    </div>
+    <div class="board-shell">
+      <div class="board-toolbar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="url">app.insightboard.io/overview?range=30d</span>
+        <div class="ctl">
+          <span id="density-label">Density</span>
+          <div class="seg" role="radiogroup" aria-labelledby="density-label" data-ctl="density">
+            <button type="button" role="radio" aria-checked="true" data-value="comfortable">Comfortable</button>
+            <button type="button" role="radio" aria-checked="false" data-value="compact">Compact</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <span id="palette-label">Palette</span>
+          <div class="seg" role="radiogroup" aria-labelledby="palette-label" data-ctl="palette">
+            <button type="button" role="radio" aria-checked="true" data-value="default">Default</button>
+            <button type="button" role="radio" aria-checked="false" data-value="safe">Colour-blind safe</button>
+          </div>
+        </div>
+      </div>
+      <div class="board" id="board" data-density="comfortable" data-palette="default">
+        <div class="board-top">
+          <h3>Overview</h3>
+          <span class="sub mono" id="range-text" style="font-size:12.5px;color:var(--b-ink-3)">3 Oct &ndash; 1 Nov 2026 vs previous 30 days</span>
+          <div class="range" role="group" aria-label="Date range">
+            <button type="button" aria-pressed="false" data-days="7">7d</button>
+            <button type="button" aria-pressed="true" data-days="30">30d</button>
+          </div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="charts">
+          <div class="card" id="trend-card">
+            <div class="card-head"><h4>Sessions and conversions</h4><span class="sub">daily</span>
+              <ul class="lgnd" aria-hidden="true"><li><i style="background:var(--s1)"></i>Sessions</li><li><i style="background:var(--s2)"></i>Conversions</li></ul>
+            </div>
+            <svg class="chart" id="trend" role="img" aria-label="Two line charts stacked: daily sessions and daily conversions over the selected period"></svg>
+            <div class="tip" id="trend-tip" hidden></div>
+          </div>
+          <div class="card" id="channel-card">
+            <div class="card-head"><h4>Sessions by channel</h4><span class="sub" id="channel-sub"></span></div>
+            <svg class="chart" id="channels" role="img" aria-label="Horizontal bar chart of sessions by channel"></svg>
+            <div class="tip" id="channel-tip" hidden></div>
+          </div>
+        </div>
+        <div class="two">
+          <div class="card" id="funnel-card">
+            <div class="card-head"><h4>Trial funnel</h4><span class="sub">sessions to paid</span></div>
+            <svg class="chart" id="funnel" role="img" aria-label="Funnel chart from sessions to paid with drop-off between each step"></svg>
+            <div class="tip" id="funnel-tip" hidden></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h4>Top segments</h4><span class="sub">by conversions</span></div>
+            <div class="table-wrap">
+              <table class="seg-table">
+                <thead><tr><th scope="col">Segment</th><th scope="col" class="n">Sessions</th><th scope="col" class="n">Conv.</th><th scope="col" class="bar-cell">Rate</th><th scope="col" class="n">vs prev.</th></tr></thead>
+                <tbody id="seg-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="accessibility" aria-labelledby="h-a11y">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">05 &middot; Accessibility</p>
+      <div>
+        <h2 id="h-a11y">Contrast you can check, not just claim</h2>
+        <p>The table reads the dashboard's live CSS custom properties and computes each contrast ratio with the WCAG 2 relative-luminance formula. Switch the palette above and the numbers change with it.</p>
+      </div>
+    </div>
+    <div class="a11y">
+      <div class="panel">
+        <h3>Contrast ratios <small id="contrast-mode">Default palette</small></h3>
+        <p>Text pairs are held to AA for normal text (4.5:1). Chart marks and UI components are held to 3:1. Series that fall short are never the only encoding: bars carry direct value labels and the table repeats every number.</p>
+        <div class="c-wrap">
+          <table class="contrast">
+            <thead><tr><th scope="col">Pair</th><th scope="col">Swatch</th><th scope="col">Ratio</th><th scope="col">Target</th><th scope="col">Result</th></tr></thead>
+            <tbody id="contrast-body"></tbody>
+          </table>
+        </div>
+        <p class="c-foot">Formula: (L1 + 0.05) / (L2 + 0.05), where L is relative luminance of each sRGB colour after gamma expansion. Values are read from <code class="mono">getComputedStyle</code> on the dashboard root, so they reflect the real rendered palette.</p>
+        <ul class="swatches" id="swatches" aria-label="Current chart series colours"></ul>
+      </div>
+      <div class="panel">
+        <h3>Decisions baked into the UI</h3>
+        <ul class="decisions">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg><span><b>Visible focus rings.</b> Every control shows a 2px ring on keyboard focus; the segmented controls move focus inside their own group with the arrow keys.</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16M6 14l4-5 4 3 4-6"/></svg><span><b>No colour-only encoding.</b> Lines are labelled at the end, bars carry values, funnel steps print counts and drop-off, and trends pair an arrow with the sign.</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M9 10v9"/></svg><span><b>Real table semantics.</b> The segment table uses <code class="mono">th scope="col"</code> headers, right-aligned tabular figures and a scrolling wrapper rather than truncated cells on narrow screens.</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span><b>Reduced motion respected.</b> Transitions are wrapped in <code class="mono">prefers-reduced-motion: no-preference</code>, so nothing animates for people who have asked it not to.</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg><span><b>One axis per chart.</b> Sessions and conversions sit in stacked panels with a shared crosshair instead of a dual-axis chart, which is easy to misread.</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h16"/></svg><span><b>Density is a preference, not a redesign.</b> Compact mode changes spacing tokens only; reading order, labels and hit targets of at least 30px stay the same.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Insight Board is a UI/UX design project by Zero Lag.</span>
+    <nav aria-label="Zero Lag"><a href="../../work.html">All work</a><a href="../../contact.html">Start a project</a></nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const el = (name, attrs = {}, text) => { const n = document.createElementNS(svgNS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); if (text != null) n.textContent = text; return n; };
+  const fmt = n => Math.round(n).toLocaleString('en-US');
+  const pct = (a, b, d = 1) => (100 * a / b).toFixed(d) + '%';
+  const money = n => '$' + fmt(n);
+
+  // Thirty days of daily sessions and conversions, 3 Oct to 1 Nov 2026
+  const SESS = [4312, 4188, 3620, 3471, 4596, 4720, 4655, 4581, 4404, 3702, 3588, 4688, 4812, 4790, 4733, 4506, 3760, 3611, 4850, 4958, 4902, 4812, 4680, 3818, 3697, 5002, 5110, 5068, 4927, 4751];
+  const CONV = [121, 118, 96, 93, 134, 140, 138, 133, 128, 101, 95, 139, 146, 143, 142, 131, 102, 97, 148, 152, 150, 144, 139, 106, 99, 156, 160, 157, 150, 141];
+  const PREV = { sessions: 125480, conversions: 3762 };
+  const PREV7 = { sessions: 31840, conversions: 950 };
+  const DATES = Array.from({ length: 30 }, (_, i) => { const d = new Date(2026, 9, 3); d.setDate(d.getDate() + i); return d; });
+  const dstr = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  const PLAN_PRICE = 49;
+
+  // Channel shares of total sessions, last channel takes the remainder
+  const CHANNELS = [['Organic search', .38], ['Paid search', .19], ['Direct', .15], ['Email', .12], ['Referral', .09], ['Social', null]];
+  const CH_RATE = [.031, .036, .041, .048, .022, .012];
+  // Funnel step shares of total sessions, last step is the paid count
+  const FUNNEL = [['Sessions', 1], ['Viewed pricing', .31], ['Started trial', .094], ['Activated', .051], ['Paid', null]];
+  // Segment shares of sessions and conversions, last row takes the remainder
+  const SEGMENTS = [
+    ['Team plan, EU', .22, .31, 4.2], ['Starter, North America', .27, .24, 1.1], ['Enterprise, APAC', .09, .15, 6.8],
+    ['Team plan, North America', .18, .16, -2.4], ['Starter, EU', .16, .09, -0.6], ['Enterprise, EU', null, null, 2.9]
+  ];
+
+  const board = $('#board');
+  let days = 30;
+  const slice = arr => arr.slice(30 - days);
+  const sum = arr => arr.reduce((a, b) => a + b, 0);
+  const totals = () => ({ sessions: sum(slice(SESS)), conversions: sum(slice(CONV)) });
+  const prev = () => days === 30 ? PREV : PREV7;
+
+  // Split a total into parts by share, giving the remainder to the last part
+  function split(total, shares) {
+    let used = 0;
+    return shares.map((s, i) => { if (s == null) return total - used; const v = Math.round(total * s); used += v; return v; });
+  }
+  const delta = (cur, before) => { const d = (cur - before) / before * 100; return { d, text: (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%' }; };
+
+  // Sparkline path for a KPI tile
+  function spark(arr, w = 84, h = 34) {
+    const min = Math.min(...arr), max = Math.max(...arr);
+    const x = i => (i / (arr.length - 1)) * (w - 4) + 2;
+    const y = v => h - 3 - ((v - min) / (max - min || 1)) * (h - 6);
+    const d = arr.map((v, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
+    return `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}"/><circle cx="${x(arr.length - 1).toFixed(1)}" cy="${y(arr[arr.length - 1]).toFixed(1)}" r="2.5"/></svg>`;
+  }
+
+  function renderKpis() {
+    const t = totals(), p = prev();
+    const rate = t.conversions / t.sessions, prate = p.conversions / p.sessions;
+    const mrr = t.conversions * PLAN_PRICE, pmrr = p.conversions * PLAN_PRICE;
+    const sess = slice(SESS), conv = slice(CONV);
+    const rates = sess.map((s, i) => conv[i] / s);
+    const items = [
+      ['Sessions', fmt(t.sessions), delta(t.sessions, p.sessions), sess],
+      ['Conversions', fmt(t.conversions), delta(t.conversions, p.conversions), conv],
+      ['Conversion rate', (rate * 100).toFixed(2) + '%', delta(rate, prate), rates],
+      ['New MRR', money(mrr), delta(mrr, pmrr), conv.map(c => c * PLAN_PRICE)]
+    ];
+    $('#kpis').innerHTML = items.map(([label, val, d, arr]) => `
+      <div class="kpi"><span class="k-label">${label}</span><span class="k-val">${val}</span>
+      <span class="k-delta ${d.d >= 0 ? 'up' : 'down'}"><b>${d.text}</b> vs prev. ${days}d</span>${spark(arr)}</div>`).join('');
+  }
+
+  // Shared tooltip helper positioned inside a chart card
+  function showTip(tip, card, html, x, y) {
+    tip.innerHTML = html; tip.hidden = false;
+    const cw = card.clientWidth, tw = tip.offsetWidth;
+    let left = x + 14; if (left + tw > cw - 8) left = x - tw - 14; if (left < 8) left = 8;
+    tip.style.left = left + 'px'; tip.style.top = Math.max(8, y - 10) + 'px';
+  }
+  const localPoint = (evt, card) => { const r = card.getBoundingClientRect(); return { x: evt.clientX - r.left, y: evt.clientY - r.top }; };
+
+  // Two stacked line panels sharing an x axis and crosshair
+  function renderTrend() {
+    const svg = $('#trend'), card = $('#trend-card'), tip = $('#trend-tip');
+    const W = svg.clientWidth || 600, H = svg.clientHeight || 220;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = '';
+    const sess = slice(SESS), conv = slice(CONV), dates = slice(DATES);
+    const padL = 44, padR = 70, gap = 26, top = 16, bottom = 22;
+    const panelH = (H - top - bottom - gap) / 2;
+    const x = i => padL + (i / (sess.length - 1)) * (W - padL - padR);
+    const panels = [['Sessions', sess, 'series-1', 1], ['Conversions', conv, 'series-2', 2]];
+    const ys = [];
+    panels.forEach(([title, arr, cls, n], pi) => {
+      const y0 = top + pi * (panelH + gap);
+      const max = Math.ceil(Math.max(...arr) / (n === 1 ? 1000 : 50)) * (n === 1 ? 1000 : 50);
+      const min = Math.floor(Math.min(...arr) / (n === 1 ? 1000 : 50)) * (n === 1 ? 1000 : 50);
+      const y = v => y0 + panelH - ((v - min) / (max - min || 1)) * panelH;
+      ys.push(y);
+      const g = el('g', { class: 'grid' }), ax = el('g', { class: 'axis' });
+      [min, (min + max) / 2, max].forEach(v => {
+        g.appendChild(el('line', { x1: padL, x2: W - padR, y1: y(v), y2: y(v) }));
+        ax.appendChild(el('text', { x: padL - 8, y: y(v) + 4, 'text-anchor': 'end' }, v >= 1000 ? (v / 1000).toFixed(1).replace('.0', '') + 'k' : v));
+      });
+      svg.appendChild(g); svg.appendChild(ax);
+      svg.appendChild(el('text', { x: padL, y: y0 - 5, class: 'panel-title' }, title));
+      const d = arr.map((v, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
+      svg.appendChild(el('path', { d, class: 'line ' + cls }));
+      const last = arr.length - 1;
+      svg.appendChild(el('text', { x: x(last) + 10, y: y(arr[last]) + 4, class: 'label' }, fmt(arr[last])));
+    });
+    const ax = el('g', { class: 'axis' });
+    const step = days === 30 ? 7 : 1;
+    dates.forEach((d, i) => { if ((i % step === 0 && i < dates.length - 3) || i === dates.length - 1) ax.appendChild(el('text', { x: x(i), y: H - 6, 'text-anchor': i === dates.length - 1 ? 'end' : 'middle' }, dstr(d))); });
+    svg.appendChild(ax);
+    const cross = el('line', { class: 'cross', y1: top, y2: H - bottom, visibility: 'hidden' });
+    const r1 = el('circle', { r: 5, class: 'ring fill-1 series-1', visibility: 'hidden' });
+    const r2 = el('circle', { r: 5, class: 'ring fill-2 series-2', visibility: 'hidden' });
+    [cross, r1, r2].forEach(n => svg.appendChild(n));
+    const hit = el('rect', { class: 'hit', x: padL, y: 0, width: W - padL - padR, height: H });
+    svg.appendChild(hit);
+    const move = evt => {
+      const p = localPoint(evt, card), sr = svg.getBoundingClientRect(), cr = card.getBoundingClientRect();
+      const px = evt.clientX - sr.left;
+      const i = Math.max(0, Math.min(sess.length - 1, Math.round((px - padL) / (W - padL - padR) * (sess.length - 1))));
+      cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.setAttribute('visibility', 'visible');
+      r1.setAttribute('cx', x(i)); r1.setAttribute('cy', ys[0](sess[i])); r1.setAttribute('visibility', 'visible');
+      r2.setAttribute('cx', x(i)); r2.setAttribute('cy', ys[1](conv[i])); r2.setAttribute('visibility', 'visible');
+      const html = `<b>${dates[i].toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</b>
+        <div class="row"><span><i style="background:var(--s1)"></i>Sessions</span><span>${fmt(sess[i])}</span></div>
+        <div class="row"><span><i style="background:var(--s2)"></i>Conversions</span><span>${fmt(conv[i])}</span></div>
+        <div class="row"><span>Rate</span><span>${pct(conv[i], sess[i], 2)}</span></div>`;
+      showTip(tip, card, html, x(i) + (sr.left - cr.left), p.y);
+    };
+    const leave = () => { tip.hidden = true; [cross, r1, r2].forEach(n => n.setAttribute('visibility', 'hidden')); };
+    hit.addEventListener('pointermove', move); hit.addEventListener('pointerleave', leave);
+  }
+
+  // Horizontal bars with direct value labels
+  function renderChannels() {
+    const svg = $('#channels'), card = $('#channel-card'), tip = $('#channel-tip');
+    const t = totals();
+    const vals = split(t.sessions, CHANNELS.map(c => c[1]));
+    $('#channel-sub').textContent = fmt(t.sessions) + ' total';
+    const W = svg.clientWidth || 400, H = svg.clientHeight || 220;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = '';
+    const labelW = 104, valW = 62, top = 6;
+    const rowH = (H - top) / vals.length, barH = Math.min(18, rowH * .55);
+    const max = Math.max(...vals);
+    const scale = v => (v / max) * (W - labelW - valW);
+    vals.forEach((v, i) => {
+      const y = top + i * rowH + (rowH - barH) / 2;
+      const g = el('g');
+      g.appendChild(el('text', { x: labelW - 10, y: y + barH / 2 + 4, 'text-anchor': 'end', class: 'label muted' }, CHANNELS[i][0]));
+      g.appendChild(el('rect', { x: labelW, y, width: Math.max(2, scale(v)), height: barH, class: 'bar fill-1' }));
+      g.appendChild(el('text', { x: labelW + scale(v) + 8, y: y + barH / 2 + 4, class: 'label' }, fmt(v)));
+      const hit = el('rect', { class: 'hit', x: 0, y: top + i * rowH, width: W, height: rowH });
+      hit.addEventListener('pointermove', evt => {
+        const p = localPoint(evt, card);
+        const conv = Math.round(v * CH_RATE[i]);
+        showTip(tip, card, `<b>${CHANNELS[i][0]}</b><div class="row"><span>Sessions</span><span>${fmt(v)}</span></div><div class="row"><span>Share</span><span>${pct(v, t.sessions)}</span></div><div class="row"><span>Conversions</span><span>${fmt(conv)} (${pct(conv, v)})</span></div>`, p.x, p.y);
+      });
+      hit.addEventListener('pointerleave', () => { tip.hidden = true; });
+      g.appendChild(hit); svg.appendChild(g);
+    });
+  }
+
+  // Funnel as centred horizontal steps with drop-off between them
+  function renderFunnel() {
+    const svg = $('#funnel'), card = $('#funnel-card'), tip = $('#funnel-tip');
+    const t = totals();
+    const shares = FUNNEL.map(f => f[1]);
+    const vals = shares.map(s => s == null ? t.conversions : Math.round(t.sessions * s));
+    const W = svg.clientWidth || 400, H = svg.clientHeight || 220;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = '';
+    const labelW = 96, right = 70, top = 4;
+    const rowH = (H - top) / vals.length, barH = Math.min(22, rowH * .6);
+    const full = W - labelW - right;
+    vals.forEach((v, i) => {
+      const w = Math.max(6, full * v / vals[0]);
+      const y = top + i * rowH + (rowH - barH) / 2;
+      const g = el('g', { class: 'fstep' });
+      g.appendChild(el('text', { x: labelW - 10, y: y + barH / 2 + 4, 'text-anchor': 'end', class: 'label muted' }, FUNNEL[i][0]));
+      g.appendChild(el('rect', { x: labelW, y, width: w, height: barH, class: 'bar fill-' + Math.min(i + 1, 5) }));
+      g.appendChild(el('text', { x: labelW + w + 8, y: y + barH / 2 + 4, class: 'label' }, fmt(v)));
+      if (i > 0) {
+        const drop = 1 - v / vals[i - 1];
+        g.appendChild(el('text', { x: W - 2, y: y + barH / 2 + 4, 'text-anchor': 'end', class: 'label muted' }, '−' + (drop * 100).toFixed(0) + '%'));
+      }
+      const hit = el('rect', { class: 'hit', x: 0, y: top + i * rowH, width: W, height: rowH });
+      hit.addEventListener('pointermove', evt => {
+        const p = localPoint(evt, card);
+        showTip(tip, card, `<b>${FUNNEL[i][0]}</b><div class="row"><span>Count</span><span>${fmt(v)}</span></div><div class="row"><span>Of sessions</span><span>${pct(v, vals[0])}</span></div>${i ? `<div class="row"><span>From previous step</span><span>${pct(v, vals[i - 1])}</span></div>` : ''}`, p.x, p.y);
+      });
+      hit.addEventListener('pointerleave', () => { tip.hidden = true; });
+      g.appendChild(hit); svg.appendChild(g);
+    });
+  }
+
+  function renderTable() {
+    const t = totals();
+    const s = split(t.sessions, SEGMENTS.map(r => r[1])), c = split(t.conversions, SEGMENTS.map(r => r[2]));
+    const rows = SEGMENTS.map((r, i) => ({ name: r[0], sessions: s[i], conv: c[i], rate: c[i] / s[i], d: r[3] })).sort((a, b) => b.conv - a.conv);
+    const maxRate = Math.max(...rows.map(r => r.rate));
+    $('#seg-body').innerHTML = rows.map(r => `<tr><td>${r.name}</td><td class="n">${fmt(r.sessions)}</td><td class="n">${fmt(r.conv)}</td>
+      <td class="bar-cell"><span class="mini"><i style="width:${(r.rate / maxRate * 70).toFixed(0)}%"></i><span>${(r.rate * 100).toFixed(1)}%</span></span></td>
+      <td class="n"><span class="trend ${r.d >= 0 ? 'up' : 'down'}"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="${r.d >= 0 ? 'M2 7l3-4 3 4' : 'M2 3l3 4 3-4'}"/></svg>${r.d >= 0 ? '+' : '−'}${Math.abs(r.d).toFixed(1)} pts</span></td></tr>`).join('');
+  }
+
+  function renderAll() {
+    renderKpis(); renderTrend(); renderChannels(); renderFunnel(); renderTable();
+    $('#range-text').textContent = (days === 30 ? '3 Oct' : '26 Oct') + ' – 1 Nov 2026 vs previous ' + days + ' days';
+  }
+
+  // Information architecture map drawn from the navigation model
+  function renderIA() {
+    const svg = $('#ia-map');
+    const tree = [
+      ['Overview', ['KPIs', 'Trends', 'Top segments']],
+      ['Acquisition', ['Channels', 'Campaigns', 'Funnel']],
+      ['Retention', ['Cohorts', 'Activation', 'Churn']],
+      ['Revenue', ['New MRR', 'Expansion', 'Plans']],
+      ['Reports', ['Saved reports', 'Builder', 'Schedules']],
+      ['Alerts', ['Rules', 'History']],
+      ['Settings', ['Data sources', 'Definitions', 'Team']]
+    ];
+    const leaves = tree.flatMap(([, kids]) => kids);
+    const W = 1300, slot = (W - 20) / leaves.length, h = 30;
+    const leafY = 290, parentY = 160, rootY = 30;
+    const widthFor = s => Math.max(60, s.length * 6.6 + 20);
+    const node = (x, y, label, cls) => {
+      const w = widthFor(label), g = el('g', { class: 'node ' + cls });
+      g.appendChild(el('rect', { x: x - w / 2, y, width: w, height: h, rx: 5 }));
+      g.appendChild(el('text', { x, y: y + h / 2 + 4, 'text-anchor': 'middle' }, label));
+      return g;
+    };
+    const edge = (x1, y1, x2, y2, cls = '') => el('path', { class: 'edge ' + cls, d: `M${x1} ${y1} V${(y1 + y2) / 2} H${x2} V${y2}` });
+    let i = 0;
+    const edges = el('g'), nodes = el('g');
+    const parentXs = [];
+    tree.forEach(([name, kids]) => {
+      const xs = kids.map(() => 10 + slot * (i++ + .5));
+      const px = (xs[0] + xs[xs.length - 1]) / 2;
+      parentXs.push(px);
+      xs.forEach((x, k) => { const ly = leafY + ((i - xs.length + k) % 2) * 46; edges.appendChild(edge(px, parentY + h, x, ly)); nodes.appendChild(node(x, ly, kids[k], 'l2')); });
+      nodes.appendChild(node(px, parentY, name, 'l1'));
+    });
+    const rootX = W / 2;
+    parentXs.forEach(px => edges.appendChild(edge(rootX, rootY + h, px, parentY, 'primary')));
+    nodes.appendChild(node(rootX, rootY, 'Insight Board', 'l0'));
+    svg.appendChild(edges); svg.appendChild(nodes);
+  }
+
+  // WCAG relative luminance and contrast ratio
+  const hexToRgb = hex => { const h = hex.replace('#', '').trim(); const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+  const lum = hex => { const [r, g, b] = hexToRgb(hex).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; };
+  const contrast = (a, b) => { const l1 = lum(a), l2 = lum(b); return (Math.max(l1, l2) + .05) / (Math.min(l1, l2) + .05); };
+  const readVar = name => getComputedStyle(board).getPropertyValue(name).trim();
+
+  function renderContrast() {
+    const pairs = [
+      ['Body text on card', '--b-ink', '--surface', 4.5, 'KPI values, table cells'],
+      ['Secondary text on card', '--b-ink-2', '--surface', 4.5, 'Labels, legends'],
+      ['Muted text on card', '--b-ink-3', '--surface', 4.5, 'Axis ticks, captions'],
+      ['Accent on card', '--b-accent', '--surface', 3, 'Links, focus'],
+      ['Series 1 on card', '--s1', '--surface', 3, 'Sessions line, bars'],
+      ['Series 2 on card', '--s2', '--surface', 3, 'Conversions line'],
+      ['Series 3 on card', '--s3', '--surface', 3, 'Funnel step 3'],
+      ['Series 4 on card', '--s4', '--surface', 3, 'Funnel step 4'],
+      ['Series 5 on card', '--s5', '--surface', 3, 'Funnel step 5'],
+      ['Positive trend', '--b-good', '--surface', 4.5, 'Up deltas'],
+      ['Negative trend', '--b-bad', '--surface', 4.5, 'Down deltas']
+    ];
+    $('#contrast-body').innerHTML = pairs.map(([name, fg, bg, min, use]) => {
+      const f = readVar(fg), b = readVar(bg), r = contrast(f, b), ok = r >= min;
+      return `<tr><td><span class="pair-name">${name}<small>${use}</small></span></td>
+        <td><span class="sw" style="color:${f};background:${b}">Aa</span><span class="hex">${f.toUpperCase()} / ${b.toUpperCase()}</span></td>
+        <td class="n">${r.toFixed(2)}:1</td><td class="n">${min.toFixed(1)}:1</td>
+        <td><span class="badge ${ok ? 'pass' : 'fail'}">${ok ? 'AA pass' : 'Below AA'}</span></td></tr>`;
+    }).join('');
+    $('#contrast-mode').textContent = board.dataset.palette === 'safe' ? 'Colour-blind-safe palette' : 'Default palette';
+    $('#swatches').innerHTML = ['--s1', '--s2', '--s3', '--s4', '--s5'].map((v, i) => { const c = readVar(v); return `<li><i style="background:${c}"></i>Series ${i + 1}<br>${c.toUpperCase()}</li>`; }).join('');
+  }
+
+  // Segmented controls behave as radio groups with arrow-key movement
+  function setupSeg(group) {
+    const key = group.dataset.ctl, buttons = [...group.querySelectorAll('button')];
+    const set = (value, focus) => {
+      buttons.forEach(b => { const on = b.dataset.value === value; b.setAttribute('aria-checked', on); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+      board.dataset[key] = value;
+      try { localStorage.setItem('insight-board:' + key, value); } catch (e) {}
+      if (key === 'palette') renderContrast();
+      if (key === 'density') requestAnimationFrame(renderAll);
+    };
+    buttons.forEach((b, i) => {
+      b.addEventListener('click', () => set(b.dataset.value, false));
+      b.addEventListener('keydown', e => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+        e.preventDefault();
+        const dir = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1;
+        set(buttons[(i + dir + buttons.length) % buttons.length].dataset.value, true);
+      });
+    });
+    let saved = null;
+    try { saved = localStorage.getItem('insight-board:' + key); } catch (e) {}
+    set(buttons.some(b => b.dataset.value === saved) ? saved : buttons[0].dataset.value, false);
+  }
+
+  document.querySelectorAll('.seg[data-ctl]').forEach(setupSeg);
+  document.querySelectorAll('.range button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.range button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    days = +b.dataset.days; renderAll();
+  }));
+
+  renderIA();
+  renderAll();
+  renderContrast();
+  let raf = 0;
+  window.addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(renderAll); });
+  document.fonts && document.fonts.ready.then(renderAll);
+})();
+</script>
+</body>
+</html>

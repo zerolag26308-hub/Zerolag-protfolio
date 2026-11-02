@@ -2,9 +2,9 @@
 
 Static site: plain HTML, one stylesheet (`css/style.css`) and two small scripts (`js/main.js`, `js/contact.js`). No build step, no dependencies.
 
-## Demos
+## Projects
 
-`demos/` holds nine self-contained concept demos for fictional brands. Each shows a disclosure bar and is set to noindex. Photos in `assets/demos/` come from Unsplash; screenshots in `assets/images/work/` are taken from the demos, so retake them if a demo changes.
+`projects/` holds the self-contained project sites and apps linked from the work page, one folder each. Photos in `assets/projects/` come from Unsplash; screenshots in `assets/images/work/` are taken from those pages, so retake them if a page changes.
 
 ## Run locally
 
@@ -35,5 +35,4 @@ After the first deploy, send one test message and click the activation link Form
 ## Before going live
 
 - The privacy policy and terms contain `[Company legal name]` / `[Jurisdiction]` placeholders and a notice asking for legal review.
-- The work page shows sample projects only, labelled as such.
 - Bump the `?v=` query on the CSS/JS links in every page after changing those files, so browsers fetch the new version.

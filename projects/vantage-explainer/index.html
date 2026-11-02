@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0F1B33">
+<meta name="description" content="Vantage OS explainer: a 40-second animated explainer for an operations dashboard, with isometric illustration, self-assembling diagrams and a toggleable caption track.">
+<title>Vantage OS Explainer | Video Editing &amp; Production by Zero Lag</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%230F1B33'/%3E%3Cpath d='M9 11l9 15 9-15' fill='none' stroke='%233DD6C4' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0B1426;--fg:#F3F6FB;--muted:#8EA0C2;--accent:#3DD6C4;--accent-ink:#0B1426;--surface:#131F3A;--line:#22304F;--bar-bg:#131F3A;--bar-fg:#C9D4EA;--vp-bar:#0F1A30;--display:"Manrope","Segoe UI",system-ui,sans-serif;--body:"Manrope","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--h1:800 clamp(34px,4.4vw,56px)/1.05 var(--display);--h2:800 clamp(22px,2.4vw,28px)/1.2 var(--display)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+canvas{display:block}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{width:min(1180px,100% - 32px);margin:0 auto}
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 16px;font:500 13px/1.3 var(--body);background:var(--bar-bg);color:var(--bar-fg);border-bottom:1px solid var(--line)}
+.zl-bar a{color:inherit;text-decoration:none;opacity:.8;white-space:nowrap}
+.zl-bar a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
+.zl-bar strong{font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+/* Page header */
+.head{padding:36px 0 22px}
+.kicker{display:flex;align-items:center;gap:10px;font:600 13px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kicker i{display:inline-block;width:26px;height:2px;background:var(--accent)}
+.head h1{margin-top:14px;font:var(--h1);letter-spacing:-.02em;max-width:18ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;color:var(--muted);font-size:15px}
+.meta b{color:var(--fg);font-weight:600}
+/* Player */
+.vp{position:relative;background:#000;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.vp-stage{position:relative;display:grid;place-items:center;aspect-ratio:16/9;background:#000;overflow:hidden}
+.vp.vertical .vp-stage{aspect-ratio:auto;height:min(78vh,760px);background:var(--vp-letterbox,#000)}
+.vp-stage canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.vp-captions{position:absolute;left:0;right:0;bottom:7%;display:flex;justify-content:center;padding:0 5%;pointer-events:none}
+.vp-captions span{display:inline-block;background:rgba(0,0,0,.74);color:#fff;font:500 clamp(13px,1.8vw,22px)/1.35 var(--body);padding:.38em .75em;border-radius:6px;text-align:center;max-width:34em}
+.vp-poster{position:absolute;inset:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,.12) 45%,rgba(0,0,0,.25))}
+.vp-big{width:86px;height:86px;border-radius:50%;background:var(--accent);color:var(--accent-ink,#fff);display:grid;place-items:center;box-shadow:0 12px 36px rgba(0,0,0,.4);transition:transform .2s}
+.vp-poster:hover .vp-big{transform:scale(1.06)}
+.vp-big svg{width:34px;height:34px;fill:currentColor;margin-left:4px}
+.vp-ptitle{font:600 clamp(14px,1.5vw,18px)/1.3 var(--body);letter-spacing:.01em;text-shadow:0 1px 12px rgba(0,0,0,.6);text-align:center;padding:0 16px}
+.vp-ptitle small{display:block;margin-top:4px;font-weight:500;opacity:.8;font-size:.85em}
+.vp-poster[disabled]{cursor:progress}
+.vp-end{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.42)}
+.vp-end button{display:flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;background:#fff;color:#111;font-weight:600;font-size:15px}
+.vp-end svg{width:20px;height:20px;fill:currentColor}
+.vp-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--vp-bar,#121212);color:#fff}
+.vp-btn{width:40px;height:40px;display:grid;place-items:center;border-radius:8px;color:#fff;flex:none}
+.vp-btn:hover{background:rgba(255,255,255,.12)}
+.vp-btn svg{width:22px;height:22px;fill:currentColor}
+.vp-time{font:500 13px/1 var(--mono,ui-monospace,SFMono-Regular,Menlo,monospace);min-width:92px;text-align:center;letter-spacing:.02em;flex:none;color:#e5e5e5;font-variant-numeric:tabular-nums}
+.vp-scrub{flex:1;position:relative;height:40px;display:flex;align-items:center;cursor:pointer;touch-action:none;border-radius:8px;min-width:60px}
+.vp-track{position:relative;width:100%;height:4px;background:rgba(255,255,255,.25);border-radius:3px;transition:height .12s}
+.vp-scrub:hover .vp-track,.vp-scrub:focus-visible .vp-track,.vp-scrub.drag .vp-track{height:7px}
+.vp-fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:3px}
+.vp-knob{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.5);transform:scale(0);transition:transform .12s}
+.vp-scrub:hover .vp-knob,.vp-scrub:focus-visible .vp-knob,.vp-scrub.drag .vp-knob{transform:scale(1)}
+.vp-mark{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:rgba(255,255,255,.6)}
+.vp-cc{width:auto;height:30px;padding:0 9px;border-radius:6px;border:1.5px solid rgba(255,255,255,.65);font:800 12px/1 var(--body);letter-spacing:.04em}
+.vp-cc[aria-pressed="true"]{background:#fff;color:#111;border-color:#fff}
+.vp:fullscreen{border-radius:0;display:flex;flex-direction:column;background:#000}
+.vp:fullscreen .vp-stage{flex:1;aspect-ratio:auto;min-height:0;height:auto}
+.vp-hint{margin-top:10px;font-size:13px;color:var(--muted)}
+.vp-hint kbd{font:600 12px/1 var(--mono,monospace);padding:2px 6px;border-radius:5px;background:var(--surface);border:1px solid var(--line)}
+/* Scene strip */
+.scenes{margin-top:34px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.sec-h h2{font:var(--h2);letter-spacing:-.01em}
+.sec-h p{color:var(--muted);font-size:14px}
+.strip{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.thumb{flex:none;width:196px;scroll-snap-align:start;text-align:left;border-radius:10px}
+.vertical-strip .thumb{width:124px}
+.thumb canvas{width:100%;aspect-ratio:var(--thumb-ar,16/9);border-radius:8px;border:2px solid var(--line);background:#000;transition:transform .15s,border-color .15s}
+.thumb:hover canvas{transform:translateY(-2px)}
+.thumb.on canvas{border-color:var(--accent)}
+.thumb .tc{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:13px;line-height:1.3}
+.thumb .tc b{font-weight:600}
+.thumb .tc span{font-family:var(--mono,monospace);color:var(--muted);flex:none}
+/* Production notes */
+.notes{margin:40px 0 64px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px 48px;align-items:start}
+.notes h2{font:var(--h2);letter-spacing:-.01em}
+.notes .copy{margin-top:14px;color:var(--muted);font-size:17px;line-height:1.6}
+.notes .copy+.copy{margin-top:10px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.specs div{background:var(--surface);padding:16px 18px}
+.specs dt{font:600 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.specs dd{margin-top:8px;font-size:15px;line-height:1.45}
+.specs dd b{font-weight:600}
+.foot{padding:22px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:760px){.notes{grid-template-columns:1fr}.head{padding-top:26px}}
+@media (max-width:480px){.specs{grid-template-columns:1fr}.vp-time{min-width:auto;font-size:12px}.vp-hint{display:none}.thumb{width:160px}.vp{border-radius:10px}}
+@media (prefers-reduced-motion:reduce){.vp *,.thumb canvas{transition:none!important}}
+
+.vp{box-shadow:0 30px 80px rgba(0,0,0,.55);border:1px solid var(--line)}
+.vp-captions span{font-weight:600}
+.specs dd b{color:var(--accent)}
+.vp-cc[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#0B1426}
+.transcript{margin-top:34px}
+.transcript ol{display:grid;gap:6px}
+.transcript li{display:grid;grid-template-columns:62px 1fr;gap:14px;padding:10px 14px;border-radius:10px;border:1px solid transparent}
+.transcript li.on{background:var(--surface);border-color:var(--line)}
+.transcript button{text-align:left;font:inherit;color:inherit;display:contents}
+.transcript .tc{font:600 13px/1.6 var(--mono);color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Vantage OS Explainer</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<main class="wrap">
+  <header class="head">
+    <p class="kicker"><i></i>Video editing &amp; production</p>
+    <h1>Vantage OS explainer</h1>
+    <p class="meta"><span><b>Format</b> 16:9 · 1920 × 1080</span><span><b>Length</b> 0:40</span><span><b>Type</b> Animated explainer</span><span><b>Captions</b> English</span></p>
+  </header>
+  <section aria-label="Film">
+    <div class="vp" id="player" tabindex="0" aria-label="Vantage OS explainer player"></div>
+    <p class="vp-hint"><kbd>Space</kbd> play / pause · <kbd>&larr;</kbd> <kbd>&rarr;</kbd> skip 5 s · <kbd>C</kbd> captions · <kbd>F</kbd> fullscreen · drag the bar to scrub</p>
+  </section>
+  <section class="scenes" aria-labelledby="sc-h">
+    <div class="sec-h"><h2 id="sc-h">Scene breakdown</h2><p>Click a frame to jump the film there</p></div>
+    <div class="strip" id="strip"></div>
+  </section>
+  <section class="transcript" aria-labelledby="tr-h">
+    <div class="sec-h"><h2 id="tr-h">Caption track</h2><p>Six lines, timed to the scenes</p></div>
+    <ol id="transcript"></ol>
+  </section>
+  <section class="notes" aria-labelledby="pn-h">
+    <div>
+      <h2 id="pn-h">Production notes</h2>
+      <p class="copy">An explainer for an operations dashboard has to show a system, not a screen. The first half is illustrated in flat isometric: four tools on a factory floor, then lines that pull them into one board. The second half cuts into the product itself, with the dashboard assembling card by card and an incident flowing from alert to resolution.</p>
+      <p class="copy">The caption track is a separate layer timed to the same clock as the animation, so it can be toggled, restyled or swapped for another language without touching the picture. Every diagram is drawn from data, which makes revisions to numbers or labels a one-line change rather than a re-render.</p>
+    </div>
+    <dl class="specs">
+      <div><dt>Format</dt><dd><b>1920 × 1080</b>, 16:9, 60 fps, 0:40</dd></div>
+      <div><dt>Disciplines</dt><dd>Motion design, isometric illustration, diagram animation, UI animation, captioning</dd></div>
+      <div><dt>Typography</dt><dd>Manrope for titles and labels, IBM Plex Mono for figures and timecodes</dd></div>
+      <div><dt>Palette</dt><dd>Deep navy base, teal signal colour, amber and coral for status</dd></div>
+      <div><dt>Transitions</dt><dd>Crossfade zoom from floor to dashboard, horizontal push into the incident flow, dissolve to end card</dd></div>
+      <div><dt>Audio</dt><dd>No audio in this cut; caption timings double as the voice-over script</dd></div>
+    </dl>
+  </section>
+  <footer class="foot"><span>Vantage OS explainer · motion by Zero Lag</span><a href="../../work.html">All work</a></footer>
+</main>
+<script>
+// Shared easing and drawing helpers
+const clamp=(v,a=0,b=1)=>v<a?a:v>b?b:v;
+const lerp=(a,b,p)=>a+(b-a)*p;
+const TAU=Math.PI*2;
+const E={lin:p=>p,out:p=>1-Math.pow(1-p,3),inn:p=>p*p*p,io:p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2,quint:p=>1-Math.pow(1-p,5),ioq:p=>p<.5?16*p*p*p*p*p:1-Math.pow(-2*p+2,5)/2,expo:p=>p>=1?1:1-Math.pow(2,-10*p),back:p=>{const c=1.70158,s=c+1;return 1+s*Math.pow(p-1,3)+c*Math.pow(p-1,2)},elastic:p=>p<=0?0:p>=1?1:Math.pow(2,-10*p)*Math.sin((p*10-.75)*(TAU/3))+1,inq:p=>p*p};
+// Progress 0..1 through a segment that starts at s and lasts d seconds
+const seg=(t,s,d,e=E.out)=>e(clamp((t-s)/d));
+// 1 while t sits inside [s,e], fading at both edges
+const win=(t,s,e,d=.4,d2=d)=>clamp((t-s)/d)*clamp((e-t)/d2);
+// Deterministic pseudo random number for a seed
+const hash=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+// Pixel size from a canvas font string
+const fsz=f=>parseFloat((f.match(/(\d+(?:\.\d+)?)px/)||[0,16])[1]);
+// Rounded rectangle path
+function rr(c,x,y,w,h,r){r=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+// Draw an image so it covers a box, with zoom and focal point
+function cover(c,img,x,y,w,h,zoom=1,fx=.5,fy=.5){if(!img||!img.naturalWidth)return;const s=Math.max(w/img.naturalWidth,h/img.naturalHeight)*zoom;const dw=img.naturalWidth*s,dh=img.naturalHeight*s;c.drawImage(img,x+(w-dw)*fx,y+(h-dh)*fy,dw,dh)}
+// Single line of text with options
+function txt(c,s,x,y,o={}){c.save();if(o.font)c.font=o.font;c.fillStyle=o.color||'#fff';c.textAlign=o.align||'left';c.textBaseline=o.base||'alphabetic';if(o.alpha!=null)c.globalAlpha*=clamp(o.alpha);if(o.ls!=null)c.letterSpacing=o.ls+'px';c.fillText(s,x,y);c.restore()}
+// Words rise in one after another
+function words(c,s,x,y,o){const ws=s.split(' ');c.save();c.font=o.font;c.textAlign='left';c.textBaseline=o.base||'alphabetic';const gap=o.gap??fsz(o.font)*.28;const widths=ws.map(w=>c.measureText(w).width);const tw=widths.reduce((a,b)=>a+b,0)+gap*(ws.length-1);let cx=o.align==='center'?x-tw/2:o.align==='right'?x-tw:x;ws.forEach((w,i)=>{const p=seg(o.t,o.start+i*(o.stagger??.12),o.dur??.7,o.ease||E.quint);c.save();c.globalAlpha*=clamp(p*1.5)*(o.alpha??1);c.translate(0,(1-p)*(o.rise??50));c.fillStyle=o.color||'#fff';c.fillText(w,cx,y);c.restore();cx+=widths[i]+gap});c.restore()}
+// Characters pop in with a stagger
+function chars(c,s,x,y,o){c.save();c.font=o.font;c.textAlign='left';c.textBaseline=o.base||'alphabetic';const arr=[...s];const ls=o.ls||0;const ws=arr.map(ch=>c.measureText(ch).width);const tw=ws.reduce((a,b)=>a+b,0)+ls*(arr.length-1);let cx=o.align==='center'?x-tw/2:o.align==='right'?x-tw:x;arr.forEach((ch,i)=>{const p=seg(o.t,o.start+i*(o.stagger??.05),o.dur??.55,o.ease||E.back);const sc=o.from!=null?lerp(o.from,1,p):p;c.save();c.globalAlpha*=clamp(p*2)*(o.alpha??1);c.translate(cx+ws[i]/2,y+(1-p)*(o.rise||0));c.scale(sc,sc);c.fillStyle=o.color||'#fff';c.fillText(ch,-ws[i]/2,0);c.restore();cx+=ws[i]+ls});c.restore()}
+// Text revealed left to right through a clip
+function wipe(c,s,x,y,o){const p=seg(o.t,o.start,o.dur||.8,o.ease||E.quint);if(p<=0)return;c.save();c.font=o.font;c.textAlign='left';c.textBaseline=o.base||'alphabetic';const w=c.measureText(s).width,h=fsz(o.font);const x0=o.align==='center'?x-w/2:o.align==='right'?x-w:x;c.beginPath();c.rect(x0-6,y-h*1.1,(w+12)*p,h*1.5);c.clip();c.fillStyle=o.color||'#fff';if(o.alpha!=null)c.globalAlpha*=clamp(o.alpha);c.fillText(s,x0,y);c.restore()}
+// Load an image and resolve either way
+function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(i);i.src=src})}
+// Small tile of film grain reused every frame
+function makeGrain(n=256){const g=document.createElement('canvas');g.width=g.height=n;const x=g.getContext('2d');const d=x.createImageData(n,n);for(let i=0;i<d.data.length;i+=4){const v=120+Math.floor(hash(i)*135);d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}x.putImageData(d,0,0);return g}
+// Tile grain over the frame, jittered per film frame
+function grain(c,g,t,W,H,a=.08,fps=24){const f=Math.floor(t*fps);const ox=Math.floor(hash(f)*g.width),oy=Math.floor(hash(f+99)*g.height);c.save();c.globalAlpha=a;c.globalCompositeOperation='overlay';for(let y=-oy;y<H;y+=g.height)for(let x=-ox;x<W;x+=g.width)c.drawImage(g,x,y);c.restore()}
+// Format seconds as m:ss
+const fmt=t=>{t=Math.max(0,Math.floor(t+.0001));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+const ICON={play:'<svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>',pause:'<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>',fs:'<svg viewBox="0 0 24 24"><path d="M4 9V4h5v2H6v3zm10-5h5v5h-2V6h-3zM4 15h2v3h3v2H4zm14 0h2v5h-5v-2h3z"/></svg>',exit:'<svg viewBox="0 0 24 24"><path d="M9 4v5H4V7h3V4zm6 0h2v3h3v2h-5zM4 15h5v5H7v-3H4zm11 0h5v2h-3v3h-2z"/></svg>',replay:'<svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>'};
+
+// Timeline driven canvas player
+function createPlayer(root,o){
+  const stage=root.querySelector('.vp-stage'),cv=stage.querySelector('canvas'),ctx=cv.getContext('2d');
+  const W=o.W,H=o.H;let D=o.duration;let render=o.render;let scenes=o.scenes||[];let caps=o.captions||[];
+  const q=s=>root.querySelector(s);
+  const btnPlay=q('.vp-play'),cur=q('.cur'),tot=q('.tot'),scrub=q('.vp-scrub'),fill=q('.vp-fill'),knob=q('.vp-knob'),marks=q('.vp-marks'),poster=q('.vp-poster'),pt=q('.vp-ptitle'),end=q('.vp-end'),cc=q('.vp-cc'),cap=q('.vp-captions'),fs=q('.vp-fs');
+  let t=0,playing=false,raf=0,wall=0,base=0,ready=false,started=false,ccOn=false,dpr=Math.min(2,window.devicePixelRatio||1);
+  const listeners=[];
+  if(cc){try{ccOn=localStorage.getItem('zl-cc')!=='off'}catch(e){ccOn=true}cc.hidden=!caps.length;cc.setAttribute('aria-pressed',String(ccOn));cc.addEventListener('click',()=>{ccOn=!ccOn;cc.setAttribute('aria-pressed',String(ccOn));try{localStorage.setItem('zl-cc',ccOn?'on':'off')}catch(e){}caption()})}
+  function resize(){const bw=stage.clientWidth,bh=stage.clientHeight;if(!bw||!bh)return;let w=bw,h=bw*H/W;if(h>bh+.5){h=bh;w=bh*W/H}cv.style.width=w+'px';cv.style.height=h+'px';cv.width=Math.max(1,Math.round(w*dpr));cv.height=Math.max(1,Math.round(h*dpr));draw(started?t:o.poster??0)}
+  function paint(c,tt,w,h){c.setTransform(w/W,0,0,h/H,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.fillStyle='#000';c.fillRect(0,0,W,H);render(c,tt,W,H);c.setTransform(1,0,0,1,0,0)}
+  function draw(tt=t){if(!ready)return;paint(ctx,tt,cv.width,cv.height);ui()}
+  function caption(){if(!cap)return;const c=caps.find(k=>t>=k.s&&t<k.e);if(ccOn&&c){cap.hidden=false;cap.firstElementChild.textContent=c.text}else cap.hidden=true}
+  function ui(){const p=D?t/D:0;fill.style.width=p*100+'%';knob.style.left=p*100+'%';cur.textContent=fmt(t);scrub.setAttribute('aria-valuenow',Math.round(t));scrub.setAttribute('aria-valuetext',fmt(t)+' of '+fmt(D));caption();listeners.forEach(f=>f(t,playing))}
+  function tick(now){if(!playing)return;t=base+(now-wall)/1000;if(t>=D){t=D;playing=false;draw();setPlayIcon();end.hidden=false;root.classList.remove('playing');return}draw();raf=requestAnimationFrame(tick)}
+  function setPlayIcon(){btnPlay.innerHTML=playing?ICON.pause:ICON.play;btnPlay.setAttribute('aria-label',playing?'Pause':'Play')}
+  function play(){if(!ready)return;if(t>=D)t=0;started=true;poster.hidden=true;end.hidden=true;playing=true;wall=performance.now();base=t;setPlayIcon();root.classList.add('playing');cancelAnimationFrame(raf);raf=requestAnimationFrame(tick)}
+  function pause(){playing=false;cancelAnimationFrame(raf);setPlayIcon();root.classList.remove('playing');ui()}
+  function toggle(){playing?pause():play()}
+  function seek(nt){t=clamp(nt,0,D);started=true;poster.hidden=true;if(playing){base=t;wall=performance.now()}end.hidden=!(t>=D&&!playing);draw()}
+  // Swap in a different timeline without rebuilding the controls
+  function load(n){pause();D=n.duration;render=n.render;scenes=n.scenes||[];caps=n.captions||[];o.poster=n.poster??0;t=0;started=false;poster.hidden=false;end.hidden=true;tot.textContent=fmt(D);scrub.setAttribute('aria-valuemax',Math.round(D));if(pt&&n.title)pt.innerHTML=n.title;buildMarks();if(cc){cc.hidden=!caps.length}resize()}
+  function buildMarks(){marks.innerHTML='';scenes.forEach(s=>{if(s.t<=0)return;const m=document.createElement('i');m.className='vp-mark';m.style.left=(s.t/D*100)+'%';marks.appendChild(m)})}
+  // Render a single frame to an offscreen canvas for thumbnails
+  function frame(tt,w,h,target){const oc=target||document.createElement('canvas');oc.width=w;oc.height=h;paint(oc.getContext('2d'),tt,w,h);return oc}
+  // Scrubbing with the pointer
+  let drag=false;const pos=e=>{const r=scrub.getBoundingClientRect();return clamp((e.clientX-r.left)/r.width)*D};
+  scrub.addEventListener('pointerdown',e=>{drag=true;scrub.classList.add('drag');scrub.setPointerCapture(e.pointerId);seek(pos(e))});
+  scrub.addEventListener('pointermove',e=>{if(drag)seek(pos(e))});
+  const up=e=>{if(!drag)return;drag=false;scrub.classList.remove('drag')};
+  scrub.addEventListener('pointerup',up);scrub.addEventListener('pointercancel',up);
+  scrub.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowDown'){e.preventDefault();seek(t-1)}if(e.key==='ArrowRight'||e.key==='ArrowUp'){e.preventDefault();seek(t+1)}if(e.key==='Home'){e.preventDefault();seek(0)}if(e.key==='End'){e.preventDefault();seek(D)}});
+  btnPlay.addEventListener('click',toggle);poster.addEventListener('click',play);end.querySelector('button').addEventListener('click',()=>{seek(0);play()});
+  cv.addEventListener('click',()=>{if(started)toggle()});
+  // Keyboard shortcuts on the player itself
+  root.addEventListener('keydown',e=>{const tag=e.target.tagName;if(e.target.classList.contains('vp-scrub'))return;if((e.key===' '||e.key==='Enter')&&tag==='BUTTON')return;const k=e.key.toLowerCase();if(e.key===' '||k==='k'){e.preventDefault();toggle()}else if(e.key==='ArrowLeft'||k==='j'){e.preventDefault();seek(t-5)}else if(e.key==='ArrowRight'||k==='l'){e.preventDefault();seek(t+5)}else if(e.key==='Home'){e.preventDefault();seek(0)}else if(e.key==='End'){e.preventDefault();seek(D)}else if(k==='f'){e.preventDefault();fullscreen()}else if(k==='c'&&cc&&!cc.hidden){e.preventDefault();cc.click()}else if(/^[0-9]$/.test(k)){e.preventDefault();seek(D*Number(k)/10)}});
+  function fullscreen(){if(document.fullscreenElement)document.exitFullscreen();else if(root.requestFullscreen)root.requestFullscreen()}
+  if(fs){if(!document.fullscreenEnabled)fs.hidden=true;fs.addEventListener('click',fullscreen);document.addEventListener('fullscreenchange',()=>{fs.innerHTML=document.fullscreenElement?ICON.exit:ICON.fs;fs.setAttribute('aria-label',document.fullscreenElement?'Exit fullscreen':'Fullscreen');requestAnimationFrame(resize)})}
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing)pause()});
+  new ResizeObserver(()=>requestAnimationFrame(resize)).observe(stage);
+  tot.textContent=fmt(D);scrub.setAttribute('aria-valuemax',Math.round(D));setPlayIcon();if(fs)fs.innerHTML=ICON.fs;buildMarks();poster.disabled=true;
+  const api={play,pause,toggle,seek,frame,load,get t(){return t},get duration(){return D},get playing(){return playing},onTime(f){listeners.push(f)},redraw:()=>draw()};
+  (o.ready||Promise.resolve()).then(()=>{ready=true;poster.disabled=false;resize();const u=new URLSearchParams(location.search).get('t');if(u!=null&&!isNaN(parseFloat(u)))seek(parseFloat(u));o.onReady&&o.onReady(api)});
+  return api;
+}
+// Builds the clickable scene strip and keeps the active scene highlighted
+function buildStrip(el,player,scenes,tw,th){el.innerHTML='';const items=scenes.map(s=>{const b=document.createElement('button');b.className='thumb';b.type='button';b.setAttribute('aria-label','Jump to '+s.label+' at '+fmt(s.t));const c=document.createElement('canvas');c.setAttribute('aria-hidden','true');player.frame(s.thumb??s.t+1,tw,th,c);b.appendChild(c);const tc=document.createElement('div');tc.className='tc';tc.innerHTML='<b></b><span></span>';tc.firstChild.textContent=s.label;tc.lastChild.textContent=fmt(s.t);b.appendChild(tc);b.addEventListener('click',()=>{player.seek(s.t);if(!player.playing)player.play()});el.appendChild(b);return b});
+  player.onTime(t=>{let idx=0;scenes.forEach((s,i)=>{if(t>=s.t)idx=i});items.forEach((b,i)=>b.classList.toggle('on',i===idx))});return items}
+// Standard player markup
+function playerHTML(title,sub,cc){return `<div class="vp-stage"><canvas aria-label="${title}" role="img"></canvas><div class="vp-captions" hidden><span></span></div><button class="vp-poster" type="button"><span class="vp-big">${ICON.play}</span><span class="vp-ptitle">${title}<small>${sub}</small></span></button><div class="vp-end" hidden><button type="button">${ICON.replay} Watch again</button></div></div><div class="vp-bar"><button class="vp-btn vp-play" type="button" aria-label="Play"></button><span class="vp-time"><span class="cur">0:00</span> / <span class="tot">0:00</span></span><div class="vp-scrub" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><div class="vp-track"><div class="vp-fill"></div><div class="vp-marks"></div><div class="vp-knob"></div></div></div>${cc?'<button class="vp-btn vp-cc" type="button" aria-label="Captions" aria-pressed="true">CC</button>':''}<button class="vp-btn vp-fs" type="button" aria-label="Fullscreen"></button></div>`}
+
+const W=1920,H=1080,NAVY='#0F1B33',SURF='#16254A',TEAL='#3DD6C4',AMB='#F5B942',COR='#F2695C',WHITE='#F3F6FB',MUT='#8EA0C2',LAV='#8A9BFF';
+const MR=(w,s)=>`${w} ${s}px Manrope, "Segoe UI", sans-serif`,MO=(w,s)=>`${w} ${s}px "IBM Plex Mono", ui-monospace, monospace`;
+const ready=Promise.all(['800 100px Manrope','600 40px Manrope','500 40px Manrope','600 40px "IBM Plex Mono"','500 40px "IBM Plex Mono"'].map(f=>document.fonts.load(f).catch(()=>{})));
+const captions=[{s:.6,e:4.8,text:'Running operations means watching a hundred moving parts at once.'},{s:5.4,e:11.6,text:'Orders, inventory, staff and incidents usually live in four different tools.'},{s:12.4,e:19.4,text:'Vantage pulls all of them into one live operations board.'},{s:20.6,e:28.4,text:'Every number updates the moment something changes on the floor.'},{s:29.4,e:34.6,text:'Incidents route to the right person automatically and close with a single tap.'},{s:35.6,e:39.6,text:'Vantage OS. The operations layer for teams that move.'}];
+// Isometric projection helpers
+let ISO={ox:960,oy:420,u:56};
+const iso=(x,y,z)=>[ISO.ox+(x-y)*.866*ISO.u,ISO.oy+(x+y)*.5*ISO.u-z*ISO.u];
+function face(c,pts,col){c.fillStyle=col;c.beginPath();pts.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();c.fill()}
+// Three-face isometric block with top, left and right shades
+function box(c,x,y,z,w,d,h,cols){if(h<=0)return;face(c,[iso(x,y+d,z),iso(x+w,y+d,z),iso(x+w,y+d,z+h),iso(x,y+d,z+h)],cols[1]);face(c,[iso(x+w,y,z),iso(x+w,y+d,z),iso(x+w,y+d,z+h),iso(x+w,y,z+h)],cols[2]);face(c,[iso(x,y,z+h),iso(x+w,y,z+h),iso(x+w,y+d,z+h),iso(x,y+d,z+h)],cols[0])}
+const C={amber:['#FFD277','#F5B942','#C98E22'],teal:['#7FEADC','#3DD6C4','#1FA797'],lav:['#B3BEFF','#8A9BFF','#5F6FD9'],coral:['#FF9A8D','#F2695C','#C44A3F'],slate:['#2B3B62','#1D2B4D','#15203C'],white:['#FFFFFF','#DCE4F5','#B4C0DA']};
+// Floor grid
+function floor(c,n,a){c.save();c.globalAlpha=a;c.strokeStyle='rgba(142,160,194,.22)';c.lineWidth=1.5;for(let i=0;i<=n;i++){let p=iso(i,0,0),q=iso(i,n,0);c.beginPath();c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);c.stroke();p=iso(0,i,0);q=iso(n,i,0);c.beginPath();c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);c.stroke()}c.restore()}
+const BLOCKS=[{n:'Orders',x:1,y:1,w:2,d:2,h:1.6,col:C.amber,s:5.3},{n:'Inventory',x:9,y:.5,w:3,d:2,h:1.1,col:C.teal,s:5.6},{n:'Staff',x:0,y:9.5,w:2,d:2.5,h:1,col:C.lav,s:5.9},{n:'Incidents',x:9.5,y:9.5,w:2,d:2,h:2,col:C.coral,s:6.2}];
+// Label with a pointer line above an isometric block
+function tag(c,b,p,t){const [x,y]=iso(b.x+b.w/2,b.y+b.d/2,b.h);c.save();c.globalAlpha=p;c.strokeStyle='rgba(243,246,251,.6)';c.lineWidth=2;c.beginPath();c.moveTo(x,y-10);c.lineTo(x,y-70*p);c.stroke();c.font=MR(800,30);const w=c.measureText(b.n).width+40;rr(c,x-w/2,y-70*p-54,w,46,10);c.fillStyle=WHITE;c.fill();txt(c,b.n,x,y-70*p-21,{font:MR(800,30),color:NAVY,align:'center'});c.restore()}
+// Little alert dots pinging on a block
+function pings(c,b,t){for(let i=0;i<3;i++){const cyc=((t*.7+hash(i*13+b.x))%1);if(cyc>.6)continue;const [x,y]=iso(b.x+hash(i+b.y)*b.w,b.y+hash(i*7+b.x)*b.d,b.h);c.save();c.globalAlpha=1-cyc/.6;c.fillStyle=COR;c.beginPath();c.arc(x,y,8+cyc*30,0,TAU);c.fill();c.restore()}}
+// Line from a block to the board with travelling packets
+function flow(c,b,p,t){const a=iso(b.x+b.w/2,b.y+b.d/2,b.h),z=iso(6,6,.5);c.save();c.strokeStyle=TEAL;c.lineWidth=4;c.setLineDash([14,12]);c.lineDashOffset=-t*80;c.globalAlpha=.7;c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(lerp(a[0],z[0],p),lerp(a[1],z[1],p));c.stroke();c.setLineDash([]);c.globalAlpha=1;if(p>=1){for(let i=0;i<2;i++){const k=((t*.5+i*.5+hash(b.x))%1);c.fillStyle=WHITE;c.beginPath();c.arc(lerp(a[0],z[0],k),lerp(a[1],z[1],k),7,0,TAU);c.fill()}}c.restore()}
+// Vantage mark: three cubes sliding into a V
+function logo(c,t,t0,cx,cy,u,fade=1){c.save();c.globalAlpha=fade;const keep=ISO;ISO={ox:cx,oy:cy,u};[[0,1,C.teal,-3,0],[1,1,C.white,0,-3],[0,0,C.amber,3,0]].forEach((k,i)=>{const p=seg(t,t0+i*.15,.9,E.quint);box(c,k[0]+k[3]*(1-p),k[1]+k[4]*(1-p),0,1,1,1,k[2].map((col,j)=>col))});ISO=keep;c.restore()}
+// Dashboard that assembles card by card
+function dashboard(c,t,t0){const X=260,Y=96;rr(c,X,Y,1400,790,26);c.fillStyle=SURF;c.fill();c.strokeStyle='rgba(255,255,255,.08)';c.lineWidth=2;c.stroke();rr(c,X,Y,220,790,26);c.fillStyle='#111D38';c.fill();c.fillStyle='#111D38';c.fillRect(X+200,Y,20,790);logo(c,t,t0-2,X+110,Y+56,14);['Overview','Orders','Inventory','People','Incidents','Reports'].forEach((s,i)=>{txt(c,s,X+36,Y+170+i*54,{font:MR(600,24),color:i?MUT:WHITE});if(!i){rr(c,X+20,Y+142,180,44,10);c.fillStyle='rgba(61,214,196,.15)';c.fill()}});txt(c,'Overview',X+270,Y+74,{font:MR(800,34),color:WHITE});const blink=.5+.5*Math.sin(t*4);c.fillStyle=TEAL;c.globalAlpha=.4+.6*blink;c.beginPath();c.arc(X+1310,Y+62,8,0,TAU);c.fill();c.globalAlpha=1;txt(c,'LIVE',X+1330,Y+70,{font:MO(600,22),color:TEAL});
+  [['Orders today',1284,'',WHITE],['On-time dispatch',97.2,'%',TEAL],['Staff on shift',42,'',WHITE],['Open incidents',3,'',COR]].forEach((k,i)=>{const p=seg(t,t0+.3+i*.12,.8,E.quint),cnt=seg(t,t0+.5+i*.12,1.4,E.out);c.save();c.globalAlpha=p;c.translate(0,(1-p)*40);const x=X+260+i*280;rr(c,x,Y+110,260,132,16);c.fillStyle='#1C2D55';c.fill();txt(c,k[0],x+22,Y+150,{font:MR(600,22),color:MUT});const v=k[1]*cnt;txt(c,(k[2]==='%'?v.toFixed(1):Math.round(v).toLocaleString('en-US'))+k[2],x+22,Y+214,{font:MO(600,52),color:k[3]});c.restore()});
+  const bx=X+260,by=Y+270;rr(c,bx,by,660,300,16);c.fillStyle='#1C2D55';c.fill();txt(c,'Orders per hour',bx+22,by+40,{font:MR(600,22),color:MUT});[.5,.7,.62,.9,.76,.84,1,.66].forEach((h,i)=>{const p=seg(t,t0+1.3+i*.07,.8,E.quint)*h*190;rr(c,bx+30+i*78,by+260-p,56,p,8);c.fillStyle=i===6?TEAL:'#3A4F86';c.fill()});
+  const lx=X+940,ly=Y+270;rr(c,lx,ly,460,300,16);c.fillStyle='#1C2D55';c.fill();txt(c,'Dispatch accuracy · 7 days',lx+22,ly+40,{font:MR(600,22),color:MUT});const pts=[.55,.6,.5,.7,.74,.68,.82,.8,.9,.86,.95,.97];const lp=seg(t,t0+1.8,1.6,E.io);c.save();c.beginPath();c.rect(lx,ly,460*lp,300);c.clip();c.strokeStyle=TEAL;c.lineWidth=5;c.lineJoin='round';c.beginPath();pts.forEach((v,i)=>{const px=lx+30+i*(400/11),py=ly+250-v*170;i?c.lineTo(px,py):c.moveTo(px,py)});c.stroke();c.lineTo(lx+430,ly+250);c.lineTo(lx+30,ly+250);c.closePath();c.fillStyle='rgba(61,214,196,.14)';c.fill();c.restore();
+  const ax=X+260,ay=Y+590;rr(c,ax,ay,1140,180,16);c.fillStyle='#1C2D55';c.fill();txt(c,'Activity',ax+22,ay+40,{font:MR(600,22),color:MUT});[['09:41','Order #48213 packed','Bay 4',TEAL],['09:38','Shift change · 14 staff clocked in','Floor',LAV],['09:32','Incident #113 resolved','Line 2',AMB]].forEach((r,i)=>{const p=seg(t,t0+2.6+i*.15,.7,E.quint);c.save();c.globalAlpha=p;c.translate((1-p)*-40,0);const y=ay+84+i*44;c.fillStyle=r[3];c.beginPath();c.arc(ax+34,y-8,6,0,TAU);c.fill();txt(c,r[0],ax+56,y,{font:MO(500,22),color:MUT});txt(c,r[1],ax+150,y,{font:MR(600,24),color:WHITE});txt(c,r[2],ax+1110,y,{font:MR(600,22),color:MUT,align:'right'});c.restore()})}
+// Incident routing flow
+function incident(c,t,t0){const p=seg(t,t0,.8,E.quint);c.save();c.globalAlpha=p;c.translate((1-p)*-200,0);rr(c,200,380,520,250,22);c.fillStyle=SURF;c.fill();rr(c,200,380,14,250,7);c.fillStyle=t>=t0+4.4?TEAL:COR;c.fill();const res=seg(t,t0+4.4,.5,E.back);txt(c,res>0?'RESOLVED · 4 MIN':'INCIDENT #114',248,432,{font:MO(600,24),color:res>0?TEAL:COR,ls:2});txt(c,'Line 3 conveyor stopped',248,494,{font:MR(800,36),color:WHITE});txt(c,'Bay 2 · reported 09:41 by sensor',248,540,{font:MR(600,24),color:MUT});if(res>0){c.save();c.translate(660,440);c.scale(res,res);c.fillStyle=TEAL;c.beginPath();c.arc(0,0,30,0,TAU);c.fill();c.strokeStyle=NAVY;c.lineWidth=6;c.lineCap='round';c.beginPath();c.moveTo(-12,0);c.lineTo(-3,9);c.lineTo(13,-9);c.stroke();c.restore()}c.restore();
+  const lp=seg(t,t0+.9,.8,E.io);if(lp>0){c.save();c.strokeStyle=TEAL;c.lineWidth=4;c.setLineDash([14,12]);c.lineDashOffset=-t*80;c.beginPath();c.moveTo(720,505);c.lineTo(720+lp*440,505);c.stroke();c.setLineDash([]);const k=seg(t,t0+1.6,.6,E.io);if(k>0&&k<1){c.fillStyle=WHITE;c.beginPath();c.arc(720+k*440,505,9,0,TAU);c.fill()}c.restore()}
+  const ap=seg(t,t0+2,.6,E.back);if(ap>0){c.save();c.translate(1300,505);c.scale(ap,ap);c.fillStyle=LAV;c.beginPath();c.arc(0,0,70,0,TAU);c.fill();txt(c,'MR',0,16,{font:MR(800,44),color:NAVY,align:'center'});c.restore();txt(c,'Maya Reyes',1300,620,{font:MR(800,32),color:WHITE,align:'center',alpha:ap});txt(c,'Floor lead · on shift',1300,658,{font:MR(600,24),color:MUT,align:'center',alpha:ap});const np=seg(t,t0+2.4,.5,E.back);if(np>0){c.save();c.translate(1400,420);c.scale(np,np);rr(c,-10,-30,240,60,30);c.fillStyle=TEAL;c.fill();txt(c,'Assigned · tap to accept',110,8,{font:MR(800,20),color:NAVY,align:'center'});c.restore()}}
+  const tp=seg(t,t0+2.9,1.5,E.lin);if(tp>0){const secs=Math.round(252*tp);txt(c,Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0'),1300,780,{font:MO(600,64),color:tp<1?AMB:TEAL,align:'center'});txt(c,'TIME TO RESOLVE',1300,820,{font:MO(500,20),color:MUT,align:'center',ls:3})}}
+function render(c,t){c.fillStyle=NAVY;c.fillRect(0,0,W,H);const g=c.createRadialGradient(960,520,100,960,520,1100);g.addColorStop(0,'rgba(61,214,196,.10)');g.addColorStop(1,'rgba(61,214,196,0)');c.fillStyle=g;c.fillRect(0,0,W,H);
+  // Title
+  if(t<5.4){const f=1-seg(t,4.6,.7,E.io);c.save();c.globalAlpha=f;c.translate(0,-(1-f)*120);logo(c,t,.1,960,330,74);chars(c,'Vantage OS',960,720,{t,start:1,font:MR(800,150),color:WHITE,align:'center',stagger:.05,dur:.6,from:.7,rise:30});txt(c,'THE OPERATIONS LAYER',960,800,{font:MO(500,30),color:TEAL,align:'center',ls:8,alpha:seg(t,2,.6)});c.restore()}
+  // Floor with four tools, then the board and flows
+  if(t>=4.6&&t<20.6){const fade=seg(t,4.6,1,E.io)*(1-seg(t,19.4,1,E.io));const zoom=1+seg(t,19.4,1.2,E.inn)*.5;c.save();c.globalAlpha=fade;c.translate(960,540);c.scale(zoom,zoom);c.translate(-960,-540);ISO={ox:960,oy:360,u:56};floor(c,12,1);const bp=seg(t,12.4,1,E.back),sp=seg(t,12.8,.9,E.back);const items=BLOCKS.map(b=>({d:b.x+b.y,draw:()=>{const p=seg(t,b.s,.8,E.back);box(c,b.x,b.y,0,b.w,b.d,b.h*p,b.col);if(t>7&&t<12.6)pings(c,b,t);tag(c,b,seg(t,b.s+.5,.5),t);if(t>12.8)flow(c,b,seg(t,13+hash(b.x)*0.6,.9,E.io),t)}}));if(bp>0){items.push({d:9,draw:()=>box(c,4.5,4.5,0,3,3,.4*bp,C.slate)});items.push({d:11.5,draw:()=>{box(c,4.6,6.9,.4,2.8,.2,2.2*sp,C.teal);for(let i=0;i<4;i++){const [ax,ay]=iso(5.1+i*.6,7.0,.6+i*.1);const bar=seg(t,14+i*.2,.6,E.quint);c.fillStyle=i===2?AMB:WHITE;c.globalAlpha=fade*.9;c.fillRect(ax-10,ay,20,-50*bar);c.globalAlpha=fade}const lp=seg(t,13.6,.5);if(lp>0){const [lx,ly]=iso(4.6,7,1.5);c.save();c.globalAlpha*=lp;c.strokeStyle='rgba(243,246,251,.6)';c.lineWidth=2;c.beginPath();c.moveTo(lx-8,ly);c.lineTo(lx-60*lp,ly);c.stroke();c.font=MR(800,30);const w=c.measureText('Vantage board').width+40;rr(c,lx-60*lp-w,ly-23,w,46,10);c.fillStyle=TEAL;c.fill();txt(c,'Vantage board',lx-60*lp-w/2,ly+10,{font:MR(800,30),color:NAVY,align:'center'});c.restore()}}})}items.sort((a,b)=>a.d-b.d).forEach(i=>i.draw());c.restore()}
+  // Dashboard
+  if(t>=19.6&&t<29.4){const f=seg(t,19.6,.9,E.io)*(1-seg(t,28.6,.7,E.io));const sc=lerp(.6,1,seg(t,19.6,1.1,E.quint));const slide=seg(t,28.6,.8,E.inn)*-1400;c.save();c.globalAlpha=f;c.translate(960+slide,540);c.scale(sc,sc);c.translate(-960,-540);dashboard(c,t,20.2);c.restore()}
+  // Incident flow
+  if(t>=28.9&&t<35.6){const f=1-seg(t,34.8,.7,E.io);c.save();c.globalAlpha=f;txt(c,'INCIDENT ROUTING',960,230,{font:MO(500,28),color:MUT,align:'center',ls:8,alpha:seg(t,29.2,.6)});incident(c,t,29.2);c.restore()}
+  // End card
+  if(t>=35.2){const f=seg(t,35.2,.8,E.io);c.save();c.globalAlpha=f;logo(c,t,35.4,960,300,64);words(c,'See everything.',960,640,{t,start:36,font:MR(800,110),color:WHITE,align:'center',stagger:.12,rise:40});words(c,'Act on anything.',960,760,{t,start:36.5,font:MR(800,110),color:TEAL,align:'center',stagger:.12,rise:40});txt(c,'VANTAGE OS',960,880,{font:MO(500,30),color:MUT,align:'center',ls:10,alpha:seg(t,37.6,.6)});c.restore()}}
+const scenes=[{t:0,label:'Title',thumb:3},{t:4.8,label:'Four tools on the floor',thumb:9.2},{t:12.4,label:'One live board',thumb:16.5},{t:19.6,label:'Dashboard assembles',thumb:24.4},{t:29,label:'Incident routing',thumb:33.4},{t:35.2,label:'End card',thumb:38.6}];
+const root=document.getElementById('player');root.innerHTML=playerHTML('Vantage OS explainer','0:40 · 16:9 · captions',true);
+const tr=document.getElementById('transcript');captions.forEach((k,i)=>{const li=document.createElement('li');li.innerHTML='<button type="button"><span class="tc"></span><span></span></button>';li.querySelector('.tc').textContent=fmt(k.s);li.querySelector('span:last-child').textContent=k.text;li.querySelector('button').addEventListener('click',()=>{player.seek(k.s);if(!player.playing)player.play()});tr.appendChild(li)});
+const player=createPlayer(root,{W,H,duration:40,render,scenes,captions,poster:16.5,ready,onReady(p){buildStrip(document.getElementById('strip'),p,scenes,392,220);p.onTime(t=>{[...tr.children].forEach((li,i)=>li.classList.toggle('on',t>=captions[i].s&&t<captions[i].e))})}});
+</script>
+</body>
+</html>

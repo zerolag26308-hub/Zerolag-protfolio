@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wren &amp; Co. relaunch campaign | Zero Lag</title>
+<meta name="description" content="Social media campaign for the Wren &amp; Co. brand relaunch: messaging pillars, four-week channel calendar, twelve post creatives, a story sequence, an influencer brief and UGC guidelines.">
+<meta name="theme-color" content="#2F4A3C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%233F2B3A'/%3E%3Cpath d='M9 11l3.5 10L16 13l3.5 8L23 11' fill='none' stroke='%23F3EDE3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Design tokens for the relaunched Wren & Co. identity */
+:root{
+  --oat:#F3EEE6; --oat-2:#EAE2D5; --cream:#FBF8F2; --ink:#26231F; --muted:#6B625C; --line:#D9CFC1;
+  --rust:#B5684A; --rust-deep:#8F4F36; --rust-tint:#F1DDD3; --moss:#5E6B4F; --moss-tint:#E1E5D8; --plum:#2F4A3C; --plum-deep:#223629; --sun:#E9B949;
+  --display:"Fraunces",Georgia,serif; --text:"Figtree","Helvetica Neue",Arial,sans-serif; --mono:ui-monospace,Menlo,Consolas,monospace;
+  --bar-h:34px; --nav-h:52px; --gut:clamp(16px,3.4vw,48px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + var(--nav-h) + 12px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--oat);color:var(--ink);font:400 16px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--rust);outline-offset:2px;border-radius:3px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+h1,h2,h3{font-family:var(--display);font-weight:300;letter-spacing:-.01em;text-wrap:balance;font-variation-settings:"opsz" 144}
+h2{font-size:clamp(32px,3.8vw,50px);line-height:1.05}
+h3{font-size:23px;line-height:1.2;font-weight:500}
+.wrap{padding-inline:var(--gut);max-width:1380px;margin-inline:auto}
+
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:80;height:var(--bar-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--gut);background:var(--plum-deep);color:#C9B9C3;font-size:13px;line-height:1}
+.zl-bar a{color:#F3EEE6;text-decoration:none;font-weight:600;white-space:nowrap}
+.zl-bar a:hover{text-decoration:underline;text-underline-offset:3px}
+.zl-bar a:focus-visible{outline-color:var(--sun)}
+.zl-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl-bar strong{color:#fff;font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Hero */
+.hero{background:var(--plum);color:var(--oat);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:32px 56px;padding-block:clamp(44px,6vw,84px);align-items:center}
+.brandline{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:24px;line-height:1;margin-bottom:24px;font-weight:500}
+.brandline svg{width:30px;height:30px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#C9B9C3;margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--sun)}
+h1{font-size:clamp(42px,5.4vw,78px);line-height:1;margin-bottom:20px}
+h1 em{font-style:italic;font-weight:300;color:var(--sun)}
+.lede{font-size:clamp(17px,1.35vw,20px);color:#D9CCD3;max-width:32em}
+.facts{display:grid;border-top:1px solid rgba(255,255,255,.18)}
+.facts div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:15px}
+.facts dt{color:#C9B9C3;font-weight:500}
+.facts dd{font-weight:500}
+.hero-stack{position:relative;height:380px}
+.hero-stack .tile{position:absolute;overflow:hidden;border-radius:6px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.hero-stack img{width:100%;height:100%;object-fit:cover}
+.hero-stack .a{left:0;top:10px;width:46%;aspect-ratio:1}
+.hero-stack .b{left:40%;top:0;width:30%;aspect-ratio:9/16;transform:rotate(3deg)}
+.hero-stack .c{right:0;bottom:0;width:36%;aspect-ratio:2/3;transform:rotate(-2deg)}
+.hero-stack .word{position:absolute;left:4%;bottom:14px;font-family:var(--display);font-style:italic;font-size:clamp(34px,3.6vw,52px);color:var(--oat);text-shadow:0 2px 14px rgba(0,0,0,.4);line-height:1}
+@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.hero-stack{height:300px;max-width:520px}}
+
+/* Section nav */
+.secnav{position:sticky;top:var(--bar-h);z-index:60;background:var(--oat);border-bottom:1px solid var(--line)}
+.secnav ul{display:flex;gap:4px;height:var(--nav-h);align-items:center;padding-inline:var(--gut);max-width:1380px;margin-inline:auto;overflow-x:auto;scrollbar-width:none}
+.secnav ul::-webkit-scrollbar{display:none}
+.secnav a{display:inline-flex;align-items:center;height:36px;padding:0 13px;border-radius:999px;font-size:14.5px;font-weight:500;text-decoration:none;white-space:nowrap;color:var(--muted);transition:background-color .15s,color .15s}
+.secnav a:hover{background:var(--oat-2);color:var(--ink)}
+.secnav a[aria-current="true"]{background:var(--ink);color:var(--oat)}
+
+/* Sections */
+.sec{padding-block:clamp(52px,6.5vw,96px);border-bottom:1px solid var(--line)}
+.sec:nth-of-type(even){background:var(--cream)}
+.sec-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:14px 48px;align-items:end;margin-bottom:30px}
+.sec-head p{color:var(--muted);max-width:34em}
+.num{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.04em;display:block;margin-bottom:10px}
+@media (max-width:860px){.sec-head{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--cream);border:1px solid var(--line);border-radius:6px}
+.sec:nth-of-type(even) .card{background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:38px;padding:6px 14px;border-radius:999px;font-size:14.5px;font-weight:500;border:1px solid var(--line);transition:background-color .15s,color .15s}
+.chip:hover{background:var(--oat-2)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--oat)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;transition:background-color .18s,color .18s}
+.btn-solid{background:var(--rust);color:#fff}
+.btn-solid:hover{background:var(--rust-deep)}
+.btn-ghost{box-shadow:inset 0 0 0 1px var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--oat)}
+.btn-sm{min-height:36px;padding:6px 13px;font-size:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:2px 10px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.tag-rust{background:var(--rust-tint);color:var(--rust-deep)}.tag-moss{background:var(--moss-tint);color:var(--moss)}.tag-plum{background:#E6DCE3;color:var(--plum)}.tag-sun{background:#F8E9BF;color:#7A5A08}.tag-ghost{box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+
+/* Idea & pillars */
+.idea{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;align-items:start}
+.platform{padding:28px;background:var(--plum);color:var(--oat);border-radius:6px;position:sticky;top:calc(var(--bar-h) + var(--nav-h) + 16px)}
+.platform small{display:block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C9B9C3;margin-bottom:10px}
+.platform .line{font-family:var(--display);font-size:clamp(34px,3.4vw,46px);line-height:1.02;font-weight:300;margin-bottom:16px}
+.platform .line em{font-style:italic;color:var(--sun)}
+.platform p{color:#D9CCD3;font-size:15px}
+.platform dl{margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.platform dt{color:#C9B9C3}
+.pillars{display:grid;gap:14px}
+.pillar{padding:22px 24px;display:grid;grid-template-columns:52px minmax(0,1fr);gap:18px}
+.pillar .n{font-family:var(--display);font-size:40px;line-height:1;color:var(--rust);font-weight:300}
+.pillar h3{margin-bottom:6px}
+.pillar p{color:var(--muted);font-size:15px;margin-bottom:12px}
+.pillar ul{display:grid;gap:4px;font-size:14.5px}
+.pillar li{display:grid;grid-template-columns:14px 1fr;gap:8px}
+.pillar li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--moss);margin-top:9px}
+.voice{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px}
+.voice div{padding:10px 12px;border-radius:5px;background:var(--oat)}
+.voice b{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.voice .yes b{color:var(--moss)}.voice .no b{color:var(--rust-deep)}
+@media (max-width:900px){.idea{grid-template-columns:minmax(0,1fr)}.platform{position:static}}
+@media (max-width:520px){.pillar{grid-template-columns:minmax(0,1fr)}.voice{grid-template-columns:minmax(0,1fr)}}
+
+/* Channel calendar */
+.phases{display:grid;grid-template-columns:140px repeat(4,minmax(0,1fr));gap:6px;margin-bottom:6px;min-width:860px}
+.phases .ph{padding:10px 12px;border-radius:5px;background:var(--plum);color:var(--oat);font-size:13.5px}
+.phases .ph b{display:block;font-family:var(--display);font-weight:500;font-size:18px;line-height:1.1}
+.phases .ph:nth-child(3){background:var(--rust)}.phases .ph:nth-child(4){background:var(--moss)}.phases .ph:nth-child(5){background:#7A5A08}
+.cal-scroll{overflow-x:auto;padding-bottom:6px}
+.calgrid{display:grid;grid-template-columns:140px repeat(4,minmax(0,1fr));gap:6px;min-width:860px}
+.calgrid .ch{display:flex;align-items:center;gap:10px;padding:12px 10px 12px 0;font-weight:600;font-size:14.5px;border-right:1px solid var(--line)}
+.calgrid .ch svg{width:22px;height:22px;flex:none}
+.calcell{background:rgba(0,0,0,.03);border-radius:5px;padding:8px;display:grid;gap:6px;align-content:start;min-height:96px}
+.post{display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:start;padding:7px 9px;border-radius:4px;background:var(--cream);box-shadow:0 0 0 1px var(--line);font-size:13px;line-height:1.3;text-align:left;width:100%}
+.sec:nth-of-type(even) .post{background:#fff}
+.post b{font-family:var(--mono);font-size:11.5px;color:var(--muted);padding-top:2px}
+.post span{font-weight:500}
+.post small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+a.post{text-decoration:none}
+a.post:hover{box-shadow:0 0 0 1.5px var(--rust)}
+.cal-notes{margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;font-size:14px;color:var(--muted)}
+.cal-notes div{padding:14px 16px}
+.cal-notes b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+@media (max-width:900px){.cal-notes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.cal-notes{grid-template-columns:minmax(0,1fr)}}
+
+/* Creatives */
+.cr-tools{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-bottom:20px}
+.cr-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px 18px;align-items:start}
+.cr{display:grid;gap:12px}
+.cr-tilewrap{display:flex;justify-content:center;align-items:flex-start}
+.tile{position:relative;width:100%;overflow:hidden;border-radius:4px;container-type:inline-size;background:var(--plum);color:var(--oat);box-shadow:0 8px 24px rgba(34,30,28,.14);font-family:var(--text)}
+.tile.sq{aspect-ratio:1}.tile.st{aspect-ratio:9/16;max-width:62%}.tile.pin{aspect-ratio:2/3;max-width:78%}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile .mark{position:absolute;left:5cqw;top:5cqw;display:flex;align-items:center;gap:1.6cqw;font-family:var(--display);font-weight:500;font-size:5cqw;line-height:1;z-index:2}
+.tile .mark svg{width:6cqw;height:6cqw}
+.tile .hd{font-family:var(--display);font-weight:300;line-height:.98;letter-spacing:-.01em}
+.tile .hd em{font-style:italic;color:var(--sun)}
+.tile .sub{font-size:3.8cqw;font-weight:500;opacity:.9}
+/* Layout: full photo with gradient and headline at the bottom */
+.tile.l-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(34,30,28,.85) 0%,rgba(34,30,28,.25) 45%,transparent 70%)}
+.tile.l-photo .txt{position:absolute;left:6cqw;right:6cqw;bottom:7cqw;z-index:2}
+.tile.l-photo .hd{font-size:11cqw;margin-bottom:2.5cqw}
+/* Layout: photo on top, colour block below */
+.tile.l-split img{height:58%}
+.tile.l-split .txt{position:absolute;left:0;right:0;bottom:0;height:42%;padding:6cqw;background:var(--bg,var(--rust));display:flex;flex-direction:column;justify-content:center;gap:2cqw}
+.tile.l-split .hd{font-size:10cqw}
+/* Layout: type only */
+.tile.l-type{background:var(--bg,var(--oat));color:var(--fg,var(--ink))}
+.tile.l-type .txt{position:absolute;inset:0;padding:8cqw;display:flex;flex-direction:column;justify-content:flex-end;gap:3cqw}
+.tile.l-type .hd{font-size:15cqw}
+.tile.l-type .hd em{color:var(--rust)}
+.tile.l-type .rule{width:14cqw;height:.8cqw;background:currentColor;opacity:.6}
+/* Layout: photo inset in a border, caption strip below */
+.tile.l-frame{background:var(--bg,var(--moss));padding:7% 7% 0}
+.tile.l-frame img{position:relative;height:auto;aspect-ratio:1;border-radius:2cqw}
+.tile.st.l-frame img{aspect-ratio:3/4}.tile.pin.l-frame img{aspect-ratio:4/5}
+.tile.l-frame .txt{padding:5cqw 0 7cqw}
+.tile.l-frame .hd{font-size:8.5cqw;margin-bottom:1.5cqw}
+/* Layout: circle crop on colour */
+.tile.l-circle{background:var(--bg,var(--sun));color:var(--fg,var(--ink))}
+.tile.l-circle img{position:absolute;inset:auto;left:50%;top:9cqw;width:62cqw;height:62cqw;border-radius:50%;transform:translateX(-50%);box-shadow:0 10cqw 20cqw rgba(0,0,0,.18)}
+.tile.st.l-circle img,.tile.pin.l-circle img{top:14cqw;width:70cqw;height:70cqw}
+.tile.l-circle .txt{position:absolute;left:7cqw;right:7cqw;bottom:8cqw}
+.tile.l-circle .hd{font-size:11cqw;margin-bottom:2cqw}
+.tile .fmt{position:absolute;right:4cqw;top:4cqw;z-index:2;font-size:3.2cqw;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:1.2cqw 2.4cqw;border-radius:999px;background:rgba(34,30,28,.55);color:#fff}
+.cr-meta{font-size:13.5px}
+.cr-meta .top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
+.cr-meta .cap{color:var(--ink);line-height:1.45;white-space:pre-line}
+.cr-meta .tags{color:var(--plum);font-weight:500;margin-top:6px;line-height:1.45}
+.cr-meta .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;color:var(--muted);font-size:12.5px}
+.copy{min-height:32px;padding:4px 12px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);font-weight:600;font-size:13px}
+.copy:hover{background:var(--oat-2)}
+@media (max-width:1100px){.cr-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.cr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.cr-grid{grid-template-columns:minmax(0,1fr)}.tile.st{max-width:72%}}
+
+/* Story viewer */
+.story{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:center}
+.phone{width:min(100%,340px);margin-inline:auto;aspect-ratio:9/19;background:#111;border-radius:40px;padding:10px;box-shadow:0 30px 60px rgba(34,30,28,.3),inset 0 0 0 2px #333}
+.screen{position:relative;height:100%;border-radius:32px;overflow:hidden;background:var(--plum);container-type:inline-size;isolation:isolate;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.bars{position:absolute;left:3cqw;right:3cqw;top:3.5cqw;display:flex;gap:1.2cqw;z-index:5}
+.bars i{flex:1;height:.9cqw;border-radius:1cqw;background:rgba(255,255,255,.35);overflow:hidden}
+.bars i::after{content:"";display:block;height:100%;width:var(--p,0%);background:#fff}
+.bars i.done::after{width:100%}
+.bars i.live::after{width:100%;transform-origin:left;animation:fill var(--dur,5s) linear forwards}
+.bars i.live.paused::after{animation-play-state:paused}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.shead{position:absolute;left:4cqw;right:4cqw;top:7cqw;display:flex;align-items:center;gap:2.4cqw;z-index:5;color:#fff;font-size:3.6cqw;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.shead .av{width:9cqw;height:9cqw;border-radius:50%;background:var(--oat);display:grid;place-items:center;color:var(--plum);box-shadow:0 0 0 .6cqw var(--sun)}
+.shead .av svg{width:5.5cqw;height:5.5cqw}
+.shead small{font-weight:400;opacity:.85;margin-left:auto}
+.frame{position:absolute;inset:0;display:none}
+.frame.on{display:block}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(34,30,28,.8),rgba(34,30,28,.1) 50%,rgba(34,30,28,.35))}
+.frame .stx{position:absolute;left:7cqw;right:7cqw;bottom:16cqw;color:#fff;z-index:2}
+.frame .big{font-family:var(--display);font-weight:300;font-size:13cqw;line-height:.98;text-wrap:balance}
+.frame .big em{font-style:italic;color:var(--sun)}
+.frame .sm{margin-top:3cqw;font-size:4cqw;font-weight:500;opacity:.92}
+.frame.solid{background:var(--bg,var(--rust));color:var(--fg,#fff)}
+.frame.solid .stx{bottom:auto;top:28%;color:inherit}
+.frame.solid .big{font-size:16cqw}
+.sticker{position:absolute;left:8cqw;right:8cqw;bottom:14cqw;background:#fff;color:var(--ink);border-radius:4cqw;padding:4cqw;z-index:3;font-size:3.8cqw;box-shadow:0 4cqw 8cqw rgba(0,0,0,.25)}
+.sticker b{display:block;font-weight:700;margin-bottom:2.5cqw;font-size:4.2cqw}
+.poll{display:grid;grid-template-columns:1fr 1fr;gap:2cqw}
+.poll button{min-height:11cqw;border-radius:3cqw;background:var(--oat);font-weight:700;font-size:4cqw;transition:background-color .15s}
+.poll button[aria-pressed="true"]{background:var(--sun)}
+.poll + .thanks{margin-top:2.5cqw;font-size:3.4cqw;color:var(--muted);min-height:4cqw}
+.pricetag{position:absolute;left:10cqw;top:38%;background:#fff;color:var(--ink);padding:2cqw 3.4cqw;border-radius:2cqw;font-size:3.6cqw;font-weight:700;z-index:3;transform:rotate(-4deg);box-shadow:0 2cqw 6cqw rgba(0,0,0,.25)}
+.pricetag small{display:block;font-weight:500;color:var(--muted);font-size:3cqw}
+.linkpill{position:absolute;left:50%;bottom:6cqw;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:2cqw;background:#fff;color:var(--ink);padding:2.6cqw 5cqw;border-radius:999px;font-weight:700;font-size:3.8cqw;white-space:nowrap}
+.linkpill svg{width:4cqw;height:4cqw}
+.tapzone{position:absolute;top:14cqw;bottom:0;width:38%;z-index:4;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tapzone.l{left:0}.tapzone.r{right:0}
+.tapzone:focus-visible{outline-offset:-4px}
+.story-side h3{margin-bottom:8px}
+.story-side p{color:var(--muted);margin-bottom:18px}
+.frames{display:grid;gap:6px}
+.frames button{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 12px;border-radius:6px;font-size:14.5px;box-shadow:inset 0 0 0 1px var(--line)}
+.frames button:hover{background:var(--oat-2)}
+.frames button[aria-current="true"]{background:var(--ink);color:var(--oat);box-shadow:none}
+.frames b{font-family:var(--mono);font-size:12px;opacity:.7}
+.frames small{font-size:12.5px;opacity:.75}
+.story-ctl{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;align-items:center;font-size:13.5px;color:var(--muted)}
+@media (max-width:900px){.story{grid-template-columns:minmax(0,1fr)}}
+
+/* Influencer brief */
+.brief{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:24px;align-items:start}
+.brief-form{padding:22px}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:13.5px;font-weight:600}
+.field input,.field select{min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;width:100%}
+.field .hint{font-size:13px;color:var(--muted)}
+.checks{display:grid;gap:8px;font-size:14.5px}
+.checks label{display:flex;gap:10px;align-items:center;min-height:32px}
+.checks input{width:18px;height:18px;accent-color:var(--rust)}
+.doc{padding:clamp(22px,3vw,40px);background:#fff;font-size:15px;line-height:1.6}
+.doc-h{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:18px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.doc-h .t{font-family:var(--display);font-size:clamp(26px,2.6vw,34px);line-height:1.05;font-weight:300}
+.doc-h .t em{font-style:italic;color:var(--rust)}
+.doc-h .ref{text-align:right;font-size:12.5px;color:var(--muted);font-family:var(--mono);white-space:nowrap}
+.doc section{display:grid;grid-template-columns:160px minmax(0,1fr);gap:8px 24px;padding:14px 0;border-bottom:1px solid var(--line)}
+.doc section:last-of-type{border-bottom:0}
+.doc h4{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);padding-top:3px}
+.doc ul{display:grid;gap:5px}
+.doc li{display:grid;grid-template-columns:14px 1fr;gap:8px}
+.doc li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rust);margin-top:10px}
+.doc .must li::before{background:var(--moss)}.doc .avoid li::before{background:var(--rust-deep)}
+.doc .foot{margin-top:18px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.doc mark{background:var(--rust-tint);color:inherit;padding:0 3px;border-radius:2px}
+@media (max-width:900px){.brief{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.doc section{grid-template-columns:minmax(0,1fr)}}
+
+/* UGC card */
+.ugc{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px;align-items:start}
+.ugc-card{background:var(--plum);color:var(--oat);border-radius:8px;padding:clamp(22px,3vw,36px);display:grid;gap:22px}
+.ugc-card .hash{font-family:var(--display);font-size:clamp(34px,4vw,56px);line-height:1;font-weight:300;word-break:break-word}
+.ugc-card .hash em{font-style:italic;color:var(--sun)}
+.ugc-card h4{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#C9B9C3;margin-bottom:8px}
+.ugc-card .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:14.5px}
+.ugc-card ul{display:grid;gap:5px}
+.ugc-card li{display:grid;grid-template-columns:16px 1fr;gap:8px}
+.ugc-card .yes li::before{content:"✓";color:var(--sun);font-weight:700}
+.ugc-card .no li::before{content:"✕";color:#E9A48C;font-weight:700}
+.ugc-ex{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ugc-ex figure{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden}
+.ugc-ex img{width:100%;height:100%;object-fit:cover}
+.ugc-ex figcaption{position:absolute;left:8px;right:8px;bottom:8px;font-size:11.5px;font-weight:600;background:rgba(34,30,28,.7);padding:4px 8px;border-radius:4px}
+.ugc-card .consent{font-size:13.5px;color:#D9CCD3;padding-top:16px;border-top:1px solid rgba(255,255,255,.18)}
+.checker{padding:22px}
+.checker textarea{width:100%;min-height:150px;padding:12px;border:1px solid var(--line);border-radius:6px;background:#fff;resize:vertical;line-height:1.5}
+.checks-out{margin-top:14px;display:grid;gap:6px;font-size:14.5px}
+.checks-out li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+.checks-out li i{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-style:normal;font-size:12px;font-weight:700}
+.checks-out li.ok i{background:var(--moss-tint);color:var(--moss)}.checks-out li.bad i{background:var(--rust-tint);color:var(--rust-deep)}
+@media (max-width:900px){.ugc{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.ugc-card .cols{grid-template-columns:minmax(0,1fr)}}
+
+.foot-site{padding:28px 0 40px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+.foot-site a{color:var(--rust-deep);font-weight:600}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Wren &amp; Co. relaunch campaign</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="brandline"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="16" fill="#F3EEE6"/><path d="M9 11l3.5 10L16 13l3.5 8L23 11" fill="none" stroke="#2F4A3C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Wren &amp; Co.</p>
+      <p class="eyebrow">Digital marketing &middot; Social campaign</p>
+      <h1>Four weeks to reintroduce a brand people thought they <em>already knew</em></h1>
+      <p class="lede">Wren &amp; Co. is relaunching with a tighter range, a new mark and a new way of talking. This is the social campaign that carries it: the idea, the four-week channel plan, every post built and captioned, the launch-day story, the creator brief and the rules for sharing customer photos.</p>
+    </div>
+    <div>
+      <div class="hero-stack" aria-hidden="true">
+        <div class="tile a"><img src="../../assets/projects/home-lounge.jpg" alt=""></div>
+        <div class="tile b"><img src="../../assets/projects/home-lamp.jpg" alt=""></div>
+        <div class="tile c"><img src="../../assets/projects/home-planter.jpg" alt=""></div>
+        <span class="word">Make room.</span>
+      </div>
+      <dl class="facts" style="margin-top:24px">
+        <div><dt>Channels</dt><dd>Instagram, TikTok, Pinterest, email</dd></div>
+        <div><dt>Deliverables</dt><dd>Messaging, calendar, 12 creatives, story sequence, creator brief, UGC guide</dd></div>
+        <div><dt>Team</dt><dd>Ali (creative), Zunair (copy), Hammad (planning)</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Deliverables">
+  <ul>
+    <li><a href="#idea">Idea &amp; pillars</a></li>
+    <li><a href="#calendar">Channel calendar</a></li>
+    <li><a href="#creatives">Post creatives</a></li>
+    <li><a href="#story">Story sequence</a></li>
+    <li><a href="#brief">Creator brief</a></li>
+    <li><a href="#ugc">UGC guidelines</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- Idea and pillars -->
+<section class="sec" id="idea" aria-labelledby="idea-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">01 / 06</span><h2 id="idea-h">The idea and the three messaging pillars</h2></div>
+      <p>One line that everything hangs off, three things we are allowed to say, and the voice rules that keep twelve posts across four channels sounding like one brand.</p>
+    </div>
+    <div class="idea">
+      <div class="platform">
+        <small>Campaign line</small>
+        <p class="line">Make room for <em>fewer, better</em> things.</p>
+        <p>The relaunch cuts the range from 140 products to 38. The campaign makes that the point: not a smaller shop, a clearer one. Every post shows something being used in a real room, never styled on a plinth.</p>
+        <dl><dt>Hashtag</dt><dd>#MakeRoomWithWren</dd><dt>Handle</dt><dd>@wrenandco</dd><dt>Launch</dt><dd>Week 2, Tuesday 8am</dd><dt>Tone</dt><dd>Plain, warm, a little dry</dd></dl>
+      </div>
+      <div class="pillars">
+        <article class="card pillar"><span class="n">1</span><div><h3>Fewer, better</h3><p>We cut the range on purpose. Say so, and say what stayed and why.</p><ul><li>38 products, each with a reason to exist</li><li>Every piece shown with the one thing it replaced</li><li>No "new arrivals" language; everything is new, so nothing is</li></ul>
+          <div class="voice"><div class="yes"><b>Say</b>We kept the lamp that gets switched on every night.</div><div class="no"><b>Don't say</b>Curated edit of elevated essentials.</div></div></div></article>
+        <article class="card pillar"><span class="n">2</span><div><h3>Made to be used</h3><p>Wear, repairs and ten-year-old pieces are the proof. Show things mid-life, not box-fresh.</p><ul><li>Photos in lived-in rooms, daylight, nothing styled flat</li><li>Repairs bench content every week</li><li>Customers' older pieces welcomed under the hashtag</li></ul>
+          <div class="voice"><div class="yes"><b>Say</b>Seven years in, re-waxed twice, still the bag he reaches for.</div><div class="no"><b>Don't say</b>Timeless luxury that lasts a lifetime.</div></div></div></article>
+        <article class="card pillar"><span class="n">3</span><div><h3>Room to live</h3><p>The payoff of owning less is space: on the floor, on the shelf, in the week.</p><ul><li>Before-and-after rooms from the team's own homes</li><li>Short, calm video with natural sound</li><li>Pinterest boards organised by room, not product</li></ul>
+          <div class="voice"><div class="yes"><b>Say</b>One good chair. The rest of the corner is yours.</div><div class="no"><b>Don't say</b>Transform your space with our collection.</div></div></div></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Channel calendar -->
+<section class="sec" id="calendar" aria-labelledby="cal-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">02 / 06</span><h2 id="cal-h">Four-week channel calendar</h2></div>
+      <p>Each channel does one job. Instagram carries the look, TikTok carries the people, Pinterest carries the rooms and email carries the detail. Posts that have a creative built are linked to it below.</p>
+    </div>
+    <div class="cal-scroll">
+      <div class="phases" aria-hidden="true"><div></div><div class="ph"><b>Week 1</b>Tease</div><div class="ph"><b>Week 2</b>Launch</div><div class="ph"><b>Week 3</b>Deepen</div><div class="ph"><b>Week 4</b>Sustain</div></div>
+      <div class="calgrid" id="calgrid"></div>
+    </div>
+    <div class="cal-notes">
+      <div class="card"><b>Cadence</b>Instagram 4 a week, TikTok 3, Pinterest 5 pins a week to two boards, email weekly on Thursday.</div>
+      <div class="card"><b>Launch day</b>Tuesday of week 2: story sequence at 8am, feed post at 9am, email at 10am, TikTok at 6pm when the team is home.</div>
+      <div class="card"><b>Creators</b>Three creators post in week 2 and 3 under the brief below; their content is reshared to stories only, never reposted to the grid.</div>
+      <div class="card"><b>Community</b>Every comment answered within the working day by the same two people, in the same voice as the posts.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Post creatives -->
+<section class="sec" id="creatives" aria-labelledby="cr-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">03 / 06</span><h2 id="cr-h">Twelve post creatives</h2></div>
+      <p>Built in the campaign's own type and colour, each in its channel's native format with the caption and hashtags ready to paste. Filter by format or channel.</p>
+    </div>
+    <div class="cr-tools">
+      <div class="chips" role="group" aria-label="Filter by format" id="fmt-chips">
+        <button class="chip" data-f="all" aria-pressed="true">All formats</button><button class="chip" data-f="sq" aria-pressed="false">Square 1:1</button><button class="chip" data-f="st" aria-pressed="false">Story 9:16</button><button class="chip" data-f="pin" aria-pressed="false">Pin 2:3</button>
+      </div>
+      <div class="chips" role="group" aria-label="Filter by channel" id="ch-chips">
+        <button class="chip" data-c="all" aria-pressed="true">All channels</button><button class="chip" data-c="Instagram" aria-pressed="false">Instagram</button><button class="chip" data-c="TikTok" aria-pressed="false">TikTok</button><button class="chip" data-c="Pinterest" aria-pressed="false">Pinterest</button>
+      </div>
+    </div>
+    <p class="num" id="cr-count" aria-live="polite"></p>
+    <div class="cr-grid" id="cr-grid"></div>
+  </div>
+</section>
+
+<!-- Story sequence -->
+<section class="sec" id="story" aria-labelledby="story-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">04 / 06</span><h2 id="story-h">Launch-day story sequence</h2></div>
+      <p>Six frames that run at 8am on launch day. Tap the right side of the screen to go forward, the left to go back, or press and hold to pause. The poll is live.</p>
+    </div>
+    <div class="story">
+      <div class="phone"><div class="screen" id="screen" aria-roledescription="story sequence" aria-label="Wren and Co launch story">
+        <div class="bars" id="bars" aria-hidden="true"></div>
+        <div class="shead"><span class="av"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 11l3.5 10L16 13l3.5 8L23 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>wrenandco<small>8:00</small></div>
+        <div id="frames-host"></div>
+        <button class="tapzone l" id="tap-l" aria-label="Previous frame"></button>
+        <button class="tapzone r" id="tap-r" aria-label="Next frame"></button>
+      </div></div>
+      <div class="story-side">
+        <h3>What each frame does</h3>
+        <p>The sequence opens on a statement, lands the relaunch, asks a question, shows one product, sends people to the site and finishes by inviting their own photos.</p>
+        <div class="frames" id="frame-list"></div>
+        <div class="story-ctl"><button class="btn btn-ghost btn-sm" id="play">Pause</button><button class="btn btn-ghost btn-sm" id="restart">Restart</button><span id="story-status" aria-live="polite"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Creator brief -->
+<section class="sec" id="brief" aria-labelledby="brief-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">05 / 06</span><h2 id="brief-h">Creator brief template</h2></div>
+      <p>One brief, filled in per creator. Change the fields on the left and the document updates; copy it as plain text to paste into an email or a creator platform.</p>
+    </div>
+    <div class="brief">
+      <form class="card brief-form" id="brief-form" autocomplete="off">
+        <div class="field"><label for="b-name">Creator name</label><input id="b-name" value="Maya Lindqvist"></div>
+        <div class="field"><label for="b-handle">Handle</label><input id="b-handle" value="@mayas.corner"></div>
+        <div class="field"><label for="b-channel">Primary channel</label><select id="b-channel"><option>Instagram</option><option>TikTok</option><option>Pinterest</option></select></div>
+        <div class="field"><label for="b-count">Deliverables</label><select id="b-count"><option value="1">1 feed post + 3 story frames</option><option value="2" selected>2 feed posts + 3 story frames</option><option value="3">1 video + 1 feed post + 3 story frames</option></select></div>
+        <div class="field"><label for="b-product">Product sent</label><select id="b-product"><option>Marlow sofa cushion set</option><option selected>Quay pendant lamp</option><option>Tidewater planter</option><option>Ferry day pack</option><option>Brae reading armchair</option></select></div>
+        <div class="field"><label for="b-date">Go-live window</label><input id="b-date" type="date" value="2026-11-17"></div>
+        <div class="field"><span class="field label" style="margin-bottom:2px">Pillars to lean on (pick two)</span>
+          <div class="checks" id="b-pillars"><label><input type="checkbox" value="Fewer, better" checked>Fewer, better</label><label><input type="checkbox" value="Made to be used" checked>Made to be used</label><label><input type="checkbox" value="Room to live">Room to live</label></div></div>
+        <button type="button" class="btn btn-solid btn-sm" id="copy-brief">Copy brief as text</button>
+      </form>
+      <article class="card doc" id="doc"></article>
+    </div>
+  </div>
+</section>
+
+<!-- UGC guidelines -->
+<section class="sec" id="ugc" aria-labelledby="ugc-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">06 / 06</span><h2 id="ugc-h">UGC hashtag guideline card</h2></div>
+      <p>The card the community team works from, and a caption checker the team uses before resharing anything to make sure the credit and tag rules are met.</p>
+    </div>
+    <div class="ugc">
+      <div class="ugc-card">
+        <p class="hash">#MakeRoom<em>With</em>Wren</p>
+        <div class="cols">
+          <div><h4>We reshare photos that</h4><ul class="yes"><li>Show a Wren piece in a real room, in use</li><li>Include the hashtag and tag @wrenandco</li><li>Are the poster's own photo, with the caption they wrote</li><li>Show wear, age or repairs; older pieces are the best ones</li></ul></div>
+          <div><h4>We don't reshare</h4><ul class="no"><li>Photos with other brands' logos in frame</li><li>Anything with children's faces unless the parent asked us to</li><li>Posts that make claims about the product we would not make</li><li>Anything from an account that asked not to be featured</li></ul></div>
+        </div>
+        <div>
+          <h4>The three kinds of photo we are asking for</h4>
+          <div class="ugc-ex">
+            <figure><img src="../../assets/projects/home-armchair-room.jpg" alt="A reading chair in the corner of a bright living room"><figcaption>The corner it lives in</figcaption></figure>
+            <figure><img src="../../assets/projects/home-backpack.jpg" alt="A worn canvas day pack"><figcaption>The years on it</figcaption></figure>
+            <figure><img src="../../assets/projects/home-sofa.jpg" alt="A green sofa in daylight"><figcaption>What it made room for</figcaption></figure>
+          </div>
+        </div>
+        <p class="consent">Before resharing we reply on the original post asking for permission and wait for a yes. We credit the handle in the first line of our caption, keep their caption as a quote, and take it down within a day if asked.</p>
+      </div>
+      <div class="card checker">
+        <h3 style="margin-bottom:6px">Caption checker</h3>
+        <p style="color:var(--muted);font-size:14.5px;margin-bottom:12px">Paste the caption we plan to post with a reshared photo.</p>
+        <label class="sr" for="cap">Caption to check</label>
+        <textarea id="cap">Credit: @sofia.at.home, whose Brae chair has had the same corner for six years. "The one chair I'd carry out in a fire." #MakeRoomWithWren @wrenandco</textarea>
+        <ul class="checks-out" id="cap-out" aria-live="polite"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot-site">
+  <span>Relaunch campaign for Wren &amp; Co. by <a href="../../index.html">Zero Lag</a></span>
+  <span>Every creative on this page is built in HTML, CSS and SVG, not exported images.</span>
+</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const IMG = n => `../../assets/projects/${n}.jpg`;
+const MARK = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="currentColor" opacity=".18"/><path d="M9 11l3.5 10L16 13l3.5 8L23 11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Section nav highlights the section in view
+(function(){
+  const links = $$('.secnav a');
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false')); }); }, { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach(a => { io.observe($(a.getAttribute('href'))); a.addEventListener('click', () => a.scrollIntoView({ inline: 'center', block: 'nearest' })); });
+})();
+
+// Creatives
+const CR = [
+  { id:'c1', ch:'Instagram', fmt:'sq', wk:1, layout:'type', bg:'#F3EEE6', fg:'#26231F', hd:'We threw out <em>102</em> products.', sub:'Here is what is left. Tuesday.', cap:'On Tuesday the shop reopens with 38 things in it. Not 140. We kept the pieces that get used every day and let the rest go. More on each one this week.', tags:'#MakeRoomWithWren #wrenandco' },
+  { id:'c2', ch:'Instagram', fmt:'sq', wk:2, layout:'photo', img:'home-lounge', hd:'Make room for <em>fewer, better</em> things.', sub:'The new Wren & Co. Open now.', cap:'The new Wren & Co. is open. A shorter range, the same bench out the back, and everything photographed in rooms people actually live in. Start with the Lounge edit, link in bio.', tags:'#MakeRoomWithWren #wrenandco #fewerbetter' },
+  { id:'c3', ch:'Instagram', fmt:'sq', wk:2, layout:'split', bg:'#B5684A', img:'home-lamp', hd:'The lamp that gets switched on <em>every</em> night.', sub:'Quay pendant · kept', cap:'Kept: the Quay pendant. It has hung over our own kitchen table for four years and still gets the first switch of the evening. Ceramic shade, cloth cord, bulb included.', tags:'#MakeRoomWithWren #kept' },
+  { id:'c4', ch:'Instagram', fmt:'st', wk:3, layout:'frame', bg:'#5E6B4F', img:'home-backpack', hd:'Seven years, re-waxed twice.', sub:'From the repairs bench', cap:'From the bench this week: a Ferry day pack back for its second re-wax. Strap stitching redone, buckle swapped, owner told to keep going. Repairs are free for five years.', tags:'#MakeRoomWithWren #madetobeused' },
+  { id:'c5', ch:'Instagram', fmt:'sq', wk:4, layout:'circle', bg:'#E9B949', fg:'#26231F', img:'home-planter', hd:'One pot. <em>No</em> plant graveyard.', sub:'Tidewater planter, drainage included', cap:'The Tidewater planter stayed because it has a drainage hole and a saucer that actually fits. Fewer dead ferns since 2021. Which plant is in yours? Tag it.', tags:'#MakeRoomWithWren #roomtolive' },
+  { id:'c6', ch:'TikTok', fmt:'st', wk:1, layout:'type', bg:'#2F4A3C', fg:'#F3EEE6', hd:'Why we cut <em>102</em> products.', sub:'Part 1 of 3 · the founder explains', cap:'Part 1: why the range got shorter. Nat walks through the stockroom and explains what left and why. No music, just the shop.', tags:'#MakeRoomWithWren #smallbusiness #homegoods' },
+  { id:'c7', ch:'TikTok', fmt:'st', wk:2, layout:'photo', img:'home-armchair-room', hd:'One good chair. The rest of the corner is <em>yours</em>.', sub:'Brae armchair · 42 seconds', cap:'The Brae armchair in three team members\' homes. Same chair, three very different corners. Which one is yours?', tags:'#MakeRoomWithWren #roomtour #cornerofmyhome' },
+  { id:'c8', ch:'TikTok', fmt:'st', wk:3, layout:'split', bg:'#5E6B4F', img:'home-tee', hd:'Wash it <em>forty</em> times.', sub:'The heavy tee, week by week', cap:'We washed the Everyday Heavy Tee forty times and filmed it every ten. Here is what happened to the collar, the hem and the colour.', tags:'#MakeRoomWithWren #madetobeused #heavyweighttee' },
+  { id:'c9', ch:'TikTok', fmt:'st', wk:4, layout:'circle', bg:'#B5684A', fg:'#F3EEE6', img:'home-watch', hd:'What stayed on the <em>wrist</em>.', sub:'Tern field watch · customers\' photos', cap:'Your Tern watches, sent in under the hashtag. Scratched crystals, swapped straps, one that went through a river. Keep them coming.', tags:'#MakeRoomWithWren #fieldwatch' },
+  { id:'c10', ch:'Pinterest', fmt:'pin', wk:2, layout:'split', bg:'#2F4A3C', img:'home-sofa', hd:'A living room with <em>six</em> things in it.', sub:'Room plan inside', cap:'A living room with six things in it: sofa, lamp, chair, planter, rug, shelf. The full list with sizes is on the site. Board: Rooms, not showrooms.', tags:'#MakeRoomWithWren #livingroomideas #minimalhome' },
+  { id:'c11', ch:'Pinterest', fmt:'pin', wk:3, layout:'frame', bg:'#F3EEE6', img:'home-lamp', hd:'How high to hang a pendant.', sub:'Over tables, islands and in halls', cap:'Pendant heights that work: 75cm over a dining table, 85cm over an island, 2.1m clear in a hallway. The guide covers ceiling heights and cord lengths. Board: Light.', tags:'#MakeRoomWithWren #pendantlighting #kitchenisland' },
+  { id:'c12', ch:'Pinterest', fmt:'pin', wk:4, layout:'photo', img:'home-planter', hd:'Make room for <em>one</em> plant you will keep alive.', sub:'Tidewater planter · plant guide', cap:'Six plants that do well in unglazed stoneware, how often to water each, and which window to put them by. Board: Rooms, not showrooms.', tags:'#MakeRoomWithWren #houseplants #planter' }
+];
+const FMT = { sq:'Square 1:1', st:'Story 9:16', pin:'Pin 2:3' };
+let crF = 'all', crC = 'all';
+function tileHTML(c, extra = '') {
+  const style = (c.bg ? `--bg:${c.bg};` : '') + (c.fg ? `--fg:${c.fg};` : '');
+  const img = c.img ? `<img src="${IMG(c.img)}" alt="">` : '';
+  const txt = c.layout === 'type' ? `<div class="txt"><span class="rule"></span><p class="hd">${c.hd}</p><p class="sub">${esc(c.sub)}</p></div>` : `<div class="txt"><p class="hd">${c.hd}</p><p class="sub">${esc(c.sub)}</p></div>`;
+  return `<div class="tile ${c.fmt} l-${c.layout}" style="${style}" role="img" aria-label="${esc(c.hd.replace(/<[^>]+>/g, ''))} ${esc(c.sub)}">${img}<span class="mark">${MARK}Wren &amp; Co.</span><span class="fmt">${c.fmt === 'sq' ? '1:1' : c.fmt === 'st' ? '9:16' : '2:3'}</span>${txt}${extra}</div>`;
+}
+function renderCR() {
+  const list = CR.filter(c => (crF === 'all' || c.fmt === crF) && (crC === 'all' || c.ch === crC));
+  $('#cr-grid').innerHTML = list.map(c => `<article class="cr" id="${c.id}">
+    <div class="cr-tilewrap">${tileHTML(c)}</div>
+    <div class="cr-meta"><div class="top"><span class="tag tag-plum">${esc(c.ch)}</span><span class="tag tag-ghost">${FMT[c.fmt]}</span><span class="tag tag-ghost">Week ${c.wk}</span></div>
+      <p class="cap">${esc(c.cap)}</p><p class="tags">${esc(c.tags)}</p>
+      <div class="row"><span>${c.cap.length + c.tags.length + 1} characters</span><button class="copy" data-copy="${c.id}">Copy caption</button></div></div></article>`).join('');
+  $('#cr-count').textContent = `${list.length} of ${CR.length} creatives`;
+}
+renderCR();
+$('#fmt-chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; crF = b.dataset.f; $$('#fmt-chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderCR(); });
+$('#ch-chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; crC = b.dataset.c; $$('#ch-chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderCR(); });
+$('#cr-grid').addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  const c = CR.find(x => x.id === b.dataset.copy);
+  try { await navigator.clipboard.writeText(c.cap + '\n\n' + c.tags); b.textContent = 'Copied'; } catch (err) { b.textContent = 'Select to copy'; }
+  setTimeout(() => { b.textContent = 'Copy caption'; }, 1500);
+});
+
+// Channel calendar
+const ICONS = {
+  Instagram:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
+  TikTok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 2.5 2.2 4 4.5 4.3"/></svg>',
+  Pinterest:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M10.5 21 13 11m-2.5 4.5c3 1.5 6-.5 6-4a4.5 4.5 0 1 0-8 2.8"/></svg>',
+  Email:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'
+};
+const CAL = {
+  Instagram:[[['Mon','Range cut announcement','c1'],['Thu','Stockroom story: what left'],['Sat','Founder letter, carousel']],[['Tue','Launch post','c2'],['Tue','Story sequence','story'],['Thu','Kept: Quay pendant','c3'],['Sun','Creator post 1 reshared']],[['Mon','Repairs bench','c4'],['Wed','Three corners, one chair'],['Fri','Creator post 2 reshared']],[['Tue','Tidewater planter','c5'],['Thu','Hashtag roundup, carousel'],['Sat','Team homes, before and after']]],
+  TikTok:[[['Tue','Why we cut 102 products, pt 1','c6'],['Fri','Pt 2: what stayed']],[['Tue','Pt 3: the new shop, 6pm'],['Thu','One chair, three corners','c7'],['Sat','Creator video']],[['Mon','Forty washes','c8'],['Thu','Repairs bench, raw audio']],[['Tue','Customers\' watches','c9'],['Fri','Reply video to top comment']]],
+  Pinterest:[[['Mon','Board set-up: Rooms, Light, Carry'],['Wed','5 pins: old range in real rooms']],[['Tue','Six-thing living room','c10'],['Wed','5 pins: launch range by room']],[['Mon','Pendant heights guide','c11'],['Wed','5 pins: kitchens and halls']],[['Mon','Plant guide pin','c12'],['Wed','5 pins: customer rooms (with permission)']]],
+  Email:[[['Thu','"We are closing for four days"']],[['Tue','"Open. 38 things." (10am)'],['Thu','The kept list, with reasons']],[['Thu','From the bench: repairs and re-waxing']],[['Thu','Your rooms: hashtag photos, credited']]]
+};
+$('#calgrid').innerHTML = Object.entries(CAL).map(([ch, weeks]) => `<div class="ch">${ICONS[ch]}${ch}</div>` + weeks.map(w => `<div class="calcell">${w.map(p => p[2] ? `<a class="post" href="#${p[2]}"><b>${p[0]}</b><span>${esc(p[1])}<small>Open creative</small></span></a>` : `<div class="post"><b>${p[0]}</b><span>${esc(p[1])}</span></div>`).join('')}</div>`).join('')).join('');
+
+// Story sequence
+const FRAMES = [
+  { t:'Statement', d:'Opens on the line, no photo', html:`<div class="frame solid" style="--bg:#2F4A3C;--fg:#F3EEE6"><div class="stx"><p class="big">Make room for <em>fewer, better</em> things.</p><p class="sm">The new Wren &amp; Co. opens today.</p></div></div>` },
+  { t:'The relaunch', d:'Lounge photo, the new mark', html:`<div class="frame"><img src="${IMG('home-lounge')}" alt=""><div class="shade"></div><div class="stx"><p class="big">38 things. <em>Not</em> 140.</p><p class="sm">Everything photographed in rooms people live in.</p></div></div>` },
+  { t:'Poll', d:'Interactive poll sticker', html:`<div class="frame"><img src="${IMG('home-armchair-room')}" alt=""><div class="shade"></div><div class="stx" style="bottom:46cqw"><p class="big">Which do you <em>reach</em> for?</p></div><div class="sticker"><b>Be honest</b><div class="poll" role="group" aria-label="Poll"><button data-v="chair" aria-pressed="false">The chair</button><button data-v="sofa" aria-pressed="false">The sofa</button></div><p class="thanks" id="poll-out"></p></div></div>` },
+  { t:'Product', d:'Quay pendant with price sticker', html:`<div class="frame"><img src="${IMG('home-lamp')}" alt=""><div class="shade"></div><span class="pricetag">Quay pendant<small>Kept · ceramic, cloth cord</small></span><div class="stx"><p class="big">Switched on <em>every</em> night.</p><p class="sm">Four years over our own kitchen table.</p></div></div>` },
+  { t:'Link', d:'Send to the site', html:`<div class="frame solid" style="--bg:#B5684A;--fg:#F3EEE6"><div class="stx"><p class="big">See all <em>38</em>.</p><p class="sm">The kept list, with the reason for each.</p></div><span class="linkpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 19V5m-6 6 6-6 6 6"/></svg>wrenandco · the kept list</span></div>` },
+  { t:'Invite', d:'Ask for their photos', html:`<div class="frame"><img src="${IMG('home-backpack')}" alt=""><div class="shade"></div><div class="stx"><p class="big">Show us the <em>old</em> ones.</p><p class="sm">Tag #MakeRoomWithWren. The more worn, the better.</p></div></div>` }
+];
+const DUR = 5000, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur = 0, playing = !reduce, timer = null, pollVote = null;
+$('#frames-host').innerHTML = FRAMES.map(f => f.html).join('');
+$('#bars').innerHTML = FRAMES.map(() => '<i></i>').join('');
+$('#frame-list').innerHTML = FRAMES.map((f, i) => `<button data-i="${i}" aria-current="false"><b>0${i + 1}</b><span>${f.t}<br><small>${f.d}</small></span></button>`).join('');
+const frameEls = $$('#frames-host .frame'), barEls = $$('#bars i');
+function show(i) {
+  cur = (i + FRAMES.length) % FRAMES.length;
+  frameEls.forEach((f, k) => f.classList.toggle('on', k === cur));
+  barEls.forEach((b, k) => { b.className = k < cur ? 'done' : k === cur ? (playing ? 'live' : 'live paused') : ''; b.style.setProperty('--dur', DUR + 'ms'); });
+  $$('#frame-list button').forEach((b, k) => b.setAttribute('aria-current', String(k === cur)));
+  $('#story-status').textContent = `Frame ${cur + 1} of ${FRAMES.length}: ${FRAMES[cur].t}`;
+  if (cur === 2 && pollVote) { const f = frameEls[2]; $$('.poll button', f).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === pollVote))); }
+  arm();
+}
+function arm() { clearTimeout(timer); if (playing) timer = setTimeout(() => show(cur + 1), DUR); }
+function setPlaying(p) { playing = p; $('#play').textContent = p ? 'Pause' : 'Play'; barEls[cur].classList.toggle('paused', !p); arm(); }
+$('#tap-r').addEventListener('click', () => show(cur + 1));
+$('#tap-l').addEventListener('click', () => show(cur - 1));
+let hold;
+['#tap-l', '#tap-r'].forEach(s => { const el = $(s);
+  el.addEventListener('pointerdown', () => { hold = setTimeout(() => { if (playing) { setPlaying(false); el.dataset.held = '1'; } }, 350); });
+  el.addEventListener('pointerup', () => { clearTimeout(hold); if (el.dataset.held) { delete el.dataset.held; setPlaying(true); } });
+  el.addEventListener('pointerleave', () => clearTimeout(hold));
+});
+$('#screen').addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); } if (e.key === ' ' && e.target.id === 'screen') { e.preventDefault(); setPlaying(!playing); } });
+$('#frame-list').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i); });
+$('#play').addEventListener('click', () => setPlaying(!playing));
+$('#restart').addEventListener('click', () => { pollVote = null; show(0); });
+$('#frames-host').addEventListener('click', e => {
+  const b = e.target.closest('.poll button'); if (!b) return;
+  pollVote = b.dataset.v;
+  $$('.poll button', frameEls[2]).forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  $('#poll-out').textContent = pollVote === 'chair' ? 'Same. The chair wins in our office too.' : 'Fair. The sofa is where the evenings go.';
+});
+show(0);
+if (!playing) $('#play').textContent = 'Play';
+const vis = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting && playing) clearTimeout(timer); else if (e.isIntersecting && playing) arm(); }));
+vis.observe($('#screen'));
+
+// Creator brief
+const PILLAR_TXT = { 'Fewer, better':'We cut the range from 140 to 38 on purpose. If it comes up, say what the piece replaced for you.', 'Made to be used':'Show the piece in use and over time. Wear, marks and repairs are welcome in frame.', 'Room to live':'Show the space around the piece, not just the piece. A corner, a shelf, a table with room on it.' };
+const DELIV = { 1:['1 in-feed post', '3 story frames with the link sticker on the last'], 2:['2 in-feed posts at least four days apart', '3 story frames with the link sticker on the last'], 3:['1 short video, 20 to 45 seconds, natural sound', '1 in-feed post', '3 story frames with the link sticker on the last'] };
+function fmtDate(v) { const d = new Date(v + 'T00:00:00'); return isNaN(d) ? 'the agreed week' : d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' }); }
+function briefData() {
+  const pillars = $$('#b-pillars input:checked').map(i => i.value);
+  return { name:$('#b-name').value.trim() || 'Creator', handle:$('#b-handle').value.trim() || '@handle', ch:$('#b-channel').value, count:$('#b-count').value, product:$('#b-product').value, date:$('#b-date').value, pillars };
+}
+function renderBrief() {
+  const b = briefData(); const start = fmtDate(b.date);
+  const end = b.date ? fmtDate(new Date(new Date(b.date + 'T00:00:00').getTime() + 6 * 864e5).toISOString().slice(0, 10)) : 'a week later';
+  const ref = 'WREN-' + (b.handle.replace(/[^a-z0-9]/gi, '').slice(0, 6).toUpperCase() || 'CREATOR') + '-' + (b.date || '').replace(/-/g, '').slice(2);
+  $('#doc').innerHTML = `<div class="doc-h"><div><p class="t">Creator brief for <em>${esc(b.name)}</em></p><p style="color:var(--muted);font-size:14px;margin-top:6px">${esc(b.handle)} · ${esc(b.ch)} · Wren &amp; Co. relaunch, #MakeRoomWithWren</p></div><div class="ref">${esc(ref)}<br>v1</div></div>
+    <section><h4>About the campaign</h4><p>Wren &amp; Co. is reopening with a shorter range: 38 pieces instead of 140, each kept because it gets used. The campaign line is "Make room for fewer, better things". We are asking a small number of people whose homes we like to show one piece living in theirs.</p></section>
+    <section><h4>What we are sending</h4><p>One <mark>${esc(b.product)}</mark>, yours to keep. It ships this week to the address you gave us; tell us if the colour or size is wrong for your room and we will swap it before you shoot.</p></section>
+    <section><h4>Deliverables</h4><ul>${DELIV[b.count].map(d => `<li>${d}</li>`).join('')}<li>Tag @wrenandco and use #MakeRoomWithWren in the caption, plus the paid partnership label on ${esc(b.ch)}</li></ul></section>
+    <section><h4>Lean on</h4><ul>${b.pillars.length ? b.pillars.map(p => `<li><span><strong>${esc(p)}.</strong> ${esc(PILLAR_TXT[p])}</span></li>`).join('') : '<li>Pick at least one pillar on the left.</li>'}</ul></section>
+    <section><h4>Must include</h4><ul class="must"><li>The piece in your own home, in daylight, in use</li><li>Your own words. We will not send a script and we will not ask for edits to your opinion</li><li>The #ad or paid partnership label where your platform requires it, in the first line</li></ul></section>
+    <section><h4>Please avoid</h4><ul class="avoid"><li>Styling the piece on its own against a wall</li><li>Claims about durability or materials beyond what you have seen yourself</li><li>Discount codes; there are none in this campaign</li><li>Other brands' products with visible logos in the same frame</li></ul></section>
+    <section><h4>Timing</h4><p>Go live between <strong>${esc(start)}</strong> and <strong>${esc(end)}</strong>. Send us a preview 48 hours before only if you want a second pair of eyes; it is not a condition.</p></section>
+    <section><h4>Usage</h4><p>We may reshare your post to our stories with credit for 30 days. We will not run it as an ad, print it or crop your face out without asking separately and paying separately.</p></section>
+    <section><h4>Fee and contact</h4><p>As agreed in your contract, paid within 14 days of the last deliverable going live. Questions to Ali at the Wren &amp; Co. studio; replies within a working day.</p></section>
+    <div class="foot"><span>Wren &amp; Co. · creator brief</span><span>Fill in the left panel to issue a new one</span></div>`;
+}
+renderBrief();
+$('#brief-form').addEventListener('input', renderBrief);
+$('#copy-brief').addEventListener('click', async () => {
+  const text = $('#doc').innerText.replace(/\n{3,}/g, '\n\n');
+  try { await navigator.clipboard.writeText(text); $('#copy-brief').textContent = 'Copied'; } catch (err) { $('#copy-brief').textContent = 'Select and copy'; }
+  setTimeout(() => { $('#copy-brief').textContent = 'Copy brief as text'; }, 1500);
+});
+
+// Caption checker
+function checkCap() {
+  const v = $('#cap').value; const tags = (v.match(/#\w+/g) || []);
+  const rules = [
+    [/#makeroomwithwren/i.test(v), 'Includes #MakeRoomWithWren'],
+    [/@wrenandco\b/i.test(v), 'Tags @wrenandco'],
+    [/@(?!wrenandco\b)[\w.]+/i.test(v), 'Credits the original poster\'s handle'],
+    [/^\s*credit/i.test(v) || /@(?!wrenandco\b)[\w.]+/.test(v.split('\n')[0]), 'Credit sits in the first line'],
+    [/["“”]/.test(v), 'Keeps their words as a quote'],
+    [tags.length <= 5, `Five hashtags or fewer (${tags.length})`],
+    [v.length <= 2200, `Under 2,200 characters (${v.length})`],
+    [!/\b(best|perfect|guaranteed|lifetime|forever)\b/i.test(v), 'No claims we would not make ourselves']
+  ];
+  $('#cap-out').innerHTML = rules.map(([ok, t]) => `<li class="${ok ? 'ok' : 'bad'}"><i>${ok ? '✓' : '!'}</i><span>${t}</span></li>`).join('');
+}
+checkCap(); $('#cap').addEventListener('input', checkCap);
+</script>
+</body>
+</html>

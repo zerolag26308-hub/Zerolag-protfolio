@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1F1B2E">
+<title>Rosterly</title>
+<meta name="description" content="Rosterly keeps people, onboarding, time off, reviews and the org chart for Brightwater Labs in one place.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236B3FA0'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%23fff'/%3E%3Ccircle cx='21' cy='13' r='3' fill='%23D9C8F0'/%3E%3Cpath d='M5 25c1-4 4-6 7-6s6 2 7 6zM17 24c.6-3 2.4-4.5 4.5-4.5s3.9 1.5 4.5 4.5z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --bg: #F4F3F8;
+  --surface: #FFFFFF;
+  --sunken: #ECEAF3;
+  --line: #DDD9E8;
+  --line-strong: #8E88A3;
+  --ink: #1F1B2E;
+  --ink-2: #4A445C;
+  --ink-3: #6B6580;
+  --accent: #6B3FA0;
+  --accent-hover: #57328A;
+  --accent-soft: #EEE6F8;
+  --accent-ink: #4E2A7E;
+  --green: #1E6B4B;
+  --green-soft: #DDF1E6;
+  --red: #A8322F;
+  --red-soft: #F8E1E0;
+  --amber: #8A5300;
+  --amber-soft: #FBEBD0;
+  --blue: #1F5A9E;
+  --blue-soft: #DEE9F8;
+  --sans: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --radius: 8px;
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); color: var(--ink); font: 400 14px/1.45 var(--sans); -webkit-text-size-adjust: 100%; }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+main:focus { outline: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Zero Lag bar */
+.zl-bar { flex: none; position: sticky; top: 0; z-index: 70; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 14px; background: var(--ink); color: #B9B3CC; font-size: 13px; line-height: 1; }
+.zl-bar a { color: #DED6F2; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar a:focus-visible { outline-color: #DED6F2; }
+.zl-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+
+/* App shell */
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 50; background: var(--surface); padding: 8px 12px; border-radius: var(--radius); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 220px minmax(0, 1fr); }
+.sidebar { background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 14px 14px 12px; }
+.brand svg { flex: none; }
+.brand b { display: block; font-size: 16px; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
+.brand span { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.25; }
+.nav { padding: 6px 10px; display: grid; gap: 2px; }
+.nav a { display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: var(--radius); color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.nav a:hover { background: var(--sunken); color: var(--ink); }
+.nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.nav svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.nav .count { margin-left: auto; font: 500 12px var(--mono); color: var(--ink-3); }
+.side-foot { margin-top: auto; padding: 10px 14px 12px; border-top: 1px solid var(--line); display: flex; gap: 9px; align-items: center; }
+.side-foot b { display: block; font-weight: 600; font-size: 13px; line-height: 1.2; }
+.side-foot span.role { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.25; }
+.scrim { display: none; }
+.workspace { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.topbar { flex: none; display: flex; align-items: center; gap: 10px; padding: 9px 20px; background: var(--surface); border-bottom: 1px solid var(--line); min-height: 52px; }
+.topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+.topbar .today { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
+.topbar .spacer { flex: 1; }
+.menu-btn { display: none; }
+main { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 20px 28px; }
+
+/* Buttons and form controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 32px; padding: 5px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 600; white-space: nowrap; }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.danger { color: var(--red); border-color: var(--red); }
+.btn.danger:hover { background: var(--red-soft); }
+.btn.ok { color: var(--green); border-color: var(--green); }
+.btn.ok:hover { background: var(--green-soft); }
+.btn.sm { min-height: 28px; padding: 3px 9px; font-size: 12.5px; }
+.btn.icon { padding: 0; width: 32px; }
+.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 3px 10px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); min-height: 28px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+.field { display: grid; gap: 3px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+input[type=text], input[type=email], input[type=search], input[type=date], select, textarea { width: 100%; min-height: 32px; padding: 5px 8px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+textarea { resize: vertical; min-height: 68px; display: block; }
+[aria-invalid="true"] { border-color: var(--red) !important; box-shadow: inset 0 0 0 1px var(--red); }
+.err { color: var(--red); font-size: 12.5px; font-weight: 500; }
+.err[hidden] { display: none; }
+.hint { font-size: 12.5px; color: var(--ink-3); }
+
+/* Layout pieces */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 12px; }
+.pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.pane-head h2 { font-size: 14px; font-weight: 700; }
+.pane-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.pane-body { padding: 12px 14px; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; }
+.span-7 { grid-column: span 7; }
+.span-8 { grid-column: span 8; }
+.span-12 { grid-column: span 12; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 12px; }
+.toolbar .field.grow { flex: 1 1 220px; max-width: 340px; }
+.toolbar .field.fix { flex: 0 0 170px; }
+.toolbar .tally { margin-left: auto; color: var(--ink-2); font-size: 13px; padding-bottom: 6px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-bottom: 12px; }
+.stat .label { display: block; }
+.stat b { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.empty { padding: 18px 13px; color: var(--ink-2); text-align: center; }
+.scroll-x { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); background: #F7F6FA; white-space: nowrap; }
+th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+th button { border: 0; background: none; padding: 0; font: inherit; color: inherit; display: inline-flex; align-items: center; gap: 3px; }
+th button:hover { color: var(--ink); text-decoration: underline; }
+th[aria-sort] button { color: var(--ink); font-weight: 700; }
+.arrow { font-size: 10px; width: 9px; display: inline-block; }
+.who { border: 0; background: none; padding: 0; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-align: left; overflow-wrap: anywhere; }
+.who:hover { color: var(--accent-ink); text-decoration-color: currentColor; }
+
+/* Avatars and badges */
+.av { flex: none; display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--sunken); color: var(--ink); font-size: 11.5px; font-weight: 700; letter-spacing: .01em; }
+.av.sm { width: 22px; height: 22px; font-size: 9.5px; }
+.av.lg { width: 44px; height: 44px; font-size: 15px; }
+.av.d1 { background: #D8EFEA; color: #0F5C4D; }
+.av.d2 { background: #FBDDE6; color: #8D2C4C; }
+.av.d3 { background: #DEE3FA; color: #2E3C94; }
+.av.d4 { background: #FBEBD0; color: #7A4A00; }
+.av.d5 { background: #DDF1E6; color: #1E6B4B; }
+.av.d6 { background: #E4E6EC; color: #3D4356; }
+.av.d0 { background: #E9DDF7; color: #4E2A7E; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; background: var(--sunken); color: var(--ink-2); }
+.badge.d1 { background: #D8EFEA; color: #0F5C4D; }
+.badge.d2 { background: #FBDDE6; color: #8D2C4C; }
+.badge.d3 { background: #DEE3FA; color: #2E3C94; }
+.badge.d4 { background: #FBEBD0; color: #7A4A00; }
+.badge.d5 { background: #DDF1E6; color: #1E6B4B; }
+.badge.d6 { background: #E4E6EC; color: #3D4356; }
+.badge.d0 { background: #E9DDF7; color: #4E2A7E; }
+.badge.approved { background: var(--green-soft); color: var(--green); }
+.badge.pending { background: var(--amber-soft); color: var(--amber); }
+.badge.declined { background: var(--red-soft); color: var(--red); }
+.badge.onboarding { background: var(--blue-soft); color: var(--blue); }
+
+/* People cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.person { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 13px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 11px; align-items: start; }
+.person:hover { border-color: var(--line-strong); }
+.person .av { grid-row: span 2; }
+.person .title { font-size: 12.5px; color: var(--ink-2); line-height: 1.3; }
+.person .meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
+.person .mail { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-3); overflow-wrap: anywhere; }
+.people-table { min-width: 860px; }
+.people-table td { white-space: nowrap; }
+.namecell { display: flex; align-items: center; gap: 8px; }
+.namecell small { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.2; }
+
+/* Onboarding */
+.hire { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.hire-head { display: flex; gap: 10px; align-items: center; padding: 12px 14px 8px; }
+.hire-head b { display: block; font-weight: 700; }
+.hire-head span { display: block; font-size: 12.5px; color: var(--ink-3); }
+.hire-head .pct { margin-left: auto; font: 500 15px var(--mono); }
+.prog { height: 7px; background: var(--sunken); border-radius: 4px; margin: 0 14px 8px; overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--accent); border-radius: 4px; transition: width .2s; }
+.prog i.full { background: var(--green); }
+.check li { display: flex; gap: 9px; align-items: center; padding: 7px 14px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.check label { flex: 1; cursor: pointer; }
+.check .due { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.check .due.over { color: var(--red); font-weight: 600; }
+.check li.done label { color: var(--ink-3); text-decoration: line-through; }
+input[type=checkbox] { width: 16px; height: 16px; flex: none; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.hire-foot { padding: 10px 14px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-3); }
+
+/* Time off */
+.cal-head { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.cal-head h2 { font-size: 14px; font-weight: 700; min-width: 140px; }
+.cal-head .legend { margin-left: auto; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
+.cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.cal .dow { padding: 6px 6px 4px; font-size: 11.5px; font-weight: 600; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--line); text-align: center; }
+.cal .day { min-height: 82px; padding: 4px 5px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.cal .day:nth-child(7n) { border-right: 0; }
+.cal .day.out { background: #F9F8FB; color: var(--ink-3); }
+.cal .day.wkend { background: #F9F8FB; }
+.cal .d { font: 500 12px var(--mono); align-self: flex-end; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; }
+.cal .day.today .d { background: var(--accent); color: #fff; }
+.chip { display: block; font-size: 11px; font-weight: 600; line-height: 1.25; padding: 2px 5px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chip.Vacation { background: #D8EFEA; color: #0F5C4D; }
+.chip.Sick { background: #FBDDE6; color: #8D2C4C; }
+.chip.Personal { background: #DEE3FA; color: #2E3C94; }
+.chip.pending { background: #fff; border: 1px dashed var(--line-strong); color: var(--ink-2); }
+.chip.more { background: none; color: var(--ink-3); padding-left: 2px; }
+.req { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding: 9px 14px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.req .txt { flex: 1 1 200px; min-width: 0; }
+.req .txt small { display: block; color: var(--ink-3); font-size: 12.5px; }
+.req .acts { display: flex; gap: 6px; }
+.toform { display: grid; gap: 10px; padding: 12px 14px; }
+.toform .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.toform .days { font-size: 12.5px; color: var(--ink-2); }
+.toform .days b { font-family: var(--mono); }
+
+/* Reviews */
+.rev-form { display: grid; gap: 10px; padding: 12px 14px; }
+.rev-form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rating { display: grid; grid-template-columns: 120px minmax(0, 1fr) 26px; gap: 8px; align-items: center; font-size: 13px; }
+.rating output { font: 500 13px var(--mono); text-align: right; }
+input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
+.radar-wrap { display: grid; place-items: center; padding: 10px; }
+.radar-wrap svg { width: 100%; max-width: 330px; height: auto; display: block; overflow: visible; margin: 0 28px; }
+.radar .ring { fill: none; stroke: var(--line); }
+.radar .axis { stroke: var(--line); }
+.radar .shape { fill: rgba(107, 63, 160, .22); stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.radar .dot { fill: var(--accent); }
+.radar text { font: 600 11.5px var(--sans); fill: var(--ink-2); }
+.radar .v { font: 500 11.5px var(--mono); fill: var(--accent-ink); }
+.rev-score { text-align: center; font-size: 13px; color: var(--ink-2); padding: 0 14px 12px; }
+.rev-score b { font: 500 22px var(--mono); display: block; color: var(--ink); }
+.rev-list li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.rev-list .meta { font-size: 12.5px; color: var(--ink-3); }
+.rev-list .avg { font: 500 16px var(--mono); }
+.rev-list .acts { grid-column: 1 / -1; display: flex; gap: 6px; }
+.rev-list p { grid-column: 1 / -1; font-size: 13px; color: var(--ink-2); }
+
+/* Org chart */
+.org-wrap { overflow-x: auto; padding: 16px 12px 24px; }
+.tree { display: inline-block; min-width: 100%; }
+.tree ul { display: flex; justify-content: center; position: relative; padding-top: 22px; width: max-content; min-width: 100%; }
+.tree > ul { padding-top: 0; }
+.tree li { position: relative; padding: 22px 6px 0; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.tree > ul > li { padding-top: 0; }
+.tree li::before, .tree li::after { content: ""; position: absolute; top: 0; right: 50%; width: 50%; height: 22px; border-top: 1px solid var(--line-strong); }
+.tree li::after { right: auto; left: 50%; border-left: 1px solid var(--line-strong); }
+.tree li:only-child::before, .tree li:only-child::after { display: none; }
+.tree li:only-child { padding-top: 0; }
+.tree ul ul > li:only-child { padding-top: 22px; }
+.tree ul ul > li:only-child::after { display: block; border-top: 0; }
+.tree li:first-child::before, .tree li:last-child::after { border: 0; }
+.tree li:last-child::before { border-right: 1px solid var(--line-strong); border-radius: 0 6px 0 0; }
+.tree li:first-child::after { border-radius: 6px 0 0 0; }
+.tree > ul > li::before, .tree > ul > li::after { display: none; }
+.tree ul ul::before { content: ""; position: absolute; top: 0; left: 50%; height: 22px; border-left: 1px solid var(--line-strong); }
+.node { position: relative; width: 150px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 10px 8px; display: grid; justify-items: center; gap: 2px; }
+.node:hover { border-color: var(--line-strong); }
+.node .who { font-size: 13px; }
+.node .t { font-size: 11.5px; color: var(--ink-3); line-height: 1.3; }
+.node .reports { margin-top: 5px; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 10px; font: 500 11.5px var(--mono); padding: 1px 8px; color: var(--ink-2); }
+.node .reports[aria-expanded="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* Settings */
+.settings { display: grid; gap: 12px; max-width: 620px; }
+.settings .row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; padding: 12px 14px; border-top: 1px solid var(--line); }
+.settings .row:first-of-type { border-top: 0; }
+.settings .row p { font-size: 12.5px; color: var(--ink-3); max-width: 380px; }
+.settings .row b { display: block; font-weight: 600; }
+
+/* Dialogs */
+dialog { border: 0; padding: 0; color: var(--ink); background: var(--surface); }
+dialog::backdrop { background: rgba(31, 27, 46, .32); }
+.modal { position: fixed; inset: calc(var(--bar-h) + 12px) 0 12px 0; margin: auto; width: min(540px, calc(100vw - 24px)); height: fit-content; max-height: calc(100dvh - var(--bar-h) - 24px); border-radius: 10px; overflow-y: auto; box-shadow: 0 20px 50px rgba(31, 27, 46, .2); }
+.modal h2 { font-size: 16px; font-weight: 700; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px 16px; }
+.form-grid .full { grid-column: 1 / -1; }
+.modal-foot { display: flex; gap: 8px; justify-content: flex-end; align-items: center; padding: 11px 16px; border-top: 1px solid var(--line); background: #F7F6FA; }
+.modal-foot .left { margin-right: auto; }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 24px); background: var(--ink); color: #fff; padding: 8px 12px; border-radius: var(--radius); display: flex; gap: 12px; align-items: center; z-index: 60; font-size: 13.5px; }
+.toast[hidden] { display: none; }
+.toast button { border: 0; background: none; padding: 2px; color: #D9C8F0; font-weight: 700; text-decoration: underline; }
+.toast button:focus-visible { outline-color: #D9C8F0; }
+
+/* Tablet layout */
+@media (max-width: 1180px) {
+  .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+}
+
+/* Phone and small tablet layout */
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: fixed; top: var(--bar-h); bottom: 0; left: 0; width: 256px; max-width: 84vw; z-index: 30; transform: translateX(-102%); visibility: hidden; transition: transform .18s ease-out, visibility .18s; box-shadow: 0 0 40px rgba(31, 27, 46, .2); }
+  .sidebar.open { transform: none; visibility: visible; }
+  .scrim.open { display: block; position: fixed; inset: var(--bar-h) 0 0 0; background: rgba(31, 27, 46, .32); z-index: 20; }
+  .nav a { min-height: 44px; }
+  .menu-btn { display: inline-flex; width: 44px; height: 44px; margin-left: -8px; border: 0; background: none; align-items: center; justify-content: center; border-radius: var(--radius); flex: none; }
+  .menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  .topbar { padding: 3px 12px; gap: 6px; }
+  .topbar .today { display: none; }
+  main { padding: 12px 12px 72px; }
+  .btn { min-height: 44px; }
+  .btn.sm { min-height: 36px; }
+  .btn.icon { width: 44px; }
+  .seg button { min-height: 36px; }
+  input[type=text], input[type=email], input[type=search], input[type=date], select, textarea { font-size: 16px; min-height: 44px; }
+  input[type=checkbox] { width: 22px; height: 22px; }
+  .toolbar .field.grow { max-width: none; flex-basis: 100%; }
+  .toolbar .field.fix { flex: 1 1 130px; }
+  .toolbar .tally { padding-bottom: 12px; }
+  .people-table th:first-child, .people-table td:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); box-shadow: 1px 0 0 var(--line); }
+  .cal .day { min-height: 56px; padding: 3px; }
+  .chip { font-size: 10px; padding: 1px 3px; }
+  .cal-head .legend { flex-basis: 100%; margin-left: 0; }
+  .rating { grid-template-columns: 96px minmax(0, 1fr) 26px; }
+}
+
+/* Small phone layout */
+@media (max-width: 520px) {
+  .zl-bar span { display: none; }
+  .form-grid, .toform .two, .rev-form .two { grid-template-columns: minmax(0, 1fr); }
+  .form-grid .full { grid-column: auto; }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .hire { grid-template-columns: minmax(0, 1fr); }
+  .topbar .add-label { display: none; }
+  .topbar .btn.primary { width: 44px; padding: 0; }
+  .cal .day .chip ~ .chip { display: none; }
+  .stat b { font-size: 16px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Rosterly</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<div class="app">
+  <a class="skip" href="#view">Skip to content</a>
+  <aside class="sidebar" id="sidebar" aria-label="Primary">
+    <div class="brand">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#6B3FA0"/><circle cx="12" cy="12" r="4" fill="#fff"/><circle cx="21" cy="13" r="3" fill="#D9C8F0"/><path d="M5 25c1-4 4-6 7-6s6 2 7 6zM17 24c.6-3 2.4-4.5 4.5-4.5s3.9 1.5 4.5 4.5z" fill="#fff"/></svg>
+      <div><b>Rosterly</b><span>Brightwater Labs</span></div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#people" data-nav="people"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6" cy="5.5" r="2.5"/><path d="M1.5 13c.5-2.6 2.3-4 4.5-4s4 1.4 4.5 4"/><circle cx="11.5" cy="6" r="2"/><path d="M11.5 9.5c1.8 0 2.8 1.2 3 3"/></svg>People<span class="count" id="countPeople"></span></a>
+      <a href="#onboarding" data-nav="onboarding"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8l2.2 2.2L11 6"/></svg>Onboarding<span class="count" id="countOnboarding"></span></a>
+      <a href="#timeoff" data-nav="timeoff"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5.5 1.5v3M10.5 1.5v3"/></svg>Time off<span class="count" id="countTimeoff"></span></a>
+      <a href="#reviews" data-nav="reviews"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l1.8 3.7 4 .6-2.9 2.8.7 4L8 11.2 4.4 13.1l.7-4L2.2 6.3l4-.6z"/></svg>Reviews<span class="count" id="countReviews"></span></a>
+      <a href="#org" data-nav="org"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="6" y="1.5" width="4" height="3" rx="1"/><rect x="1.5" y="11.5" width="4" height="3" rx="1"/><rect x="10.5" y="11.5" width="4" height="3" rx="1"/><path d="M8 4.5V8M3.5 11.5V8h9v3.5"/></svg>Org chart</a>
+      <a href="#settings" data-nav="settings"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/></svg>Settings</a>
+    </nav>
+    <div class="side-foot"><span class="av d1" aria-hidden="true">NC</span><div><b>Nadia Castellanos</b><span class="role" id="roleLabel">Engineering Manager</span></div></div>
+  </aside>
+  <div class="scrim" id="scrim" data-act="close-menu"></div>
+  <div class="workspace" id="workspace">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" type="button" data-act="toggle-menu" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16"/></svg></button>
+      <h1 id="pageTitle">People</h1>
+      <span class="today" id="todayLabel"></span>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Acting as" id="roleSeg">
+        <button type="button" data-act="role" data-v="employee">Employee</button><button type="button" data-act="role" data-v="manager">Manager</button>
+      </div>
+      <button class="btn primary" type="button" data-act="new-person" aria-label="Add person"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg><span class="add-label">Add person</span></button>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+
+<dialog class="modal" id="personDialog" aria-labelledby="personTitle">
+  <form id="personForm" novalidate>
+    <div class="modal-head"><h2 id="personTitle">Add person</h2><button class="btn icon" type="button" data-act="close-person" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div>
+    <div class="form-grid">
+      <div class="field"><label for="fName">Full name</label><input type="text" id="fName" autocomplete="off" aria-describedby="eName"><span class="err" id="eName" hidden></span></div>
+      <div class="field"><label for="fTitle">Job title</label><input type="text" id="fTitle" autocomplete="off" aria-describedby="eTitle"><span class="err" id="eTitle" hidden></span></div>
+      <div class="field"><label for="fDept">Department</label><select id="fDept"></select></div>
+      <div class="field"><label for="fManager">Reports to</label><select id="fManager"></select></div>
+      <div class="field full"><label for="fEmail">Work email</label><input type="email" id="fEmail" autocomplete="off" aria-describedby="eEmail"><span class="err" id="eEmail" hidden></span></div>
+      <div class="field"><label for="fStart">Start date</label><input type="date" id="fStart" aria-describedby="eStart"><span class="err" id="eStart" hidden></span></div>
+      <div class="field"><label for="fLoc">Location</label><select id="fLoc"></select></div>
+      <div class="field full"><label><input type="checkbox" id="fOnboard"> Add to onboarding with the standard checklist</label></div>
+    </div>
+    <div class="modal-foot"><button class="btn danger left" type="button" id="deleteBtn" data-act="delete-person" hidden>Delete</button><button class="btn" type="button" data-act="close-person">Cancel</button><button class="btn primary" type="submit" id="personSubmit">Add person</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const KEY = 'rosterly-v1';
+const DAY = 86400000;
+const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+
+// Date helpers keep the seeded data anchored to the current day
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const parse = s => new Date(s + 'T00:00:00');
+const inDays = n => iso(addDays(TODAY, n));
+const weekday = n => { let d = addDays(TODAY, n); while (d.getDay() === 0 || d.getDay() === 6) d = addDays(d, 1); return iso(d); };
+const fmtDay = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' });
+const fmtDate = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const fmtMonth = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' });
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const initials = n => n.split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase();
+const $ = (s, r = document) => r.querySelector(s);
+const ME = 'p03';
+
+const DEPTS = ['Leadership', 'Engineering', 'Design', 'Product', 'Sales', 'People', 'Finance'];
+const LOCS = ['Manchester', 'London', 'Berlin', 'Dublin', 'Remote (Lisbon)', 'Remote (Toronto)'];
+const TYPES = ['Vacation', 'Sick', 'Personal'];
+const PERIODS = ['H2 2026', 'H1 2026', 'H2 2025'];
+const CRITERIA = [['communication', 'Communication'], ['delivery', 'Delivery'], ['quality', 'Quality of work'], ['collaboration', 'Collaboration'], ['growth', 'Growth mindset']];
+const CHECKLIST = [['Sign employment contract', -2], ['Payroll and bank details submitted', 0], ['Laptop and accounts provisioned', 0], ['Complete security awareness training', 3], ['Meet your onboarding buddy', 2], ['Introductions with the wider team', 5], ['Benefits enrolment', 7], ['Agree 30-day goals with manager', 10]];
+const deptClass = d => 'd' + DEPTS.indexOf(d);
+
+// Seed data for a 32-person company
+function seed() {
+  const P = [
+    ['p01', 'Helena Marsh', 'Chief Executive Officer', 'Leadership', null, '2017-02-06', 'Manchester'],
+    ['p02', 'Rahul Venkataraman', 'VP Engineering', 'Engineering', 'p01', '2017-09-18', 'Manchester'],
+    ['p03', 'Nadia Castellanos', 'Engineering Manager', 'Engineering', 'p02', '2019-03-11', 'Manchester'],
+    ['p04', 'Jonah Mercer', 'Senior Software Engineer', 'Engineering', 'p03', '2020-01-13', 'Remote (Lisbon)'],
+    ['p05', 'Ingrid Solberg', 'Software Engineer', 'Engineering', 'p03', '2022-06-06', 'Berlin'],
+    ['p06', 'Tobias Achebe', 'Software Engineer', 'Engineering', 'p03', '2023-02-20', 'Manchester'],
+    ['p07', 'Mei-Lin Chao', 'Staff Engineer', 'Engineering', 'p02', '2018-05-14', 'London'],
+    ['p08', 'Felix Brandt', 'Site Reliability Engineer', 'Engineering', 'p07', '2021-10-04', 'Berlin'],
+    ['p09', 'Amara Osei', 'Software Engineer II', 'Engineering', 'p07', '2021-04-19', 'London'],
+    ['p10', 'Lucas Ferreira', 'QA Engineer', 'Engineering', 'p03', '2022-11-07', 'Remote (Lisbon)'],
+    ['p11', 'Sofia Petrova', 'Software Engineer', 'Engineering', 'p07', inDays(-6), 'Berlin', true],
+    ['p12', 'Owen Gallagher', 'Head of Design', 'Design', 'p01', '2018-08-27', 'Dublin'],
+    ['p13', 'Yara Haddad', 'Senior Product Designer', 'Design', 'p12', '2020-09-07', 'London'],
+    ['p14', 'Kenji Watanabe', 'Product Designer', 'Design', 'p12', '2022-03-14', 'Remote (Toronto)'],
+    ['p15', 'Lena Novak', 'UX Researcher', 'Design', 'p12', inDays(-13), 'Dublin', true],
+    ['p16', 'Daniel Kim', 'VP Product', 'Product', 'p01', '2018-01-08', 'London'],
+    ['p17', 'Clara Lindqvist', 'Senior Product Manager', 'Product', 'p16', '2019-11-04', 'Manchester'],
+    ['p18', 'Marcus Boateng', 'Product Manager', 'Product', 'p16', '2021-07-12', 'London'],
+    ['p19', 'Isabel Moreno', 'Product Analyst', 'Product', 'p17', '2023-05-01', 'Remote (Lisbon)'],
+    ['p20', 'Victor Haines', 'Head of Sales', 'Sales', 'p01', '2018-10-15', 'London'],
+    ['p21', 'Aisha Rahman', 'Account Executive', 'Sales', 'p20', '2020-02-03', 'Manchester'],
+    ['p22', 'Sebastian Cruz', 'Account Executive', 'Sales', 'p20', '2021-01-18', 'Dublin'],
+    ['p23', 'Grace Oduya', 'Sales Development Representative', 'Sales', 'p21', '2023-09-11', 'Manchester'],
+    ['p24', 'Niall Byrne', 'Customer Success Manager', 'Sales', 'p20', '2019-06-24', 'Dublin'],
+    ['p25', 'Priyanka Desai', 'Solutions Engineer', 'Sales', 'p20', inDays(-2), 'London', true],
+    ['p26', 'Rosa Delgado', 'Head of People', 'People', 'p01', '2018-04-09', 'Manchester'],
+    ['p27', 'Thomas Eriksen', 'People Operations Partner', 'People', 'p26', '2021-03-01', 'Berlin'],
+    ['p28', 'Hana Sato', 'Talent Acquisition Lead', 'People', 'p26', '2020-10-19', 'London'],
+    ['p29', 'Gregory Adeyemi', 'Finance Director', 'Finance', 'p01', '2017-11-20', 'Manchester'],
+    ['p30', 'Charlotte Webb', 'Senior Accountant', 'Finance', 'p29', '2019-08-05', 'Manchester'],
+    ['p31', 'Omar Farouk', 'Financial Analyst', 'Finance', 'p29', '2022-01-10', 'London'],
+    ['p32', 'Beatrice Lam', 'Payroll Specialist', 'Finance', 'p29', inDays(-9), 'Remote (Toronto)', true]
+  ].map(([id, name, title, dept, manager, start, loc, onb]) => ({
+    id, name, title, dept, manager, start, loc,
+    email: name.toLowerCase().replace(/[^a-z\s-]/g, '').replace(/\s+/g, '.') + '@brightwater.io',
+    status: onb ? 'onboarding' : 'active'
+  }));
+  const doneMap = { p11: 5, p15: 8, p25: 2, p32: 4 };
+  const onboarding = Object.keys(doneMap).map(pid => ({ personId: pid, tasks: CHECKLIST.map(([label, off], i) => ({ id: i, label, offset: off, done: i < doneMap[pid] })) }));
+  const T = [
+    ['p05', 'Vacation', 3, 7, 'approved', 'Hiking in the Dolomites.'],
+    ['p06', 'Sick', -4, -3, 'approved', ''],
+    ['p03', 'Vacation', 20, 26, 'approved', 'Family visit.'],
+    ['p04', 'Personal', 1, 1, 'approved', 'Moving day.'],
+    ['p13', 'Vacation', 9, 13, 'pending', 'Long weekend extended.'],
+    ['p08', 'Vacation', 14, 18, 'pending', ''],
+    ['p21', 'Personal', 5, 5, 'pending', 'School event in the afternoon.'],
+    ['p07', 'Vacation', -20, -15, 'approved', ''],
+    ['p17', 'Vacation', 30, 34, 'approved', ''],
+    ['p10', 'Sick', -1, 0, 'approved', ''],
+    ['p22', 'Vacation', 12, 13, 'declined', 'Clashes with the quarterly kickoff.'],
+    ['p03', 'Personal', -10, -10, 'approved', ''],
+    ['p03', 'Vacation', 45, 49, 'pending', 'Winter break.'],
+    ['p09', 'Vacation', 8, 10, 'approved', '']
+  ].map(([pid, type, a, b, status, note], i) => ({ id: 't' + (i + 1), personId: pid, type, from: weekday(a), to: weekday(b), status, note, at: TODAY.getTime() - (14 - i) * DAY }));
+  const R = [
+    ['p04', 'H1 2026', [5, 4, 5, 4, 4], 'Led the billing migration end to end and unblocked two other squads along the way.'],
+    ['p05', 'H1 2026', [4, 4, 4, 5, 5], 'Strong first full cycle. Picked up on-call quickly and mentors the newer engineers.'],
+    ['p06', 'H1 2026', [3, 3, 4, 4, 5], 'Growing well. Delivery estimates still run optimistic, agreed to split work smaller.'],
+    ['p10', 'H1 2026', [4, 5, 5, 4, 3], 'The regression suite is far more reliable thanks to Lucas. Could stretch further into performance testing.'],
+    ['p13', 'H1 2026', [5, 4, 5, 5, 4], 'Design system work landed on time and the team adopted it with little friction.'],
+    ['p21', 'H1 2026', [4, 5, 4, 4, 4], 'Hit quota three quarters running. Very good at keeping deals honest in the forecast.']
+  ].map(([pid, period, v, summary], i) => ({ id: 'r' + (i + 1), personId: pid, period, ratings: Object.fromEntries(CRITERIA.map(([k], j) => [k, v[j]])), summary, at: TODAY.getTime() - (40 - i * 3) * DAY }));
+  return { people: P, onboarding, timeoff: T, reviews: R, seq: 100, role: 'manager' };
+}
+
+// Persistence
+let DB;
+function load() {
+  try { const raw = localStorage.getItem(KEY); if (raw) { DB = JSON.parse(raw); return; } } catch (e) {}
+  DB = seed();
+  save();
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {} }
+const nextId = p => p + (++DB.seq);
+const person = id => DB.people.find(p => p.id === id);
+const nameOf = id => (person(id) || { name: 'Unassigned' }).name;
+
+// UI state
+const state = { view: 'people', search: '', dept: 'all', mode: 'cards', sortKey: 'name', sortDir: 1, cal: { y: TODAY.getFullYear(), m: TODAY.getMonth() }, editReview: null, editPerson: null, collapsed: null, deleteArmed: false, resetArmed: false };
+const draft = { ratings: Object.fromEntries(CRITERIA.map(([k]) => [k, 3])), personId: 'p04', period: PERIODS[0], summary: '' };
+let toastTimer, lastDeleted = null;
+
+function showToast(msg, action) {
+  const el = $('#toast');
+  el.innerHTML = `<span>${esc(msg)}</span>${action ? `<button type="button" data-act="${action}">Undo</button>` : ''}`;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 7000);
+}
+function hideToast() { $('#toast').hidden = true; }
+
+// Working days between two ISO dates, inclusive
+function workDays(a, b) {
+  let d = parse(a), end = parse(b), n = 0;
+  while (d <= end) { const w = d.getDay(); if (w !== 0 && w !== 6) n++; d = addDays(d, 1); }
+  return n;
+}
+const overlaps = (a, b) => a.from <= b.to && b.from <= a.to;
+const avatar = (p, cls = '') => `<span class="av ${deptClass(p.dept)} ${cls}" aria-hidden="true">${initials(p.name)}</span>`;
+const nameBtn = p => `<button class="who" type="button" data-act="edit-person" data-id="${p.id}">${esc(p.name)}</button>`;
+
+// People view
+function filteredPeople() {
+  const q = state.search.trim().toLowerCase();
+  let list = DB.people.filter(p => (state.dept === 'all' || p.dept === state.dept) && (!q || [p.name, p.title, p.email, p.loc, p.dept].some(v => v.toLowerCase().includes(q))));
+  const k = state.sortKey;
+  list.sort((a, b) => {
+    const va = k === 'manager' ? nameOf(a.manager) : a[k], vb = k === 'manager' ? nameOf(b.manager) : b[k];
+    return String(va).localeCompare(String(vb)) * state.sortDir;
+  });
+  return list;
+}
+function viewPeople() {
+  const list = filteredPeople();
+  const cols = [['name', 'Name'], ['title', 'Title'], ['dept', 'Department'], ['manager', 'Reports to'], ['loc', 'Location'], ['start', 'Start date']];
+  const onb = DB.people.filter(p => p.status === 'onboarding').length;
+  const byDept = DEPTS.map(d => [d, DB.people.filter(p => p.dept === d).length]).filter(x => x[1]);
+  return `
+  <div class="stats">
+    <div class="stat"><span class="label">Headcount</span><b>${DB.people.length}</b></div>
+    <div class="stat"><span class="label">Departments</span><b>${byDept.length}</b></div>
+    <div class="stat"><span class="label">Onboarding</span><b>${onb}</b></div>
+    <div class="stat"><span class="label">Away today</span><b>${DB.timeoff.filter(t => t.status === 'approved' && t.from <= iso(TODAY) && t.to >= iso(TODAY)).length}</b></div>
+  </div>
+  <div class="toolbar">
+    <div class="field grow"><label for="peopleSearch">Search</label><input type="search" id="peopleSearch" value="${esc(state.search)}" autocomplete="off"></div>
+    <div class="field fix"><label for="deptFilter">Department</label><select id="deptFilter"><option value="all">All departments</option>${DEPTS.map(d => `<option ${state.dept === d ? 'selected' : ''}>${d}</option>`).join('')}</select></div>
+    <div class="seg" role="group" aria-label="Display as"><button type="button" data-act="mode" data-v="cards" aria-pressed="${state.mode === 'cards'}">Cards</button><button type="button" data-act="mode" data-v="table" aria-pressed="${state.mode === 'table'}">Table</button></div>
+    <span class="tally" id="tally">${list.length} of ${DB.people.length} people</span>
+  </div>
+  <div id="peopleWrap">${peopleBody(list, cols)}</div>`;
+}
+function peopleBody(list, cols) {
+  if (!list.length) return `<p class="empty">No one matches that search. <button class="btn link who" type="button" data-act="clear-search">Clear filters</button></p>`;
+  if (state.mode === 'cards') return `<div class="cards">${list.map(p => `
+    <article class="person">${avatar(p, 'lg')}<div>${nameBtn(p)}<div class="title">${esc(p.title)}</div></div>
+      <div class="mail">${esc(p.email)}</div>
+      <div class="meta"><span class="badge ${deptClass(p.dept)}">${p.dept}</span>${p.status === 'onboarding' ? '<span class="badge onboarding">Onboarding</span>' : ''}<span>${esc(p.loc)}</span></div>
+    </article>`).join('')}</div>`;
+  return `<div class="pane scroll-x"><table class="people-table"><thead><tr>${cols.map(([k, l]) => `<th ${state.sortKey === k ? `aria-sort="${state.sortDir > 0 ? 'ascending' : 'descending'}"` : ''}><button type="button" data-act="sort" data-key="${k}">${l}<span class="arrow" aria-hidden="true">${state.sortKey === k ? (state.sortDir > 0 ? '▲' : '▼') : ''}</span></button></th>`).join('')}</tr></thead>
+  <tbody>${list.map(p => `<tr><td><div class="namecell">${avatar(p)}<div>${nameBtn(p)}<small>${esc(p.email)}</small></div></div></td><td>${esc(p.title)}</td><td><span class="badge ${deptClass(p.dept)}">${p.dept}</span></td><td>${esc(nameOf(p.manager))}</td><td>${esc(p.loc)}</td><td class="num">${fmtDate.format(parse(p.start))}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function refreshPeople() {
+  const list = filteredPeople();
+  $('#tally').textContent = `${list.length} of ${DB.people.length} people`;
+  $('#peopleWrap').innerHTML = peopleBody(list, [['name', 'Name'], ['title', 'Title'], ['dept', 'Department'], ['manager', 'Reports to'], ['loc', 'Location'], ['start', 'Start date']]);
+}
+
+// Onboarding view
+function viewOnboarding() {
+  const hires = DB.onboarding.map(o => ({ o, p: person(o.personId) })).filter(x => x.p);
+  if (!hires.length) return `<p class="empty pane">No one is onboarding right now. Add a person and tick "Add to onboarding" to start a checklist.</p>`;
+  const total = hires.reduce((s, x) => s + x.o.tasks.length, 0), done = hires.reduce((s, x) => s + x.o.tasks.filter(t => t.done).length, 0);
+  return `
+  <div class="stats">
+    <div class="stat"><span class="label">New hires</span><b>${hires.length}</b></div>
+    <div class="stat"><span class="label">Tasks complete</span><b>${done} / ${total}</b></div>
+    <div class="stat"><span class="label">Overdue tasks</span><b>${hires.reduce((s, x) => s + x.o.tasks.filter(t => !t.done && parse(x.p.start).getTime() + t.offset * DAY < TODAY.getTime()).length, 0)}</b></div>
+  </div>
+  <div class="hire">${hires.map(({ o, p }) => {
+    const n = o.tasks.filter(t => t.done).length, pct = Math.round(n / o.tasks.length * 100), start = parse(p.start);
+    return `<section class="pane" aria-labelledby="h-${p.id}">
+      <div class="hire-head">${avatar(p, 'lg')}<div><b id="h-${p.id}">${nameBtn(p)}</b><span>${esc(p.title)} · started ${fmtDay.format(start)} · reports to ${esc(nameOf(p.manager))}</span></div><span class="pct num">${pct}%</span></div>
+      <div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Onboarding progress"><i class="${pct === 100 ? 'full' : ''}" style="width:${pct}%"></i></div>
+      <ul class="check">${o.tasks.map(t => { const due = addDays(start, t.offset), over = !t.done && due < TODAY; return `<li class="${t.done ? 'done' : ''}"><input type="checkbox" id="ck-${p.id}-${t.id}" data-onb="${p.id}" data-task="${t.id}" ${t.done ? 'checked' : ''}><label for="ck-${p.id}-${t.id}">${t.label}</label><span class="due ${over ? 'over' : ''}">${over ? 'Overdue · ' : ''}${fmtDay.format(due)}</span></li>`; }).join('')}</ul>
+      <div class="hire-foot"><span>${n} of ${o.tasks.length} done</span>${pct === 100 ? `<button class="btn sm ok" type="button" data-act="finish-onb" data-id="${p.id}">Mark as fully onboarded</button>` : `<span>${o.tasks.length - n} remaining</span>`}</div>
+    </section>`;
+  }).join('')}</div>`;
+}
+
+// Time off view
+function viewTimeoff() {
+  const mgr = DB.role === 'manager';
+  const pending = DB.timeoff.filter(t => t.status === 'pending').sort((a, b) => a.from.localeCompare(b.from));
+  const mine = DB.timeoff.filter(t => t.personId === ME).sort((a, b) => b.from.localeCompare(a.from));
+  const used = mine.filter(t => t.status === 'approved' && t.type === 'Vacation' && t.from.slice(0, 4) === String(TODAY.getFullYear())).reduce((s, t) => s + workDays(t.from, t.to), 0);
+  const upcoming = DB.timeoff.filter(t => t.status === 'approved' && t.to >= iso(TODAY) && t.from <= inDays(14)).length;
+  return `
+  <div class="stats">
+    <div class="stat"><span class="label">${mgr ? 'Awaiting approval' : 'Your pending requests'}</span><b>${mgr ? pending.length : mine.filter(t => t.status === 'pending').length}</b></div>
+    <div class="stat"><span class="label">Away in the next 14 days</span><b>${upcoming}</b></div>
+    <div class="stat"><span class="label">Your vacation used</span><b>${used} / 25 days</b></div>
+  </div>
+  <div class="grid">
+    <section class="pane span-8" aria-labelledby="calTitle">
+      <div class="cal-head"><button class="btn icon sm" type="button" data-act="cal" data-v="-1" aria-label="Previous month"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button><h2 id="calTitle">${fmtMonth.format(new Date(state.cal.y, state.cal.m, 1))}</h2><button class="btn icon sm" type="button" data-act="cal" data-v="1" aria-label="Next month"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><button class="btn sm" type="button" data-act="cal" data-v="0">Today</button>
+        <div class="legend">${TYPES.map(t => `<span><i class="chip ${t}"></i>${t}</span>`).join('')}<span><i class="chip pending"></i>Pending</span></div></div>
+      ${calendar()}
+    </section>
+    <section class="pane span-4" aria-labelledby="reqTitle">
+      <div class="pane-head"><h2 id="reqTitle">Request time off</h2></div>
+      <form class="toform" id="toForm" novalidate>
+        ${mgr ? `<div class="field"><label for="toWho">For</label><select id="toWho">${DB.people.map(p => `<option value="${p.id}" ${p.id === ME ? 'selected' : ''}>${esc(p.name)}</option>`).join('')}</select></div>` : `<input type="hidden" id="toWho" value="${ME}">`}
+        <div class="field"><label for="toType">Type</label><select id="toType">${TYPES.map(t => `<option>${t}</option>`).join('')}</select></div>
+        <div class="two"><div class="field"><label for="toFrom">First day</label><input type="date" id="toFrom" aria-describedby="eFrom"><span class="err" id="eFrom" hidden></span></div><div class="field"><label for="toTo">Last day</label><input type="date" id="toTo" aria-describedby="eTo"><span class="err" id="eTo" hidden></span></div></div>
+        <div class="days" id="toDays">Pick dates to see working days.</div>
+        <div class="field"><label for="toNote">Note <span class="hint">(optional)</span></label><textarea id="toNote" rows="2"></textarea></div>
+        <button class="btn primary" type="submit">${mgr ? 'Log request' : 'Send request'}</button>
+      </form>
+    </section>
+    <section class="pane span-12" aria-labelledby="qTitle">
+      <div class="pane-head"><h2 id="qTitle">${mgr ? 'Approval queue' : 'Your requests'}</h2><span class="hint">${mgr ? `${pending.length} waiting` : `${mine.length} total`}</span></div>
+      ${mgr ? (pending.length ? `<ul>${pending.map(reqRow).join('')}</ul>` : '<p class="empty">Nothing waiting for approval.</p>') : (mine.length ? `<ul>${mine.map(reqRow).join('')}</ul>` : '<p class="empty">You have not requested any time off yet.</p>')}
+    </section>
+    ${mgr ? `<section class="pane span-12" aria-labelledby="allTitle"><div class="pane-head"><h2 id="allTitle">Decided requests</h2></div><ul>${DB.timeoff.filter(t => t.status !== 'pending').sort((a, b) => b.from.localeCompare(a.from)).slice(0, 8).map(reqRow).join('')}</ul></section>` : ''}
+  </div>`;
+}
+function reqRow(t) {
+  const p = person(t.personId); if (!p) return '';
+  const mgr = DB.role === 'manager', days = workDays(t.from, t.to);
+  return `<li class="req">${avatar(p)}<div class="txt"><b>${esc(p.name)}</b> · ${t.type}, ${days} working day${days === 1 ? '' : 's'}<small>${fmtDate.format(parse(t.from))}${t.from !== t.to ? ' to ' + fmtDate.format(parse(t.to)) : ''}${t.note ? ' · ' + esc(t.note) : ''}</small></div><span class="badge ${t.status}">${t.status[0].toUpperCase() + t.status.slice(1)}</span>
+    <div class="acts">${t.status === 'pending' && mgr ? `<button class="btn sm ok" type="button" data-act="decide" data-id="${t.id}" data-v="approved">Approve</button><button class="btn sm danger" type="button" data-act="decide" data-id="${t.id}" data-v="declined">Decline</button>` : ''}${t.status === 'pending' && !mgr ? `<button class="btn sm" type="button" data-act="cancel-req" data-id="${t.id}">Withdraw</button>` : ''}</div></li>`;
+}
+function calendar() {
+  const { y, m } = state.cal, first = new Date(y, m, 1), lead = (first.getDay() + 6) % 7, start = addDays(first, -lead);
+  const cells = [];
+  for (let i = 0; i < 42; i++) {
+    const d = addDays(start, i), s = iso(d), out = d.getMonth() !== m, w = d.getDay();
+    if (i === 35 && out) break;
+    const items = DB.timeoff.filter(t => t.status !== 'declined' && t.from <= s && t.to >= s).map(t => ({ t, p: person(t.personId) })).filter(x => x.p);
+    const shown = items.slice(0, 3);
+    cells.push(`<div class="day ${out ? 'out' : ''} ${w === 0 || w === 6 ? 'wkend' : ''} ${s === iso(TODAY) ? 'today' : ''}"><span class="d">${d.getDate()}</span>${shown.map(x => `<span class="chip ${x.t.status === 'pending' ? 'pending' : x.t.type}" title="${esc(x.p.name)} · ${x.t.type}${x.t.status === 'pending' ? ' (pending)' : ''}">${esc(x.p.name.split(' ')[0])}</span>`).join('')}${items.length > 3 ? `<span class="chip more">+${items.length - 3} more</span>` : ''}</div>`);
+  }
+  return `<div class="cal">${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => `<div class="dow">${d}</div>`).join('')}${cells.join('')}</div>`;
+}
+
+// Reviews view
+function radarSVG(vals, size = 300) {
+  const cx = size / 2, cy = size / 2, r = size / 2 - 40, n = CRITERIA.length;
+  const pt = (i, v) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + Math.cos(a) * r * v / 5, cy + Math.sin(a) * r * v / 5]; };
+  const poly = v => CRITERIA.map((_, i) => pt(i, typeof v === 'number' ? v : v[i]).map(x => x.toFixed(1)).join(',')).join(' ');
+  const labels = CRITERIA.map(([k, l], i) => { const [x, y] = pt(i, 5.6); const anchor = x > cx + 8 ? 'start' : x < cx - 8 ? 'end' : 'middle'; return `<text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anchor}">${l} <tspan class="v">${vals[i]}</tspan></text>`; }).join('');
+  return `<svg class="radar" viewBox="0 0 ${size} ${size}" role="img" aria-label="Ratings: ${CRITERIA.map(([k, l], i) => `${l} ${vals[i]}`).join(', ')}">${[1, 2, 3, 4, 5].map(v => `<polygon class="ring" points="${poly(v)}"/>`).join('')}${CRITERIA.map((_, i) => { const [x, y] = pt(i, 5); return `<line class="axis" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`; }).join('')}<polygon class="shape" points="${poly(vals)}"/>${CRITERIA.map((_, i) => { const [x, y] = pt(i, vals[i]); return `<circle class="dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4"/>`; }).join('')}${labels}</svg>`;
+}
+const avg = r => (Object.values(r).reduce((s, v) => s + v, 0) / CRITERIA.length).toFixed(1);
+function viewReviews() {
+  const editing = state.editReview ? DB.reviews.find(r => r.id === state.editReview) : null;
+  const vals = CRITERIA.map(([k]) => draft.ratings[k]);
+  const list = [...DB.reviews].sort((a, b) => b.at - a.at);
+  return `
+  <div class="stats">
+    <div class="stat"><span class="label">Reviews on file</span><b>${DB.reviews.length}</b></div>
+    <div class="stat"><span class="label">Average score</span><b>${DB.reviews.length ? (DB.reviews.reduce((s, r) => s + Number(avg(r.ratings)), 0) / DB.reviews.length).toFixed(1) : '–'}</b></div>
+    <div class="stat"><span class="label">Not yet reviewed this cycle</span><b>${DB.people.filter(p => p.status === 'active' && !DB.reviews.some(r => r.personId === p.id && r.period === PERIODS[0])).length}</b></div>
+  </div>
+  <div class="grid">
+    <section class="pane span-7" aria-labelledby="rfTitle">
+      <div class="pane-head"><h2 id="rfTitle">${editing ? 'Edit review' : 'New performance review'}</h2>${editing ? '<button class="btn sm" type="button" data-act="cancel-review">Cancel edit</button>' : ''}</div>
+      <form class="rev-form" id="revForm" novalidate>
+        <div class="two">
+          <div class="field"><label for="rvWho">Person</label><select id="rvWho">${DB.people.filter(p => p.id !== 'p01').map(p => `<option value="${p.id}" ${p.id === draft.personId ? 'selected' : ''}>${esc(p.name)}</option>`).join('')}</select></div>
+          <div class="field"><label for="rvPeriod">Review period</label><select id="rvPeriod">${PERIODS.map(p => `<option ${p === draft.period ? 'selected' : ''}>${p}</option>`).join('')}</select></div>
+        </div>
+        ${CRITERIA.map(([k, l]) => `<div class="rating"><label for="rv-${k}">${l}</label><input type="range" id="rv-${k}" data-rate="${k}" min="1" max="5" step="1" value="${draft.ratings[k]}" aria-valuetext="${draft.ratings[k]} of 5"><output for="rv-${k}" id="out-${k}">${draft.ratings[k]}</output></div>`).join('')}
+        <div class="field"><label for="rvSummary">Summary</label><textarea id="rvSummary" rows="3" aria-describedby="eSummary">${esc(draft.summary)}</textarea><span class="err" id="eSummary" hidden></span></div>
+        <div><button class="btn primary" type="submit">${editing ? 'Save changes' : 'Save review'}</button></div>
+      </form>
+    </section>
+    <section class="pane span-5" aria-labelledby="rdTitle">
+      <div class="pane-head"><h2 id="rdTitle">Rating profile</h2></div>
+      <div class="radar-wrap" id="radar">${radarSVG(vals)}</div>
+      <div class="rev-score">Overall<b id="overall">${avg(draft.ratings)}</b>out of 5</div>
+    </section>
+    <section class="pane span-12" aria-labelledby="rlTitle">
+      <div class="pane-head"><h2 id="rlTitle">Saved reviews</h2></div>
+      ${list.length ? `<ul class="rev-list">${list.map(r => { const p = person(r.personId); if (!p) return ''; return `<li>${avatar(p)}<div><b>${esc(p.name)}</b> · ${r.period}<div class="meta">${esc(p.title)} · saved ${fmtDate.format(new Date(r.at))}</div></div><span class="avg">${avg(r.ratings)}</span><p>${esc(r.summary)}</p><div class="acts"><button class="btn sm" type="button" data-act="edit-review" data-id="${r.id}">Edit</button><button class="btn sm danger" type="button" data-act="delete-review" data-id="${r.id}">Delete</button></div></li>`; }).join('')}</ul>` : '<p class="empty">No reviews saved yet.</p>'}
+    </section>
+  </div>`;
+}
+function refreshRadar() {
+  const vals = CRITERIA.map(([k]) => draft.ratings[k]);
+  $('#radar').innerHTML = radarSVG(vals);
+  $('#overall').textContent = avg(draft.ratings);
+}
+
+// Org chart view
+function viewOrg() {
+  const roots = DB.people.filter(p => !p.manager || !person(p.manager));
+  const node = p => {
+    const kids = DB.people.filter(k => k.manager === p.id), open = !state.collapsed.has(p.id);
+    return `<li><div class="node">${avatar(p)}${nameBtn(p)}<span class="t">${esc(p.title)}</span>${kids.length ? `<button class="reports" type="button" data-act="toggle-node" data-id="${p.id}" aria-expanded="${open}" aria-label="${open ? 'Collapse' : 'Expand'} ${kids.length} reports">${kids.length} report${kids.length === 1 ? '' : 's'}</button>` : ''}</div>${kids.length && open ? `<ul>${kids.map(node).join('')}</ul>` : ''}</li>`;
+  };
+  return `<div class="stats"><div class="stat"><span class="label">People</span><b>${DB.people.length}</b></div><div class="stat"><span class="label">Managers</span><b>${new Set(DB.people.map(p => p.manager).filter(Boolean)).size}</b></div><div class="stat"><span class="label">Layers</span><b>${depth()}</b></div><span style="margin-left:auto"><button class="btn sm" type="button" data-act="expand-all">Expand all</button> <button class="btn sm" type="button" data-act="collapse-l2">Collapse to leads</button></span></div>
+  <div class="pane org-wrap"><div class="tree"><ul>${roots.map(node).join('')}</ul></div></div>`;
+}
+const leadsCollapsed = () => new Set(DB.people.filter(p => p.manager && person(p.manager) && person(p.manager).manager).map(p => p.id));
+function depth() {
+  const d = p => { let n = 1, c = p; while (c && c.manager && person(c.manager)) { n++; c = person(c.manager); } return n; };
+  return Math.max(...DB.people.map(d));
+}
+
+// Settings view
+function viewSettings() {
+  return `<div class="settings pane">
+    <div class="row"><div><b>Acting as</b><p>Switch between an employee and a manager to see how time off requests and approvals differ.</p></div><div class="seg" role="group" aria-label="Acting as"><button type="button" data-act="role" data-v="employee" aria-pressed="${DB.role === 'employee'}">Employee</button><button type="button" data-act="role" data-v="manager" aria-pressed="${DB.role === 'manager'}">Manager</button></div></div>
+    <div class="row"><div><b>Stored locally</b><p>${DB.people.length} people, ${DB.onboarding.length} onboarding checklists, ${DB.timeoff.length} time off requests and ${DB.reviews.length} reviews live in this browser only.</p></div><span class="num hint">${(JSON.stringify(DB).length / 1024).toFixed(1)} KB</span></div>
+    <div class="row"><div><b>Reset data</b><p>Discards every change you have made and restores the original Brightwater Labs roster.</p></div><button class="btn ${state.resetArmed ? 'danger' : ''}" type="button" data-act="reset">${state.resetArmed ? 'Yes, reset everything' : 'Reset data'}</button></div>
+  </div>`;
+}
+
+// Rendering
+const TITLES = { people: 'People', onboarding: 'Onboarding', timeoff: 'Time off', reviews: 'Reviews', org: 'Org chart', settings: 'Settings' };
+function render() {
+  const view = $('#view');
+  view.innerHTML = { people: viewPeople, onboarding: viewOnboarding, timeoff: viewTimeoff, reviews: viewReviews, org: viewOrg, settings: viewSettings }[state.view]();
+  $('#pageTitle').textContent = TITLES[state.view];
+  const org = $('.org-wrap');
+  if (org) org.scrollLeft = (org.scrollWidth - org.clientWidth) / 2;
+  document.title = `${TITLES[state.view]} - Rosterly`;
+  document.querySelectorAll('[data-nav]').forEach(a => { if (a.dataset.nav === state.view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('#countPeople').textContent = DB.people.length;
+  $('#countOnboarding').textContent = DB.onboarding.length || '';
+  const pend = DB.timeoff.filter(t => t.status === 'pending' && (DB.role === 'manager' || t.personId === ME)).length;
+  $('#countTimeoff').textContent = pend || '';
+  $('#countReviews').textContent = DB.reviews.length;
+  $('#roleLabel').textContent = DB.role === 'manager' ? 'Engineering Manager · approvals on' : 'Engineering Manager · employee view';
+  document.querySelectorAll('#roleSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === DB.role));
+}
+function go(v) { state.view = v; if (location.hash !== '#' + v) location.hash = v; else render(); }
+
+// Mobile drawer
+const mobile = matchMedia('(max-width: 860px)');
+function setMenu(open) {
+  const side = $('#sidebar'), btn = $('#menuBtn');
+  side.classList.toggle('open', open);
+  $('#scrim').classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+  btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  side.inert = mobile.matches && !open;
+  $('#workspace').inert = mobile.matches && open;
+  if (open) ($('#nav a[aria-current]') || $('#nav a')).focus();
+  else if (document.activeElement && side.contains(document.activeElement)) btn.focus();
+}
+mobile.addEventListener('change', () => setMenu(false));
+
+// Person dialog
+function openPerson(id) {
+  state.editPerson = id || null; state.deleteArmed = false;
+  const p = id ? person(id) : null;
+  $('#personTitle').textContent = p ? 'Edit person' : 'Add person';
+  $('#personSubmit').textContent = p ? 'Save changes' : 'Add person';
+  $('#fDept').innerHTML = DEPTS.map(d => `<option ${p && p.dept === d ? 'selected' : (!p && d === 'Engineering' ? 'selected' : '')}>${d}</option>`).join('');
+  $('#fManager').innerHTML = `<option value="">No manager</option>` + DB.people.filter(x => !p || x.id !== p.id).map(x => `<option value="${x.id}" ${p && p.manager === x.id ? 'selected' : (!p && x.id === ME ? 'selected' : '')}>${esc(x.name)} · ${esc(x.title)}</option>`).join('');
+  $('#fLoc').innerHTML = LOCS.map(l => `<option ${p && p.loc === l ? 'selected' : ''}>${l}</option>`).join('');
+  $('#fName').value = p ? p.name : ''; $('#fTitle').value = p ? p.title : ''; $('#fEmail').value = p ? p.email : ''; $('#fStart').value = p ? p.start : iso(TODAY);
+  $('#fOnboard').checked = !p; $('#fOnboard').closest('.field').hidden = !!p;
+  const del = $('#deleteBtn'); del.hidden = !p || p.id === ME; del.textContent = 'Delete'; del.classList.add('danger');
+  ['Name', 'Title', 'Email', 'Start'].forEach(k => setErr('f' + k, 'e' + k, ''));
+  $('#personDialog').showModal();
+  $('#fName').focus();
+}
+function setErr(inputId, errId, msg) {
+  const i = $('#' + inputId), e = $('#' + errId);
+  e.textContent = msg; e.hidden = !msg; i.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  return !msg;
+}
+function submitPerson() {
+  const name = $('#fName').value.trim(), title = $('#fTitle').value.trim(), email = $('#fEmail').value.trim(), start = $('#fStart').value;
+  const ok = [setErr('fName', 'eName', name.length > 1 ? '' : 'Enter the person\'s full name.'), setErr('fTitle', 'eTitle', title ? '' : 'Enter a job title.'), setErr('fEmail', 'eEmail', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? '' : 'Enter a valid email address.'), setErr('fStart', 'eStart', start ? '' : 'Pick a start date.')];
+  if (ok.includes(false)) { ['fName', 'fTitle', 'fEmail', 'fStart'][ok.indexOf(false)] && $('#' + ['fName', 'fTitle', 'fEmail', 'fStart'][ok.indexOf(false)]).focus(); return; }
+  const data = { name, title, email, start, dept: $('#fDept').value, manager: $('#fManager').value || null, loc: $('#fLoc').value };
+  if (state.editPerson) {
+    Object.assign(person(state.editPerson), data);
+    showToast(`${name} updated.`);
+  } else {
+    const id = nextId('p');
+    DB.people.push({ id, ...data, status: $('#fOnboard').checked ? 'onboarding' : 'active' });
+    if ($('#fOnboard').checked) DB.onboarding.push({ personId: id, tasks: CHECKLIST.map(([label, off], i) => ({ id: i, label, offset: off, done: false })) });
+    showToast(`${name} added to the roster.`);
+  }
+  save();
+  $('#personDialog').close();
+  render();
+}
+function deletePerson() {
+  const id = state.editPerson, p = person(id);
+  if (!state.deleteArmed) { state.deleteArmed = true; $('#deleteBtn').textContent = `Confirm delete ${p.name.split(' ')[0]}`; return; }
+  lastDeleted = { p, reports: DB.people.filter(x => x.manager === id).map(x => x.id), onb: DB.onboarding.find(o => o.personId === id), to: DB.timeoff.filter(t => t.personId === id), rv: DB.reviews.filter(r => r.personId === id) };
+  DB.people.forEach(x => { if (x.manager === id) x.manager = p.manager; });
+  DB.people = DB.people.filter(x => x.id !== id);
+  DB.onboarding = DB.onboarding.filter(o => o.personId !== id);
+  DB.timeoff = DB.timeoff.filter(t => t.personId !== id);
+  DB.reviews = DB.reviews.filter(r => r.personId !== id);
+  save();
+  $('#personDialog').close();
+  render();
+  showToast(`${p.name} removed. Reports now go to ${nameOf(p.manager)}.`, 'undo-delete');
+}
+function undoDelete() {
+  if (!lastDeleted) return;
+  const { p, reports, onb, to, rv } = lastDeleted;
+  DB.people.push(p); reports.forEach(id => { const x = person(id); if (x) x.manager = p.id; });
+  if (onb) DB.onboarding.push(onb); DB.timeoff.push(...to); DB.reviews.push(...rv);
+  lastDeleted = null; save(); hideToast(); render();
+}
+
+// Time off helpers
+function updateDays() {
+  const a = $('#toFrom').value, b = $('#toTo').value, el = $('#toDays');
+  if (!el) return;
+  if (a && !b) $('#toTo').value = a;
+  const f = $('#toFrom').value, t = $('#toTo').value;
+  el.innerHTML = f && t && t >= f ? `<b>${workDays(f, t)}</b> working day${workDays(f, t) === 1 ? '' : 's'} requested` : 'Pick dates to see working days.';
+}
+function submitTimeoff() {
+  const who = $('#toWho').value, type = $('#toType').value, from = $('#toFrom').value, to = $('#toTo').value, note = $('#toNote').value.trim();
+  const a = setErr('toFrom', 'eFrom', from ? '' : 'Pick the first day.');
+  let b = setErr('toTo', 'eTo', !to ? 'Pick the last day.' : to < from ? 'Last day must be on or after the first day.' : '');
+  if (a && b && DB.timeoff.some(t => t.personId === who && t.status !== 'declined' && overlaps(t, { from, to }))) b = setErr('toTo', 'eTo', 'These dates overlap an existing request.');
+  if (!a) { $('#toFrom').focus(); return; }
+  if (!b) { $('#toTo').focus(); return; }
+  if (workDays(from, to) === 0) { setErr('toTo', 'eTo', 'That range only covers a weekend.'); $('#toTo').focus(); return; }
+  DB.timeoff.push({ id: nextId('t'), personId: who, type, from, to, note, status: 'pending', at: Date.now() });
+  save(); render();
+  showToast(`${type} request for ${nameOf(who)} sent for approval.`);
+  $('#toFrom').focus();
+}
+function decide(id, status) {
+  const t = DB.timeoff.find(x => x.id === id); if (!t) return;
+  t.status = status; t.decidedAt = Date.now(); save(); render();
+  showToast(`${nameOf(t.personId)}'s ${t.type.toLowerCase()} request ${status}.`, 'undo-decide');
+  lastDecision = id;
+}
+let lastDecision = null;
+
+// Review helpers
+function submitReview() {
+  const summary = $('#rvSummary').value.trim();
+  if (!setErr('rvSummary', 'eSummary', summary.length >= 10 ? '' : 'Write at least a sentence of summary.')) { $('#rvSummary').focus(); return; }
+  const data = { personId: $('#rvWho').value, period: $('#rvPeriod').value, ratings: { ...draft.ratings }, summary };
+  if (state.editReview) { Object.assign(DB.reviews.find(r => r.id === state.editReview), data); showToast('Review updated.'); }
+  else { DB.reviews.push({ id: nextId('r'), ...data, at: Date.now() }); showToast(`Review saved for ${nameOf(data.personId)}.`); }
+  state.editReview = null;
+  Object.assign(draft, { summary: '', ratings: Object.fromEntries(CRITERIA.map(([k]) => [k, 3])) });
+  save(); render();
+}
+
+// Shared click handling
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]');
+  if (!t) return;
+  const act = t.dataset.act, id = t.dataset.id, v = t.dataset.v;
+  if (act === 'toggle-menu') setMenu(!$('#sidebar').classList.contains('open'));
+  else if (act === 'close-menu') setMenu(false);
+  else if (act === 'role') { DB.role = v; save(); render(); }
+  else if (act === 'new-person') openPerson(null);
+  else if (act === 'edit-person') openPerson(id);
+  else if (act === 'close-person') $('#personDialog').close();
+  else if (act === 'delete-person') deletePerson();
+  else if (act === 'undo-delete') undoDelete();
+  else if (act === 'mode') { state.mode = v; render(); document.querySelector(`[data-act="mode"][data-v="${v}"]`).focus(); }
+  else if (act === 'sort') { const k = t.dataset.key; if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = 1; } refreshPeople(); document.querySelector(`[data-act="sort"][data-key="${k}"]`).focus(); }
+  else if (act === 'clear-search') { state.search = ''; state.dept = 'all'; render(); $('#peopleSearch').focus(); }
+  else if (act === 'finish-onb') { const p = person(id); p.status = 'active'; DB.onboarding = DB.onboarding.filter(o => o.personId !== id); save(); render(); showToast(`${p.name} is fully onboarded.`); }
+  else if (act === 'cal') { if (v === '0') state.cal = { y: TODAY.getFullYear(), m: TODAY.getMonth() }; else { const d = new Date(state.cal.y, state.cal.m + Number(v), 1); state.cal = { y: d.getFullYear(), m: d.getMonth() }; } render(); document.querySelector(`[data-act="cal"][data-v="${v}"]`).focus(); }
+  else if (act === 'decide') decide(id, v);
+  else if (act === 'undo-decide') { const r = DB.timeoff.find(x => x.id === lastDecision); if (r) { r.status = 'pending'; save(); render(); hideToast(); } }
+  else if (act === 'cancel-req') { const r = DB.timeoff.find(x => x.id === id); DB.timeoff = DB.timeoff.filter(x => x.id !== id); save(); render(); showToast(`${r.type} request withdrawn.`); }
+  else if (act === 'edit-review') { const r = DB.reviews.find(x => x.id === id); state.editReview = id; Object.assign(draft, { personId: r.personId, period: r.period, summary: r.summary, ratings: { ...r.ratings } }); render(); $('#view').scrollTop = 0; $('#rvWho').focus(); }
+  else if (act === 'cancel-review') { state.editReview = null; Object.assign(draft, { summary: '', ratings: Object.fromEntries(CRITERIA.map(([k]) => [k, 3])) }); render(); }
+  else if (act === 'delete-review') { const r = DB.reviews.find(x => x.id === id); DB.reviews = DB.reviews.filter(x => x.id !== id); if (state.editReview === id) state.editReview = null; save(); render(); showToast(`Review for ${nameOf(r.personId)} deleted.`); }
+  else if (act === 'toggle-node') { if (state.collapsed.has(id)) state.collapsed.delete(id); else state.collapsed.add(id); render(); document.querySelector(`[data-act="toggle-node"][data-id="${id}"]`).focus(); }
+  else if (act === 'expand-all') { state.collapsed.clear(); render(); }
+  else if (act === 'collapse-l2') { state.collapsed = leadsCollapsed(); render(); }
+  else if (act === 'reset') { if (!state.resetArmed) { state.resetArmed = true; render(); document.querySelector('[data-act="reset"]').focus(); return; } localStorage.removeItem(KEY); DB = seed(); save(); state.resetArmed = false; state.collapsed = leadsCollapsed(); render(); showToast('Data reset to the original roster.'); }
+});
+
+// Shared change handling
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.id === 'deptFilter') { state.dept = el.value; refreshPeople(); }
+  else if (el.dataset.onb) { const o = DB.onboarding.find(x => x.personId === el.dataset.onb); o.tasks[Number(el.dataset.task)].done = el.checked; save(); const s = $('#view').scrollTop; render(); $('#view').scrollTop = s; $(`#ck-${el.dataset.onb}-${el.dataset.task}`).focus(); }
+  else if (el.id === 'toFrom' || el.id === 'toTo') updateDays();
+  else if (el.id === 'rvWho') draft.personId = el.value;
+  else if (el.id === 'rvPeriod') draft.period = el.value;
+});
+
+// Live inputs
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.id === 'peopleSearch') { state.search = el.value; refreshPeople(); }
+  else if (el.dataset.rate) { draft.ratings[el.dataset.rate] = Number(el.value); $('#out-' + el.dataset.rate).textContent = el.value; el.setAttribute('aria-valuetext', `${el.value} of 5`); refreshRadar(); }
+  else if (el.id === 'rvSummary') draft.summary = el.value;
+});
+
+// Forms
+document.addEventListener('submit', e => {
+  e.preventDefault();
+  if (e.target.id === 'personForm') submitPerson();
+  else if (e.target.id === 'toForm') submitTimeoff();
+  else if (e.target.id === 'revForm') submitReview();
+});
+
+// Restores focus when the dialog closes
+$('#personDialog').addEventListener('close', () => {
+  const id = state.editPerson; state.editPerson = null;
+  const target = id ? document.querySelector(`[data-act="edit-person"][data-id="${id}"]`) : document.querySelector('[data-act="new-person"]');
+  if (target) target.focus();
+});
+
+// Escape closes the mobile drawer
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#sidebar').classList.contains('open')) setMenu(false); });
+
+// Nav links close the drawer and move focus to the content
+$('#nav').addEventListener('click', e => {
+  if (!e.target.closest('a')) return;
+  setMenu(false);
+  setTimeout(() => $('#view').focus({ preventScroll: true }), 0);
+});
+
+// Hash routing
+window.addEventListener('hashchange', () => {
+  const v = location.hash.slice(1);
+  if (TITLES[v] && v !== state.view) { state.view = v; state.resetArmed = false; hideToast(); render(); $('#view').scrollTop = 0; }
+});
+
+// Start the app
+load();
+state.collapsed = leadsCollapsed();
+$('#todayLabel').textContent = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(TODAY);
+const startView = location.hash.slice(1);
+if (TITLES[startView]) state.view = startView;
+setMenu(false);
+render();
+</script>
+</body>
+</html>

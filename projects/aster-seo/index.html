@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aster &amp; Co. SEO strategy | Zero Lag</title>
+<meta name="description" content="SEO strategy for Aster &amp; Co.: technical audit, keyword map, twelve-week content calendar, on-page templates, internal-linking plan and structured data.">
+<meta name="theme-color" content="#0E4A4A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E4A4A'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23E0AC2B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital@1&display=swap" rel="stylesheet">
+<style>
+/* Design tokens, matched to the Aster & Co. store */
+:root{
+  --stone:#EFEBE3; --stone-2:#E4DED2; --paper:#F9F7F2; --ink:#1B2826; --muted:#56605B; --line:#CDC6B8; --line-soft:#DDD7CA;
+  --teal:#0E4A4A; --teal-deep:#0A3536; --teal-tint:#DCE7E4; --mustard:#E0AC2B; --mustard-tint:#F6E7BC; --err:#96281A; --err-tint:#F3DCD6; --ok:#2F6B3A; --ok-tint:#DCEBDA; --warn:#8A5B00;
+  --display:"Libre Caslon Display",Georgia,"Times New Roman",serif;
+  --ital:"Libre Caslon Text",Georgia,serif;
+  --text:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --bar-h:34px; --nav-h:52px; --gut:clamp(16px,3.4vw,48px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + var(--nav-h) + 12px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--stone);color:var(--ink);font:400 16px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:-.005em;text-wrap:balance}
+h2{font-size:clamp(30px,3.6vw,46px);line-height:1.08}
+h3{font-size:22px;line-height:1.2}
+.it{font-family:var(--ital);font-style:italic}
+.wrap{padding-inline:var(--gut);max-width:1380px;margin-inline:auto}
+.mono{font-family:var(--mono);font-size:.92em}
+
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:80;height:var(--bar-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--gut);background:var(--teal-deep);color:#C9D6D0;font-size:13px;line-height:1}
+.zl-bar a{color:#E6E9E2;text-decoration:none;font-weight:600;white-space:nowrap}
+.zl-bar a:hover{text-decoration:underline;text-underline-offset:3px}
+.zl-bar a:focus-visible{outline-color:var(--mustard)}
+.zl-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl-bar strong{color:#fff;font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Hero */
+.hero{background:var(--paper);border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px 56px;padding-block:clamp(40px,6vw,80px);align-items:end}
+.brandline{display:flex;align-items:center;gap:10px;color:var(--teal);font-family:var(--display);font-size:24px;line-height:1;margin-bottom:22px}
+.brandline svg{width:26px;height:26px}
+.brandline em{font-family:var(--ital);font-size:.82em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--mustard)}
+h1{font-size:clamp(40px,5.2vw,74px);line-height:1.02;margin-bottom:20px}
+.lede{font-size:clamp(17px,1.35vw,20px);color:var(--muted);max-width:34em}
+.facts{display:grid;gap:0;border-top:1px solid var(--line)}
+.facts div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.facts dt{color:var(--muted);font-weight:500}
+.facts dd{font-weight:500}
+@media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Sticky section nav */
+.secnav{position:sticky;top:var(--bar-h);z-index:60;background:var(--stone);border-bottom:1px solid var(--line)}
+.secnav ul{display:flex;gap:4px;height:var(--nav-h);align-items:center;padding-inline:var(--gut);max-width:1380px;margin-inline:auto;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.secnav ul::-webkit-scrollbar{display:none}
+.secnav a{display:inline-flex;align-items:center;height:36px;padding:0 13px;border-radius:2px;font-size:14.5px;font-weight:500;text-decoration:none;white-space:nowrap;color:var(--muted);transition:background-color .15s,color .15s}
+.secnav a:hover{background:var(--stone-2);color:var(--ink)}
+.secnav a[aria-current="true"]{background:var(--teal);color:#fff}
+
+/* Sections */
+.sec{padding-block:clamp(52px,6.5vw,96px);border-bottom:1px solid var(--line)}
+.sec:nth-of-type(even){background:var(--paper)}
+.sec-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:14px 48px;align-items:end;margin-bottom:30px}
+.sec-head p{color:var(--muted);max-width:34em}
+.num{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.04em;display:block;margin-bottom:10px}
+@media (max-width:860px){.sec-head{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:3px}
+.sec:nth-of-type(even) .card{background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:38px;padding:6px 13px;border-radius:2px;font-size:14.5px;font-weight:500;border:1px solid var(--line);background:transparent;transition:background-color .15s,color .15s}
+.chip:hover{background:var(--stone-2)}
+.chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;border-radius:2px;font-weight:600;font-size:15px;text-decoration:none;transition:background-color .18s,color .18s}
+.btn-solid{background:var(--teal);color:#fff}
+.btn-solid:hover{background:var(--teal-deep)}
+.btn-ghost{box-shadow:inset 0 0 0 1px var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-sm{min-height:36px;padding:6px 13px;font-size:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:2px 9px;border-radius:2px;font-size:12.5px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.tag-pass{background:var(--ok-tint);color:var(--ok)}
+.tag-fix{background:var(--err-tint);color:var(--err)}
+.tag-watch{background:var(--mustard-tint);color:var(--warn)}
+.tag-teal{background:var(--teal-tint);color:var(--teal)}
+.tag-ghost{box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+
+/* Audit */
+.audit-tools{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.audit-sum{display:flex;gap:18px;font-size:14.5px;color:var(--muted)}
+.audit-sum b{color:var(--ink);font-weight:600}
+.audit{display:grid;gap:8px}
+.aitem{overflow:hidden}
+.aitem-h{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;padding:14px 16px;text-align:left;border-radius:3px}
+.aitem-h:hover{background:var(--stone)}
+.sec:nth-of-type(even) .aitem-h:hover{background:var(--paper)}
+.aitem-h strong{font-weight:600;font-size:16px;display:block}
+.aitem-h small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.aitem-h .car{width:20px;height:20px;transition:transform .2s;color:var(--muted)}
+.aitem-h[aria-expanded="true"] .car{transform:rotate(180deg)}
+.aitem-b{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;padding:4px 16px 18px 122px;font-size:15px}
+.aitem-b h4{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.aitem-b code{font-family:var(--mono);font-size:13px;background:var(--stone);padding:2px 5px;border-radius:2px}
+.aitem-b .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+@media (max-width:760px){
+  .aitem-h{grid-template-columns:minmax(0,1fr) auto;row-gap:8px}
+  .aitem-h .tag{grid-row:2;justify-self:start}
+  .aitem-b{grid-template-columns:1fr;padding-left:16px}
+}
+
+/* Keyword map */
+.kw-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:center;margin-bottom:14px}
+.search{position:relative;max-width:360px}
+.search input{width:100%;min-height:42px;padding:8px 12px 8px 38px;border:1px solid var(--line);border-radius:2px;background:var(--paper)}
+.search svg{position:absolute;left:12px;top:50%;width:18px;height:18px;margin-top:-9px;color:var(--muted)}
+.kw-count{font-size:14.5px;color:var(--muted);white-space:nowrap}
+.tbl-wrap{overflow:auto;max-height:580px;border:1px solid var(--line);border-radius:3px;background:var(--paper)}
+.sec:nth-of-type(even) .tbl-wrap{background:#fff}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:760px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--stone);position:sticky;top:0}
+th button{display:inline-flex;align-items:center;gap:6px;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;min-height:28px}
+th button svg{width:12px;height:12px;opacity:.45}
+th[aria-sort] button svg{opacity:1;color:var(--teal)}
+th[aria-sort="descending"] button svg{transform:rotate(180deg)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--stone)}
+td.kw{font-weight:500}
+td .path{font-family:var(--mono);font-size:13px;color:var(--teal)}
+.pri{display:inline-block;width:26px;text-align:center;font-weight:700;font-size:12.5px;border-radius:2px;padding:2px 0}
+.pri-1{background:var(--teal);color:#fff}.pri-2{background:var(--teal-tint);color:var(--teal)}.pri-3{box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+@media (max-width:760px){.kw-tools{grid-template-columns:minmax(0,1fr)}}
+
+/* Calendar */
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cal-legend span{display:inline-flex;align-items:center;gap:7px}
+.cal-legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
+.cal-scroll{overflow-x:auto;padding-bottom:6px}
+.cal{display:grid;grid-template-columns:120px repeat(12,minmax(150px,1fr));gap:6px;min-width:1900px}
+.cal .lane{position:sticky;left:0;z-index:2;background:var(--stone);display:flex;align-items:center;padding:10px 12px 10px 0;font-weight:600;font-size:14px;border-right:1px solid var(--line)}
+.sec:nth-of-type(even) .cal .lane{background:var(--paper)}
+.cal .wk{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--muted);padding:4px 6px;text-transform:uppercase}
+.cal .wk b{color:var(--ink);display:block;font-family:var(--text);font-weight:600;font-size:13.5px;letter-spacing:0;text-transform:none}
+.cell{min-height:64px;border-radius:3px;background:rgba(0,0,0,.025)}
+.cal-item{width:100%;height:100%;min-height:64px;text-align:left;padding:9px 10px;border-radius:3px;border-left:4px solid var(--c);background:var(--paper);box-shadow:0 0 0 1px var(--line);font-size:13.5px;line-height:1.35;font-weight:500;transition:box-shadow .15s,transform .15s}
+.sec:nth-of-type(even) .cal-item{background:#fff}
+.cal-item:hover{box-shadow:0 0 0 1px var(--teal)}
+.cal-item[aria-pressed="true"]{box-shadow:0 0 0 2px var(--teal)}
+.cal-item small{display:block;color:var(--muted);font-weight:400;font-size:12.5px;margin-top:3px}
+.cal-detail{margin-top:16px;padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 28px}
+.cal-detail h3{margin-bottom:6px}
+.cal-detail dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14.5px;min-width:260px}
+.cal-detail dt{color:var(--muted)}
+.cal-detail p{font-size:15px;color:var(--muted);max-width:52em}
+@media (max-width:760px){.cal-detail{grid-template-columns:minmax(0,1fr)}}
+
+/* On-page templates */
+.tpl{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:13.5px;font-weight:600}
+.field input,.field select,.field textarea{min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:2px;background:#fff;width:100%}
+.field textarea{min-height:66px;resize:vertical;font-family:var(--mono);font-size:13.5px;line-height:1.5}
+.field .hint{font-size:13px;color:var(--muted)}
+.tokens{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 18px}
+.tokens code{font-family:var(--mono);font-size:12.5px;background:var(--teal-tint);color:var(--teal);padding:3px 7px;border-radius:2px}
+.serp{background:#fff;border:1px solid var(--line);border-radius:3px;padding:22px 24px;font-family:Arial,Helvetica,sans-serif}
+.serp-site{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.serp-fav{width:26px;height:26px;border-radius:50%;background:#f1f3f4;display:grid;place-items:center}
+.serp-fav svg{width:16px;height:16px}
+.serp-site b{display:block;font-size:14px;font-weight:400;color:#202124;line-height:1.3}
+.serp-site span{display:block;font-size:12px;color:#4d5156;line-height:1.3}
+.serp-title{font-size:20px;line-height:1.3;color:#1a0dab;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px}
+.serp-desc{font-size:14px;line-height:1.58;color:#4d5156;max-width:600px}
+.serp-desc .d{color:#70757a}
+.serp-h1{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);font-family:var(--text)}
+.serp-h1 small{display:block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.serp-h1 span{font-family:var(--display);font-size:26px;line-height:1.1}
+.counts{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:13.5px;color:var(--muted)}
+.counts b{font-weight:600;color:var(--ink)}
+.counts .over b{color:var(--err)}
+.counts .ok b{color:var(--ok)}
+.rules{margin-top:22px;display:grid;gap:8px;font-size:14.5px}
+.rules li{display:grid;grid-template-columns:18px 1fr;gap:10px;color:var(--muted)}
+.rules li::before{content:"";width:8px;height:8px;margin-top:8px;border-radius:50%;background:var(--mustard)}
+@media (max-width:900px){.tpl{grid-template-columns:minmax(0,1fr)}}
+
+/* Linking diagram */
+.link-wrap{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:24px;align-items:start}
+.diagram{padding:12px;overflow-x:auto}
+.diagram svg{display:block;width:100%;min-width:720px;height:auto}
+.diagram .edge{fill:none;stroke:var(--line);stroke-width:1.5;transition:stroke .15s,stroke-width .15s}
+.diagram .edge.hot{stroke:var(--teal);stroke-width:2.5}
+.diagram .edge.hub{stroke-dasharray:4 4}
+.diagram .node{cursor:pointer}
+.diagram .node rect{fill:#fff;stroke:var(--line);stroke-width:1.2;transition:stroke .15s,fill .15s}
+.diagram .node text{font-family:var(--text);font-size:12.5px;font-weight:500;fill:var(--ink);pointer-events:none}
+.diagram .node.home rect{fill:var(--teal);stroke:var(--teal)}
+.diagram .node.home text{fill:#fff;font-weight:600}
+.diagram .node.col rect{fill:var(--teal-tint);stroke:var(--teal-tint)}
+.diagram .node.guide rect{fill:var(--mustard-tint);stroke:var(--mustard-tint)}
+.diagram .node.hot rect{stroke:var(--teal);stroke-width:2.2}
+.diagram .node.dim{opacity:.35}
+.diagram .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;fill:var(--muted);text-transform:uppercase}
+.link-side{padding:18px 20px;font-size:14.5px}
+.link-side h3{font-size:19px;margin-bottom:10px}
+.link-side ul{display:grid;gap:8px;color:var(--muted)}
+.link-side .rule{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.link-side .rule b{font-family:var(--mono);font-size:12px;color:var(--teal);margin-top:3px}
+.link-focus{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.link-focus b{display:block;font-weight:600;margin-bottom:4px}
+@media (max-width:900px){.link-wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Structured data */
+.sd{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;align-items:start}
+.sd-tabs{display:flex;gap:4px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.sd-tabs button{min-height:42px;padding:8px 14px;font-weight:600;font-size:15px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.sd-tabs button[aria-selected="true"]{color:var(--teal);border-color:var(--teal)}
+.rich{background:#fff;border:1px solid var(--line);border-radius:3px;padding:20px 22px;font-family:Arial,Helvetica,sans-serif;color:#202124}
+.rich .crumbs{font-size:12.5px;color:#4d5156;margin-bottom:10px}
+.rich .crumbs span{margin:0 5px;color:#70757a}
+.rich .prod{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:start}
+.rich .prod img{width:120px;height:120px;object-fit:cover;border-radius:8px}
+.rich .ttl{font-size:18px;color:#1a0dab;line-height:1.3;margin-bottom:4px}
+.rich .line{font-size:13.5px;color:#4d5156;line-height:1.5}
+.rich .price{font-weight:700;color:#202124}
+.rich .stock{color:#188038}
+.rich .biz h4{font-size:19px;font-weight:400;margin-bottom:2px}
+.rich .biz .kind{font-size:13px;color:#70757a;margin-bottom:10px}
+.rich .biz dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.rich .biz dt{color:#70757a}
+.rich .open{color:#188038;font-weight:700}
+.code{position:relative;background:#132a2a;color:#DCE7E4;border-radius:3px;padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.55;overflow:auto;max-height:520px;tab-size:2}
+.code .k{color:#F2CB63}.code .s{color:#B9E2C8}.code .n{color:#FFB38A}
+.code-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;font-size:14px;color:var(--muted)}
+.copy{min-height:34px;padding:4px 12px;border-radius:2px;box-shadow:inset 0 0 0 1px var(--line);font-weight:600;font-size:13.5px}
+.copy:hover{background:var(--stone-2)}
+.sd-note{margin-top:14px;font-size:14.5px;color:var(--muted)}
+@media (max-width:900px){.sd{grid-template-columns:minmax(0,1fr)}}
+
+/* Footer */
+.foot{padding:28px 0 40px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+.foot a{color:var(--teal);font-weight:600}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Aster &amp; Co. SEO strategy</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="brandline"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0E4A4A"/><circle cx="16" cy="16" r="7" fill="#E0AC2B"/></svg>Aster <em>&amp;</em> Co.</p>
+      <p class="eyebrow">Digital marketing &middot; Search strategy</p>
+      <h1>A search plan built around how people shop for things that last</h1>
+      <p class="lede">Six working deliverables for a small home-goods store in Portmere, Maine: what to fix on the site, which searches each page should own, what to publish over twelve weeks, how every page should be titled, how pages link to each other, and what the search engines should be told about products and the shop.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Scope</dt><dd>Technical audit, keyword map, content calendar, on-page templates, internal linking, structured data</dd></div>
+      <div><dt>Site</dt><dd>Shop with 8 product lines, guides section, repairs page</dd></div>
+      <div><dt>Horizon</dt><dd>12-week rollout, then quarterly review</dd></div>
+      <div><dt>Team</dt><dd>Hammad (strategy), Ebad (technical), Zunair (content)</dd></div>
+    </dl>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Deliverables">
+  <ul>
+    <li><a href="#audit">Technical audit</a></li>
+    <li><a href="#keywords">Keyword map</a></li>
+    <li><a href="#calendar">Content calendar</a></li>
+    <li><a href="#templates">On-page templates</a></li>
+    <li><a href="#linking">Internal linking</a></li>
+    <li><a href="#schema">Structured data</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- Technical audit -->
+<section class="sec" id="audit" aria-labelledby="audit-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">01 / 06</span><h2 id="audit-h">Technical audit checklist</h2></div>
+      <p>Every check we ran against the live store, what we found and the exact fix. Open an item for the detail; filter by status to see what is still outstanding.</p>
+    </div>
+    <div class="audit-tools">
+      <div class="chips" role="group" aria-label="Filter by status">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="fix" aria-pressed="false">Needs fix</button>
+        <button class="chip" data-f="watch" aria-pressed="false">Watch</button>
+        <button class="chip" data-f="pass" aria-pressed="false">Passing</button>
+      </div>
+      <p class="audit-sum" id="audit-sum" aria-live="polite"></p>
+    </div>
+    <div class="audit" id="audit-list"></div>
+  </div>
+</section>
+
+<!-- Keyword map -->
+<section class="sec" id="keywords" aria-labelledby="kw-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">02 / 06</span><h2 id="kw-h">Keyword map</h2></div>
+      <p>Each search phrase is assigned to one page so no two pages compete. Intent tells the writer what the page must do; priority sets the order of work. Sort any column, filter by cluster or search the list.</p>
+    </div>
+    <div class="kw-tools">
+      <div class="chips" id="kw-clusters" role="group" aria-label="Filter by cluster"></div>
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="kw-q" aria-label="Search keywords or pages"></div>
+    </div>
+    <p class="kw-count" id="kw-count" aria-live="polite" style="margin-bottom:10px"></p>
+    <div class="tbl-wrap">
+      <table id="kw-table">
+        <thead><tr>
+          <th><button data-sort="kw">Keyword <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></th>
+          <th><button data-sort="cluster">Cluster <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></th>
+          <th><button data-sort="intent">Intent <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></th>
+          <th><button data-sort="page">Target page <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></th>
+          <th><button data-sort="pri">Priority <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></th>
+        </tr></thead>
+        <tbody id="kw-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Content calendar -->
+<section class="sec" id="calendar" aria-labelledby="cal-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">03 / 06</span><h2 id="cal-h">Twelve-week content calendar</h2></div>
+      <p>Four lanes of work, sequenced so technical fixes land before the pages they support, and guides go live once the collection pages they link to are rewritten. Select any item for its brief.</p>
+    </div>
+    <div class="cal-legend" id="cal-legend"></div>
+    <div class="cal-scroll"><div class="cal" id="cal" role="group" aria-label="Content calendar grid"></div></div>
+    <div class="card cal-detail" id="cal-detail" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- On-page templates -->
+<section class="sec" id="templates" aria-labelledby="tpl-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">04 / 06</span><h2 id="tpl-h">On-page templates</h2></div>
+      <p>Title, meta description and H1 patterns for each page type. Change the inputs or the pattern itself and the search snippet on the right updates as you type, with length checks against the usual display limits.</p>
+    </div>
+    <div class="tpl">
+      <form class="card" style="padding:22px" id="tpl-form" autocomplete="off">
+        <div class="field"><label for="t-type">Page type</label>
+          <select id="t-type"><option value="product">Product page</option><option value="collection">Collection page</option><option value="guide">Guide article</option><option value="repairs">Repairs page</option></select></div>
+        <div class="field"><label for="t-product">Product</label><input id="t-product" value="Marlow Three-Seat Sofa"></div>
+        <div class="field"><label for="t-cat">Category</label><input id="t-cat" value="Sofas"></div>
+        <div class="field"><label for="t-mat">Material or detail</label><input id="t-mat" value="Maine-woven wool"></div>
+        <div class="field"><label for="t-guide">Guide title</label><input id="t-guide" value="How to choose a sofa size"></div>
+        <p class="field hint" style="margin:-6px 0 10px">Tokens you can use in the patterns:</p>
+        <div class="tokens"><code>{product}</code><code>{category}</code><code>{material}</code><code>{guide}</code><code>{brand}</code><code>{town}</code></div>
+        <div class="field"><label for="t-title">Title pattern</label><textarea id="t-title" rows="2"></textarea></div>
+        <div class="field"><label for="t-meta">Meta description pattern</label><textarea id="t-meta" rows="3"></textarea></div>
+        <div class="field"><label for="t-h1">H1 pattern</label><textarea id="t-h1" rows="1"></textarea></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="t-reset">Reset patterns</button>
+      </form>
+      <div>
+        <div class="serp" aria-live="polite" aria-label="Search result preview">
+          <div class="serp-site"><span class="serp-fav"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0E4A4A"/><circle cx="16" cy="16" r="7" fill="#E0AC2B"/></svg></span><div><b>Aster &amp; Co.</b><span id="s-url">asterandco.example &rsaquo; sofas &rsaquo; marlow-three-seat-sofa</span></div></div>
+          <div class="serp-title" id="s-title"></div>
+          <div class="serp-desc" id="s-desc"></div>
+          <div class="serp-h1"><small>Page H1</small><span id="s-h1"></span></div>
+        </div>
+        <div class="counts" id="counts"></div>
+        <ul class="rules">
+          <li>Titles stay under 60 characters so they rarely truncate; brand goes last and is dropped first if space runs out.</li>
+          <li>Meta descriptions lead with the thing searched for, then the two reasons to buy here: made to order in Maine, repaired free for five years.</li>
+          <li>The H1 matches the title's first phrase word for word, so the page reads as the thing the result promised.</li>
+          <li>Collection titles name the category twice at most; product titles never repeat the category if it is already in the product name.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Internal linking -->
+<section class="sec" id="linking" aria-labelledby="link-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">05 / 06</span><h2 id="link-h">Internal-linking plan</h2></div>
+      <p>How authority flows through the store: home to collections, collections to products, guides back into the collections they help people choose from. Hover or focus any page to see its inbound and outbound links.</p>
+    </div>
+    <div class="link-wrap">
+      <figure class="card diagram" id="diagram"></figure>
+      <aside class="card link-side">
+        <h3>Linking rules</h3>
+        <ul>
+          <li class="rule"><b>R1</b><span>Every product links up to its collection and sideways to two neighbours in the same collection.</span></li>
+          <li class="rule"><b>R2</b><span>Every guide links to one collection and the two products it mentions, using the product name as the link text.</span></li>
+          <li class="rule"><b>R3</b><span>Collections link to their most relevant guide in the intro copy, not just the footer.</span></li>
+          <li class="rule"><b>R4</b><span>Repairs is linked from every product page under the price, and from the footer.</span></li>
+          <li class="rule"><b>R5</b><span>No page should be more than three clicks from home.</span></li>
+        </ul>
+        <div class="link-focus" id="link-focus" aria-live="polite"><b>Hover a page</b><span style="color:var(--muted)">Links in and out will be listed here.</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- Structured data -->
+<section class="sec" id="schema" aria-labelledby="sd-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">06 / 06</span><h2 id="sd-h">Structured data</h2></div>
+      <p>JSON-LD for the three things the store needs search engines to understand: each product and its offer, the path to it, and the shop itself. The left side shows how each one can be displayed; the right side is the exact markup.</p>
+    </div>
+    <div class="sd-tabs" role="tablist" aria-label="Structured data types">
+      <button role="tab" id="tab-product" aria-selected="true" aria-controls="sd-panel" data-sd="product">Product</button>
+      <button role="tab" id="tab-crumbs" aria-selected="false" aria-controls="sd-panel" data-sd="crumbs">Breadcrumbs</button>
+      <button role="tab" id="tab-store" aria-selected="false" aria-controls="sd-panel" data-sd="store">Store</button>
+    </div>
+    <div class="sd" id="sd-panel" role="tabpanel">
+      <div>
+        <div class="rich" id="rich"></div>
+        <p class="sd-note" id="sd-note"></p>
+      </div>
+      <div>
+        <div class="code-bar"><span id="code-file"></span><button class="copy" id="copy-sd">Copy JSON-LD</button></div>
+        <pre class="code" id="sd-code" tabindex="0"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot">
+  <span>Search strategy for Aster &amp; Co. by <a href="../../index.html">Zero Lag</a></span>
+  <span>All six deliverables are working documents on this page, not pictures of them.</span>
+</footer>
+
+<script>
+// Shared helpers
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// Section nav highlights the section in view
+(function(){
+  const links = $$('.secnav a');
+  const secs = links.map(a => $(a.getAttribute('href')));
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false')); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach(s => io.observe(s));
+  links.forEach(a => a.addEventListener('click', () => a.scrollIntoView({ inline: 'center', block: 'nearest' })));
+})();
+
+// Technical audit data
+const AUDIT = [
+  { cat:'Crawl', title:'Redirect chain on the bare domain', status:'fix', found:'http://asterandco → https://asterandco → https://www.asterandco: two hops before the final page, repeated on every entry URL.', fix:'Redirect straight to the final https://www host in one 301 at the edge. Update canonical tags to the same host.', effort:'S', owner:'Dev', code:'301 http://* → https://www.*' },
+  { cat:'Index', title:'Filtered collection URLs are indexable', status:'fix', found:'Sorting and filtering add ?sort=price and ?colour=oat to collection URLs. 214 of these variants are indexed, splitting the Sofas and Lighting pages into dozens of near-duplicates.', fix:'Canonical every parameter URL to the clean collection URL and add rel="nofollow" to filter controls. Keep the clean URLs in the sitemap only.', effort:'S', owner:'Dev', code:'<link rel="canonical" href="/sofas">' },
+  { cat:'Index', title:'XML sitemap is missing guides and the repairs page', status:'fix', found:'The sitemap lists 8 products and 6 collections. The 4 published guides, the repairs page and the about page are absent.', fix:'Generate the sitemap from the page index rather than the product feed, and submit it in Search Console.', effort:'S', owner:'Dev' },
+  { cat:'Index', title:'Sold-out products return a soft 404', status:'watch', found:'When a product is retired its URL stays live with an empty page and a 200 status. Two such pages exist today.', fix:'Return 410 for retired products, or redirect to the collection when a close replacement exists. Add a check to the retirement process.', effort:'M', owner:'Dev' },
+  { cat:'Crawl', title:'robots.txt', status:'pass', found:'Blocks /cart, /checkout and /account; allows everything else. Sitemap reference present.', fix:'No change needed.', effort:'—', owner:'—' },
+  { cat:'Speed', title:'Home hero image is 1.4 MB', status:'fix', found:'The hero ships a 2800px JPEG to every device. It is the largest element on the page on both mobile and desktop.', fix:'Serve responsive sizes (800, 1200, 1600px) as AVIF with a JPEG fallback, set width and height attributes, and preload the chosen size.', effort:'S', owner:'Dev', code:'<img srcset="hero-800.avif 800w, …" sizes="(max-width:860px) 100vw, 58vw">' },
+  { cat:'Speed', title:'Web fonts block first paint', status:'fix', found:'Three font files load without font-display, so headline text stays invisible until they arrive.', fix:'Add display=swap to the Google Fonts request and preconnect to fonts.gstatic.com. Subset to Latin.', effort:'S', owner:'Dev', code:'&display=swap' },
+  { cat:'Speed', title:'Render-blocking stylesheet', status:'watch', found:'One 86 KB stylesheet is loaded in the head. Most of it styles the checkout and account pages.', fix:'Split checkout and account styles into their own files and load them only on those pages. Revisit after the image and font fixes land.', effort:'M', owner:'Dev' },
+  { cat:'Mobile', title:'Footer tap targets below 44 px', status:'fix', found:'Footer links are 13px text with 2px spacing. Nine of them fall below the recommended tap size and sit close enough to be mistapped.', fix:'Give footer links a 44px minimum height with padding rather than larger text. Already done in the main navigation.', effort:'S', owner:'Dev' },
+  { cat:'Mobile', title:'Viewport and text sizing', status:'pass', found:'Viewport meta is correct, base font size is 17px and no text is clipped at 320px.', fix:'No change needed.', effort:'—', owner:'—' },
+  { cat:'On-page', title:'Seven collection pages share one title tag', status:'fix', found:'Every collection page is titled "Shop | Aster & Co." The template never received the category name.', fix:'Apply the collection title pattern from the on-page templates below. Each page gets its category and a single brand suffix.', effort:'S', owner:'Content' },
+  { cat:'On-page', title:'Home page has no H1', status:'fix', found:'The headline is a styled paragraph. The first heading on the page is an H3 inside the promise strip.', fix:'Make the headline an H1 and move the promise strip headings down to H2 under a visually hidden section heading.', effort:'S', owner:'Dev' },
+  { cat:'On-page', title:'Product gallery images have empty alt text', status:'fix', found:'All 32 gallery images carry alt="". Only the first image on each product page is described.', fix:'Write alt text from the product data: "{product}, {view} in {colour}". Keep decorative texture crops empty.', effort:'M', owner:'Content' },
+  { cat:'Content', title:'Collection pages are thin', status:'fix', found:'Each collection page has under 60 words of copy above the grid, and none link to a guide.', fix:'Write 120 to 180 words per collection covering who it is for, materials and sizes, with one link to the matching guide. Scheduled across weeks 1 to 6.', effort:'L', owner:'Content' },
+  { cat:'Content', title:'Guides are orphaned', status:'fix', found:'The four guides are reachable only from the footer. Nothing in the shop links to them and they do not link to products.', fix:'Add guide links to collection intros and product pages per the linking rules, and link products from within each guide.', effort:'M', owner:'Content' },
+  { cat:'Schema', title:'Product markup has no offer', status:'fix', found:'Product JSON-LD includes name and image but no offers block, so price and availability cannot be shown in results.', fix:'Add offers with price, priceCurrency, availability and the product URL. Markup is provided in the structured data section.', effort:'S', owner:'Dev' },
+  { cat:'Schema', title:'Organisation markup', status:'pass', found:'Organization JSON-LD on every page with name, logo and sameAs links.', fix:'Extend to a store type on the home and visit pages so opening hours can be shown; see the structured data section.', effort:'—', owner:'—' },
+  { cat:'Security', title:'HTTPS and mixed content', status:'pass', found:'Valid certificate, HSTS set, no mixed-content requests across the 20 pages crawled.', fix:'No change needed.', effort:'—', owner:'—' }
+];
+const STATUS = { pass:['Pass','tag-pass'], fix:['Fix','tag-fix'], watch:['Watch','tag-watch'] };
+
+function renderAudit(filter) {
+  const list = AUDIT.filter(a => filter === 'all' || a.status === filter);
+  $('#audit-list').innerHTML = list.map((a, i) => {
+    const idx = AUDIT.indexOf(a);
+    return `<div class="card aitem">
+      <button class="aitem-h" aria-expanded="false" aria-controls="ab-${idx}">
+        <span class="tag ${STATUS[a.status][1]}">${STATUS[a.status][0]}</span>
+        <span><strong>${esc(a.title)}</strong><small>${esc(a.cat)}</small></span>
+        <svg class="car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="aitem-b" id="ab-${idx}" hidden>
+        <div><h4>What we found</h4><p>${esc(a.found)}</p></div>
+        <div><h4>The fix</h4><p>${esc(a.fix)}</p>${a.code ? `<p style="margin-top:8px"><code>${esc(a.code)}</code></p>` : ''}</div>
+        <div class="meta"><span class="tag tag-ghost">Effort: ${a.effort}</span><span class="tag tag-ghost">Owner: ${a.owner}</span></div>
+      </div></div>`;
+  }).join('') || '<p class="empty">Nothing in this status.</p>';
+  const n = s => AUDIT.filter(a => a.status === s).length;
+  $('#audit-sum').innerHTML = `<span><b>${AUDIT.length}</b> checks</span><span><b>${n('fix')}</b> to fix</span><span><b>${n('watch')}</b> to watch</span><span><b>${n('pass')}</b> passing</span>`;
+}
+renderAudit('all');
+$('#audit-list').addEventListener('click', e => {
+  const b = e.target.closest('.aitem-h'); if (!b) return;
+  const open = b.getAttribute('aria-expanded') === 'true';
+  b.setAttribute('aria-expanded', String(!open));
+  $('#' + b.getAttribute('aria-controls')).hidden = open;
+});
+$$('#audit .chip').forEach(c => c.addEventListener('click', () => {
+  $$('#audit .chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+  renderAudit(c.dataset.f);
+}));
+
+// Keyword map data
+const KW = [
+  ['three seat sofa','Sofas','T','/sofas',1],['small sofa for apartment','Sofas','C','/sofas',1],['wool sofa','Sofas','C','/sofas/marlow-three-seat-sofa',1],['made to order sofa','Sofas','C','/sofas',2],['sofa with removable cushion covers','Sofas','C','/sofas/marlow-three-seat-sofa',2],['deep seat sofa','Sofas','C','/sofas',2],['sofa made in maine','Sofas','C','/sofas',1],['linen sofa vs wool sofa','Sofas','I','/guides/wool-vs-linen-upholstery',2],
+  ['reading armchair','Armchairs','T','/armchairs/brae-reading-armchair',1],['high back armchair','Armchairs','C','/armchairs/brae-reading-armchair',1],['wool armchair','Armchairs','C','/armchairs',2],['armchair for small living room','Armchairs','C','/armchairs',2],['wood frame accent chair','Armchairs','C','/armchairs/holm-shell-chair',2],['shell chair dining','Armchairs','C','/armchairs/holm-shell-chair',3],['how to clean wool upholstery','Armchairs','I','/guides/caring-for-wool-upholstery',2],
+  ['pendant lamp for kitchen island','Lighting','C','/lighting/quay-pendant-lamp',1],['ceramic pendant light','Lighting','C','/lighting/quay-pendant-lamp',1],['small pendant lamp','Lighting','C','/lighting',2],['dimmable pendant light','Lighting','C','/lighting',3],['pendant light height over table','Lighting','I','/guides/hanging-a-pendant-lamp',1],['how to hang a pendant lamp','Lighting','I','/guides/hanging-a-pendant-lamp',2],['pendant lamp maine','Lighting','C','/lighting',3],
+  ['large indoor planter','Planters','C','/planters/tidewater-planter',1],['ceramic planter with drainage hole','Planters','C','/planters/tidewater-planter',1],['stoneware planter','Planters','C','/planters',2],['planter for fiddle leaf fig','Planters','C','/planters/tidewater-planter',2],['best plants for ceramic planters','Planters','I','/guides/plants-for-stoneware-planters',3],['indoor planter set','Planters','T','/planters',3],
+  ['canvas day pack','Bags','T','/bags/ferry-day-pack',1],['waxed canvas backpack','Bags','C','/bags/ferry-day-pack',1],['day pack for commuting','Bags','C','/bags',2],['small backpack fits laptop','Bags','C','/bags/ferry-day-pack',2],['backpack with lifetime repair','Bags','C','/repairs',2],['how to re-wax a canvas bag','Bags','I','/guides/re-waxing-canvas',2],['repair canvas backpack strap','Bags','I','/repairs',3],
+  ['heavyweight cotton tee','Apparel','T','/apparel/everyday-heavy-tee',1],['heavy tee made in usa','Apparel','C','/apparel/everyday-heavy-tee',1],['boxy heavyweight t shirt','Apparel','C','/apparel/everyday-heavy-tee',2],['organic cotton t shirt mens','Apparel','C','/apparel',2],['how to wash heavyweight tee','Apparel','I','/guides/washing-heavy-cotton',3],['plain tee that does not shrink','Apparel','C','/apparel/everyday-heavy-tee',3],
+  ['field watch','Watches','C','/watches/tern-field-watch',1],['field watch sapphire crystal','Watches','C','/watches/tern-field-watch',2],['small field watch 36mm','Watches','C','/watches/tern-field-watch',2],['what is a field watch','Watches','I','/guides/what-is-a-field-watch',2],['field watch strap replacement','Watches','T','/watches/straps',3],['leather watch strap care','Watches','I','/guides/leather-strap-care',3],
+  ['fix wobbly chair leg','Care & repair','I','/guides/fixing-a-wobbly-chair',3],['furniture repair service maine','Care & repair','C','/repairs',2],['free furniture repair warranty','Care & repair','I','/repairs',2],['reupholster armchair cost','Care & repair','I','/repairs',3],['how to choose a sofa size','Guides','I','/guides/choose-a-sofa-size',1],['sofa vs loveseat','Guides','I','/guides/choose-a-sofa-size',2],['what is kiln dried hardwood frame','Guides','I','/guides/what-makes-a-sofa-last',2],['how long should a sofa last','Guides','I','/guides/what-makes-a-sofa-last',2],['how to measure for a pendant light','Guides','I','/guides/hanging-a-pendant-lamp',3],
+  ['aster and co','Brand & local','N','/',1],['aster and co portmere','Brand & local','N','/',1],['aster co furniture','Brand & local','N','/',2],['furniture store portmere maine','Brand & local','C','/visit',1],['home goods store maine','Brand & local','C','/visit',2],['aster and co repairs','Brand & local','N','/repairs',2],['furniture shop near portmere ferry','Brand & local','C','/visit',3],['aster and co opening hours','Brand & local','N','/visit',2]
+].map(r => ({ kw:r[0], cluster:r[1], intent:r[2], page:r[3], pri:r[4] }));
+const INTENT = { I:'Informational', C:'Commercial', T:'Transactional', N:'Navigational' };
+let kwState = { cluster:'All', q:'', sort:'pri', dir:1 };
+
+const clusters = ['All', ...Array.from(new Set(KW.map(k => k.cluster)))];
+$('#kw-clusters').innerHTML = clusters.map(c => `<button class="chip" data-c="${esc(c)}" aria-pressed="${c === 'All'}">${esc(c)}</button>`).join('');
+$('#kw-clusters').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  kwState.cluster = b.dataset.c;
+  $$('#kw-clusters .chip').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  renderKW();
+});
+$('#kw-q').addEventListener('input', e => { kwState.q = e.target.value.trim().toLowerCase(); renderKW(); });
+$$('#kw-table th button').forEach(b => b.addEventListener('click', () => {
+  const k = b.dataset.sort;
+  kwState.dir = kwState.sort === k ? -kwState.dir : 1; kwState.sort = k;
+  $$('#kw-table th').forEach(th => th.removeAttribute('aria-sort'));
+  b.closest('th').setAttribute('aria-sort', kwState.dir === 1 ? 'ascending' : 'descending');
+  renderKW();
+}));
+function renderKW() {
+  let rows = KW.filter(k => (kwState.cluster === 'All' || k.cluster === kwState.cluster) && (!kwState.q || (k.kw + ' ' + k.page + ' ' + INTENT[k.intent]).toLowerCase().includes(kwState.q)));
+  const key = kwState.sort === 'intent' ? r => INTENT[r.intent] : r => r[kwState.sort];
+  rows.sort((a, b) => { const x = key(a), y = key(b); return (x > y ? 1 : x < y ? -1 : a.kw.localeCompare(b.kw)) * kwState.dir; });
+  $('#kw-body').innerHTML = rows.map(k => `<tr><td class="kw">${esc(k.kw)}</td><td>${esc(k.cluster)}</td><td>${INTENT[k.intent]}</td><td><span class="path">${esc(k.page)}</span></td><td><span class="pri pri-${k.pri}">P${k.pri}</span></td></tr>`).join('') || `<tr><td colspan="5" class="empty">No keywords match.</td></tr>`;
+  $('#kw-count').textContent = `${rows.length} of ${KW.length} keywords · ${new Set(rows.map(r => r.page)).size} target pages`;
+}
+$('#kw-table th:nth-child(5)').setAttribute('aria-sort', 'ascending');
+renderKW();
+
+// Content calendar data
+const LANES = [['Guides','#0E4A4A'],['Collection pages','#E0AC2B'],['Technical','#56605B'],['Outreach','#96281A']];
+const CAL = [
+  { w:1, lane:2, t:'Redirects, canonicals, sitemap', d:'Audit items 1 to 3', brief:'Collapse the redirect chain, canonical all parameter URLs and regenerate the sitemap from the page index. Verify in Search Console once indexed.', kw:'—', fmt:'Dev tickets', owner:'Ebad' },
+  { w:1, lane:1, t:'Sofas collection rewrite', d:'Target: three seat sofa', brief:'Rewrite the Sofas intro: who the collection is for, sizes available, Maine-woven wool, five-year repairs. Add a link to the sofa size guide (publishes week 2).', kw:'three seat sofa · sofa made in maine', fmt:'160 words + FAQ', owner:'Zunair' },
+  { w:2, lane:0, t:'How to choose a sofa size', d:'Guide · P1', brief:'A measuring guide with a printable floor template, covering seat depth, room clearance and door widths. Links to the Marlow sofa and Sofas collection.', kw:'how to choose a sofa size · sofa vs loveseat', fmt:'1,400 words + 3 diagrams', owner:'Zunair' },
+  { w:2, lane:2, t:'Image pipeline and fonts', d:'Audit items 6 and 7', brief:'Responsive AVIF sizes for every product and hero image, font-display swap, preconnects. Measure before and after on a mid-range phone.', kw:'—', fmt:'Dev tickets', owner:'Ebad' },
+  { w:3, lane:1, t:'Armchairs collection rewrite', d:'Target: reading armchair', brief:'Intro copy for Armchairs covering the Brae and Holm chairs, frame construction and fabric choices. Links to the wool care guide.', kw:'reading armchair · high back armchair', fmt:'150 words + FAQ', owner:'Zunair' },
+  { w:3, lane:3, t:'Maine makers directories', d:'Listings', brief:'Submit the shop to the Maine Crafts Association directory, the Portmere Chamber of Commerce and two regional made-in-Maine lists. Consistent name, address and hours everywhere.', kw:'furniture store portmere maine', fmt:'4 listings', owner:'Hammad' },
+  { w:4, lane:0, t:'Wool vs linen upholstery', d:'Guide · P2', brief:'An honest comparison of the two fabrics: feel, wear, cleaning, cost, which rooms suit each. Links to the Marlow sofa and the Sofas collection.', kw:'linen sofa vs wool sofa · how to clean wool upholstery', fmt:'1,100 words', owner:'Zunair' },
+  { w:4, lane:2, t:'Product offer markup', d:'Audit item 16', brief:'Add offers to the Product JSON-LD and the BreadcrumbList to every product page. Validate with the rich results test.', kw:'—', fmt:'Dev ticket', owner:'Ebad' },
+  { w:5, lane:1, t:'Lighting collection rewrite', d:'Target: ceramic pendant light', brief:'Intro for Lighting: the Quay pendant, ceramic finishes, cord lengths, bulb fittings. Links to the hanging guide.', kw:'ceramic pendant light · small pendant lamp', fmt:'150 words + FAQ', owner:'Zunair' },
+  { w:5, lane:0, t:'Hanging a pendant lamp', d:'Guide · P1', brief:'Heights over tables, islands and in hallways, with a chart by ceiling height. Includes what to tell an electrician. Links to the Quay pendant.', kw:'pendant light height over table · how to hang a pendant lamp', fmt:'1,200 words + chart', owner:'Zunair' },
+  { w:6, lane:1, t:'Planters and Bags rewrites', d:'Two collections', brief:'Intro copy for Planters (drainage, sizes, frost) and Bags (canvas weight, repairs). Links to the re-waxing guide and the planters guide.', kw:'ceramic planter with drainage hole · canvas day pack', fmt:'2 × 140 words', owner:'Zunair' },
+  { w:6, lane:2, t:'Alt text from product data', d:'Audit item 13', brief:'Template alt text for all gallery images using product, view and colour fields. Review the output for the eight products.', kw:'—', fmt:'Dev ticket + review', owner:'Ebad' },
+  { w:7, lane:0, t:'Re-waxing canvas', d:'Guide · P2', brief:'Step-by-step re-waxing for the Ferry Day Pack with photos from the bench, plus when to send it in instead. Links to Bags and Repairs.', kw:'how to re-wax a canvas bag', fmt:'900 words + 8 photos', owner:'Zunair' },
+  { w:7, lane:3, t:'Guide outreach round one', d:'Links', brief:'Send the sofa size guide and pendant guide to six interiors newsletters and two Maine home blogs that already link to resources like these.', kw:'—', fmt:'8 personal emails', owner:'Hammad' },
+  { w:8, lane:1, t:'Apparel and Watches rewrites', d:'Two collections', brief:'Intro copy for Apparel (cotton weight, shrinkage, fit) and Watches (case size, crystal, strap options). Links to the field watch guide.', kw:'heavyweight cotton tee · field watch', fmt:'2 × 140 words', owner:'Zunair' },
+  { w:8, lane:2, t:'Repairs page build', d:'New page', brief:'A proper repairs page: what is covered, how to send something in, turnaround, photos of the bench. Linked from every product page under the price.', kw:'free furniture repair warranty · backpack with lifetime repair', fmt:'Page + 400 words', owner:'Ebad + Zunair' },
+  { w:9, lane:0, t:'What is a field watch', d:'Guide · P2', brief:'Origins, what defines the style, how to choose case size and strap. Links to the Tern watch and the strap care guide.', kw:'what is a field watch · small field watch 36mm', fmt:'1,000 words', owner:'Zunair' },
+  { w:9, lane:2, t:'Visit page and store markup', d:'Local', brief:'Add FurnitureStore JSON-LD with hours and geo to the visit page, embed a map and match the listing details submitted in week 3.', kw:'aster and co opening hours', fmt:'Dev ticket', owner:'Ebad' },
+  { w:10, lane:0, t:'What makes a sofa last', d:'Guide · P2', brief:'Frames, springs, foam density, fabric rub counts, explained without jargon. Links to the Marlow sofa and the Repairs page.', kw:'what is kiln dried hardwood frame · how long should a sofa last', fmt:'1,300 words + 2 diagrams', owner:'Zunair' },
+  { w:10, lane:3, t:'Guide outreach round two', d:'Links', brief:'Re-waxing and field watch guides to four gear and menswear newsletters. Offer a short quote from the bench for anyone who wants one.', kw:'—', fmt:'6 personal emails', owner:'Hammad' },
+  { w:11, lane:0, t:'Caring for wool upholstery', d:'Guide · P2', brief:'Spot cleaning, vacuuming, moths, sun fading, with a one-page care card to print. Links to Armchairs and the Marlow sofa.', kw:'how to clean wool upholstery', fmt:'800 words + care card', owner:'Zunair' },
+  { w:11, lane:2, t:'Retired product handling', d:'Audit item 4', brief:'410 responses for retired products, redirects where a replacement exists, and a checklist step added to the retirement process.', kw:'—', fmt:'Dev ticket', owner:'Ebad' },
+  { w:12, lane:0, t:'Plants for stoneware planters', d:'Guide · P3', brief:'Which plants suit unglazed stoneware, watering, drainage. Links to the Tidewater planter and the Planters collection.', kw:'best plants for ceramic planters', fmt:'900 words', owner:'Zunair' },
+  { w:12, lane:3, t:'Quarter review', d:'All lanes', brief:'Re-run the technical audit, check every page has its assigned keyword in title and H1, confirm all guides are linked both ways, and set the next quarter of topics.', kw:'—', fmt:'Workshop', owner:'Whole team' }
+];
+$('#cal-legend').innerHTML = LANES.map(l => `<span><i style="background:${l[1]}"></i>${l[0]}</span>`).join('');
+(function buildCal() {
+  let html = '<div class="lane" aria-hidden="true"></div>';
+  for (let w = 1; w <= 12; w++) html += `<div class="wk">Week<b>${w}</b></div>`;
+  LANES.forEach((l, li) => {
+    html += `<div class="lane">${l[0]}</div>`;
+    for (let w = 1; w <= 12; w++) {
+      const it = CAL.findIndex(c => c.w === w && c.lane === li);
+      html += it > -1 ? `<div class="cell"><button class="cal-item" data-i="${it}" aria-pressed="false" style="--c:${l[1]}">${esc(CAL[it].t)}<small>${esc(CAL[it].d)}</small></button></div>` : '<div class="cell"></div>';
+    }
+  });
+  $('#cal').innerHTML = html;
+})();
+function showCal(i) {
+  const c = CAL[i];
+  $$('.cal-item').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.i === i)));
+  $('#cal-detail').innerHTML = `<div><span class="tag" style="background:${LANES[c.lane][1]};color:#fff;margin-bottom:10px">${LANES[c.lane][0]} · Week ${c.w}</span><h3>${esc(c.t)}</h3><p>${esc(c.brief)}</p></div>
+    <dl><dt>Target keywords</dt><dd>${esc(c.kw)}</dd><dt>Format</dt><dd>${esc(c.fmt)}</dd><dt>Owner</dt><dd>${esc(c.owner)}</dd></dl>`;
+}
+$('#cal').addEventListener('click', e => { const b = e.target.closest('.cal-item'); if (b) showCal(+b.dataset.i); });
+showCal(1);
+
+// On-page templates
+const TPL = {
+  product:   { title:'{product} | {material} | {brand}', meta:'{product}: made to order in {town}, Maine, in {material}, and repaired free for five years. Delivered to any room you choose.', h1:'{product}', url:'asterandco.example › sofas › marlow-three-seat-sofa' },
+  collection:{ title:'{category} | Small-run {category} from Maine | {brand}', meta:'{category} made in small runs in {town}, Maine. Sizes for real rooms, fabrics that wear in, and free repairs for five years. Shop the current collection.', h1:'{category}', url:'asterandco.example › sofas' },
+  guide:     { title:'{guide} | Guides | {brand}', meta:'{guide}, explained by the people who make them. Practical measurements, what to look for and what to avoid, from the {town} workshop.', h1:'{guide}', url:'asterandco.example › guides › choose-a-sofa-size' },
+  repairs:   { title:'Free repairs for five years | {brand}', meta:'Something worn or loose? Send a photo and our {town} bench will fix it, free for five years and fairly priced after that. Covers every piece we sell.', h1:'Repairs, free for five years', url:'asterandco.example › repairs' }
+};
+const F = id => $('#' + id);
+function fillPatterns() { const t = TPL[F('t-type').value]; F('t-title').value = t.title; F('t-meta').value = t.meta; F('t-h1').value = t.h1; }
+function tokens() { return { product:F('t-product').value, category:F('t-cat').value, material:F('t-mat').value, guide:F('t-guide').value, brand:'Aster & Co.', town:'Portmere' }; }
+function fill(s) { const t = tokens(); return s.replace(/\{(\w+)\}/g, (m, k) => t[k] ?? m); }
+function renderSerp() {
+  const title = fill(F('t-title').value), meta = fill(F('t-meta').value), h1 = fill(F('t-h1').value);
+  F('s-title').textContent = title; F('s-h1').textContent = h1; F('s-url').textContent = TPL[F('t-type').value].url;
+  const d = new Date(); const date = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  F('s-desc').innerHTML = `<span class="d">${date} — </span>${esc(meta.length > 158 ? meta.slice(0, 155).replace(/\s+\S*$/, '') + ' …' : meta)}`;
+  const cnt = (n, max, label) => `<span class="${n > max ? 'over' : 'ok'}">${label}: <b>${n}</b> / ${max}</span>`;
+  F('counts').innerHTML = cnt(title.length, 60, 'Title characters') + cnt(meta.length, 155, 'Meta characters') + cnt(h1.length, 70, 'H1 characters');
+  const type = F('t-type').value;
+  F('t-product').closest('.field').hidden = type !== 'product';
+  ['t-cat','t-mat'].forEach(id => F(id).closest('.field').hidden = type === 'guide' || type === 'repairs');
+  F('t-guide').closest('.field').hidden = type !== 'guide';
+}
+fillPatterns(); renderSerp();
+F('t-type').addEventListener('change', () => { fillPatterns(); renderSerp(); });
+F('tpl-form').addEventListener('input', renderSerp);
+F('t-reset').addEventListener('click', () => { fillPatterns(); renderSerp(); });
+
+// Internal-linking diagram
+const PAGES = [
+  { id:'home', t:'Home', k:'home', x:70, y:230 },
+  { id:'sofas', t:'Sofas', k:'col', x:270, y:60 }, { id:'arm', t:'Armchairs', k:'col', x:270, y:130 }, { id:'light', t:'Lighting', k:'col', x:270, y:200 },
+  { id:'plant', t:'Planters', k:'col', x:270, y:270 }, { id:'bags', t:'Bags', k:'col', x:270, y:340 }, { id:'app', t:'Apparel & Watches', k:'col', x:270, y:410 },
+  { id:'marlow', t:'Marlow sofa', k:'prod', x:500, y:40 }, { id:'brae', t:'Brae armchair', k:'prod', x:500, y:105 }, { id:'holm', t:'Holm shell chair', k:'prod', x:500, y:160 },
+  { id:'quay', t:'Quay pendant', k:'prod', x:500, y:215 }, { id:'tide', t:'Tidewater planter', k:'prod', x:500, y:270 }, { id:'ferry', t:'Ferry Day Pack', k:'prod', x:500, y:325 },
+  { id:'tee', t:'Everyday Heavy Tee', k:'prod', x:500, y:380 }, { id:'tern', t:'Tern field watch', k:'prod', x:500, y:435 },
+  { id:'g1', t:'Guide: sofa size', k:'guide', x:730, y:60 }, { id:'g2', t:'Guide: wool care', k:'guide', x:730, y:130 }, { id:'g3', t:'Guide: pendant height', k:'guide', x:730, y:200 },
+  { id:'g4', t:'Guide: re-wax canvas', k:'guide', x:730, y:300 }, { id:'g5', t:'Guide: field watches', k:'guide', x:730, y:400 },
+  { id:'rep', t:'Repairs', k:'prod', x:730, y:470 }
+];
+const LINKS = [
+  ['home','sofas'],['home','arm'],['home','light'],['home','plant'],['home','bags'],['home','app'],
+  ['sofas','marlow'],['arm','brae'],['arm','holm'],['light','quay'],['plant','tide'],['bags','ferry'],['app','tee'],['app','tern'],
+  ['sofas','g1'],['arm','g2'],['light','g3'],['bags','g4'],['app','g5'],
+  ['g1','marlow'],['g2','brae'],['g2','marlow'],['g3','quay'],['g4','ferry'],['g5','tern'],
+  ['marlow','rep'],['brae','rep'],['ferry','rep'],['tern','rep'],['home','rep']
+];
+(function drawDiagram() {
+  const W = 880, H = 520, bw = 150, bh = 34;
+  const pos = Object.fromEntries(PAGES.map(p => [p.id, p]));
+  const hub = ['rep'];
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Internal linking diagram: home links to six collections, collections link to products and guides, guides link to products, products link to repairs">`;
+  svg += `<text class="lbl" x="70" y="22">Home</text><text class="lbl" x="270" y="22">Collections</text><text class="lbl" x="500" y="22">Products</text><text class="lbl" x="730" y="22">Guides &amp; service</text>`;
+  LINKS.forEach(([a, b], i) => {
+    const A = pos[a], B = pos[b];
+    const x1 = A.x + bw, y1 = A.y + bh / 2, x2 = B.x, y2 = B.y + bh / 2;
+    const back = x2 < x1 + 10;
+    const d = back ? `M${x1} ${y1} C${x1 + 40} ${y1}, ${x2 - 40} ${y2}, ${x2} ${y2}` : `M${x1} ${y1} C${(x1 + x2) / 2} ${y1}, ${(x1 + x2) / 2} ${y2}, ${x2} ${y2}`;
+    svg += `<path class="edge${hub.includes(b) && a !== 'home' ? ' hub' : ''}" data-a="${a}" data-b="${b}" d="${d}"/>`;
+  });
+  PAGES.forEach(p => {
+    svg += `<g class="node ${p.k}" data-id="${p.id}" tabindex="0" role="button" aria-label="${esc(p.t)}"><rect x="${p.x}" y="${p.y}" width="${bw}" height="${bh}" rx="3"/><text x="${p.x + 12}" y="${p.y + 22}">${esc(p.t)}</text></g>`;
+  });
+  svg += '</svg>';
+  $('#diagram').innerHTML = svg;
+  const nodes = $$('#diagram .node'), edges = $$('#diagram .edge');
+  function focus(id) {
+    if (!id) { nodes.forEach(n => n.classList.remove('hot', 'dim')); edges.forEach(e => e.classList.remove('hot')); $('#link-focus').innerHTML = '<b>Hover a page</b><span style="color:var(--muted)">Links in and out will be listed here.</span>'; return; }
+    const ins = LINKS.filter(l => l[1] === id).map(l => l[0]), outs = LINKS.filter(l => l[0] === id).map(l => l[1]);
+    nodes.forEach(n => { const k = n.dataset.id; n.classList.toggle('hot', k === id); n.classList.toggle('dim', k !== id && !ins.includes(k) && !outs.includes(k)); });
+    edges.forEach(e => e.classList.toggle('hot', e.dataset.a === id || e.dataset.b === id));
+    const name = k => pos[k].t;
+    $('#link-focus').innerHTML = `<b>${esc(pos[id].t)}</b><div style="color:var(--muted)"><div><strong style="color:var(--ink);font-weight:600">${ins.length} in:</strong> ${ins.map(name).join(', ') || 'none'}</div><div style="margin-top:4px"><strong style="color:var(--ink);font-weight:600">${outs.length} out:</strong> ${outs.map(name).join(', ') || 'none'}</div></div>`;
+  }
+  nodes.forEach(n => {
+    n.addEventListener('mouseenter', () => focus(n.dataset.id));
+    n.addEventListener('focus', () => focus(n.dataset.id));
+    n.addEventListener('click', () => focus(n.dataset.id));
+    n.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); focus(n.dataset.id); } });
+  });
+  $('#diagram').addEventListener('mouseleave', () => focus(null));
+})();
+
+// Structured data
+const SD = {
+  product: { file:'product/marlow-three-seat-sofa.jsonld', note:'Price and availability come from the offer, which is what lets a product result show them. No review markup is included because the store does not collect reviews on-site.', json:{
+    '@context':'https://schema.org', '@type':'Product', name:'Marlow Three-Seat Sofa', image:['https://www.asterandco.example/img/marlow-1600.jpg','https://www.asterandco.example/img/marlow-side-1600.jpg'],
+    description:'A three-seat sofa with a kiln-dried hardwood frame and removable cushion covers, upholstered in wool woven in Maine. Made to order in Portmere.', sku:'AST-SOFA-MARLOW-3', brand:{ '@type':'Brand', name:'Aster & Co.' }, material:'Wool, kiln-dried ash', color:'Oat', width:{ '@type':'QuantitativeValue', value:216, unitCode:'CMT' }, depth:{ '@type':'QuantitativeValue', value:94, unitCode:'CMT' },
+    offers:{ '@type':'Offer', url:'https://www.asterandco.example/sofas/marlow-three-seat-sofa', priceCurrency:'USD', price:'1480.00', priceValidUntil:'2027-01-31', availability:'https://schema.org/MadeToOrder', itemCondition:'https://schema.org/NewCondition', seller:{ '@type':'Organization', name:'Aster & Co.' }, shippingDetails:{ '@type':'OfferShippingDetails', shippingRate:{ '@type':'MonetaryAmount', value:'0', currency:'USD' }, shippingDestination:{ '@type':'DefinedRegion', addressCountry:'US' }, deliveryTime:{ '@type':'ShippingDeliveryTime', handlingTime:{ '@type':'QuantitativeValue', minValue:4, maxValue:5, unitCode:'WEE' } } }, hasMerchantReturnPolicy:{ '@type':'MerchantReturnPolicy', applicableCountry:'US', returnPolicyCategory:'https://schema.org/MerchantReturnFiniteReturnWindow', merchantReturnDays:30 } }
+  } },
+  crumbs: { file:'product/breadcrumbs.jsonld', note:'The breadcrumb list mirrors the visible breadcrumb on the page, so the result can show "Aster & Co. › Sofas" in place of the raw URL.', json:{
+    '@context':'https://schema.org', '@type':'BreadcrumbList', itemListElement:[
+      { '@type':'ListItem', position:1, name:'Home', item:'https://www.asterandco.example/' },
+      { '@type':'ListItem', position:2, name:'Sofas', item:'https://www.asterandco.example/sofas' },
+      { '@type':'ListItem', position:3, name:'Marlow Three-Seat Sofa' } ]
+  } },
+  store: { file:'visit/store.jsonld', note:'FurnitureStore extends LocalBusiness, so hours, address and phone can appear in a local result. The details match the directory listings exactly.', json:{
+    '@context':'https://schema.org', '@type':'FurnitureStore', '@id':'https://www.asterandco.example/#store', name:'Aster & Co.', url:'https://www.asterandco.example/', telephone:'+1-207-555-0142', image:'https://www.asterandco.example/img/shopfront-1600.jpg', priceRange:'$$',
+    address:{ '@type':'PostalAddress', streetAddress:'218 Harbor Street', addressLocality:'Portmere', addressRegion:'ME', postalCode:'04199', addressCountry:'US' }, geo:{ '@type':'GeoCoordinates', latitude:43.9124, longitude:-69.8217 },
+    openingHoursSpecification:[
+      { '@type':'OpeningHoursSpecification', dayOfWeek:['Monday','Tuesday','Wednesday','Thursday','Friday'], opens:'10:00', closes:'18:30' },
+      { '@type':'OpeningHoursSpecification', dayOfWeek:'Saturday', opens:'09:30', closes:'18:00' },
+      { '@type':'OpeningHoursSpecification', dayOfWeek:'Sunday', opens:'11:00', closes:'16:00' } ],
+    hasMap:'https://maps.example/?q=218+Harbor+Street+Portmere+ME', parentOrganization:{ '@type':'Organization', name:'Aster & Co.', sameAs:['https://www.instagram.com/asterandco.example'] }
+  } }
+};
+function hiJSON(obj) {
+  return esc(JSON.stringify(obj, null, 2)).replace(/(&quot;[^&]*?&quot;)(:)/g, '<span class="k">$1</span>$2').replace(/: (&quot;.*?&quot;)/g, ': <span class="s">$1</span>').replace(/: (\d[\d.]*)/g, ': <span class="n">$1</span>');
+}
+function renderSD(key) {
+  const d = SD[key];
+  $('#sd-code').innerHTML = `<span style="color:#8FB3AD">&lt;script type="application/ld+json"&gt;</span>\n${hiJSON(d.json)}\n<span style="color:#8FB3AD">&lt;/script&gt;</span>`;
+  $('#code-file').textContent = d.file; $('#sd-note').textContent = d.note;
+  const r = $('#rich');
+  if (key === 'product') r.innerHTML = `<div class="crumbs">Aster &amp; Co.<span>›</span>Sofas<span>›</span>Marlow Three-Seat Sofa</div><div class="prod"><img src="../../assets/projects/home-sofa.jpg" alt="Marlow Three-Seat Sofa in oat wool"><div><div class="ttl">Marlow Three-Seat Sofa | Maine-woven wool | Aster &amp; Co.</div><div class="line"><span class="price">$1,480.00</span> · <span class="stock">Made to order</span> · Free delivery · 30-day returns</div><div class="line" style="margin-top:6px">A three-seat sofa with a kiln-dried hardwood frame and removable cushion covers, upholstered in wool woven in Maine. Made to order in Portmere.</div></div></div>`;
+  else if (key === 'crumbs') r.innerHTML = `<div class="crumbs" style="font-size:14px">Aster &amp; Co.<span>›</span>Sofas<span>›</span>Marlow Three-Seat Sofa</div><div class="ttl">Marlow Three-Seat Sofa | Maine-woven wool | Aster &amp; Co.</div><div class="line">Marlow Three-Seat Sofa: made to order in Portmere, Maine, in Maine-woven wool, and repaired free for five years. Delivered to any room you choose.</div><div class="line" style="margin-top:14px;padding-top:12px;border-top:1px solid #e5e5e5;color:#70757a">Without the markup the same result shows <span class="mono">www.asterandco.example/sofas/marlow-three-seat-sofa</span>.</div>`;
+  else r.innerHTML = `<div class="biz"><h4>Aster &amp; Co.</h4><div class="kind">Furniture store in Portmere, Maine</div><dl><dt>Address</dt><dd>218 Harbor Street, Portmere, ME 04199</dd><dt>Hours</dt><dd><span class="open">Open</span> · Closes 6:30 PM<br>Sat 9:30 AM to 6:00 PM · Sun 11:00 AM to 4:00 PM</dd><dt>Phone</dt><dd>(207) 555-0142</dd><dt>Price</dt><dd>$$</dd></dl></div>`;
+  $$('.sd-tabs [role=tab]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.sd === key)));
+}
+renderSD('product');
+$('.sd-tabs').addEventListener('click', e => { const t = e.target.closest('[role=tab]'); if (t) renderSD(t.dataset.sd); });
+$('.sd-tabs').addEventListener('keydown', e => {
+  const tabs = $$('.sd-tabs [role=tab]'); const i = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); renderSD(n.dataset.sd); }
+});
+$('#copy-sd').addEventListener('click', async () => {
+  const key = $('.sd-tabs [aria-selected=true]').dataset.sd;
+  const text = `<script type="application/ld+json">\n${JSON.stringify(SD[key].json, null, 2)}\n<\/script>`;
+  try { await navigator.clipboard.writeText(text); $('#copy-sd').textContent = 'Copied'; } catch (err) { $('#copy-sd').textContent = 'Select and copy'; }
+  setTimeout(() => { $('#copy-sd').textContent = 'Copy JSON-LD'; }, 1600);
+});
+</script>
+</body>
+</html>

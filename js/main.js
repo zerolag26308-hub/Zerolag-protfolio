@@ -101,10 +101,10 @@
     if (target === section) link.setAttribute("aria-current", "page");
   });
 
-  // Filter the concept index on the work page
+  // Filter the project index on the work page
   const filterBar = document.querySelector(".filter-bar");
   if (filterBar) {
-    const rows = document.querySelectorAll(".index-row[data-category]");
+    const rows = document.querySelectorAll(".index [data-category]");
     const groups = document.querySelectorAll(".index-group");
     const status = document.querySelector("[data-filter-status]");
 
@@ -123,10 +123,10 @@
       });
 
       groups.forEach((group) => {
-        group.hidden = !group.querySelector(".index-row:not([hidden])");
+        group.hidden = !group.querySelector("[data-category]:not([hidden])");
       });
 
-      if (status) status.textContent = `Showing ${shown} concept ${shown === 1 ? "build" : "builds"}.`;
+      if (status) status.textContent = `Showing ${shown} ${shown === 1 ? "project" : "projects"}.`;
     });
   }
 

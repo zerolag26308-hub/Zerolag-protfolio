@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16181D">
+<title>Studio Partner Design Sprint</title>
+<meta name="description" content="A five-day design sprint pack partner agencies present under their own brand: plan, board and a re-themeable UI kit.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='10' height='10' rx='2' fill='%233451B2'/%3E%3Crect x='18' y='4' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='4' y='18' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='18' y='18' width='10' height='10' rx='2' fill='%233451B2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='10' height='10' rx='2' fill='%233451B2'/%3E%3Crect x='18' y='4' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='4' y='18' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='18' y='18' width='10' height='10' rx='2' fill='%233451B2'/%3E%3C/svg%3E"> */
+
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --bg: #F3F3F1;
+  --surface: #FFFFFF;
+  --sunken: #EAEAE6;
+  --line: #DDDDD8;
+  --line-strong: #9A9A93;
+  --ink: #16181D;
+  --ink-2: #4A4D55;
+  --ink-3: #6B6E76;
+  --accent: #3451B2;
+  --accent-hover: #28408F;
+  --accent-soft: #E4E9F9;
+  --accent-ink: #27408F;
+  --green: #1F6B45;
+  --green-soft: #DFF0E6;
+  --amber: #8A5A0A;
+  --amber-soft: #FBEFD2;
+  --red: #A3301F;
+  --red-soft: #F9E3DF;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(22,24,29,.06), 0 4px 14px rgba(22,24,29,.06);
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--bar-h) + 12px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 14px/1.5 var(--sans); }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-ink); }
+img, svg { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* Zero Lag bar (required first element in body) */
+.zl-bar { position: sticky; top: 0; z-index: 100; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; background: var(--ink); color: #C9CBD1; font-size: 13px; line-height: 1; }
+.zl-bar a { color: #E6E7EA; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar a:focus-visible { outline-color: #fff; outline-offset: -2px; }
+.zl-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* Skip link */
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 90; background: var(--surface); padding: 8px 12px; border-radius: var(--radius); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+
+/* Workspace header: programme name on the left, page nav on the right */
+.ws-head { background: var(--surface); border-bottom: 1px solid var(--line); }
+.ws-head .wrap { display: flex; align-items: center; gap: 16px; min-height: 56px; }
+.ws-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.ws-brand b { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.ws-brand span { font-size: 12.5px; color: var(--ink-3); display: block; line-height: 1.2; }
+.ws-nav { margin-left: auto; display: flex; gap: 2px; }
+.ws-nav a { padding: 7px 10px; border-radius: var(--radius); color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 13.5px; white-space: nowrap; }
+.ws-nav a:hover { background: var(--sunken); color: var(--ink); }
+.ws-nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
+@media (max-width: 640px) { .wrap { width: calc(100% - 24px); } }
+@media (max-width: 640px) { .ws-head .wrap { flex-wrap: wrap; gap: 4px 12px; padding: 8px 0; } .ws-nav { margin-left: 0; width: 100%; overflow-x: auto; } .ws-nav a { padding: 5px 8px; font-size: 13px; } }
+
+/* Page intro */
+.intro { padding: 28px 0 18px; }
+.intro .eyebrow { font: 500 12px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--accent-ink); }
+.intro h1 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; }
+.intro p.lede { max-width: 62ch; color: var(--ink-2); font-size: 15px; margin-top: 8px; }
+
+/* Section rhythm */
+.section { padding: 22px 0; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 12px; }
+.section-head h2 { font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.section-head p { color: var(--ink-3); font-size: 13.5px; }
+.section-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Panels and cards */
+.pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.pane-head h3 { font-size: 14px; font-weight: 600; }
+.pane-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.pane-body { padding: 14px; }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
+.span-3 { grid-column: span 3; } .span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; } .span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; } .span-8 { grid-column: span 8; } .span-9 { grid-column: span 9; } .span-12 { grid-column: span 12; }
+@media (max-width: 960px) { .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9 { grid-column: span 12; } .span-3, .span-4, .span-6 { grid-column: span 6; } }
+@media (max-width: 600px) { .span-3, .span-4, .span-6 { grid-column: span 12; } }
+
+/* Stat tiles */
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
+.tile .t-label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+.tile .t-val { font-size: 26px; font-weight: 600; line-height: 1.15; margin-top: 2px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.tile .t-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+
+/* Buttons and controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 500; white-space: nowrap; color: var(--ink); }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--ink-2); }
+.btn.ghost:hover { background: var(--sunken); color: var(--ink); }
+.btn.small { min-height: 28px; padding: 3px 9px; font-size: 13px; }
+.btn.icon { padding: 0; width: 34px; }
+.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 4px 10px; font-size: 13px; font-weight: 500; color: var(--ink-2); min-height: 28px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+input[type=text], input[type=search], input[type=date], input[type=number], input[type=email], select, textarea { width: 100%; min-height: 34px; padding: 6px 9px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+input[type=color] { width: 44px; height: 34px; padding: 2px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+textarea { resize: vertical; min-height: 72px; display: block; }
+[aria-invalid="true"] { border-color: var(--red) !important; box-shadow: inset 0 0 0 1px var(--red); }
+.err { color: var(--red); font-size: 12.5px; font-weight: 500; }
+.err[hidden] { display: none; }
+.hint { color: var(--ink-3); font-size: 12.5px; }
+
+/* Tags and status chips */
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; line-height: 1.6; background: var(--sunken); color: var(--ink-2); white-space: nowrap; }
+.chip.blue { background: var(--accent-soft); color: var(--accent-ink); }
+.chip.green { background: var(--green-soft); color: var(--green); }
+.chip.amber { background: var(--amber-soft); color: var(--amber); }
+.chip.red { background: var(--red-soft); color: var(--red); }
+
+/* Tables */
+.scroll-x { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); background: #F7F7F5; white-space: nowrap; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+
+/* Progress bar */
+.bar { height: 8px; background: var(--sunken); border-radius: 999px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 0); background: var(--ink); color: #fff; padding: 9px 14px; border-radius: var(--radius); font-size: 13.5px; z-index: 200; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+.toast[hidden] { display: none; }
+
+/* Footer */
+.ws-foot { border-top: 1px solid var(--line); padding: 20px 0 32px; color: var(--ink-3); font-size: 13px; }
+.ws-foot .wrap { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.ws-foot a { color: var(--ink-2); }
+
+/* Print: hide chrome */
+@media print { .zl-bar, .ws-head, .skip, .toast { display: none !important; } body { background: #fff; } }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Page layout */
+main { padding-bottom: 12px; }
+.intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 28px; align-items: end; }
+.intro .facts { display: flex; gap: 10px; flex-wrap: wrap; }
+.intro .fact { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; min-width: 96px; }
+.intro .fact b { display: block; font-size: 18px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.intro .fact span { font-size: 12px; color: var(--ink-3); }
+@media (max-width: 760px) { .intro { grid-template-columns: minmax(0, 1fr); align-items: start; } }
+
+/* Day timeline */
+.days { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; position: relative; }
+.day { position: relative; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 12px 12px; display: grid; gap: 4px; min-width: 0; }
+.day:hover { border-color: var(--line-strong); }
+.day[aria-selected="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.day .d-num { font: 500 11.5px/1.2 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); }
+.day[aria-selected="true"] .d-num { color: var(--accent-ink); }
+.day .d-name { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.day .d-out { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; }
+.day .d-dot { position: absolute; right: 12px; top: 13px; width: 10px; height: 10px; border-radius: 50%; background: var(--sunken); border: 1px solid var(--line-strong); }
+.day[aria-selected="true"] .d-dot { background: var(--accent); border-color: var(--accent); }
+@media (max-width: 900px) { .days { grid-template-columns: repeat(5, minmax(150px, 1fr)); overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x proximity; } .day { scroll-snap-align: start; } }
+.day-detail { margin-top: 12px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+.day-detail > div { padding: 14px; min-width: 0; }
+.day-detail > div + div { border-left: 1px solid var(--line); }
+.day-detail h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.day-detail .goal { color: var(--ink-2); font-size: 13.5px; margin-bottom: 10px; }
+.agenda { display: grid; gap: 0; }
+.agenda li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.agenda li:first-child { border-top: 0; }
+.agenda time { font: 500 12.5px/1.5 var(--mono); color: var(--ink-2); white-space: nowrap; }
+.agenda .box { font-size: 11.5px; color: var(--ink-3); display: block; }
+.roles { display: grid; gap: 8px; margin-top: 6px; }
+.roles li { display: flex; align-items: center; gap: 9px; font-size: 13.5px; }
+.roles .av { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); font: 600 11px/28px var(--mono); text-align: center; flex: none; }
+.roles span { color: var(--ink-3); }
+.artefact { margin-top: 14px; padding: 10px 12px; background: var(--sunken); border-radius: var(--radius); font-size: 13.5px; }
+.artefact b { display: block; font-size: 12px; color: var(--ink-3); font-weight: 500; margin-bottom: 2px; }
+@media (max-width: 760px) { .day-detail { grid-template-columns: minmax(0, 1fr); } .day-detail > div + div { border-left: 0; border-top: 1px solid var(--line); } .agenda li { grid-template-columns: 96px minmax(0, 1fr); } }
+
+/* Sprint board */
+.board-wrap { overflow-x: auto; padding-bottom: 6px; }
+.board { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; min-width: 980px; }
+.col { background: var(--sunken); border: 1px solid var(--line); border-radius: var(--radius); display: flex; flex-direction: column; min-height: 320px; min-width: 0; }
+.col.over { border-color: var(--accent); background: var(--accent-soft); }
+.col-head { display: flex; align-items: center; gap: 8px; padding: 9px 11px; border-bottom: 1px solid var(--line); }
+.col-head h3 { font-size: 13.5px; font-weight: 600; }
+.col-head .count { margin-left: auto; font: 500 12px var(--mono); color: var(--ink-3); background: var(--surface); padding: 0 7px; border-radius: 999px; line-height: 20px; }
+.notes { padding: 10px; display: grid; gap: 10px; align-content: start; flex: 1; }
+.note { position: relative; padding: 11px 11px 9px; border-radius: 3px; box-shadow: 0 1px 2px rgba(22,24,29,.14), 0 5px 10px -6px rgba(22,24,29,.25); font-family: var(--sans); transition: transform .15s ease, box-shadow .15s ease; }
+.note:nth-child(odd) { transform: rotate(-.6deg); }
+.note:nth-child(even) { transform: rotate(.5deg); }
+.note:hover, .note:focus-within { transform: rotate(0) translateY(-1px); box-shadow: 0 2px 4px rgba(22,24,29,.14), 0 10px 18px -8px rgba(22,24,29,.3); z-index: 1; }
+.note.dragging { opacity: .5; }
+.note.yellow { background: #FFF2A6; } .note.pink { background: #FFD6E2; } .note.green { background: #D4F2DB; } .note.blue { background: #D6E7FF; } .note.orange { background: #FFE1BD; }
+.note .text { font-size: 13.5px; line-height: 1.4; color: #1F2024; min-height: 38px; outline: none; border-radius: 2px; word-wrap: break-word; }
+.note .text:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.note .meta { display: flex; align-items: center; gap: 2px; margin-top: 8px; }
+.note .meta .by { font: 500 11px var(--mono); color: rgba(31,32,36,.6); margin-right: auto; }
+.note .ctl { width: 24px; height: 24px; border: 0; background: transparent; border-radius: 4px; color: rgba(31,32,36,.7); display: inline-grid; place-items: center; padding: 0; }
+.note .ctl:hover { background: rgba(31,32,36,.1); color: #1F2024; }
+.note .ctl svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.note .ctl[disabled] { opacity: .3; cursor: default; }
+.note select.jump { position: absolute; inset: auto 8px 8px auto; width: 24px; height: 24px; opacity: 0; }
+.note .grip { position: absolute; top: 4px; right: 6px; font-size: 11px; color: rgba(31,32,36,.35); cursor: grab; }
+.empty { font-size: 12.5px; color: var(--ink-3); text-align: center; padding: 20px 8px; border: 1px dashed var(--line-strong); border-radius: var(--radius); }
+.add-note { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 10px; align-items: end; padding: 12px 14px; }
+.add-note textarea { min-height: 34px; height: 34px; resize: none; }
+.swatches { display: flex; gap: 6px; }
+.swatches label { position: relative; width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(22,24,29,.15); cursor: pointer; }
+.swatches input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.swatches input:checked + i { position: absolute; inset: -4px; border: 2px solid var(--ink); border-radius: 50%; }
+.swatches input:focus-visible + i { position: absolute; inset: -4px; border: 2px solid var(--accent); border-radius: 50%; }
+@media (max-width: 760px) { .add-note { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .add-note .field:first-child { grid-column: span 2; } .add-note .btn { grid-column: span 2; } }
+
+/* Handoff kit */
+.kit-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px; align-items: start; }
+@media (max-width: 960px) { .kit-layout { grid-template-columns: minmax(0, 1fr); } }
+.kit { --kit-primary: #3451B2; --kit-hover: #2A4190; --kit-soft: #E6EAF7; --kit-on: #FFFFFF; --kit-font: "IBM Plex Sans", system-ui, sans-serif; --kit-radius: 6px; font-family: var(--kit-font); padding: 0; overflow: hidden; }
+.kit * { font-family: inherit; }
+.kit-nav { display: flex; align-items: center; gap: 14px; padding: 10px 16px; background: var(--kit-primary); color: var(--kit-on); }
+.kit-nav .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; letter-spacing: -.01em; }
+.kit-nav .logo i { width: 22px; height: 22px; border-radius: calc(var(--kit-radius) * .7); background: var(--kit-on); color: var(--kit-primary); display: grid; place-items: center; font-size: 12px; font-weight: 700; font-style: normal; }
+.kit-nav ul { display: flex; gap: 2px; margin-left: 8px; }
+.kit-nav li { padding: 5px 10px; border-radius: calc(var(--kit-radius) * .8); font-size: 13.5px; opacity: .85; }
+.kit-nav li.on { background: rgba(255,255,255,.18); opacity: 1; font-weight: 600; }
+.kit-nav .av { margin-left: auto; width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,.25); display: grid; place-items: center; font-size: 11.5px; font-weight: 600; }
+.kit-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; padding: 16px; }
+.kit-block { grid-column: span 6; border: 1px solid var(--line); border-radius: var(--kit-radius); padding: 14px; min-width: 0; display: grid; gap: 10px; align-content: start; }
+.kit-block.wide { grid-column: span 12; }
+.kit-block > h4 { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); font-family: var(--mono); }
+@media (max-width: 700px) { .kit-block { grid-column: span 12; } .kit-nav ul { display: none; } }
+.k-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 6px 14px; border-radius: var(--kit-radius); border: 1px solid var(--kit-primary); background: var(--kit-primary); color: var(--kit-on); font-weight: 600; font-size: 14px; }
+.k-btn:hover { background: var(--kit-hover); border-color: var(--kit-hover); }
+.k-btn.sec { background: transparent; color: var(--kit-primary); }
+.k-btn.sec:hover { background: var(--kit-soft); }
+.k-btn.ghost { background: transparent; border-color: transparent; color: var(--kit-primary); }
+.k-btn.ghost:hover { background: var(--kit-soft); }
+.k-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.k-btn:focus-visible { outline: 2px solid var(--kit-primary); outline-offset: 2px; }
+.k-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.k-field { display: grid; gap: 4px; }
+.k-field label { font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.k-field input[type=text], .k-field select { border-radius: var(--kit-radius); min-height: 36px; }
+.k-field input[type=text]:focus-visible, .k-field select:focus-visible { outline-color: var(--kit-primary); border-color: var(--kit-primary); }
+.k-check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; }
+.k-check input { accent-color: var(--kit-primary); width: 16px; height: 16px; margin: 0; }
+.k-switch { display: inline-flex; align-items: center; gap: 10px; font-size: 13.5px; cursor: pointer; }
+.k-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.k-switch i { width: 38px; height: 22px; border-radius: 999px; background: var(--line-strong); position: relative; transition: background .15s; flex: none; }
+.k-switch i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .15s; }
+.k-switch input:checked + i { background: var(--kit-primary); }
+.k-switch input:checked + i::after { transform: translateX(16px); }
+.k-switch input:focus-visible + i { outline: 2px solid var(--kit-primary); outline-offset: 2px; }
+.k-card { border: 1px solid var(--line); border-radius: var(--kit-radius); overflow: hidden; }
+.k-card .k-cover { height: 72px; background: linear-gradient(135deg, var(--kit-primary), var(--kit-soft)); }
+.k-card .k-body { padding: 12px 14px 14px; display: grid; gap: 6px; }
+.k-card h5 { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.k-card p { font-size: 13.5px; color: var(--ink-2); }
+.k-card .k-row { margin-top: 4px; }
+.k-chip { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 500; background: var(--kit-soft); color: var(--kit-primary); border: 1px solid transparent; }
+.k-chip.outline { background: transparent; border-color: var(--kit-primary); }
+.k-chip.solid { background: var(--kit-primary); color: var(--kit-on); }
+.k-alert { display: flex; gap: 10px; padding: 10px 12px; border-radius: var(--kit-radius); background: var(--kit-soft); border-left: 3px solid var(--kit-primary); font-size: 13.5px; }
+.k-alert b { display: block; font-weight: 600; }
+.k-alert svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--kit-primary); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-top: 1px; }
+.k-table th { background: var(--kit-soft); color: var(--kit-primary); }
+.k-table .st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.k-table .st::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--kit-primary); }
+.k-table .st.muted::before { background: var(--line-strong); }
+.k-table tbody tr:hover td { background: color-mix(in srgb, var(--kit-soft) 40%, white); }
+
+/* Rebrand panel */
+.rebrand { position: sticky; top: calc(var(--bar-h) + 12px); }
+.rebrand .pane-body { display: grid; gap: 14px; min-width: 0; }
+.presets { display: flex; gap: 8px; flex-wrap: wrap; }
+.presets button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(22,24,29,.15); padding: 0; position: relative; }
+.presets button[aria-pressed="true"]::after { content: ""; position: absolute; inset: -4px; border: 2px solid var(--ink); border-radius: 50%; }
+.color-row { display: flex; gap: 8px; align-items: center; }
+.color-row input[type=text] { font-family: var(--mono); text-transform: uppercase; }
+.range-row { display: flex; align-items: center; gap: 10px; }
+.range-row output { font: 500 12.5px var(--mono); min-width: 38px; text-align: right; }
+.tokens { position: relative; min-width: 0; }
+.tokens pre { margin: 0; padding: 12px 12px 12px; background: var(--ink); color: #D8DAE0; border-radius: var(--radius); font: 400 12px/1.55 var(--mono); overflow-x: auto; white-space: pre; }
+.tokens pre .k { color: #9DB4FF; }
+.tokens pre .c { color: #8A8E99; }
+.tokens .copy { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,.1); border-color: transparent; color: #fff; }
+.tokens .copy:hover { background: rgba(255,255,255,.2); }
+.steps { display: grid; gap: 6px; font-size: 13px; color: var(--ink-2); counter-reset: s; }
+.steps li { display: flex; gap: 8px; }
+.steps li::before { counter-increment: s; content: counter(s); flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); font: 600 11px/18px var(--mono); text-align: center; }
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Studio Partner Design Sprint</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="ws-head"><div class="wrap"><a class="ws-brand" href="index.html"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="10" height="10" rx="2" fill="#3451B2"/><rect x="18" y="4" width="10" height="10" rx="2" fill="#3451B2" opacity=".45"/><rect x="4" y="18" width="10" height="10" rx="2" fill="#3451B2" opacity=".45"/><rect x="18" y="18" width="10" height="10" rx="2" fill="#3451B2"/></svg><div><b>Partner Workspace</b><span>Zero Lag white-label programme</span></div></a><nav class="ws-nav" aria-label="Programme"><a href="../partner-design-sprint/index.html" aria-current="page">Design Sprint</a><a href="../agency-dev-outsourcing/index.html">Dev Outsourcing</a><a href="../partner-retainer/index.html">Retainer</a></nav></div></header>
+
+<main id="main" class="wrap" tabindex="-1">
+  <section class="intro">
+    <div>
+      <p class="eyebrow">White-label deliverable</p>
+      <h1>Studio Partner Design Sprint</h1>
+      <p class="lede">Five days from problem to tested flow. Your agency runs the client relationship and presents the pack under your own brand; Zero Lag facilitates, designs and builds behind the scenes. Everything below is the actual deliverable: the plan, the live board and the handoff kit that re-themes to your identity.</p>
+    </div>
+    <div class="facts" aria-label="Sprint at a glance">
+      <div class="fact"><b>5</b><span>working days</span></div>
+      <div class="fact"><b>4</b><span>Zero Lag seats</span></div>
+      <div class="fact"><b>5</b><span>user tests on day 5</span></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="plan-h">
+    <div class="section-head"><h2 id="plan-h">Day-by-day plan</h2><p>Pick a day to see its timeboxes, who from Zero Lag is in the room and what it produces.</p></div>
+    <div class="days" role="tablist" aria-label="Sprint days" id="days"></div>
+    <div class="pane day-detail" id="day-detail" role="tabpanel" aria-live="polite"></div>
+  </section>
+
+  <section class="section" aria-labelledby="board-h">
+    <div class="section-head"><h2 id="board-h">Sprint board</h2><p>Sticky notes move with the arrows, the column menu or by dragging. Click a note to edit its text. Changes stay in this browser.</p><div class="tools"><button class="btn small" id="reset-board" type="button">Reset board</button></div></div>
+    <div class="pane add-note" id="add-note">
+      <div class="field"><label for="note-text">New note</label><textarea id="note-text" rows="1" maxlength="140"></textarea></div>
+      <div class="field"><span class="label" id="col-lab">Colour</span>
+        <div class="swatches" role="radiogroup" aria-labelledby="col-lab">
+          <label style="background:#FFF2A6"><input type="radio" name="ncolor" value="yellow" checked><i></i><span class="vh">Yellow</span></label>
+          <label style="background:#FFD6E2"><input type="radio" name="ncolor" value="pink"><i></i><span class="vh">Pink</span></label>
+          <label style="background:#D4F2DB"><input type="radio" name="ncolor" value="green"><i></i><span class="vh">Green</span></label>
+          <label style="background:#D6E7FF"><input type="radio" name="ncolor" value="blue"><i></i><span class="vh">Blue</span></label>
+          <label style="background:#FFE1BD"><input type="radio" name="ncolor" value="orange"><i></i><span class="vh">Orange</span></label>
+        </div>
+      </div>
+      <div class="field"><label for="note-col">Column</label><select id="note-col"></select></div>
+      <button class="btn primary" id="add-btn" type="button">Add note</button>
+    </div>
+    <div class="board-wrap" style="margin-top:10px"><div class="board" id="board"></div></div>
+    <p class="vh" id="live" aria-live="polite"></p>
+  </section>
+
+  <section class="section" aria-labelledby="kit-h">
+    <div class="section-head"><h2 id="kit-h">Handoff kit</h2><p>The UI kit the sprint ends with. Rebrand it on the right and every component updates from the same tokens you take away.</p></div>
+    <div class="kit-layout">
+      <div class="pane kit" id="kit">
+        <div class="kit-nav" aria-label="Kit navigation example">
+          <div class="logo"><i data-brand-initial>Z</i><span data-brand-name>Zero Lag</span></div>
+          <ul><li class="on">Overview</li><li>Projects</li><li>Members</li><li>Billing</li></ul>
+          <div class="av">AM</div>
+        </div>
+        <div class="kit-grid">
+          <div class="kit-block">
+            <h4>Buttons</h4>
+            <div class="k-row"><button class="k-btn" type="button">Start sprint</button><button class="k-btn sec" type="button">View plan</button><button class="k-btn ghost" type="button">Cancel</button><button class="k-btn" type="button" disabled>Disabled</button></div>
+            <h4>Chips</h4>
+            <div class="k-row"><span class="k-chip">Design</span><span class="k-chip outline">Research</span><span class="k-chip solid">Day 3</span><span class="k-chip">Build</span></div>
+            <h4>Alert</h4>
+            <div class="k-alert"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/></svg><div><b>Test slots confirmed</b>Five interviews booked for Friday. Script shared with <span data-brand-name>Zero Lag</span>.</div></div>
+          </div>
+          <div class="kit-block">
+            <h4>Form</h4>
+            <div class="k-field"><label for="k-name">Project name</label><input type="text" id="k-name" value="Onboarding redesign"></div>
+            <div class="k-field"><label for="k-plan">Plan</label><select id="k-plan"><option>Sprint pack</option><option>Sprint pack + build</option><option>Retainer</option></select></div>
+            <label class="k-check"><input type="checkbox" checked> Share notes with the client</label>
+            <div class="k-row" role="radiogroup" aria-label="Review cadence"><label class="k-check"><input type="radio" name="k-rad" checked> Daily</label><label class="k-check"><input type="radio" name="k-rad"> End of sprint</label></div>
+            <label class="k-switch"><input type="checkbox" checked><i></i>Email summary each evening</label>
+          </div>
+          <div class="kit-block">
+            <h4>Card</h4>
+            <div class="k-card"><div class="k-cover"></div><div class="k-body"><h5>Sprint summary</h5><p>Five days, one tested flow, decisions recorded. Presented by <span data-brand-name>Zero Lag</span>.</p><div class="k-row"><button class="k-btn" type="button">Open pack</button><button class="k-btn ghost" type="button">Share</button></div></div></div>
+          </div>
+          <div class="kit-block">
+            <h4>Table</h4>
+            <div class="scroll-x"><table class="k-table">
+              <thead><tr><th>Artefact</th><th>Owner</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Journey map</td><td>Ali</td><td><span class="st">Approved</span></td></tr>
+                <tr><td>Storyboard</td><td>Ebad</td><td><span class="st">Approved</span></td></tr>
+                <tr><td>Clickable build</td><td>Zunair</td><td><span class="st muted">In review</span></td></tr>
+                <tr><td>Findings memo</td><td>Hammad</td><td><span class="st muted">Friday</span></td></tr>
+              </tbody>
+            </table></div>
+          </div>
+        </div>
+      </div>
+      <aside class="pane rebrand" aria-labelledby="rb-h">
+        <div class="pane-head"><h3 id="rb-h">Rebrand</h3><div class="tools"><button class="btn small" id="rb-reset" type="button">Reset to Zero Lag defaults</button></div></div>
+        <div class="pane-body">
+          <div class="field"><label for="rb-name">Agency name</label><input type="text" id="rb-name" maxlength="32" autocomplete="organization"></div>
+          <div class="field"><span class="label" id="rb-col-lab">Primary colour</span>
+            <div class="color-row"><input type="color" id="rb-color" aria-labelledby="rb-col-lab"><input type="text" id="rb-hex" aria-label="Primary colour hex" maxlength="7" spellcheck="false"></div>
+            <div class="presets" id="presets" aria-label="Colour presets"></div>
+          </div>
+          <div class="field"><label for="rb-font">Typeface</label><select id="rb-font">
+            <option value='"IBM Plex Sans", system-ui, sans-serif'>IBM Plex Sans</option>
+            <option value='"Inter Tight", system-ui, sans-serif'>Inter Tight</option>
+            <option value='"Manrope", system-ui, sans-serif'>Manrope</option>
+            <option value='"DM Sans", system-ui, sans-serif'>DM Sans</option>
+            <option value='"Space Grotesk", system-ui, sans-serif'>Space Grotesk</option>
+            <option value='"Source Serif 4", Georgia, serif'>Source Serif 4</option>
+          </select></div>
+          <div class="field"><label for="rb-radius">Corner radius</label><div class="range-row"><input type="range" id="rb-radius" min="0" max="16" step="1"><output for="rb-radius" id="rb-radius-out">6px</output></div></div>
+          <div class="field"><span class="label">Token export</span>
+            <div class="tokens"><pre id="tokens" tabindex="0" aria-label="Handoff CSS tokens"></pre><button class="btn small copy" id="copy-tokens" type="button">Copy</button></div>
+          </div>
+          <ol class="steps" aria-label="How the handoff works">
+            <li>Your agency sets the brand here or sends us a style guide.</li>
+            <li>Zero Lag ships the kit, board exports and findings in that brand.</li>
+            <li>You present to your client; we stay invisible.</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="ws-foot"><div class="wrap"><span>Partner Workspace &middot; Zero Lag white-label programme</span><a href="../agency-dev-outsourcing/index.html">Dev Outsourcing</a><a href="../partner-retainer/index.html">Retainer</a><a href="../../contact.html">Talk to us about partnering</a></div></footer>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  'use strict';
+  const KEY = 'zl-sprint';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const live = $('#live');
+  const toastEl = $('#toast');
+  let toastT;
+
+  // Short status message for screen readers and sighted users
+  function toast(msg) {
+    live.textContent = msg;
+    toastEl.textContent = msg;
+    toastEl.hidden = false;
+    clearTimeout(toastT);
+    toastT = setTimeout(() => { toastEl.hidden = true; }, 2200);
+  }
+
+  // Sprint plan content
+  const COLS = ['Understand', 'Sketch', 'Decide', 'Build', 'Test'];
+  const DAYS = [
+    { name: 'Understand', out: 'Journey map, sprint goal and a target moment', goal: 'Agree what the sprint is for, map how the client’s users get from start to finish and pick the single moment worth fixing this week.',
+      agenda: [['09:30–10:00', 'Kick-off: long-term goal and sprint questions'], ['10:00–11:30', 'Expert interviews with the client team', 'Four 20-minute slots'], ['11:30–12:30', 'Map the user journey'], ['13:30–15:00', 'How-might-we notes and dot voting'], ['15:00–16:00', 'Pick a target on the map'], ['16:00–16:30', 'Wrap: notes shared to the partner workspace']],
+      roles: [['HA', 'Hammad', 'Facilitator'], ['AL', 'Ali', 'Product designer'], ['ZU', 'Zunair', 'Note-taker and timekeeper']],
+      artefact: 'Journey map with the target moment marked, the written sprint goal and the voted HMW cluster, exported in the partner’s brand.' },
+    { name: 'Sketch', out: 'One solution sketch per participant', goal: 'Review relevant reference products, then work alone together: everyone sketches a complete solution for the target moment.',
+      agenda: [['09:30–10:30', 'Lightning reviews of reference products', 'Three minutes each'], ['10:30–11:00', 'Notes: collect what stood out'], ['11:00–11:30', 'Ideas: rough doodles'], ['11:30–12:15', 'Crazy 8s', 'Eight variations in eight minutes'], ['13:30–16:00', 'Solution sketches', 'Three-panel storyboard each'], ['16:00–16:30', 'Sketches collected anonymously']],
+      roles: [['AL', 'Ali', 'Product designer'], ['EB', 'Ebad', 'Visual designer'], ['HA', 'Hammad', 'Facilitator']],
+      artefact: 'A numbered set of anonymous solution sketches, scanned and uploaded for Wednesday’s review.' },
+    { name: 'Decide', out: 'Winning sketch and a storyboard', goal: 'Critique every sketch in a structured way, let the decider choose, and storyboard exactly what gets built tomorrow.',
+      agenda: [['09:30–10:15', 'Art museum: sketches on the wall'], ['10:15–11:00', 'Heat map: silent dot review'], ['11:00–12:00', 'Speed critique', 'Three minutes per sketch'], ['13:30–14:15', 'Straw poll, then the decider’s vote'], ['14:15–16:30', 'Storyboard the flow', '10 to 15 frames'], ['16:30–17:00', 'Build plan for Thursday']],
+      roles: [['HA', 'Hammad', 'Facilitator'], ['AL', 'Ali', 'Product designer'], ['EB', 'Ebad', 'Storyboard illustrator']],
+      artefact: 'A 10 to 15 frame storyboard with the decider’s sign-off, plus the critique notes per sketch.' },
+    { name: 'Build', out: 'A realistic clickable build of the flow', goal: 'Build just enough of the storyboard to put in front of real users: real copy, real screens, no backend.',
+      agenda: [['09:30–10:00', 'Pick tools and split the storyboard'], ['10:00–12:30', 'Build: screens, copy and assets', 'Makers, stitcher, writer, asset collector'], ['13:30–15:30', 'Stitch the flow end to end'], ['15:30–16:30', 'Trial run with the facilitator'], ['16:30–17:00', 'Finalise the Friday interview script']],
+      roles: [['AL', 'Ali', 'Maker'], ['EB', 'Ebad', 'Maker'], ['ZU', 'Zunair', 'Stitcher (front-end build)'], ['HA', 'Hammad', 'Writer and script owner']],
+      artefact: 'A clickable build of the full flow in the partner’s brand, and the interview script.' },
+    { name: 'Test', out: 'Findings grid and recommendation memo', goal: 'Five one-hour interviews with real users, observed live by the whole team, then patterns and a clear next step.',
+      agenda: [['09:00–10:00', 'Interview 1'], ['10:00–11:00', 'Interview 2'], ['11:00–12:00', 'Interview 3'], ['13:00–14:00', 'Interview 4'], ['14:00–15:00', 'Interview 5'], ['15:00–16:00', 'Pattern spotting on the findings grid'], ['16:00–16:30', 'Decide what happens next']],
+      roles: [['HA', 'Hammad', 'Interviewer'], ['AL', 'Ali', 'Observer'], ['EB', 'Ebad', 'Observer'], ['ZU', 'Zunair', 'Observer and grid keeper']],
+      artefact: 'The findings grid (5 users × each screen), a short recommendation memo and the recording links, ready for the partner to present.' }
+  ];
+
+  // Starting notes on the board
+  const SEED = [
+    { text: 'How might we shorten onboarding to one screen?', col: 0, color: 'yellow', by: 'HA' },
+    { text: 'Long-term goal: members renew without a reminder', col: 0, color: 'blue', by: 'AL' },
+    { text: 'Sprint question: will people trust a price shown before sign-up?', col: 0, color: 'yellow', by: 'ZU' },
+    { text: 'Crazy 8s: checkout drawer vs full page', col: 1, color: 'pink', by: 'AL' },
+    { text: 'Sketch B: plan picker as three cards', col: 1, color: 'pink', by: 'EB' },
+    { text: 'Reference: progressive disclosure in a settings pane', col: 1, color: 'green', by: 'HA' },
+    { text: 'Decision: ship the single-page form', col: 2, color: 'green', by: 'HA' },
+    { text: 'Storyboard frame 6: confirmation with add-to-calendar', col: 2, color: 'yellow', by: 'EB' },
+    { text: 'Build flow: sign-up → plan → confirm', col: 3, color: 'blue', by: 'ZU' },
+    { text: 'Copy pass on error states by 15:00', col: 3, color: 'orange', by: 'HA' },
+    { text: 'Test with 5 users Fri 10:00', col: 4, color: 'orange', by: 'ZU' },
+    { text: 'Script: ask about price before showing the plan', col: 4, color: 'green', by: 'AL' }
+  ];
+  const DEFAULT_BRAND = { name: 'Zero Lag', primary: '#3451B2', font: '"IBM Plex Sans", system-ui, sans-serif', radius: 6 };
+  const PRESETS = [['#3451B2', 'Indigo'], ['#1F6B45', 'Forest'], ['#6B2D7A', 'Plum'], ['#B5431A', 'Rust'], ['#0E6E8A', 'Ocean'], ['#2B2E35', 'Charcoal']];
+
+  // Persisted state
+  let state = load();
+  function load() {
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY));
+      if (s && Array.isArray(s.notes) && s.brand) return s;
+    } catch (e) {}
+    return { day: 0, notes: SEED.map((n, i) => Object.assign({ id: 'n' + (i + 1) }, n)), nextId: SEED.length + 1, brand: Object.assign({}, DEFAULT_BRAND) };
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  // Day plan tabs
+  const daysEl = $('#days');
+  const detailEl = $('#day-detail');
+  function renderDays() {
+    daysEl.innerHTML = DAYS.map((d, i) => '<button class="day" role="tab" type="button" id="day-tab-' + i + '" aria-selected="' + (i === state.day) + '" aria-controls="day-detail" tabindex="' + (i === state.day ? 0 : -1) + '"><span class="d-dot" aria-hidden="true"></span><span class="d-num">Day ' + (i + 1) + '</span><span class="d-name">' + d.name + '</span><span class="d-out">' + esc(d.out) + '</span></button>').join('');
+    const d = DAYS[state.day];
+    detailEl.setAttribute('aria-labelledby', 'day-tab-' + state.day);
+    detailEl.innerHTML = '<div><h3>Day ' + (state.day + 1) + ': ' + d.name + '</h3><p class="goal">' + esc(d.goal) + '</p><ol class="agenda">' +
+      d.agenda.map(a => '<li><time>' + a[0] + '</time><span>' + esc(a[1]) + (a[2] ? '<span class="box">' + esc(a[2]) + '</span>' : '') + '</span></li>').join('') + '</ol></div>' +
+      '<div><h3>In the room from Zero Lag</h3><ul class="roles">' + d.roles.map(r => '<li><span class="av" aria-hidden="true">' + r[0] + '</span><div>' + r[1] + ' <span>&middot; ' + esc(r[2]) + '</span></div></li>').join('') + '</ul>' +
+      '<div class="artefact"><b>Artefact at end of day</b>' + esc(d.artefact) + '</div></div>';
+  }
+  daysEl.addEventListener('click', e => {
+    const b = e.target.closest('.day'); if (!b) return;
+    state.day = $$('.day', daysEl).indexOf(b); save(); renderDays();
+  });
+  daysEl.addEventListener('keydown', e => {
+    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (!dir) return;
+    e.preventDefault();
+    state.day = (state.day + dir + DAYS.length) % DAYS.length; save(); renderDays();
+    $$('.day', daysEl)[state.day].focus();
+  });
+
+  // Sprint board
+  const boardEl = $('#board');
+  const colSel = $('#note-col');
+  colSel.innerHTML = COLS.map((c, i) => '<option value="' + i + '">' + c + '</option>').join('');
+  const ICON_L = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';
+  const ICON_R = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  const ICON_X = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  function noteHTML(n) {
+    return '<li class="note ' + n.color + '" data-id="' + n.id + '" draggable="true">' +
+      '<span class="grip" aria-hidden="true">&#8942;&#8942;</span>' +
+      '<p class="text" contenteditable="true" role="textbox" aria-label="Note text, press Escape to finish editing" spellcheck="false">' + esc(n.text) + '</p>' +
+      '<div class="meta"><span class="by">' + n.by + '</span>' +
+      '<button class="ctl" type="button" data-act="left" aria-label="Move to ' + (COLS[n.col - 1] || 'previous column') + '"' + (n.col === 0 ? ' disabled' : '') + '>' + ICON_L + '</button>' +
+      '<label class="ctl" style="position:relative" title="Move to column"><span class="vh">Move to column</span><select class="jump" aria-label="Move to column">' + COLS.map((c, i) => '<option value="' + i + '"' + (i === n.col ? ' selected' : '') + '>' + c + '</option>').join('') + '</select><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7"/></svg></label>' +
+      '<button class="ctl" type="button" data-act="right" aria-label="Move to ' + (COLS[n.col + 1] || 'next column') + '"' + (n.col === COLS.length - 1 ? ' disabled' : '') + '>' + ICON_R + '</button>' +
+      '<button class="ctl" type="button" data-act="del" aria-label="Delete note">' + ICON_X + '</button></div></li>';
+  }
+  function renderBoard() {
+    boardEl.innerHTML = COLS.map((c, i) => {
+      const notes = state.notes.filter(n => n.col === i);
+      return '<section class="col" data-col="' + i + '" aria-labelledby="col-h-' + i + '"><div class="col-head"><h3 id="col-h-' + i + '">' + c + '</h3><span class="count" aria-label="' + notes.length + ' notes">' + notes.length + '</span></div>' +
+        '<ul class="notes">' + (notes.length ? notes.map(noteHTML).join('') : '<li class="empty">Drop a note here</li>') + '</ul></section>';
+    }).join('');
+  }
+  function findNote(el) { const li = el.closest('.note'); return li && state.notes.find(n => n.id === li.dataset.id); }
+  function moveNote(n, col, focusAct) {
+    if (col < 0 || col >= COLS.length || col === n.col) return;
+    n.col = col; save(); renderBoard();
+    toast('Moved to ' + COLS[col]);
+    if (focusAct) { const b = boardEl.querySelector('.note[data-id="' + n.id + '"] [data-act="' + focusAct + '"]'); if (b && !b.disabled) b.focus(); else boardEl.querySelector('.note[data-id="' + n.id + '"] .text').focus(); }
+  }
+  boardEl.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]'); if (!b) return;
+    const n = findNote(b); if (!n) return;
+    if (b.dataset.act === 'left') moveNote(n, n.col - 1, 'left');
+    if (b.dataset.act === 'right') moveNote(n, n.col + 1, 'right');
+    if (b.dataset.act === 'del') { state.notes = state.notes.filter(x => x !== n); save(); renderBoard(); toast('Note deleted'); }
+  });
+  boardEl.addEventListener('change', e => {
+    if (!e.target.classList.contains('jump')) return;
+    const n = findNote(e.target); if (n) moveNote(n, +e.target.value, 'right');
+  });
+  // Inline editing saves on blur or Enter, Escape finishes
+  boardEl.addEventListener('focusout', e => {
+    if (!e.target.classList.contains('text')) return;
+    const n = findNote(e.target); if (!n) return;
+    const t = e.target.textContent.trim().slice(0, 140);
+    if (!t) { e.target.textContent = n.text; return; }
+    if (t !== n.text) { n.text = t; save(); toast('Note updated'); }
+  });
+  boardEl.addEventListener('keydown', e => {
+    if (!e.target.classList.contains('text')) return;
+    if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); e.target.blur(); }
+  });
+  // Drag and drop between columns
+  let dragId = null;
+  boardEl.addEventListener('dragstart', e => {
+    const li = e.target.closest('.note'); if (!li) return;
+    dragId = li.dataset.id; li.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragId);
+  });
+  boardEl.addEventListener('dragend', () => { dragId = null; $$('.dragging', boardEl).forEach(x => x.classList.remove('dragging')); $$('.col.over', boardEl).forEach(x => x.classList.remove('over')); });
+  boardEl.addEventListener('dragover', e => { const c = e.target.closest('.col'); if (!c || !dragId) return; e.preventDefault(); e.dataTransfer.dropEffect = 'move'; $$('.col.over', boardEl).forEach(x => x !== c && x.classList.remove('over')); c.classList.add('over'); });
+  boardEl.addEventListener('dragleave', e => { const c = e.target.closest('.col'); if (c && !c.contains(e.relatedTarget)) c.classList.remove('over'); });
+  boardEl.addEventListener('drop', e => {
+    const c = e.target.closest('.col'); if (!c) return; e.preventDefault();
+    const n = state.notes.find(x => x.id === (dragId || e.dataTransfer.getData('text/plain')));
+    if (n) moveNote(n, +c.dataset.col);
+  });
+  // Add a note
+  const noteText = $('#note-text');
+  function addNote() {
+    const t = noteText.value.trim().slice(0, 140);
+    if (!t) { noteText.setAttribute('aria-invalid', 'true'); noteText.focus(); toast('Write the note first'); return; }
+    noteText.removeAttribute('aria-invalid');
+    const color = ($('input[name=ncolor]:checked') || {}).value || 'yellow';
+    state.notes.push({ id: 'n' + state.nextId++, text: t, col: +colSel.value, color, by: 'You' });
+    save(); renderBoard(); noteText.value = '';
+    toast('Added to ' + COLS[+colSel.value]);
+  }
+  $('#add-btn').addEventListener('click', addNote);
+  noteText.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addNote(); } });
+  noteText.addEventListener('input', () => noteText.removeAttribute('aria-invalid'));
+  $('#reset-board').addEventListener('click', () => {
+    state.notes = SEED.map((n, i) => Object.assign({ id: 'n' + (i + 1) }, n)); state.nextId = SEED.length + 1;
+    save(); renderBoard(); toast('Board reset');
+  });
+
+  // Colour helpers for the kit tokens
+  function hexToRgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  function rgbToHex(r) { return '#' + r.map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')).join('').toUpperCase(); }
+  function mix(a, b, t) { const x = hexToRgb(a), y = hexToRgb(b); return rgbToHex(x.map((v, i) => v + (y[i] - v) * t)); }
+  function luminance(h) { const [r, g, b] = hexToRgb(h).map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; }
+  const validHex = h => /^#[0-9a-f]{6}$/i.test(h);
+
+  // Rebrand controls
+  const kit = $('#kit');
+  const rbName = $('#rb-name'), rbColor = $('#rb-color'), rbHex = $('#rb-hex'), rbFont = $('#rb-font'), rbRadius = $('#rb-radius'), rbOut = $('#rb-radius-out');
+  const presetsEl = $('#presets');
+  presetsEl.innerHTML = PRESETS.map(p => '<button type="button" style="background:' + p[0] + '" data-hex="' + p[0] + '" aria-label="' + p[1] + ' ' + p[0] + '" aria-pressed="false"></button>').join('');
+  function applyBrand() {
+    const b = state.brand;
+    const hover = mix(b.primary, '#000000', 0.22);
+    const soft = mix(b.primary, '#FFFFFF', 0.88);
+    const on = luminance(b.primary) > 0.45 ? '#16181D' : '#FFFFFF';
+    kit.style.setProperty('--kit-primary', b.primary);
+    kit.style.setProperty('--kit-hover', hover);
+    kit.style.setProperty('--kit-soft', soft);
+    kit.style.setProperty('--kit-on', on);
+    kit.style.setProperty('--kit-font', b.font);
+    kit.style.setProperty('--kit-radius', b.radius + 'px');
+    const name = b.name.trim() || 'Zero Lag';
+    $$('[data-brand-name]').forEach(el => { el.textContent = name; });
+    $$('[data-brand-initial]').forEach(el => { el.textContent = name.charAt(0).toUpperCase(); });
+    if (rbName.value !== b.name) rbName.value = b.name;
+    rbColor.value = b.primary; if (document.activeElement !== rbHex) rbHex.value = b.primary.toUpperCase();
+    rbFont.value = b.font; rbRadius.value = b.radius; rbOut.value = b.radius + 'px';
+    $$('button', presetsEl).forEach(p => p.setAttribute('aria-pressed', String(p.dataset.hex.toUpperCase() === b.primary.toUpperCase())));
+    const fontName = b.font.split(',')[0].replace(/"/g, '');
+    $('#tokens').innerHTML = '<span class="c">/* ' + esc(name) + ' handoff tokens */</span>\n:root {\n' +
+      [['--brand-primary', b.primary.toUpperCase()], ['--brand-primary-hover', hover], ['--brand-primary-soft', soft], ['--brand-on-primary', on], ['--brand-font', '"' + fontName + '", sans-serif'], ['--brand-radius', b.radius + 'px']]
+        .map(t => '  <span class="k">' + t[0] + '</span>: ' + esc(t[1]) + ';').join('\n') + '\n}';
+  }
+  function setBrand(patch) { Object.assign(state.brand, patch); save(); applyBrand(); }
+  rbName.addEventListener('input', () => setBrand({ name: rbName.value.slice(0, 32) }));
+  rbColor.addEventListener('input', () => setBrand({ primary: rbColor.value }));
+  rbHex.addEventListener('input', () => { let v = rbHex.value.trim(); if (v && v[0] !== '#') v = '#' + v; if (validHex(v)) { rbHex.removeAttribute('aria-invalid'); setBrand({ primary: v }); } else rbHex.setAttribute('aria-invalid', 'true'); });
+  rbHex.addEventListener('blur', () => { rbHex.removeAttribute('aria-invalid'); rbHex.value = state.brand.primary.toUpperCase(); });
+  presetsEl.addEventListener('click', e => { const p = e.target.closest('[data-hex]'); if (p) setBrand({ primary: p.dataset.hex }); });
+  rbFont.addEventListener('change', () => setBrand({ font: rbFont.value }));
+  rbRadius.addEventListener('input', () => setBrand({ radius: +rbRadius.value }));
+  $('#rb-reset').addEventListener('click', () => { state.brand = Object.assign({}, DEFAULT_BRAND); save(); applyBrand(); toast('Back to Zero Lag defaults'); });
+  $('#copy-tokens').addEventListener('click', () => {
+    const text = $('#tokens').textContent;
+    const done = () => toast('Tokens copied');
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+    else fallbackCopy(text, done);
+  });
+  function fallbackCopy(text, done) {
+    const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { toast('Select the tokens and copy manually'); }
+    document.body.removeChild(ta);
+  }
+
+  renderDays();
+  renderBoard();
+  applyBrand();
+})();
+</script>
+</body>
+</html>

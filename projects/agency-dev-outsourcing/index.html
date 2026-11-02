@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16181D">
+<title>Agency Dev Outsourcing · Partner Workspace</title>
+<meta name="description" content="Engagement workspace for agencies that resell Zero Lag development under their own brand: handoff flow, sprint board, burndown, release notes, review checklist and capacity planner.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='10' height='10' rx='2' fill='%233451B2'/%3E%3Crect x='18' y='4' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='4' y='18' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='18' y='18' width='10' height='10' rx='2' fill='%233451B2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --bg: #F3F3F1;
+  --surface: #FFFFFF;
+  --sunken: #EAEAE6;
+  --line: #DDDDD8;
+  --line-strong: #9A9A93;
+  --ink: #16181D;
+  --ink-2: #4A4D55;
+  --ink-3: #6B6E76;
+  --accent: #3451B2;
+  --accent-hover: #28408F;
+  --accent-soft: #E4E9F9;
+  --accent-ink: #27408F;
+  --green: #1F6B45;
+  --green-soft: #DFF0E6;
+  --amber: #8A5A0A;
+  --amber-soft: #FBEFD2;
+  --red: #A3301F;
+  --red-soft: #F9E3DF;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(22,24,29,.06), 0 4px 14px rgba(22,24,29,.06);
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--bar-h) + 12px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 14px/1.5 var(--sans); }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-ink); }
+img, svg { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* Zero Lag bar (required first element in body) */
+.zl-bar { position: sticky; top: 0; z-index: 100; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; background: var(--ink); color: #C9CBD1; font-size: 13px; line-height: 1; }
+.zl-bar a { color: #E6E7EA; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar a:focus-visible { outline-color: #fff; outline-offset: -2px; }
+.zl-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* Skip link */
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 90; background: var(--surface); padding: 8px 12px; border-radius: var(--radius); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+
+/* Workspace header: programme name on the left, page nav on the right */
+.ws-head { background: var(--surface); border-bottom: 1px solid var(--line); }
+.ws-head .wrap { display: flex; align-items: center; gap: 16px; min-height: 56px; }
+.ws-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.ws-brand b { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.ws-brand span { font-size: 12.5px; color: var(--ink-3); display: block; line-height: 1.2; }
+.ws-nav { margin-left: auto; display: flex; gap: 2px; }
+.ws-nav a { padding: 7px 10px; border-radius: var(--radius); color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 13.5px; white-space: nowrap; }
+.ws-nav a:hover { background: var(--sunken); color: var(--ink); }
+.ws-nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
+@media (max-width: 640px) { .wrap { width: calc(100% - 24px); } .ws-nav a { padding: 6px 8px; font-size: 13px; } }
+
+/* Page intro */
+.intro { padding: 28px 0 18px; }
+.intro .eyebrow { font: 500 12px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--accent-ink); }
+.intro h1 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; }
+.intro p.lede { max-width: 62ch; color: var(--ink-2); font-size: 15px; margin-top: 8px; }
+
+/* Section rhythm */
+.section { padding: 22px 0; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 12px; }
+.section-head h2 { font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.section-head p { color: var(--ink-3); font-size: 13.5px; }
+.section-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Panels and cards */
+.pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.pane-head h3 { font-size: 14px; font-weight: 600; }
+.pane-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.pane-body { padding: 14px; }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
+.span-3 { grid-column: span 3; } .span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; } .span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; } .span-8 { grid-column: span 8; } .span-9 { grid-column: span 9; } .span-12 { grid-column: span 12; }
+@media (max-width: 960px) { .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9 { grid-column: span 12; } .span-3, .span-4, .span-6 { grid-column: span 6; } }
+@media (max-width: 600px) { .span-3, .span-4, .span-6 { grid-column: span 12; } }
+
+/* Stat tiles */
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
+.tile .t-label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+.tile .t-val { font-size: 26px; font-weight: 600; line-height: 1.15; margin-top: 2px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.tile .t-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+
+/* Buttons and controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 500; white-space: nowrap; color: var(--ink); }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--ink-2); }
+.btn.ghost:hover { background: var(--sunken); color: var(--ink); }
+.btn.small { min-height: 28px; padding: 3px 9px; font-size: 13px; }
+.btn.icon { padding: 0; width: 34px; }
+.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 4px 10px; font-size: 13px; font-weight: 500; color: var(--ink-2); min-height: 28px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+input[type=text], input[type=search], input[type=date], input[type=number], input[type=email], select, textarea { width: 100%; min-height: 34px; padding: 6px 9px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+input[type=color] { width: 44px; height: 34px; padding: 2px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+textarea { resize: vertical; min-height: 72px; display: block; }
+[aria-invalid="true"] { border-color: var(--red) !important; box-shadow: inset 0 0 0 1px var(--red); }
+.err { color: var(--red); font-size: 12.5px; font-weight: 500; }
+.err[hidden] { display: none; }
+.hint { color: var(--ink-3); font-size: 12.5px; }
+
+/* Tags and status chips */
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; line-height: 1.6; background: var(--sunken); color: var(--ink-2); white-space: nowrap; }
+.chip.blue { background: var(--accent-soft); color: var(--accent-ink); }
+.chip.green { background: var(--green-soft); color: var(--green); }
+.chip.amber { background: var(--amber-soft); color: var(--amber); }
+.chip.red { background: var(--red-soft); color: var(--red); }
+
+/* Tables */
+.scroll-x { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); background: #F7F7F5; white-space: nowrap; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+
+/* Progress bar */
+.bar { height: 8px; background: var(--sunken); border-radius: 999px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 0); background: var(--ink); color: #fff; padding: 9px 14px; border-radius: var(--radius); font-size: 13.5px; z-index: 200; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+.toast[hidden] { display: none; }
+
+/* Footer */
+.ws-foot { border-top: 1px solid var(--line); padding: 20px 0 32px; color: var(--ink-3); font-size: 13px; }
+.ws-foot .wrap { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.ws-foot a { color: var(--ink-2); }
+
+/* Print: hide chrome */
+@media print { .zl-bar, .ws-head, .skip, .toast { display: none !important; } body { background: #fff; } }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Page layout */
+main { padding-bottom: 24px; }
+@media (max-width: 640px) { .ws-head .wrap { flex-wrap: wrap; padding: 8px 0; gap: 6px 12px; } .ws-brand span { display: inline; margin-left: 6px; } .ws-nav { margin-left: 0; width: 100%; overflow-x: auto; } }
+@media (max-width: 420px) { .ws-brand span { display: none; } }
+.intro-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px 32px; align-items: end; }
+.intro-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.intro-facts .tile .t-val { font-size: 22px; }
+@media (max-width: 860px) { .intro-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 420px) { .intro-facts { grid-template-columns: 1fr 1fr; } .intro-facts .tile:last-child { grid-column: span 2; } }
+
+/* Handoff diagram */
+.flow { padding: 16px 14px 10px; }
+.flow svg { width: 100%; height: auto; font-family: var(--sans); }
+.flow .narrow { display: none; }
+.flow text { fill: var(--ink); font-size: 13px; }
+.flow .node-title { font-weight: 600; font-size: 14px; }
+.flow .node-sub { fill: var(--ink-3); font-size: 12px; }
+.flow .edge-label { fill: var(--accent-ink); font-size: 12px; font-weight: 500; }
+.flow .edge-sub { fill: var(--ink-3); font-size: 11px; }
+.flow .node { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.2; }
+.flow .node.pod { fill: var(--accent-soft); stroke: var(--accent); }
+.flow .edge { fill: none; stroke: var(--line-strong); stroke-width: 1.4; marker-end: url(#arrow); }
+.flow .edge.back { stroke: var(--accent); marker-end: url(#arrow-accent); }
+.flow .brand-tag { fill: var(--amber-soft); stroke: var(--amber); stroke-width: 1; }
+.flow .brand-text { fill: var(--amber); font-size: 11px; font-weight: 600; }
+.flow-notes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 0 14px 14px; }
+.flow-notes li { border-top: 2px solid var(--line); padding-top: 8px; font-size: 13px; color: var(--ink-2); }
+.flow-notes b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+@media (max-width: 640px) { .flow .wide { display: none; } .flow .narrow { display: block; max-width: 340px; margin-inline: auto; } .flow-notes { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 380px) { .flow-notes { grid-template-columns: 1fr; } }
+
+/* Sprint board */
+.sprint-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 13px; color: var(--ink-2); }
+.sprint-meta .num { color: var(--ink); font-weight: 600; }
+.today-ctl { display: flex; align-items: center; gap: 10px; min-width: 220px; }
+.today-ctl label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); white-space: nowrap; }
+.today-ctl input { width: 120px; }
+.board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.col { background: var(--sunken); border-radius: var(--radius); padding: 8px; min-width: 0; display: flex; flex-direction: column; gap: 8px; min-height: 160px; }
+.col-head { display: flex; align-items: center; gap: 8px; padding: 2px 4px 4px; }
+.col-head h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); }
+.col-head .pts { margin-left: auto; font: 500 12px var(--mono); color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; line-height: 1.6; }
+.col.is-over { outline: 2px dashed var(--accent); outline-offset: -2px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 9px 10px 8px; display: grid; gap: 6px; box-shadow: 0 1px 1px rgba(22,24,29,.04); }
+.card-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.card-top .key { font: 500 11.5px var(--mono); color: var(--ink-3); }
+.card-title { text-align: left; border: 0; background: none; padding: 0; font-weight: 500; font-size: 13.5px; line-height: 1.35; color: var(--ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 2px; }
+.card-title:hover { text-decoration-color: var(--accent); color: var(--accent-ink); }
+.card-foot { display: flex; align-items: center; gap: 6px; }
+.avatar { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; font: 600 10px var(--mono); color: #fff; background: var(--ink-2); flex: none; }
+.avatar.h { background: #3451B2; } .avatar.a { background: #1F6B45; } .avatar.e { background: #8A5A0A; } .avatar.z { background: #7A3E8F; }
+.card-foot .est { font: 500 12px var(--mono); color: var(--ink-2); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; line-height: 1.5; }
+.card-foot .ac { font-size: 11.5px; color: var(--ink-3); }
+.move { margin-left: auto; display: inline-flex; gap: 2px; }
+.move button { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; width: 24px; height: 24px; display: grid; place-items: center; color: var(--ink-2); padding: 0; }
+.move button:hover { background: var(--sunken); color: var(--ink); }
+.move button[disabled] { opacity: .3; cursor: default; }
+.move svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chip.feature { background: var(--accent-soft); color: var(--accent-ink); }
+.chip.bug { background: var(--red-soft); color: var(--red); }
+.chip.chore { background: var(--sunken); color: var(--ink-2); }
+@media (max-width: 960px) { .board { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .board { grid-template-columns: 1fr; } .col { min-height: 0; } }
+
+/* Ticket dialog */
+dialog.ticket { border: 0; padding: 0; margin: 0; background: var(--surface); color: var(--ink); width: min(440px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh; position: fixed; inset: 0 0 0 auto; box-shadow: -8px 0 30px rgba(22,24,29,.14); }
+dialog.ticket::backdrop { background: rgba(22,24,29,.35); }
+dialog.ticket[open] { display: flex; flex-direction: column; }
+.tk-head { display: flex; align-items: flex-start; gap: 10px; padding: 16px 18px 12px; border-bottom: 1px solid var(--line); }
+.tk-head .key { font: 500 12px var(--mono); color: var(--ink-3); }
+.tk-head h2 { font-size: 17px; font-weight: 600; line-height: 1.3; margin-top: 2px; letter-spacing: -.01em; }
+.tk-head .close { margin-left: auto; flex: none; }
+.tk-body { padding: 14px 18px 20px; overflow-y: auto; display: grid; gap: 16px; }
+.tk-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; font-size: 13px; }
+.tk-meta dt { color: var(--ink-3); font-size: 12px; }
+.tk-meta dd { font-weight: 500; margin-top: 1px; }
+.tk-meta dd code { font: 500 12px var(--mono); background: var(--sunken); padding: 1px 5px; border-radius: 4px; word-break: break-all; }
+.tk-section h3 { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; margin-bottom: 6px; }
+.tk-section p { color: var(--ink-2); font-size: 13.5px; }
+.ac-list { display: grid; gap: 6px; }
+.ac-list label { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
+.ac-list label:has(:checked) { background: var(--green-soft); border-color: #B9DCC6; color: var(--green); }
+.ac-list input { margin-top: 2px; flex: none; }
+.tk-status { display: flex; align-items: center; gap: 10px; }
+.tk-status select { width: auto; min-width: 150px; }
+
+/* Burndown */
+.burn { padding: 6px 10px 10px; }
+.burn svg { width: 100%; height: auto; font-family: var(--sans); overflow: visible; }
+.burn .axis { stroke: var(--line-strong); stroke-width: 1; }
+.burn .grid-line { stroke: var(--line); stroke-width: 1; }
+.burn .ideal { fill: none; stroke: var(--ink-3); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.burn .actual { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+.burn .dot { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+.burn .today-line { stroke: var(--amber); stroke-width: 1; stroke-dasharray: 3 3; }
+.burn text { fill: var(--ink-3); font-size: 11px; }
+.burn .today-text { fill: var(--amber); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 10px 14px 0; font-size: 12.5px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--accent); vertical-align: middle; margin-right: 6px; }
+.legend i.dash { border-top: 2px dashed var(--ink-3); }
+.burn-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.burn-stats div { padding: 10px 14px; }
+.burn-stats div + div { border-left: 1px solid var(--line); }
+.burn-stats .t-label { font-size: 12px; color: var(--ink-3); }
+.burn-stats .t-val { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.burn-stats .t-val small { font-size: 12px; font-weight: 500; color: var(--ink-3); margin-left: 3px; }
+@media (max-width: 560px) { .burn text { font-size: 16px; } .burn .actual { stroke-width: 3; } .burn .dot { r: 4.5; } }
+@media (max-width: 420px) { .burn-stats { grid-template-columns: 1fr; } .burn-stats div + div { border-left: 0; border-top: 1px solid var(--line); } }
+
+/* Release notes */
+.notes-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 10px; align-items: end; padding: 14px; border-bottom: 1px solid var(--line); }
+.notes-out { margin: 0; padding: 14px 16px; font: 400 12.5px/1.6 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); background: #FAFAF8; min-height: 200px; border-radius: 0 0 var(--radius) var(--radius); }
+.notes-out .h { color: var(--accent-ink); font-weight: 600; }
+.notes-out .muted { color: var(--ink-3); }
+@media (max-width: 560px) { .notes-form { grid-template-columns: 1fr; } }
+
+/* PR checklist */
+.pr-list { display: grid; }
+.pr-list label { display: flex; gap: 10px; align-items: flex-start; padding: 9px 14px; border-bottom: 1px solid var(--line); font-size: 13.5px; cursor: pointer; }
+.pr-list label:last-child { border-bottom: 0; }
+.pr-list input { margin-top: 2px; flex: none; }
+.pr-list .req { margin-left: auto; flex: none; }
+.pr-list label:has(:checked) span.txt { color: var(--ink-3); text-decoration: line-through; }
+.pr-foot { padding: 12px 14px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.pr-state { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13.5px; }
+.pr-state .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--amber); }
+.pr-state.ready .dot { background: var(--green); }
+.pr-state.ready { color: var(--green); }
+
+/* Capacity planner */
+.cap-form { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 14px; border-bottom: 1px solid var(--line); }
+.cap-form .field output { font: 500 13px var(--mono); color: var(--ink); }
+.cap-form .field .row { display: flex; align-items: center; gap: 8px; }
+.cap-math { padding: 12px 14px; font-size: 13px; color: var(--ink-2); display: grid; gap: 4px; border-bottom: 1px solid var(--line); }
+.cap-math .num { color: var(--ink); }
+.cap-result { padding: 14px; display: grid; gap: 10px; }
+.cap-compare { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--ink-2); }
+.cap-compare b { color: var(--ink); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; display: block; }
+.cap-bar { position: relative; height: 14px; background: var(--sunken); border-radius: 999px; overflow: hidden; }
+.cap-bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--green); border-radius: 999px; transition: width .3s ease, background .3s ease; }
+.cap-bar.over .fill { background: var(--red); }
+.cap-bar .mark { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.cap-msg { font-size: 13.5px; font-weight: 500; padding: 9px 12px; border-radius: var(--radius); background: var(--green-soft); color: var(--green); }
+.cap-msg.over { background: var(--red-soft); color: var(--red); }
+.cap-msg.tight { background: var(--amber-soft); color: var(--amber); }
+@media (max-width: 720px) { .cap-form { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 400px) { .cap-form { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Agency Dev Outsourcing</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="ws-head"><div class="wrap"><a class="ws-brand" href="index.html"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="10" height="10" rx="2" fill="#3451B2"/><rect x="18" y="4" width="10" height="10" rx="2" fill="#3451B2" opacity=".45"/><rect x="4" y="18" width="10" height="10" rx="2" fill="#3451B2" opacity=".45"/><rect x="18" y="18" width="10" height="10" rx="2" fill="#3451B2"/></svg><div><b>Partner Workspace</b><span>Zero Lag white-label programme</span></div></a><nav class="ws-nav" aria-label="Programme"><a href="../partner-design-sprint/index.html">Design Sprint</a><a href="../agency-dev-outsourcing/index.html" aria-current="page">Dev Outsourcing</a><a href="../partner-retainer/index.html">Retainer</a></nav></div></header>
+
+<main id="main" class="wrap">
+  <section class="intro">
+    <div class="intro-grid">
+      <div>
+        <p class="eyebrow">White-label engagement</p>
+        <h1>Agency Dev Outsourcing</h1>
+        <p class="lede">Your agency keeps the client, the brief and the invoice. Zero Lag's developers plug into your process as a named pod, ship inside your sprints and hand back release-ready work under your brand. This workspace is the engagement itself: the board, the burndown, the review gate and the capacity maths your producers see every day.</p>
+      </div>
+      <div class="intro-facts" aria-label="Engagement at a glance">
+        <div class="tile"><div class="t-label">Pod</div><div class="t-val">4 devs</div><div class="t-sub">Hammad, Ali, Ebad, Zunair</div></div>
+        <div class="tile"><div class="t-label">Cadence</div><div class="t-val">2 weeks</div><div class="t-sub">10 working days per sprint</div></div>
+        <div class="tile"><div class="t-label">Committed</div><div class="t-val num" id="fact-committed">—</div><div class="t-sub">story points this sprint</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-flow">
+    <div class="section-head"><h2 id="h-flow">How the handoff works</h2><p>Who talks to whom, and what crosses each boundary.</p></div>
+    <div class="pane">
+      <div class="flow">
+        <svg class="wide" viewBox="0 0 900 230" role="img" aria-labelledby="flow-t flow-d">
+          <title id="flow-t">Handoff flow between the client, the partner agency and the Zero Lag dev pod</title>
+          <desc id="flow-d">The client sends a brief to the partner agency. The agency sends tickets and designs to the Zero Lag dev pod. The pod returns pull requests, QA reports and release notes to the agency. The agency releases to the client and invoices under its own brand.</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9A9A93"/></marker>
+            <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3451B2"/></marker>
+          </defs>
+          <rect class="node" x="20" y="70" width="200" height="90" rx="8"/>
+          <text class="node-title" x="120" y="104" text-anchor="middle">Client</text>
+          <text class="node-sub" x="120" y="124" text-anchor="middle">Knows only your agency</text>
+          <rect class="node" x="340" y="70" width="220" height="90" rx="8"/>
+          <text class="node-title" x="450" y="100" text-anchor="middle">Partner agency</text>
+          <text class="node-sub" x="450" y="120" text-anchor="middle">Account · brief · design</text>
+          <text class="node-sub" x="450" y="138" text-anchor="middle">Owns the relationship</text>
+          <rect class="node pod" x="680" y="70" width="200" height="90" rx="8"/>
+          <text class="node-title" x="780" y="100" text-anchor="middle">Zero Lag dev pod</text>
+          <text class="node-sub" x="780" y="120" text-anchor="middle">Build · review · QA</text>
+          <text class="node-sub" x="780" y="138" text-anchor="middle">Works inside your tools</text>
+          <path class="edge" d="M220 95 H338"/>
+          <text class="edge-label" x="279" y="86" text-anchor="middle">Brief</text>
+          <path class="edge back" d="M340 135 H222"/>
+          <text class="edge-label" x="279" y="158" text-anchor="middle">Release</text>
+          <text class="edge-sub" x="279" y="172" text-anchor="middle">invoice under your brand</text>
+          <path class="edge" d="M560 95 H678"/>
+          <text class="edge-label" x="619" y="86" text-anchor="middle">Tickets &amp; designs</text>
+          <path class="edge back" d="M680 135 H562"/>
+          <text class="edge-label" x="619" y="158" text-anchor="middle">PRs · QA</text>
+          <text class="edge-sub" x="619" y="172" text-anchor="middle">release notes</text>
+          <rect class="brand-tag" x="290" y="14" width="320" height="26" rx="13"/>
+          <text class="brand-text" x="450" y="31" text-anchor="middle">Everything the client sees carries the agency's name</text>
+          <path d="M450 40 V68" stroke="#8A5A0A" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+          <text class="edge-sub" x="780" y="200" text-anchor="middle">NDA · no client contact · agency email aliases</text>
+          <text class="edge-sub" x="120" y="200" text-anchor="middle">One point of contact: your producer</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 320 520" role="img" aria-labelledby="flow-t2 flow-d2">
+          <title id="flow-t2">Handoff flow, stacked</title>
+          <desc id="flow-d2">Client to partner agency to Zero Lag dev pod, with returns flowing back up.</desc>
+          <rect class="brand-tag" x="20" y="10" width="280" height="26" rx="13"/>
+          <text class="brand-text" x="160" y="27" text-anchor="middle">The client only ever sees your brand</text>
+          <rect class="node" x="40" y="60" width="240" height="78" rx="8"/>
+          <text class="node-title" x="160" y="92" text-anchor="middle">Client</text>
+          <text class="node-sub" x="160" y="112" text-anchor="middle">Knows only your agency</text>
+          <path class="edge" d="M110 138 V208"/>
+          <text class="edge-label" x="100" y="178" text-anchor="end">Brief</text>
+          <path class="edge back" d="M210 210 V140"/>
+          <text class="edge-label" x="220" y="170" text-anchor="start">Release</text>
+          <text class="edge-sub" x="220" y="184" text-anchor="start">invoice, your brand</text>
+          <rect class="node" x="40" y="210" width="240" height="90" rx="8"/>
+          <text class="node-title" x="160" y="242" text-anchor="middle">Partner agency</text>
+          <text class="node-sub" x="160" y="262" text-anchor="middle">Account · brief · design</text>
+          <text class="node-sub" x="160" y="280" text-anchor="middle">Owns the relationship</text>
+          <path class="edge" d="M110 300 V370"/>
+          <text class="edge-label" x="100" y="332" text-anchor="end">Tickets</text>
+          <text class="edge-sub" x="100" y="346" text-anchor="end">&amp; designs</text>
+          <path class="edge back" d="M210 372 V302"/>
+          <text class="edge-label" x="220" y="332" text-anchor="start">PRs · QA</text>
+          <text class="edge-sub" x="220" y="346" text-anchor="start">release notes</text>
+          <rect class="node pod" x="40" y="372" width="240" height="90" rx="8"/>
+          <text class="node-title" x="160" y="404" text-anchor="middle">Zero Lag dev pod</text>
+          <text class="node-sub" x="160" y="424" text-anchor="middle">Build · review · QA</text>
+          <text class="node-sub" x="160" y="442" text-anchor="middle">Works inside your tools</text>
+          <text class="edge-sub" x="160" y="494" text-anchor="middle">NDA · no direct client contact · agency aliases</text>
+        </svg>
+      </div>
+      <ol class="flow-notes">
+        <li><b>1. Brief lands</b>Your producer writes tickets in your tracker. We estimate in points within one working day.</li>
+        <li><b>2. Pod builds</b>Branches, PRs and commits sit in your repository, under agency-domain accounts.</li>
+        <li><b>3. Review gate</b>Every PR passes the checklist below before it is marked ready for your lead to merge.</li>
+        <li><b>4. Release</b>Notes are composed from done tickets with your agency's name on top, ready to forward.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-board">
+    <div class="section-head">
+      <h2 id="h-board">Sprint board</h2>
+      <p class="sprint-meta"><span>Sprint 14 · 3–14 Nov</span><span><span class="num" id="meta-total">0</span> points total</span><span><span class="num" id="meta-done">0</span> done</span></p>
+      <div class="tools">
+        <div class="today-ctl"><label for="today">Today is day <output id="today-out" for="today">6</output> of 10</label><input type="range" id="today" min="1" max="10" value="6"></div>
+        <button class="btn small" type="button" id="reset-board">Reset board</button>
+      </div>
+    </div>
+    <div class="board" id="board" aria-live="polite" aria-relevant="text"></div>
+  </section>
+
+  <div class="grid section" style="padding-top:0">
+    <section class="pane span-7" aria-labelledby="h-burn">
+      <div class="pane-head"><h3 id="h-burn">Burndown</h3><div class="legend"><span><i></i>Remaining points</span><span><i class="dash"></i>Ideal pace</span></div></div>
+      <div class="burn" id="burn"></div>
+      <div class="burn-stats" id="burn-stats"></div>
+    </section>
+    <section class="pane span-5" aria-labelledby="h-cap">
+      <div class="pane-head"><h3 id="h-cap">Capacity planner</h3><span class="hint">Does the commitment fit the pod?</span></div>
+      <form class="cap-form" id="cap-form">
+        <div class="field"><label for="cap-devs">Developers</label><div class="row"><input type="range" id="cap-devs" min="1" max="6" value="4"><output id="cap-devs-out" for="cap-devs">4</output></div></div>
+        <div class="field"><label for="cap-hours">Hours per dev / sprint</label><input type="number" id="cap-hours" min="10" max="90" step="5" value="60"></div>
+        <div class="field"><label for="cap-focus">Focus factor %</label><input type="number" id="cap-focus" min="30" max="100" step="5" value="70"></div>
+        <div class="field"><label for="cap-vel">Points per focused day</label><input type="number" id="cap-vel" min="0.5" max="5" step="0.1" value="2"></div>
+      </form>
+      <div class="cap-math" id="cap-math"></div>
+      <div class="cap-result">
+        <div class="cap-compare"><span>Sprint capacity<b class="num" id="cap-capacity">0</b></span><span style="text-align:right">Committed (not in Backlog)<b class="num" id="cap-committed">0</b></span></div>
+        <div class="cap-bar" id="cap-bar" role="img" aria-label="Committed points against capacity"><div class="fill" id="cap-fill"></div><div class="mark" id="cap-mark"></div></div>
+        <p class="cap-msg" id="cap-msg" aria-live="polite"></p>
+      </div>
+    </section>
+  </div>
+
+  <div class="grid section" style="padding-top:0">
+    <section class="pane span-7" aria-labelledby="h-notes">
+      <div class="pane-head"><h3 id="h-notes">Release notes</h3><span class="hint">Composed from Done tickets</span></div>
+      <form class="notes-form" id="notes-form">
+        <div class="field"><label for="notes-agency">Agency name</label><input type="text" id="notes-agency" value="Your agency" maxlength="40"></div>
+        <div class="field"><label for="notes-version">Version</label><input type="text" id="notes-version" value="v2.14.0" maxlength="16"></div>
+        <div style="display:flex;gap:6px"><button class="btn primary" type="button" id="notes-compose">Compose release notes</button><button class="btn" type="button" id="notes-copy">Copy</button></div>
+      </form>
+      <pre class="notes-out" id="notes-out" tabindex="0" aria-live="polite"></pre>
+    </section>
+    <section class="pane span-5" aria-labelledby="h-pr">
+      <div class="pane-head"><h3 id="h-pr">Pull-request review checklist</h3><span class="hint">Applied to every PR before merge</span></div>
+      <div class="pr-list" id="pr-list"></div>
+      <div class="pr-foot">
+        <div class="bar"><i id="pr-bar" style="width:0%"></i></div>
+        <div class="pr-state" id="pr-state" aria-live="polite"><span class="dot"></span><span id="pr-state-text"></span></div>
+        <button class="btn small ghost" type="button" id="pr-reset" style="justify-self:start">Clear checklist</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<dialog class="ticket" id="ticket" aria-labelledby="tk-title">
+  <div class="tk-head">
+    <div><div class="key" id="tk-key"></div><h2 id="tk-title"></h2></div>
+    <button class="btn icon close" type="button" id="tk-close" aria-label="Close ticket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="tk-body">
+    <div class="tk-status"><label for="tk-status" class="label">Status</label><select id="tk-status"></select></div>
+    <dl class="tk-meta" id="tk-meta"></dl>
+    <div class="tk-section"><h3>Description</h3><p id="tk-desc"></p></div>
+    <div class="tk-section"><h3>Acceptance criteria <span class="hint" id="tk-ac-count"></span></h3><div class="ac-list" id="tk-ac"></div></div>
+  </div>
+</dialog>
+
+<footer class="ws-foot"><div class="wrap"><span>Partner Workspace · Zero Lag white-label programme</span><a href="../partner-design-sprint/index.html">Design Sprint</a><a href="../partner-retainer/index.html">Retainer</a><a href="../../contact.html">Talk to us about outsourcing</a></div></footer>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+  const KEY = 'zl-outsourcing';
+  const STATUSES = ['Backlog', 'In progress', 'In review', 'Done'];
+  const PEOPLE = { H: 'Hammad', A: 'Ali', E: 'Ebad', Z: 'Zunair' };
+  const DAYS = 10;
+
+  // Seed tickets for Sprint 14
+  const SEED = [
+    { key: 'AUTH-212', title: 'Magic-link sign-in', type: 'feature', pts: 5, who: 'H', status: 3, doneDay: 2, pr: 1187, branch: 'feat/auth-magic-link',
+      desc: 'Replace password sign-in with a one-time emailed link. Links expire after 15 minutes and are single use. Existing password users keep working until the flag is flipped.',
+      ac: ['Requesting a link for an unknown email shows the same confirmation as a known one', 'Link opens a session on the device that clicked it and is then invalid', 'Expired link shows a retry screen with a fresh request button', 'Rate limited to 5 requests per email per hour'] },
+    { key: 'AUTH-219', title: 'Session expiry banner', type: 'feature', pts: 2, who: 'A', status: 3, doneDay: 3, pr: 1190, branch: 'feat/session-expiry-banner',
+      desc: 'Warn signed-in users two minutes before their session ends and let them extend it without losing form input.',
+      ac: ['Banner appears at T-2:00 with a live countdown', 'Extend keeps the user on the same page with inputs intact', 'Banner is announced to screen readers once, not every second'] },
+    { key: 'BILL-88', title: 'Prorate plan upgrades', type: 'feature', pts: 8, who: 'E', status: 2, doneDay: null, pr: 1203, branch: 'feat/billing-proration',
+      desc: 'When a workspace upgrades mid-cycle, charge only the remaining days at the new rate and credit the unused portion of the old plan.',
+      ac: ['Upgrade on day 10 of a 30-day cycle charges 20/30 of the price difference', 'Downgrades schedule at period end with no immediate charge', 'Invoice line reads "Prorated upgrade: <old> to <new>, <n> days"', 'Unit tests cover month boundaries and leap years'] },
+    { key: 'BILL-91', title: 'VAT line missing on EU invoices', type: 'bug', pts: 3, who: 'E', status: 3, doneDay: 4, pr: 1195, branch: 'fix/invoice-vat-line',
+      desc: 'Invoices for customers with a validated EU VAT number show the reverse-charge note but omit the 0% VAT line that accountants expect.',
+      ac: ['Reverse-charge invoices show a VAT line at 0% with the customer VAT ID', 'Domestic invoices are unchanged', 'Regenerated PDFs for the last 3 months match the new layout'] },
+    { key: 'UI-301', title: 'Empty states for dashboard', type: 'feature', pts: 3, who: 'Z', status: 3, doneDay: 5, pr: 1198, branch: 'feat/dashboard-empty-states',
+      desc: 'New workspaces land on an empty dashboard with no guidance. Each widget needs an empty state that explains what will appear and links to the first action.',
+      ac: ['Every widget has copy, an illustration and one primary action when empty', 'Empty states disappear as soon as real data arrives', 'Illustrations are inline SVG and respect the dark theme'] },
+    { key: 'UI-307', title: 'Resizable table columns', type: 'feature', pts: 5, who: 'Z', status: 1, doneDay: null, pr: 1211, branch: 'feat/table-column-resize',
+      desc: 'Allow users to drag column edges on data tables and remember widths per table per user.',
+      ac: ['Drag handle is visible on hover and reachable by keyboard (arrow keys resize by 8px)', 'Widths persist across reloads', 'Minimum column width prevents hiding content', 'Double-click a handle to auto-fit'] },
+    { key: 'PERF-17', title: 'Lazy-load report charts', type: 'chore', pts: 3, who: 'H', status: 1, doneDay: null, pr: 1208, branch: 'perf/lazy-report-charts',
+      desc: 'The reports page renders all 12 charts on load. Render only charts in or near the viewport and defer the rest.',
+      ac: ['Initial reports load transfers under 400 KB of JS', 'Charts below the fold render within 200 ms of scrolling into view', 'Printing the page still renders every chart'] },
+    { key: 'API-140', title: 'Webhook retry with backoff', type: 'feature', pts: 5, who: 'A', status: 2, doneDay: null, pr: 1201, branch: 'feat/webhook-retry',
+      desc: 'Failed webhook deliveries are currently dropped. Retry with exponential backoff and surface delivery history in the integrations page.',
+      ac: ['Retries at 1m, 5m, 30m, 2h, 12h then mark as failed', 'Each attempt logs status code and response time', 'Customers can replay a failed delivery manually', '2xx responses stop the retry chain immediately'] },
+    { key: 'API-143', title: 'Rate-limit response headers', type: 'chore', pts: 2, who: 'A', status: 0, doneDay: null, pr: null, branch: 'chore/rate-limit-headers',
+      desc: 'Add standard RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset headers to every public API response.',
+      ac: ['Headers present on 2xx and 429 responses', 'Documented in the public API reference', 'Values match the limiter state within one request'] },
+    { key: 'BUG-402', title: 'Date picker off by one in Safari', type: 'bug', pts: 2, who: 'Z', status: 3, doneDay: 5, pr: 1199, branch: 'fix/safari-date-offset',
+      desc: 'Selecting a date in Safari with a negative UTC offset stores the previous day. Caused by parsing a date-only string as UTC midnight.',
+      ac: ['Selected date is stored as a calendar date without a time zone shift', 'Regression test runs in the Safari job of the CI matrix', 'Existing records are not migrated'] },
+    { key: 'BUG-411', title: 'CSV export drops non-Latin characters', type: 'bug', pts: 3, who: 'H', status: 1, doneDay: null, pr: 1212, branch: 'fix/csv-export-encoding',
+      desc: 'Exports open in Excel with mangled names for customers using Arabic, Cyrillic or CJK scripts because the file lacks a BOM.',
+      ac: ['Exported CSV starts with a UTF-8 BOM', 'Excel on Windows and Numbers on macOS display names correctly', 'Existing import endpoint accepts files with and without a BOM'] },
+    { key: 'QA-9', title: 'Regression pass on checkout', type: 'chore', pts: 3, who: 'E', status: 0, doneDay: null, pr: null, branch: 'qa/checkout-regression-s14',
+      desc: 'Manual and automated regression run on the full checkout flow after the billing changes land.',
+      ac: ['Checklist executed on Chrome, Safari, Firefox and iOS Safari', 'All automated checkout specs green on the release branch', 'Findings filed as tickets with reproduction steps'] },
+    { key: 'INFRA-55', title: 'Nightly snapshot of staging database', type: 'chore', pts: 2, who: 'A', status: 0, doneDay: null, pr: null, branch: 'infra/staging-nightly-snapshot',
+      desc: 'Staging has no backups, so broken migrations mean a rebuild from production. Snapshot nightly and keep 7 days.',
+      ac: ['Snapshot job runs at 02:00 and alerts on failure', 'Restore procedure documented and tested once', 'Snapshots are encrypted at rest'] },
+    { key: 'UI-312', title: 'Keyboard shortcuts help panel', type: 'feature', pts: 3, who: 'Z', status: 0, doneDay: null, pr: null, branch: 'feat/shortcuts-panel',
+      desc: 'Pressing ? opens a panel listing every shortcut, grouped by area, with the current platform modifier keys.',
+      ac: ['Panel opens with ? and closes with Esc', 'Shortcuts are read from one registry so the list never drifts from behaviour', 'Panel is a focus-trapped dialog'] }
+  ];
+
+  // Review checklist items, required ones gate the merge
+  const PR_ITEMS = [
+    { t: 'Linked to a ticket and the ticket is In review', req: true },
+    { t: 'CI green: unit, integration and lint', req: true },
+    { t: 'No secrets, tokens or credentials in the diff', req: true },
+    { t: 'Database migrations are reversible and tested on a staging copy', req: true },
+    { t: 'Acceptance criteria on the ticket all ticked', req: true },
+    { t: 'Keyboard navigation and screen-reader labels checked', req: true },
+    { t: 'Screenshots or a short recording attached for UI changes', req: false },
+    { t: 'Error states and empty states handled', req: true },
+    { t: 'Feature flag or rollout plan noted for risky changes', req: false },
+    { t: 'Release-notes line written in plain language', req: true }
+  ];
+
+  const $ = (s, el) => (el || document).querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // State lives in localStorage so the board survives reloads
+  function freshState() {
+    return {
+      tickets: SEED.map((t) => Object.assign({}, t, { ac: t.ac.map((a) => ({ t: a, done: t.status === 3 })) })),
+      today: 6,
+      pr: PR_ITEMS.map(() => false),
+      cap: { devs: 4, hours: 60, focus: 70, vel: 2 },
+      notes: { agency: 'Your agency', version: 'v2.14.0' }
+    };
+  }
+  function load() {
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY));
+      if (s && Array.isArray(s.tickets) && s.tickets.length === SEED.length) return s;
+    } catch (e) {}
+    return freshState();
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  let state = load();
+
+  const totalPts = () => state.tickets.reduce((n, t) => n + t.pts, 0);
+  const donePts = () => state.tickets.filter((t) => t.status === 3).reduce((n, t) => n + t.pts, 0);
+  const committedPts = () => state.tickets.filter((t) => t.status > 0).reduce((n, t) => n + t.pts, 0);
+
+  let toastTimer;
+  function toast(msg) {
+    const el = $('#toast');
+    el.textContent = msg; el.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.hidden = true; }, 2200);
+  }
+
+  // Board rendering
+  const icons = {
+    left: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+    right: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>'
+  };
+  function renderBoard() {
+    const board = $('#board');
+    board.innerHTML = STATUSES.map((name, i) => {
+      const list = state.tickets.filter((t) => t.status === i);
+      const pts = list.reduce((n, t) => n + t.pts, 0);
+      return '<div class="col" data-col="' + i + '"><div class="col-head"><h3>' + name + '</h3><span class="pts" aria-label="' + pts + ' points in ' + name + '">' + pts + ' pts</span></div>' +
+        list.map((t) => {
+          const acDone = t.ac.filter((a) => a.done).length;
+          return '<article class="card" data-key="' + t.key + '">' +
+            '<div class="card-top"><span class="key">' + t.key + '</span><span class="chip ' + t.type + '">' + t.type + '</span></div>' +
+            '<button class="card-title" type="button" data-open="' + t.key + '">' + esc(t.title) + '</button>' +
+            '<div class="card-foot"><span class="avatar ' + t.who.toLowerCase() + '" title="' + PEOPLE[t.who] + '" aria-label="Assigned to ' + PEOPLE[t.who] + '">' + t.who + '</span>' +
+            '<span class="est" aria-label="' + t.pts + ' points">' + t.pts + ' pt' + (t.pts > 1 ? 's' : '') + '</span>' +
+            '<span class="ac">' + acDone + '/' + t.ac.length + ' AC</span>' +
+            '<span class="move"><button type="button" data-move="-1" data-key="' + t.key + '" aria-label="Move ' + t.key + ' back"' + (i === 0 ? ' disabled' : '') + '>' + icons.left + '</button>' +
+            '<button type="button" data-move="1" data-key="' + t.key + '" aria-label="Move ' + t.key + ' forward"' + (i === 3 ? ' disabled' : '') + '>' + icons.right + '</button></span></div>' +
+            '</article>';
+        }).join('') + '</div>';
+    }).join('');
+    $('#meta-total').textContent = totalPts();
+    $('#meta-done').textContent = donePts();
+    $('#fact-committed').textContent = committedPts();
+  }
+
+  function findTicket(key) { return state.tickets.find((t) => t.key === key); }
+
+  // Move a ticket to a column and stamp or clear its done day
+  function setStatus(t, status) {
+    status = Math.max(0, Math.min(3, status));
+    if (status === t.status) return;
+    t.status = status;
+    if (status === 3) { t.doneDay = state.today; t.ac.forEach((a) => { a.done = true; }); }
+    else t.doneDay = null;
+    save(); renderAll();
+    toast(t.key + ' moved to ' + STATUSES[status]);
+  }
+
+  $('#board').addEventListener('click', (e) => {
+    const mv = e.target.closest('[data-move]');
+    if (mv) { const t = findTicket(mv.dataset.key); setStatus(t, t.status + Number(mv.dataset.move)); return; }
+    const op = e.target.closest('[data-open]');
+    if (op) openTicket(op.dataset.open, op);
+  });
+
+  // Ticket dialog
+  const dlg = $('#ticket');
+  let openedKey = null, returnTo = null;
+  function openTicket(key, trigger) {
+    const t = findTicket(key);
+    openedKey = key; returnTo = trigger || null;
+    $('#tk-key').textContent = t.key + ' · ' + t.type;
+    $('#tk-title').textContent = t.title;
+    $('#tk-status').innerHTML = STATUSES.map((s, i) => '<option value="' + i + '"' + (i === t.status ? ' selected' : '') + '>' + s + '</option>').join('');
+    $('#tk-meta').innerHTML =
+      '<div><dt>Assignee</dt><dd>' + PEOPLE[t.who] + '</dd></div>' +
+      '<div><dt>Estimate</dt><dd>' + t.pts + ' point' + (t.pts > 1 ? 's' : '') + '</dd></div>' +
+      '<div><dt>Pull request</dt><dd>' + (t.pr ? '<code>#' + t.pr + '</code>' : '<span class="hint">not opened yet</span>') + '</dd></div>' +
+      '<div><dt>Branch</dt><dd><code>' + esc(t.branch) + '</code></dd></div>' +
+      (t.doneDay ? '<div><dt>Done on</dt><dd>Sprint day ' + t.doneDay + '</dd></div>' : '');
+    $('#tk-desc').textContent = t.desc;
+    renderAc(t);
+    if (!dlg.open) dlg.showModal();
+    $('#tk-close').focus();
+  }
+  function renderAc(t) {
+    $('#tk-ac').innerHTML = t.ac.map((a, i) => '<label><input type="checkbox" data-ac="' + i + '"' + (a.done ? ' checked' : '') + '><span>' + esc(a.t) + '</span></label>').join('');
+    $('#tk-ac-count').textContent = t.ac.filter((a) => a.done).length + ' of ' + t.ac.length + ' met';
+  }
+  $('#tk-ac').addEventListener('change', (e) => {
+    const i = e.target.dataset.ac; if (i == null) return;
+    const t = findTicket(openedKey);
+    t.ac[i].done = e.target.checked;
+    save(); renderAc(t); renderBoard();
+  });
+  $('#tk-status').addEventListener('change', (e) => {
+    const t = findTicket(openedKey);
+    setStatus(t, Number(e.target.value));
+    openTicket(openedKey, returnTo);
+  });
+  function closeTicket() {
+    dlg.close();
+    const back = returnTo && document.contains(returnTo) ? returnTo : $('[data-open="' + openedKey + '"]');
+    if (back) back.focus();
+  }
+  $('#tk-close').addEventListener('click', closeTicket);
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeTicket(); });
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) closeTicket(); });
+
+  // Today slider
+  const todayInput = $('#today');
+  todayInput.value = state.today;
+  $('#today-out').value = state.today;
+  todayInput.addEventListener('input', () => {
+    state.today = Number(todayInput.value);
+    $('#today-out').value = state.today;
+    save(); renderBurn();
+  });
+
+  $('#reset-board').addEventListener('click', () => {
+    const keep = state.cap, notes = state.notes, pr = state.pr;
+    state = freshState(); state.cap = keep; state.notes = notes; state.pr = pr;
+    todayInput.value = state.today; $('#today-out').value = state.today;
+    save(); renderAll(); toast('Board reset to the sprint start');
+  });
+
+  // Burndown chart drawn from ticket done days
+  function renderBurn() {
+    const total = totalPts();
+    const W = 640, H = 260, L = 38, R = 16, T = 14, B = 34;
+    const iw = W - L - R, ih = H - T - B;
+    const x = (d) => L + (d / DAYS) * iw;
+    const y = (p) => T + ih - (p / total) * ih;
+    const remainingAt = (d) => total - state.tickets.filter((t) => t.status === 3 && t.doneDay != null && t.doneDay <= d).reduce((n, t) => n + t.pts, 0);
+    const pts = [];
+    for (let d = 0; d <= state.today; d++) pts.push([x(d), y(remainingAt(d))]);
+    const actual = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    const ideal = 'M' + x(0) + ' ' + y(total) + ' L' + x(DAYS) + ' ' + y(0);
+    const step = total > 60 ? 20 : 10;
+    let grid = '';
+    for (let v = 0; v <= total; v += step) {
+      grid += '<line class="grid-line" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>' +
+        '<text x="' + (L - 6) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end">' + v + '</text>';
+    }
+    let xl = '';
+    for (let d = 0; d <= DAYS; d++) xl += '<text x="' + x(d).toFixed(1) + '" y="' + (H - B + 18) + '" text-anchor="middle">' + (d === 0 ? 'Start' : 'D' + d) + '</text>';
+    const dots = pts.map((p, i) => '<circle class="dot" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.2"><title>Day ' + i + ': ' + remainingAt(i) + ' points remaining</title></circle>').join('');
+    const remaining = remainingAt(state.today);
+    const idealNow = total * (1 - state.today / DAYS);
+    const delta = remaining - idealNow;
+    $('#burn').innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-labelledby="burn-t burn-d">' +
+      '<title id="burn-t">Sprint 14 burndown</title>' +
+      '<desc id="burn-d">' + total + ' points committed. After day ' + state.today + ', ' + remaining + ' points remain against an ideal of ' + Math.round(idealNow) + '.</desc>' +
+      grid +
+      '<line class="axis" x1="' + L + '" x2="' + L + '" y1="' + T + '" y2="' + (T + ih) + '"/>' +
+      '<line class="axis" x1="' + L + '" x2="' + (W - R) + '" y1="' + (T + ih) + '" y2="' + (T + ih) + '"/>' +
+      xl +
+      '<line class="today-line" x1="' + x(state.today).toFixed(1) + '" x2="' + x(state.today).toFixed(1) + '" y1="' + T + '" y2="' + (T + ih) + '"/>' +
+      '<text class="today-text" x="' + (x(state.today) + (state.today > 7 ? -6 : 6)).toFixed(1) + '" y="' + (T + 10) + '" text-anchor="' + (state.today > 7 ? 'end' : 'start') + '">Today</text>' +
+      '<path class="ideal" d="' + ideal + '"/>' +
+      '<path class="actual" d="' + actual + '"/>' + dots +
+      '<text x="' + (W - R) + '" y="' + (H - 2) + '" text-anchor="end">Working days</text>' +
+      '</svg>';
+    const paceWord = delta > 2 ? 'behind' : delta < -2 ? 'ahead of' : 'on';
+    $('#burn-stats').innerHTML =
+      '<div><div class="t-label">Remaining after day ' + state.today + '</div><div class="t-val num">' + remaining + '<small>of ' + total + ' pts</small></div></div>' +
+      '<div><div class="t-label">Ideal at this point</div><div class="t-val num">' + Math.round(idealNow) + '<small>pts</small></div></div>' +
+      '<div><div class="t-label">Pace</div><div class="t-val" style="color:' + (delta > 2 ? 'var(--red)' : delta < -2 ? 'var(--green)' : 'var(--ink)') + '">' + (paceWord === 'on' ? 'On track' : Math.abs(Math.round(delta)) + ' pts ' + paceWord) + (paceWord !== 'on' ? ' plan' : '') + '</div></div>';
+  }
+
+  // Capacity planner maths
+  const cap = { devs: $('#cap-devs'), hours: $('#cap-hours'), focus: $('#cap-focus'), vel: $('#cap-vel') };
+  Object.keys(cap).forEach((k) => { cap[k].value = state.cap[k]; });
+  $('#cap-devs-out').value = state.cap.devs;
+  function renderCap() {
+    const c = state.cap;
+    const grossHours = c.devs * c.hours;
+    const focusedHours = grossHours * (c.focus / 100);
+    const focusedDays = focusedHours / 8;
+    const capacity = Math.round(focusedDays * c.vel * 10) / 10;
+    const committed = committedPts();
+    $('#cap-math').innerHTML =
+      '<div><span class="num">' + c.devs + '</span> dev' + (c.devs > 1 ? 's' : '') + ' × <span class="num">' + c.hours + '</span> h = <span class="num">' + grossHours + '</span> h in the sprint</div>' +
+      '<div>× <span class="num">' + c.focus + '%</span> focus = <span class="num">' + Math.round(focusedHours) + '</span> focused hours ≈ <span class="num">' + focusedDays.toFixed(1) + '</span> focused days</div>' +
+      '<div>× <span class="num">' + c.vel + '</span> pts per focused day = <span class="num">' + capacity + '</span> points of capacity</div>';
+    $('#cap-capacity').textContent = capacity;
+    $('#cap-committed').textContent = committed;
+    const max = Math.max(capacity, committed) * 1.1 || 1;
+    const bar = $('#cap-bar');
+    bar.classList.toggle('over', committed > capacity);
+    bar.setAttribute('aria-label', committed + ' committed points against ' + capacity + ' points of capacity');
+    $('#cap-fill').style.width = Math.min(100, (committed / max) * 100) + '%';
+    $('#cap-mark').style.left = Math.min(100, (capacity / max) * 100) + '%';
+    const msg = $('#cap-msg');
+    const diff = Math.round((capacity - committed) * 10) / 10;
+    msg.className = 'cap-msg' + (diff < 0 ? ' over' : diff < capacity * 0.1 ? ' tight' : '');
+    msg.textContent = diff < 0
+      ? 'Over by ' + Math.abs(diff) + ' point' + (Math.abs(diff) === 1 ? '' : 's') + '. Move ' + Math.abs(diff) + ' point' + (Math.abs(diff) === 1 ? '' : 's') + ' back to Backlog or add a developer before the sprint starts.'
+      : diff < capacity * 0.1
+        ? 'Fits, but only ' + diff + ' point' + (diff === 1 ? '' : 's') + ' of slack. One sick day would push work into the next sprint.'
+        : 'Fits with ' + diff + ' point' + (diff === 1 ? '' : 's') + ' to spare. Enough room for review turnaround and one unplanned bug.';
+  }
+  Object.keys(cap).forEach((k) => {
+    cap[k].addEventListener('input', () => {
+      const v = Number(cap[k].value);
+      if (!isFinite(v) || cap[k].value === '') return;
+      state.cap[k] = Math.min(Number(cap[k].max), Math.max(Number(cap[k].min), v));
+      if (k === 'devs') $('#cap-devs-out').value = state.cap.devs;
+      save(); renderCap();
+    });
+  });
+  $('#cap-form').addEventListener('submit', (e) => e.preventDefault());
+
+  // Release notes composed from done tickets
+  const notesAgency = $('#notes-agency'), notesVersion = $('#notes-version');
+  notesAgency.value = state.notes.agency; notesVersion.value = state.notes.version;
+  let notesPlain = '';
+  function composeNotes() {
+    const agency = notesAgency.value.trim() || 'Your agency';
+    const version = notesVersion.value.trim() || 'v2.14.0';
+    const done = state.tickets.filter((t) => t.status === 3).sort((a, b) => (a.doneDay || 99) - (b.doneDay || 99));
+    const groups = [['Features', 'feature'], ['Fixes', 'bug'], ['Internal', 'chore']];
+    const lines = [], html = [];
+    const push = (plain, h) => { lines.push(plain); html.push(h == null ? esc(plain) : h); };
+    push('# ' + agency + ' · Release ' + version, '<span class="h"># ' + esc(agency) + ' · Release ' + esc(version) + '</span>');
+    push('Sprint 14 · 3–14 Nov · ' + done.length + ' ticket' + (done.length === 1 ? '' : 's') + ', ' + donePts() + ' points', '<span class="muted">' + esc('Sprint 14 · 3–14 Nov · ' + done.length + ' ticket' + (done.length === 1 ? '' : 's') + ', ' + donePts() + ' points') + '</span>');
+    push('');
+    if (!done.length) push('Nothing has reached Done yet. Move tickets into the Done column and the notes fill in.', '<span class="muted">Nothing has reached Done yet. Move tickets into the Done column and the notes fill in.</span>');
+    groups.forEach(([label, type]) => {
+      const items = done.filter((t) => t.type === type);
+      if (!items.length) return;
+      push('## ' + label, '<span class="h">## ' + label + '</span>');
+      items.forEach((t) => push('- ' + t.title + ' (' + t.key + (t.pr ? ', PR #' + t.pr : '') + ')'));
+      push('');
+    });
+    const pending = state.tickets.filter((t) => t.status === 2);
+    if (pending.length) {
+      push('## In review, expected next release', '<span class="h">## In review, expected next release</span>');
+      pending.forEach((t) => push('- ' + t.title + ' (' + t.key + ')'));
+      push('');
+    }
+    push('Prepared by ' + agency + ' engineering. Reply to your producer with any questions.', '<span class="muted">' + esc('Prepared by ' + agency + ' engineering. Reply to your producer with any questions.') + '</span>');
+    notesPlain = lines.join('\n');
+    $('#notes-out').innerHTML = html.join('\n');
+  }
+  $('#notes-compose').addEventListener('click', () => { composeNotes(); toast('Release notes composed from ' + state.tickets.filter((t) => t.status === 3).length + ' done tickets'); });
+  [notesAgency, notesVersion].forEach((el) => el.addEventListener('input', () => {
+    state.notes = { agency: notesAgency.value, version: notesVersion.value };
+    save(); composeNotes();
+  }));
+  $('#notes-form').addEventListener('submit', (e) => { e.preventDefault(); composeNotes(); });
+  $('#notes-copy').addEventListener('click', () => {
+    const done = () => toast('Release notes copied');
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(notesPlain).then(done, () => fallbackCopy(done));
+    else fallbackCopy(done);
+  });
+  function fallbackCopy(cb) {
+    const ta = document.createElement('textarea');
+    ta.value = notesPlain; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); cb(); } catch (e) { toast('Select the notes and copy manually'); }
+    document.body.removeChild(ta);
+  }
+
+  // PR review checklist
+  function renderPr() {
+    $('#pr-list').innerHTML = PR_ITEMS.map((it, i) => '<label><input type="checkbox" data-pr="' + i + '"' + (state.pr[i] ? ' checked' : '') + '><span class="txt">' + esc(it.t) + '</span>' + (it.req ? '<span class="chip req">required</span>' : '<span class="chip req" style="opacity:.7">optional</span>') + '</label>').join('');
+    updatePrState();
+  }
+  function updatePrState() {
+    const done = state.pr.filter(Boolean).length;
+    const reqTotal = PR_ITEMS.filter((i) => i.req).length;
+    const reqDone = PR_ITEMS.filter((it, i) => it.req && state.pr[i]).length;
+    $('#pr-bar').style.width = Math.round((done / PR_ITEMS.length) * 100) + '%';
+    const ready = reqDone === reqTotal;
+    $('#pr-state').classList.toggle('ready', ready);
+    $('#pr-state-text').textContent = ready
+      ? 'Ready to merge: all ' + reqTotal + ' required checks passed' + (done < PR_ITEMS.length ? ', ' + (PR_ITEMS.length - done) + ' optional left' : '')
+      : (reqTotal - reqDone) + ' required check' + (reqTotal - reqDone === 1 ? '' : 's') + ' outstanding · ' + done + ' of ' + PR_ITEMS.length + ' ticked';
+  }
+  $('#pr-list').addEventListener('change', (e) => {
+    const i = e.target.dataset.pr; if (i == null) return;
+    state.pr[i] = e.target.checked; save(); updatePrState();
+  });
+  $('#pr-reset').addEventListener('click', () => { state.pr = PR_ITEMS.map(() => false); save(); renderPr(); });
+
+  function renderAll() { renderBoard(); renderBurn(); renderCap(); composeNotes(); }
+  renderAll();
+  renderPr();
+})();
+</script>
+</body>
+</html>

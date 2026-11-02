@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#151B2F">
+<title>Clearview BI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M8 23v-7M16 23V9M24 23v-4' stroke='%23fff' stroke-width='3.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --bg: #F3F4F9;
+  --surface: #FFFFFF;
+  --sunken: #E9EBF3;
+  --line: #DDE0EB;
+  --line-strong: #9AA1B8;
+  --ink: #151B2F;
+  --ink-2: #434B63;
+  --ink-3: #67708A;
+  --accent: #4F46E5;
+  --accent-hover: #4038C7;
+  --accent-soft: #E7E6FB;
+  --accent-ink: #3B33B8;
+  --green: #0F7A5A;
+  --green-soft: #DDF3EA;
+  --red: #B42336;
+  --red-soft: #FBE3E6;
+  --c1: #4F46E5; --c2: #0E9F8A; --c3: #E0A106; --c4: #D64570; --c5: #5B6478; --c6: #8B5CF6;
+  --sans: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --radius: 8px;
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); color: var(--ink); font: 500 14px/1.45 var(--sans); -webkit-text-size-adjust: 100%; }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+main:focus { outline: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* Zero Lag bar */
+.zl-bar { flex: none; position: sticky; top: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 12px; height: var(--bar-h); padding: 0 14px; background: #151B2F; color: #B9BFD6; font-size: 13px; font-weight: 600; }
+.zl-bar a { color: #DDE0F3; text-decoration: none; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar a:focus-visible { outline-color: #A5B4FC; }
+.zl-bar span { color: #9AA1B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #fff; font-weight: 700; }
+
+/* App shell */
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 50; background: var(--surface); padding: 8px 12px; border-radius: var(--radius); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 224px minmax(0, 1fr); }
+.sidebar { background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 14px 16px 12px; }
+.brand svg { flex: none; }
+.brand b { display: block; font-size: 16px; font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
+.brand span { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.25; }
+.nav { padding: 6px 10px; display: grid; gap: 2px; }
+.nav a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius); color: var(--ink-2); text-decoration: none; font-weight: 600; }
+.nav a:hover { background: var(--sunken); color: var(--ink); }
+.nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; }
+.nav svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.nav .count { margin-left: auto; font: 500 12px var(--mono); color: var(--ink-3); }
+.side-sect { padding: 14px 16px 4px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.side-list { padding: 0 10px; display: grid; gap: 1px; }
+.side-list button { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; background: none; padding: 6px 10px; border-radius: var(--radius); color: var(--ink-2); font-weight: 600; font-size: 13px; }
+.side-list button:hover { background: var(--sunken); color: var(--ink); }
+.side-list button span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.side-list .none { padding: 4px 10px; color: var(--ink-3); font-size: 12.5px; }
+.side-foot { margin-top: auto; padding: 12px 16px 14px; border-top: 1px solid var(--line); display: flex; gap: 10px; align-items: center; }
+.side-foot b { display: block; font-weight: 700; font-size: 13px; line-height: 1.2; }
+.side-foot span.role { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.25; }
+.scrim { display: none; }
+.workspace { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.topbar { flex: none; display: flex; align-items: center; gap: 10px; padding: 9px 22px; background: var(--surface); border-bottom: 1px solid var(--line); min-height: 52px; }
+.topbar h1 { font-size: 17px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
+.topbar .today { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
+.topbar .spacer { flex: 1; }
+.menu-btn { display: none; }
+main { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 22px 30px; }
+
+/* Buttons and form controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 5px 13px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 700; white-space: nowrap; }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.danger { color: var(--red); border-color: var(--red); }
+.btn.danger:hover { background: var(--red-soft); }
+.btn.ghost { border-color: transparent; background: none; color: var(--ink-2); }
+.btn.ghost:hover { background: var(--sunken); color: var(--ink); }
+.btn.sm { min-height: 28px; padding: 2px 9px; font-size: 12.5px; }
+.btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 3px 10px; font-size: 12.5px; font-weight: 700; color: var(--ink-2); min-height: 28px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+.field { display: grid; gap: 3px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 700; color: var(--ink-2); }
+input[type=text], select { width: 100%; min-height: 34px; padding: 5px 9px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 3px 11px; font-size: 12.5px; font-weight: 700; color: var(--ink-2); min-height: 28px; }
+.chip:hover { background: var(--sunken); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.err { color: var(--red); font-size: 12.5px; font-weight: 600; }
+.err[hidden] { display: none; }
+
+/* Filter bar */
+.filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 16px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 12px; }
+.filters .range { display: flex; align-items: center; gap: 6px; }
+.filters .range select { width: auto; min-width: 104px; }
+.filters .range span { color: var(--ink-3); font-size: 12.5px; }
+.filters .field.ch select { min-width: 140px; }
+.filters .summary { margin-left: auto; font-size: 12.5px; color: var(--ink-3); padding-bottom: 7px; }
+
+/* Grid, tiles and panes */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 12px; }
+.tile, .pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.tile { grid-column: span 2; padding: 12px 14px 13px; }
+.tile .t-label { font-size: 12.5px; font-weight: 700; color: var(--ink-2); }
+.tile .t-val { font-size: 23px; font-weight: 800; line-height: 1.2; margin-top: 2px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tile .t-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.up { color: var(--green); font-weight: 700; }
+.down { color: var(--red); font-weight: 700; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+.pane-head h2 { font-size: 14px; font-weight: 800; letter-spacing: -.01em; }
+.pane-head p { font-size: 12.5px; color: var(--ink-3); }
+.pane-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.span-8 { grid-column: span 8; }
+.span-7 { grid-column: span 7; }
+.span-5 { grid-column: span 5; }
+.span-4 { grid-column: span 4; }
+.span-6 { grid-column: span 6; }
+.span-12 { grid-column: span 12; }
+
+/* Charts */
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 10px 14px 0; font-size: 12.5px; color: var(--ink-2); font-weight: 600; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; background: var(--c1); }
+.legend i.line { width: 16px; height: 0; border-top: 2px solid var(--accent); border-radius: 0; vertical-align: middle; background: none; }
+.legend i.dash { border-top-style: dashed; border-color: var(--ink-3); }
+.chart { position: relative; padding: 4px 6px 6px; }
+.chart svg { display: block; width: 100%; overflow: visible; touch-action: pan-y; }
+.chart .axis text { font: 500 11px var(--mono); fill: var(--ink-3); }
+.chart .grid line { stroke: var(--line); }
+.chart .hit { fill: transparent; }
+.chart .hit:hover, .chart .hit:focus-visible { fill: rgba(79, 70, 229, .08); outline: none; }
+.chart .arc:hover, .chart .arc:focus-visible { opacity: .82; outline: none; }
+.chart .arc:focus-visible { stroke: var(--ink); stroke-width: 2; }
+.chart .pt { pointer-events: none; }
+.tip { position: absolute; top: 8px; left: 8px; pointer-events: none; background: var(--ink); color: #fff; padding: 6px 9px; border-radius: 6px; font-size: 12.5px; line-height: 1.4; white-space: nowrap; z-index: 2; box-shadow: 0 4px 14px rgba(21, 27, 47, .18); }
+.tip b { font-family: var(--mono); font-weight: 600; }
+.tip .tt { display: block; font-weight: 700; margin-bottom: 2px; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; }
+.tip[hidden] { display: none; }
+.donut-wrap { display: grid; grid-template-columns: minmax(0, 176px) minmax(0, 1fr); gap: 8px 16px; align-items: center; padding: 10px 14px 12px; }
+.donut-wrap .chart { padding: 0; }
+.donut-wrap svg { width: 100%; max-width: 190px; margin: 0 auto; }
+.dl li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.dl li:last-child { border-bottom: 0; }
+.dl i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.dl .nm { flex: 1; min-width: 0; overflow-wrap: anywhere; line-height: 1.25; }
+.dl .pc { color: var(--ink-3); width: 46px; text-align: right; font-size: 12px; }
+.empty { padding: 26px 14px; color: var(--ink-3); text-align: center; }
+
+/* Tables */
+.scroll-x { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 12px; font-weight: 700; color: var(--ink-2); background: #F7F8FC; white-space: nowrap; }
+th, td { padding: 7px 12px; border-bottom: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+tfoot td { font-weight: 700; background: #F7F8FC; border-top: 1px solid var(--line-strong); }
+.bar-cell { display: flex; align-items: center; gap: 8px; }
+.bar-cell .bar { flex: 1; height: 7px; background: var(--sunken); border-radius: 4px; overflow: hidden; min-width: 50px; }
+.bar-cell .bar i { display: block; height: 100%; background: var(--accent); }
+
+/* Report builder */
+.builder { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 12px; align-items: start; }
+.builder .pane.config { position: sticky; top: 0; }
+.config .body { padding: 12px 14px 14px; display: grid; gap: 12px; }
+.config .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.config .actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 4px; }
+.saveform { display: grid; gap: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
+.saveform .row { display: flex; gap: 6px; }
+.saveform .row input { flex: 1; min-width: 0; }
+.results { display: grid; gap: 12px; }
+
+/* Saved reports */
+.reports { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.report { padding: 13px 14px 12px; display: grid; gap: 7px; }
+.report h3 { font-size: 14.5px; font-weight: 800; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.report .meta { font-size: 12.5px; color: var(--ink-3); }
+.report .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 700; background: var(--sunken); color: var(--ink-2); }
+.tag.acc { background: var(--accent-soft); color: var(--accent-ink); }
+.report .acts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.rename { display: flex; gap: 6px; }
+.rename input { flex: 1; min-width: 0; }
+
+/* Settings */
+.settings { display: grid; gap: 12px; max-width: 720px; }
+.settings .body { padding: 12px 14px 14px; display: grid; gap: 10px; }
+.settings .body p { color: var(--ink-2); }
+.kv { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 6px 12px; font-size: 13.5px; }
+.kv dt { color: var(--ink-3); }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 24px); background: var(--ink); color: #fff; padding: 9px 13px; border-radius: var(--radius); display: flex; gap: 12px; align-items: center; z-index: 60; font-size: 13.5px; font-weight: 600; box-shadow: 0 6px 20px rgba(21, 27, 47, .25); }
+.toast[hidden] { display: none; }
+.toast button { border: 0; background: none; padding: 2px; color: #C7D2FE; font-weight: 800; text-decoration: underline; }
+.toast button:focus-visible { outline-color: #C7D2FE; }
+
+/* Tablet layout */
+@media (max-width: 1240px) {
+  .tile { grid-column: span 4; }
+  .span-7, .span-5, .span-8, .span-4 { grid-column: span 12; }
+}
+@media (max-width: 1000px) {
+  .builder { grid-template-columns: minmax(0, 1fr); }
+  .builder .pane.config { position: static; }
+}
+
+/* Phone and small tablet layout */
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: fixed; top: var(--bar-h); bottom: 0; left: 0; width: 262px; max-width: 84vw; z-index: 30; transform: translateX(-102%); visibility: hidden; transition: transform .18s ease-out, visibility .18s; box-shadow: 0 0 30px rgba(21, 27, 47, .18); }
+  .sidebar.open { transform: none; visibility: visible; }
+  .scrim.open { display: block; position: fixed; inset: var(--bar-h) 0 0 0; background: rgba(21, 27, 47, .32); z-index: 20; }
+  .nav a { min-height: 44px; }
+  .menu-btn { display: inline-flex; width: 44px; height: 44px; margin-left: -8px; border: 0; background: none; align-items: center; justify-content: center; border-radius: var(--radius); flex: none; }
+  .menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  .topbar { padding: 3px 12px; gap: 4px; }
+  .topbar .today { display: none; }
+  main { padding: 12px 12px 72px; }
+  .btn { min-height: 44px; }
+  .btn.sm { min-height: 36px; }
+  .seg button { min-height: 36px; padding: 3px 11px; }
+  .chip { min-height: 36px; }
+  input[type=text], select { font-size: 16px; min-height: 44px; }
+  .filters .summary { margin-left: 0; width: 100%; padding-bottom: 0; }
+  .filters .range { flex-wrap: wrap; }
+  .filters .range select { flex: 1 1 40%; }
+  .span-6 { grid-column: span 12; }
+  .donut-wrap { grid-template-columns: minmax(0, 1fr); }
+  .config .two { grid-template-columns: minmax(0, 1fr); }
+  .kv { grid-template-columns: minmax(0, 1fr); gap: 2px 12px; }
+  .kv dd { margin-bottom: 6px; }
+}
+
+/* Small phone layout */
+@media (max-width: 520px) {
+  .tile { grid-column: span 6; padding: 10px 11px; }
+  .tile .t-val { font-size: 19px; }
+  .zl-bar span { display: none; }
+  .filters .range select { flex-basis: 100%; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Clearview BI</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<div class="app">
+  <a class="skip" href="#view">Skip to content</a>
+  <aside class="sidebar" id="sidebar" aria-label="Primary">
+    <div class="brand">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#4F46E5"/><path d="M8 23v-7M16 23V9M24 23v-4" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/></svg>
+      <div><b>Clearview</b><span>Harbor &amp; Pine Retail</span></div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#dashboard" data-nav="dashboard"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="6" rx="1"/><rect x="9" y="2" width="5" height="3.5" rx="1"/><rect x="2" y="10" width="5" height="4" rx="1"/><rect x="9" y="7.5" width="5" height="6.5" rx="1"/></svg>Dashboard</a>
+      <a href="#builder" data-nav="builder"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 13.5h12M4 11V7M8 11V3.5M12 11V6"/></svg>Report builder</a>
+      <a href="#reports" data-nav="reports"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h6l3 3V13.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1z"/><path d="M6 8.5h4M6 11h4"/></svg>Saved reports<span class="count" id="countReports"></span></a>
+      <a href="#settings" data-nav="settings"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.7M8 12.5v1.7M1.8 8h1.7M12.5 8h1.7M3.6 3.6l1.2 1.2M11.2 11.2l1.2 1.2M3.6 12.4l1.2-1.2M11.2 4.8l1.2-1.2"/></svg>Settings</a>
+    </nav>
+    <div class="side-sect">Pinned reports</div>
+    <div class="side-list" id="sideReports"></div>
+    <div class="side-foot"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#E7E6FB"/><text x="15" y="19" text-anchor="middle" font-family="Manrope, sans-serif" font-size="11" font-weight="800" fill="#3B33B8">LR</text></svg><div><b>Lena Rasmussen</b><span class="role">Head of Analytics</span></div></div>
+  </aside>
+  <div class="scrim" id="scrim" data-act="close-menu"></div>
+  <div class="workspace">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" type="button" data-act="toggle-menu" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16"/></svg></button>
+      <h1 id="pageTitle">Dashboard</h1>
+      <span class="today" id="todayLabel"></span>
+      <span class="spacer"></span>
+      <span class="today">Data through Oct 2026</span>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const STORE = 'clearview-bi:v1';
+const TODAY = new Date(2026, 10, 2);
+
+// Number formatting helpers
+const money = v => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
+const money2 = v => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(v);
+const int = v => new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(v);
+const pct = v => (v * 100).toFixed(1) + '%';
+const compact = v => { const a = Math.abs(v); if (a >= 1e6) return '$' + (v / 1e6).toFixed(a >= 1e7 ? 0 : 1) + 'M'; if (a >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K'; return '$' + Math.round(v); };
+const compactN = v => { const a = Math.abs(v); if (a >= 1e6) return (v / 1e6).toFixed(1) + 'M'; if (a >= 1e3) return (v / 1e3).toFixed(a >= 1e4 ? 0 : 1) + 'K'; return String(Math.round(v)); };
+
+// Seeded random so the dataset is identical on every load
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+// Dimension definitions with weights that shape the dataset
+const MONTHS = Array.from({ length: 24 }, (_, i) => { const d = new Date(2024, 10 + i, 1); return { i, key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`, label: d.toLocaleString('en-US', { month: 'short', year: '2-digit' }).replace(' ', " '"), long: d.toLocaleString('en-US', { month: 'long', year: 'numeric' }), cal: d.getMonth() }; });
+const REGIONS = [
+  { id: 'na', name: 'North America', w: .42, g: .010 },
+  { id: 'eu', name: 'Europe', w: .30, g: .007 },
+  { id: 'ap', name: 'Asia Pacific', w: .18, g: .022 },
+  { id: 'la', name: 'Latin America', w: .10, g: .014 }
+];
+const CHANNELS = [
+  { id: 'online', name: 'Online', w: .46, aov: 1.0, ret: 1.3, upo: 1 },
+  { id: 'retail', name: 'Retail', w: .28, aov: .92, ret: .55, upo: 1 },
+  { id: 'wholesale', name: 'Wholesale', w: .14, aov: 2.5, ret: .3, upo: 3.4 },
+  { id: 'market', name: 'Marketplace', w: .12, aov: .78, ret: 1.6, upo: 1 }
+];
+const CATEGORIES = [
+  { id: 'apparel', name: 'Apparel', w: .30, aov: 68, upo: 2.1, ret: .14 },
+  { id: 'footwear', name: 'Footwear', w: .20, aov: 94, upo: 1.2, ret: .17 },
+  { id: 'home', name: 'Home', w: .18, aov: 82, upo: 1.6, ret: .07 },
+  { id: 'accessories', name: 'Accessories', w: .16, aov: 38, upo: 1.8, ret: .06 },
+  { id: 'outdoor', name: 'Outdoor', w: .10, aov: 126, upo: 1.3, ret: .09 },
+  { id: 'beauty', name: 'Beauty', w: .06, aov: 44, upo: 2.4, ret: .04 }
+];
+const SEASON = [.86, .82, .94, .96, 1.0, .98, .95, .97, 1.02, 1.06, 1.28, 1.36];
+const COLORS = ['#4F46E5', '#0E9F8A', '#E0A106', '#D64570', '#5B6478', '#8B5CF6'];
+const byId = (list, id) => list.find(x => x.id === id);
+
+// Build the monthly order aggregates
+const ROWS = [];
+(() => {
+  const r = rng(20261102);
+  const noise = (s = .08) => 1 + (r() - .5) * 2 * s;
+  for (const m of MONTHS) for (const rg of REGIONS) for (const ch of CHANNELS) for (const ct of CATEGORIES) {
+    const growth = 1 + rg.g * m.i;
+    const online = ch.id === 'online' || ch.id === 'market' ? 1 + .004 * m.i : 1 - .002 * m.i;
+    const orders = Math.round(38000 * rg.w * ch.w * ct.w * SEASON[m.cal] * growth * online * noise(.09));
+    const revenue = Math.round(orders * ct.aov * ch.aov * (1 + .0035 * m.i) * noise(.05));
+    const units = Math.round(orders * ct.upo * ch.upo * noise(.06));
+    const returns = Math.round(orders * ct.ret * ch.ret * noise(.12));
+    ROWS.push({ m: m.i, r: rg.id, c: ch.id, k: ct.id, orders, revenue, units, returns });
+  }
+})();
+
+// Metric and dimension catalogues used by every view
+const METRICS = {
+  revenue: { name: 'Revenue', fmt: money, axis: compact, calc: a => a.revenue, csv: a => a.revenue },
+  orders: { name: 'Orders', fmt: int, axis: compactN, calc: a => a.orders, csv: a => a.orders },
+  units: { name: 'Units sold', fmt: int, axis: compactN, calc: a => a.units, csv: a => a.units },
+  returns: { name: 'Returns', fmt: int, axis: compactN, calc: a => a.returns, csv: a => a.returns },
+  aov: { name: 'Average order value', fmt: money2, axis: v => '$' + v.toFixed(0), calc: a => a.orders ? a.revenue / a.orders : 0, csv: a => (a.orders ? a.revenue / a.orders : 0).toFixed(2) },
+  retrate: { name: 'Return rate', fmt: pct, axis: v => (v * 100).toFixed(1) + '%', calc: a => a.orders ? a.returns / a.orders : 0, csv: a => (a.orders ? a.returns / a.orders : 0).toFixed(4) }
+};
+const DIMS = {
+  month: { name: 'Month', key: row => row.m, list: () => MONTHS.map(m => ({ id: m.i, name: m.label })) },
+  region: { name: 'Region', key: row => row.r, list: () => REGIONS },
+  channel: { name: 'Channel', key: row => row.c, list: () => CHANNELS },
+  category: { name: 'Category', key: row => row.k, list: () => CATEGORIES }
+};
+
+// Aggregation helpers
+const zero = () => ({ orders: 0, revenue: 0, units: 0, returns: 0 });
+const add = (a, row) => { a.orders += row.orders; a.revenue += row.revenue; a.units += row.units; a.returns += row.returns; return a; };
+const matches = (row, f) => row.m >= f.from && row.m <= f.to && (!f.regions.length || f.regions.includes(row.r)) && (f.channel === 'all' || row.c === f.channel);
+const sum = f => ROWS.reduce((a, row) => matches(row, f) ? add(a, row) : a, zero());
+function group(f, dim, within) {
+  const map = new Map();
+  for (const row of ROWS) { if (!matches(row, f) || (within && !within(row))) continue; const k = DIMS[dim].key(row); if (!map.has(k)) map.set(k, zero()); add(map.get(k), row); }
+  const keep = d => dim === 'month' ? d.id >= f.from && d.id <= f.to : dim === 'region' ? !f.regions.length || f.regions.includes(d.id) : dim === 'channel' ? f.channel === 'all' || f.channel === d.id : true;
+  return DIMS[dim].list().filter(keep).map(d => ({ id: d.id, name: d.name, agg: map.get(d.id) || zero() }));
+}
+
+// Persistent state
+const defaultFilters = () => ({ from: 12, to: 23, regions: [], channel: 'all' });
+const defaultBuilder = () => ({ metric: 'revenue', dim: 'channel', chart: 'bar', from: 12, to: 23, regions: [], channel: 'all' });
+let state = { view: 'dashboard', filters: defaultFilters(), donutBy: 'region', builder: defaultBuilder(), reports: [], loaded: null };
+function load() {
+  try { const s = JSON.parse(localStorage.getItem(STORE)); if (s) { state.filters = { ...defaultFilters(), ...s.filters }; state.builder = { ...defaultBuilder(), ...s.builder }; state.reports = s.reports || []; state.donutBy = s.donutBy || 'region'; } } catch (e) { /* ignore unreadable storage */ }
+}
+function save() { try { localStorage.setItem(STORE, JSON.stringify({ filters: state.filters, builder: state.builder, reports: state.reports, donutBy: state.donutBy })); } catch (e) { /* storage unavailable */ } }
+
+// Period helpers
+const periodLabel = f => f.from === f.to ? MONTHS[f.from].long : `${MONTHS[f.from].label} – ${MONTHS[f.to].label}`;
+const priorPeriod = f => { const len = f.to - f.from + 1; const to = f.from - 1; const from = to - len + 1; return from >= 0 ? { ...f, from, to } : null; };
+const scopeLabel = f => { const r = !f.regions.length ? 'All regions' : f.regions.length === REGIONS.length ? 'All regions' : f.regions.map(id => byId(REGIONS, id).name).join(', '); const c = f.channel === 'all' ? 'all channels' : byId(CHANNELS, f.channel).name; return `${r} · ${c}`; };
+const growthTag = (cur, prev) => { if (prev === null || !prev) return '<span class="t-sub">No prior period in range</span>'; const g = (cur - prev) / prev; return `<span class="${g >= 0 ? 'up' : 'down'}">${g >= 0 ? '▲' : '▼'} ${Math.abs(g * 100).toFixed(1)}%</span> vs prior period`; };
+
+// Chart tooltip plumbing
+let charts = [];
+function tipFor(el, x, y) {
+  const box = el.closest('.chart'); if (!box) return;
+  const tip = $('.tip', box); if (!tip) return;
+  tip.innerHTML = el.dataset.tip; tip.hidden = false;
+  const bw = box.clientWidth, tw = tip.offsetWidth;
+  let left = x + 12; if (left + tw > bw - 4) left = Math.max(4, x - tw - 12);
+  tip.style.left = left + 'px'; tip.style.top = Math.max(4, y - tip.offsetHeight - 10) + 'px';
+}
+function hideTip(el) { const box = el.closest('.chart'); const tip = box && $('.tip', box); if (tip) tip.hidden = true; }
+document.addEventListener('pointermove', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (!el) return; const r = el.closest('.chart').getBoundingClientRect(); tipFor(el, e.clientX - r.left, e.clientY - r.top); });
+document.addEventListener('pointerout', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-tip]'))) hideTip(el); });
+document.addEventListener('focusin', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (!el) return; const r = el.closest('.chart').getBoundingClientRect(), b = el.getBoundingClientRect(); tipFor(el, b.left - r.left + b.width / 2, b.top - r.top + 4); });
+document.addEventListener('focusout', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) hideTip(el); });
+
+// Axis scale helper
+function niceMax(v) { if (v <= 0) return 4; const raw = v / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / p; const step = ([1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].find(x => n <= x)) * p; return step * 4; }
+function yAxis(W, H, pad, max, fmt) {
+  const ticks = 4; let out = '<g class="grid">', lab = '<g class="axis">';
+  for (let i = 0; i <= ticks; i++) { const y = pad.t + (H - pad.t - pad.b) * (1 - i / ticks); out += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y}" y2="${y}"/>`; lab += `<text x="${pad.l - 8}" y="${y + 4}" text-anchor="end">${fmt(max * i / ticks)}</text>`; }
+  return out + '</g>' + lab + '</g>';
+}
+function xLabels(labels, xs, y, W) {
+  const every = Math.ceil(labels.length / Math.max(2, Math.floor(W / 64)));
+  return '<g class="axis">' + labels.map((l, i) => i % every === 0 || labels.length <= 8 ? `<text x="${xs(i)}" y="${y}" text-anchor="middle">${esc(l)}</text>` : '').join('') + '</g>';
+}
+
+// Line chart with an optional dashed comparison series
+function drawLine(box, data) {
+  const W = box.clientWidth - 12, H = 250, pad = { l: 56, r: 16, t: 14, b: 30 };
+  const n = data.labels.length, all = data.series.flatMap(s => s.values);
+  const max = niceMax(Math.max(...all, 1) * 1.08);
+  const xs = i => n === 1 ? (pad.l + W - pad.r) / 2 : pad.l + (W - pad.l - pad.r) * i / (n - 1);
+  const ys = v => pad.t + (H - pad.t - pad.b) * (1 - v / max);
+  const path = s => s.values.map((v, i) => `${i ? 'L' : 'M'}${xs(i).toFixed(1)},${ys(v).toFixed(1)}`).join('');
+  const colW = n === 1 ? W - pad.l - pad.r : (W - pad.l - pad.r) / (n - 1);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(data.aria)}">`;
+  svg += yAxis(W, H, pad, max, data.axis);
+  data.series.forEach((s, si) => { svg += `<path d="${path(s)}" fill="none" stroke="${s.color}" stroke-width="${s.dash ? 1.6 : 2.4}" ${s.dash ? 'stroke-dasharray="5 4"' : ''} stroke-linejoin="round" stroke-linecap="round"/>`; if (!s.dash) s.values.forEach((v, i) => { svg += `<circle class="pt" cx="${xs(i)}" cy="${ys(v)}" r="3.2" fill="#fff" stroke="${s.color}" stroke-width="2"/>`; }); });
+  svg += xLabels(data.labels, xs, H - 8, W);
+  data.labels.forEach((l, i) => {
+    const tip = `<span class="tt">${esc(data.tipTitle ? data.tipTitle(i) : l)}</span>` + data.series.map(s => `<span class="row"><span>${esc(s.name)}</span><b>${data.fmt(s.values[i])}</b></span>`).join('');
+    svg += `<rect class="hit" x="${xs(i) - colW / 2}" y="${pad.t}" width="${colW}" height="${H - pad.t - pad.b}" tabindex="0" role="img" aria-label="${esc(l)}: ${data.series.map(s => s.name + ' ' + data.fmt(s.values[i])).join(', ')}" data-tip="${esc(tip)}"/>`;
+  });
+  box.innerHTML = svg + '</svg><div class="tip" hidden></div>';
+}
+
+// Bar chart, stacked when several series are passed
+function drawBars(box, data) {
+  const W = box.clientWidth - 12, H = 250, pad = { l: 56, r: 16, t: 14, b: 30 };
+  const n = data.labels.length;
+  const totals = data.labels.map((_, i) => data.series.reduce((t, s) => t + s.values[i], 0));
+  const max = niceMax(Math.max(...totals, 1) * 1.08);
+  const slot = (W - pad.l - pad.r) / n, bw = Math.max(4, Math.min(42, slot * .62));
+  const xs = i => pad.l + slot * i + slot / 2;
+  const ys = v => pad.t + (H - pad.t - pad.b) * (1 - v / max);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(data.aria)}">`;
+  svg += yAxis(W, H, pad, max, data.axis);
+  data.labels.forEach((l, i) => {
+    let acc = 0;
+    data.series.forEach(s => { const v = s.values[i]; if (v <= 0) return; const y1 = ys(acc + v), y0 = ys(acc); svg += `<rect x="${(xs(i) - bw / 2).toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0, y0 - y1).toFixed(1)}" fill="${s.color}" rx="${data.series.length > 1 ? 0 : 3}"/>`; acc += v; });
+    const tip = `<span class="tt">${esc(l)}</span>` + data.series.map(s => `<span class="row"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><b>${data.fmt(s.values[i])}</b></span>`).join('') + (data.series.length > 1 ? `<span class="row"><span>Total</span><b>${data.fmt(totals[i])}</b></span>` : '');
+    svg += `<rect class="hit" x="${pad.l + slot * i}" y="${pad.t}" width="${slot}" height="${H - pad.t - pad.b}" tabindex="0" role="img" aria-label="${esc(l)}: ${data.fmt(totals[i])}" data-tip="${esc(tip)}"/>`;
+  });
+  svg += xLabels(data.labels, xs, H - 8, W);
+  box.innerHTML = svg + '</svg><div class="tip" hidden></div>';
+}
+
+// Donut chart with a centre total
+function drawDonut(box, items, fmt, centre) {
+  const S = 190, c = S / 2, R = 84, r = 56, total = items.reduce((t, x) => t + x.v, 0);
+  let a0 = -Math.PI / 2, svg = `<svg viewBox="0 0 ${S} ${S}" role="img" aria-label="Share breakdown">`;
+  const pt = (a, rad) => `${(c + Math.cos(a) * rad).toFixed(2)},${(c + Math.sin(a) * rad).toFixed(2)}`;
+  items.forEach(x => {
+    if (x.v <= 0 || !total) return;
+    const a1 = a0 + (x.v / total) * Math.PI * 2 - .012, big = a1 - a0 > Math.PI ? 1 : 0;
+    const d = `M${pt(a0, R)} A${R},${R} 0 ${big} 1 ${pt(a1, R)} L${pt(a1, r)} A${r},${r} 0 ${big} 0 ${pt(a0, r)} Z`;
+    const tip = `<span class="tt">${esc(x.name)}</span><span class="row"><span>${esc(fmt(x.v))}</span><b>${(x.v / total * 100).toFixed(1)}%</b></span>`;
+    svg += `<path class="arc" d="${d}" fill="${x.color}" tabindex="0" role="img" aria-label="${esc(x.name)}: ${esc(fmt(x.v))}, ${(x.v / total * 100).toFixed(1)}%" data-tip="${esc(tip)}"/>`;
+    a0 = a1 + .012;
+  });
+  if (!total) svg += `<circle cx="${c}" cy="${c}" r="${(R + r) / 2}" fill="none" stroke="#E9EBF3" stroke-width="${R - r}"/>`;
+  svg += `<text x="${c}" y="${c - 2}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" font-weight="600" fill="#151B2F">${esc(centre.big)}</text><text x="${c}" y="${c + 16}" text-anchor="middle" font-family="Manrope, sans-serif" font-size="11" font-weight="700" fill="#67708A">${esc(centre.small)}</text>`;
+  box.innerHTML = svg + '</svg><div class="tip" hidden></div>';
+}
+const donutList = (items, fmt) => { const total = items.reduce((t, x) => t + x.v, 0) || 1; return `<ul class="dl">${items.map(x => `<li><i style="background:${x.color}"></i><span class="nm">${esc(x.name)}</span><span class="num">${esc(fmt(x.v))}</span><span class="pc num">${(x.v / total * 100).toFixed(1)}%</span></li>`).join('')}</ul>`; };
+
+// CSV download built in the browser
+function downloadCSV(name, headers, rows) {
+  const cell = v => { const s = String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const text = [headers, ...rows].map(r => r.map(cell).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + text], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+  showToast(`Exported ${rows.length} rows to ${name}`);
+}
+
+// Shared filter controls used on the dashboard and in the builder
+function filterControls(f, prefix) {
+  const opts = sel => MONTHS.map(m => `<option value="${m.i}" ${m.i === sel ? 'selected' : ''}>${m.label}</option>`).join('');
+  const len = f.to - f.from + 1;
+  return `
+    <div class="field"><span class="label" id="${prefix}RangeLbl">Date range</span>
+      <div class="range" role="group" aria-labelledby="${prefix}RangeLbl">
+        <select aria-label="From month" data-filter="${prefix}" data-key="from">${opts(f.from)}</select><span>to</span>
+        <select aria-label="To month" data-filter="${prefix}" data-key="to">${opts(f.to)}</select>
+        <div class="seg" role="group" aria-label="Quick ranges">${[6, 12, 24].map(n => `<button type="button" data-act="preset" data-filter="${prefix}" data-n="${n}" aria-pressed="${len === n && f.to === 23}">${n} mo</button>`).join('')}</div>
+      </div>
+    </div>
+    <div class="field"><span class="label" id="${prefix}RegLbl">Regions</span>
+      <div class="chips" role="group" aria-labelledby="${prefix}RegLbl">
+        <button type="button" class="chip" data-act="region" data-filter="${prefix}" data-id="all" aria-pressed="${!f.regions.length}">All</button>
+        ${REGIONS.map(r => `<button type="button" class="chip" data-act="region" data-filter="${prefix}" data-id="${r.id}" aria-pressed="${f.regions.includes(r.id)}">${r.name}</button>`).join('')}
+      </div>
+    </div>
+    <div class="field ch"><label for="${prefix}Channel">Channel</label>
+      <select id="${prefix}Channel" data-filter="${prefix}" data-key="channel"><option value="all" ${f.channel === 'all' ? 'selected' : ''}>All channels</option>${CHANNELS.map(c => `<option value="${c.id}" ${f.channel === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select>
+    </div>`;
+}
+function applyFilterChange(f, key, value) {
+  if (key === 'from') { f.from = +value; if (f.to < f.from) f.to = f.from; }
+  else if (key === 'to') { f.to = +value; if (f.from > f.to) f.from = f.to; }
+  else if (key === 'channel') f.channel = value;
+}
+function toggleRegion(f, id) {
+  if (id === 'all') { f.regions = []; return; }
+  const i = f.regions.indexOf(id);
+  if (i >= 0) f.regions.splice(i, 1); else f.regions.push(id);
+  if (f.regions.length === REGIONS.length) f.regions = [];
+}
+
+// Dashboard view
+function viewDashboard() {
+  const f = state.filters, cur = sum(f), prior = priorPeriod(f), prev = prior ? sum(prior) : null;
+  const aov = cur.orders ? cur.revenue / cur.orders : 0, rr = cur.orders ? cur.returns / cur.orders : 0;
+  const prevAov = prev && prev.orders ? prev.revenue / prev.orders : null, prevRr = prev && prev.orders ? prev.returns / prev.orders : null;
+  const months = f.to - f.from + 1;
+  const cats = group(f, 'category').sort((a, b) => b.agg.revenue - a.agg.revenue);
+  const maxCat = Math.max(...cats.map(c => c.agg.revenue), 1);
+  const ppDelta = (a, b, inv) => { if (b === null || !b) return 'No prior period in range'; const g = (a - b) / b; const good = inv ? g <= 0 : g >= 0; return `<span class="${good ? 'up' : 'down'}">${g >= 0 ? '▲' : '▼'} ${Math.abs(g * 100).toFixed(1)}%</span> vs prior period`; };
+  return `
+  <section class="filters" aria-label="Global filters">
+    ${filterControls(f, 'dash')}
+    <div class="summary">${months} month${months === 1 ? '' : 's'} · ${esc(scopeLabel(f))}</div>
+  </section>
+  <div class="grid">
+    <div class="tile"><div class="t-label">Revenue</div><div class="t-val">${compact(cur.revenue)}</div><div class="t-sub">${ppDelta(cur.revenue, prev && prev.revenue)}</div></div>
+    <div class="tile"><div class="t-label">Orders</div><div class="t-val">${compactN(cur.orders)}</div><div class="t-sub">${ppDelta(cur.orders, prev && prev.orders)}</div></div>
+    <div class="tile"><div class="t-label">Avg order value</div><div class="t-val">${money2(aov)}</div><div class="t-sub">${ppDelta(aov, prevAov)}</div></div>
+    <div class="tile"><div class="t-label">Units sold</div><div class="t-val">${compactN(cur.units)}</div><div class="t-sub">${ppDelta(cur.units, prev && prev.units)}</div></div>
+    <div class="tile"><div class="t-label">Return rate</div><div class="t-val">${pct(rr)}</div><div class="t-sub">${ppDelta(rr, prevRr, true)}</div></div>
+    <div class="tile"><div class="t-label">Revenue growth</div><div class="t-val">${prev && prev.revenue ? ((cur.revenue - prev.revenue) / prev.revenue * 100).toFixed(1) + '%' : '—'}</div><div class="t-sub">${prior ? `vs ${esc(periodLabel(prior))}` : 'Needs an earlier period'}</div></div>
+
+    <section class="pane span-7" aria-labelledby="revTitle">
+      <div class="pane-head"><h2 id="revTitle">Monthly revenue</h2><p>${esc(periodLabel(f))}</p></div>
+      <div class="legend"><span><i class="line"></i>Current period</span>${prior ? '<span><i class="line dash"></i>Prior period, aligned by month</span>' : ''}</div>
+      <div class="chart" data-chart="revline"></div>
+    </section>
+
+    <section class="pane span-5" aria-labelledby="shareTitle">
+      <div class="pane-head"><h2 id="shareTitle">Revenue share</h2>
+        <div class="tools"><div class="seg" role="group" aria-label="Break down by"><button type="button" data-act="donut-by" data-v="region" aria-pressed="${state.donutBy === 'region'}">Region</button><button type="button" data-act="donut-by" data-v="category" aria-pressed="${state.donutBy === 'category'}">Category</button></div></div>
+      </div>
+      <div class="donut-wrap"><div class="chart" data-chart="donut"></div><div id="donutList"></div></div>
+    </section>
+
+    <section class="pane span-7" aria-labelledby="chTitle">
+      <div class="pane-head"><h2 id="chTitle">Revenue by channel</h2><p>Stacked per month</p></div>
+      <div class="legend">${CHANNELS.map((c, i) => `<span><i style="background:${COLORS[i]}"></i>${c.name}</span>`).join('')}</div>
+      <div class="chart" data-chart="channels"></div>
+    </section>
+
+    <section class="pane span-5" aria-labelledby="catTitle">
+      <div class="pane-head"><h2 id="catTitle">Top categories</h2><div class="tools"><button class="btn sm" type="button" data-act="export-dash">Export CSV</button></div></div>
+      <div class="scroll-x"><table>
+        <thead><tr><th>Category</th><th>Revenue</th><th class="r">Orders</th><th class="r">Return rate</th></tr></thead>
+        <tbody>${cats.map(c => `<tr><td>${esc(c.name)}</td><td><div class="bar-cell"><div class="bar"><i style="width:${(c.agg.revenue / maxCat * 100).toFixed(1)}%"></i></div><span class="num">${compact(c.agg.revenue)}</span></div></td><td class="r num">${int(c.agg.orders)}</td><td class="r num">${pct(c.agg.orders ? c.agg.returns / c.agg.orders : 0)}</td></tr>`).join('')}</tbody>
+        <tfoot><tr><td>Total</td><td class="num">${compact(cur.revenue)}</td><td class="r num">${int(cur.orders)}</td><td class="r num">${pct(rr)}</td></tr></tfoot>
+      </table></div>
+    </section>
+  </div>`;
+}
+function drawDashboard() {
+  const f = state.filters, prior = priorPeriod(f);
+  const months = group(f, 'month');
+  const line = $('[data-chart="revline"]');
+  const series = [{ name: 'Current period', color: COLORS[0], values: months.map(m => m.agg.revenue) }];
+  if (prior) { const pm = group(prior, 'month'); series.push({ name: 'Prior period', color: '#67708A', dash: true, values: pm.map(m => m.agg.revenue) }); }
+  const pm = prior ? group(prior, 'month') : null;
+  charts.push({ el: line, draw: () => drawLine(line, { labels: months.map(m => m.name), series, fmt: money, axis: compact, aria: 'Monthly revenue line chart', tipTitle: i => pm ? `${months[i].name} vs ${pm[i].name}` : months[i].name }) });
+  const bars = $('[data-chart="channels"]');
+  const perChannel = CHANNELS.map((c, i) => ({ name: c.name, color: COLORS[i], values: group(f, 'month', row => row.c === c.id).map(m => m.agg.revenue) }));
+  charts.push({ el: bars, draw: () => drawBars(bars, { labels: months.map(m => m.name), series: perChannel, fmt: money, axis: compact, aria: 'Revenue by channel stacked bar chart' }) });
+  const donut = $('[data-chart="donut"]');
+  const items = group(f, state.donutBy).map((g, i) => ({ name: g.name, v: g.agg.revenue, color: COLORS[i % COLORS.length] })).sort((a, b) => b.v - a.v);
+  const total = items.reduce((t, x) => t + x.v, 0);
+  charts.push({ el: donut, draw: () => drawDonut(donut, items, money, { big: compact(total), small: 'revenue' }) });
+  $('#donutList').innerHTML = donutList(items, money);
+}
+function exportDashboard() {
+  const f = state.filters, cats = group(f, 'category').sort((a, b) => b.agg.revenue - a.agg.revenue);
+  downloadCSV(`clearview-categories-${MONTHS[f.from].key}-to-${MONTHS[f.to].key}.csv`, ['Category', 'Revenue', 'Orders', 'Units', 'Returns', 'Return rate', 'Avg order value'], cats.map(c => [c.name, c.agg.revenue, c.agg.orders, c.agg.units, c.agg.returns, (c.agg.orders ? c.agg.returns / c.agg.orders : 0).toFixed(4), (c.agg.orders ? c.agg.revenue / c.agg.orders : 0).toFixed(2)]));
+}
+
+// Report builder view
+const builderRows = b => { const rows = group(b, b.dim); const m = METRICS[b.metric]; return rows.map(r => ({ ...r, v: m.calc(r.agg) })); };
+const reportTitle = b => `${METRICS[b.metric].name} by ${DIMS[b.dim].name.toLowerCase()}`;
+function viewBuilder() {
+  const b = state.builder, m = METRICS[b.metric];
+  const rows = builderRows(b), total = sum(b), isTotalable = !['aov', 'retrate'].includes(b.metric);
+  const sel = (id, label, options, val) => `<div class="field"><label for="${id}">${label}</label><select id="${id}" data-build="${id}">${options.map(o => `<option value="${o.id}" ${o.id === val ? 'selected' : ''}>${o.name}</option>`).join('')}</select></div>`;
+  return `
+  <div class="builder">
+    <section class="pane config" aria-labelledby="cfgTitle">
+      <div class="pane-head"><h2 id="cfgTitle">Configure</h2>${state.loaded ? `<p>Editing “${esc(state.loaded.name)}”</p>` : ''}</div>
+      <div class="body">
+        ${sel('metric', 'Metric', Object.entries(METRICS).map(([id, x]) => ({ id, name: x.name })), b.metric)}
+        <div class="two">
+          ${sel('dim', 'Group by', Object.entries(DIMS).map(([id, x]) => ({ id, name: x.name })), b.dim)}
+          ${sel('chart', 'Chart type', [{ id: 'bar', name: 'Bar' }, { id: 'line', name: 'Line' }, { id: 'donut', name: 'Donut' }, { id: 'table', name: 'Table only' }], b.chart)}
+        </div>
+        ${filterControls(b, 'bld')}
+        <form class="saveform" id="saveForm" novalidate>
+          <label for="reportName">Save this report</label>
+          <div class="row"><input type="text" id="reportName" autocomplete="off" aria-describedby="reportErr" value="${esc(state.loaded ? state.loaded.name : '')}"><button class="btn primary" type="submit">${state.loaded ? 'Update' : 'Save'}</button></div>
+          <span class="err" id="reportErr" hidden></span>
+        </form>
+        <div class="actions">${state.loaded ? '<button class="btn ghost sm" type="button" data-act="save-as-new">Save as new</button>' : ''}<button class="btn ghost sm" type="button" data-act="reset-builder">Reset builder</button></div>
+      </div>
+    </section>
+    <div class="results">
+      <section class="pane" aria-labelledby="resTitle">
+        <div class="pane-head"><h2 id="resTitle">${esc(reportTitle(b))}</h2><p>${esc(periodLabel(b))} · ${esc(scopeLabel(b))}</p></div>
+        ${b.chart === 'table' ? '' : b.chart === 'donut' ? `<div class="donut-wrap"><div class="chart" data-chart="builder"></div><div id="donutList"></div></div>` : `<div class="legend"><span><i style="background:${COLORS[0]}"></i>${esc(m.name)}</span></div><div class="chart" data-chart="builder"></div>`}
+      </section>
+      <section class="pane" aria-labelledby="tblTitle">
+        <div class="pane-head"><h2 id="tblTitle">Data</h2><p>${rows.length} rows</p><div class="tools"><button class="btn sm" type="button" data-act="export-builder">Export CSV</button></div></div>
+        <div class="scroll-x"><table>
+          <thead><tr><th>${esc(DIMS[b.dim].name)}</th><th class="r">${esc(m.name)}</th><th class="r">Orders</th><th class="r">${b.metric === 'revenue' ? 'Units' : 'Revenue'}</th>${isTotalable ? '<th class="r">Share</th>' : ''}</tr></thead>
+          <tbody>${rows.map(r => `<tr><td>${esc(r.name)}</td><td class="r num">${esc(m.fmt(r.v))}</td><td class="r num">${int(r.agg.orders)}</td><td class="r num">${b.metric === 'revenue' ? int(r.agg.units) : money(r.agg.revenue)}</td>${isTotalable ? `<td class="r num">${pct(m.calc(total) ? r.v / m.calc(total) : 0)}</td>` : ''}</tr>`).join('')}</tbody>
+          <tfoot><tr><td>Total</td><td class="r num">${esc(m.fmt(m.calc(total)))}</td><td class="r num">${int(total.orders)}</td><td class="r num">${b.metric === 'revenue' ? int(total.units) : money(total.revenue)}</td>${isTotalable ? '<td class="r num">100.0%</td>' : ''}</tr></tfoot>
+        </table></div>
+      </section>
+    </div>
+  </div>`;
+}
+function drawBuilder() {
+  const b = state.builder, m = METRICS[b.metric], rows = builderRows(b), box = $('[data-chart="builder"]');
+  if (!box) return;
+  const labels = rows.map(r => r.name), values = rows.map(r => r.v);
+  if (b.chart === 'bar') charts.push({ el: box, draw: () => drawBars(box, { labels, series: [{ name: m.name, color: COLORS[0], values }], fmt: m.fmt, axis: m.axis, aria: reportTitle(b) }) });
+  else if (b.chart === 'line') charts.push({ el: box, draw: () => drawLine(box, { labels, series: [{ name: m.name, color: COLORS[0], values }], fmt: m.fmt, axis: m.axis, aria: reportTitle(b) }) });
+  else if (b.chart === 'donut') {
+    const items = rows.map((r, i) => ({ name: r.name, v: Math.max(0, r.v), color: COLORS[i % COLORS.length] })).sort((a, b2) => b2.v - a.v);
+    const totalV = m.calc(sum(b));
+    charts.push({ el: box, draw: () => drawDonut(box, items, m.fmt, { big: ['aov', 'retrate'].includes(b.metric) ? m.fmt(totalV) : (b.metric === 'revenue' ? compact(totalV) : compactN(totalV)), small: ['aov', 'retrate'].includes(b.metric) ? 'overall' : m.name.toLowerCase() }) });
+    $('#donutList').innerHTML = donutList(items, m.fmt);
+  }
+}
+function exportBuilder() {
+  const b = state.builder, m = METRICS[b.metric], rows = builderRows(b);
+  const extras = ['orders', 'revenue', 'units', 'returns'].filter(k => k !== b.metric);
+  downloadCSV(`clearview-${b.metric}-by-${b.dim}.csv`, [DIMS[b.dim].name, m.name, ...extras.map(k => METRICS[k].name)], rows.map(r => [r.name, m.csv(r.agg), ...extras.map(k => r.agg[k])]));
+}
+function saveReport(asNew) {
+  const input = $('#reportName'), name = input.value.trim(), err = $('#reportErr');
+  if (!name) { err.textContent = 'Give the report a name.'; err.hidden = false; input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
+  const config = JSON.parse(JSON.stringify(state.builder));
+  if (state.loaded && !asNew) { const r = state.reports.find(x => x.id === state.loaded.id); if (r) { r.name = name; r.config = config; r.updated = Date.now(); state.loaded = r; } showToast('Report updated.'); }
+  else { const r = { id: 'r' + Date.now().toString(36), name, config, created: Date.now(), updated: Date.now() }; state.reports.unshift(r); state.loaded = r; showToast(`Saved “${name}”.`); }
+  save(); render();
+}
+
+// Saved reports view
+const fmtDate = ts => new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+function viewReports() {
+  if (!state.reports.length) return `<section class="pane"><p class="empty">No saved reports yet. Build one in the <a href="#builder">report builder</a> and save it to see it here.</p></section>`;
+  return `<div class="reports">${state.reports.map(r => {
+    const c = { ...defaultBuilder(), ...r.config };
+    return `<article class="pane report" aria-labelledby="rp-${r.id}">
+      ${state.renaming === r.id ? `<form class="rename" data-rename="${r.id}"><input type="text" value="${esc(r.name)}" aria-label="Report name" id="rn-${r.id}"><button class="btn sm primary" type="submit">Save</button><button class="btn sm" type="button" data-act="cancel-rename">Cancel</button></form>` : `<h3 id="rp-${r.id}">${esc(r.name)}</h3>`}
+      <div class="tags"><span class="tag acc">${esc(METRICS[c.metric].name)}</span><span class="tag">by ${esc(DIMS[c.dim].name.toLowerCase())}</span><span class="tag">${c.chart === 'table' ? 'Table' : c.chart[0].toUpperCase() + c.chart.slice(1)}</span></div>
+      <div class="meta">${esc(periodLabel(c))} · ${esc(scopeLabel(c))}<br>Saved ${fmtDate(r.created)}${r.updated !== r.created ? `, updated ${fmtDate(r.updated)}` : ''}</div>
+      <div class="acts"><button class="btn sm primary" type="button" data-act="load-report" data-id="${r.id}">Open</button><button class="btn sm" type="button" data-act="rename-report" data-id="${r.id}">Rename</button><button class="btn sm ghost danger" type="button" data-act="delete-report" data-id="${r.id}">Delete</button></div>
+    </article>`; }).join('')}</div>`;
+}
+function loadReport(id) {
+  const r = state.reports.find(x => x.id === id); if (!r) return;
+  state.builder = { ...defaultBuilder(), ...JSON.parse(JSON.stringify(r.config)) }; state.loaded = r; save();
+  location.hash = 'builder'; state.view = 'builder'; render();
+}
+
+// Settings view
+function viewSettings() {
+  const bytes = (localStorage.getItem(STORE) || '').length;
+  return `<div class="settings">
+    <section class="pane" aria-labelledby="dsTitle">
+      <div class="pane-head"><h2 id="dsTitle">Data source</h2></div>
+      <div class="body"><dl class="kv">
+        <dt>Dataset</dt><dd>Harbor &amp; Pine monthly order aggregates</dd>
+        <dt>Coverage</dt><dd>${MONTHS[0].long} to ${MONTHS[23].long} (24 months)</dd>
+        <dt>Dimensions</dt><dd>${REGIONS.length} regions, ${CHANNELS.length} channels, ${CATEGORIES.length} categories</dd>
+        <dt>Rows</dt><dd class="num">${int(ROWS.length)}</dd>
+        <dt>Refresh</dt><dd>Nightly at 02:00 UTC</dd>
+      </dl></div>
+    </section>
+    <section class="pane" aria-labelledby="stTitle">
+      <div class="pane-head"><h2 id="stTitle">Workspace</h2></div>
+      <div class="body">
+        <p>Saved reports, dashboard filters and builder settings are stored in this browser (${bytes ? (bytes / 1024).toFixed(1) + ' KB' : 'nothing stored yet'}). Resetting clears them and restores the defaults; the underlying dataset is not affected.</p>
+        <div><button class="btn danger" type="button" data-act="reset-data">Reset data</button></div>
+      </div>
+    </section>
+  </div>`;
+}
+function resetData() {
+  try { localStorage.removeItem(STORE); } catch (e) { /* storage unavailable */ }
+  state.filters = defaultFilters(); state.builder = defaultBuilder(); state.reports = []; state.loaded = null; state.donutBy = 'region';
+  render(); showToast('Workspace reset to defaults.');
+}
+
+// Render pipeline
+const TITLES = { dashboard: 'Dashboard', builder: 'Report builder', reports: 'Saved reports', settings: 'Settings' };
+function render() {
+  const v = state.view;
+  $('#pageTitle').textContent = TITLES[v];
+  document.title = `${TITLES[v]} · Clearview BI`;
+  document.querySelectorAll('[data-nav]').forEach(a => { if (a.dataset.nav === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('#countReports').textContent = state.reports.length || '';
+  $('#sideReports').innerHTML = state.reports.length ? state.reports.slice(0, 5).map(r => `<button type="button" data-act="load-report" data-id="${r.id}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M2 13.5h12M4 11V7M8 11V3.5M12 11V6"/></svg><span>${esc(r.name)}</span></button>`).join('') : '<div class="none">Saved reports appear here.</div>';
+  charts = [];
+  $('#view').innerHTML = v === 'dashboard' ? viewDashboard() : v === 'builder' ? viewBuilder() : v === 'reports' ? viewReports() : viewSettings();
+  if (v === 'dashboard') drawDashboard(); else if (v === 'builder') drawBuilder();
+  charts.forEach(c => { c.draw(); c.el.dataset.w = c.el.clientWidth; });
+}
+
+// Toast helpers
+let toastTimer = null;
+function showToast(msg, undo) {
+  const t = $('#toast');
+  t.innerHTML = esc(msg) + (undo ? ' <button type="button" data-act="undo">Undo</button>' : '');
+  t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 5000);
+}
+let undoFn = null;
+
+// Mobile drawer
+function setMenu(open) {
+  $('#sidebar').classList.toggle('open', open); $('#scrim').classList.toggle('open', open);
+  $('#menuBtn').setAttribute('aria-expanded', String(open));
+}
+
+// Click handling for the whole app
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (!t) return;
+  const act = t.dataset.act;
+  const target = t.dataset.filter === 'bld' ? state.builder : state.filters;
+  if (act === 'toggle-menu') setMenu(!$('#sidebar').classList.contains('open'));
+  else if (act === 'close-menu') setMenu(false);
+  else if (act === 'preset') { const n = +t.dataset.n; target.to = 23; target.from = 24 - n; save(); render(); document.querySelector(`[data-act="preset"][data-filter="${t.dataset.filter}"][data-n="${n}"]`).focus(); }
+  else if (act === 'region') { toggleRegion(target, t.dataset.id); save(); render(); document.querySelector(`[data-act="region"][data-filter="${t.dataset.filter}"][data-id="${t.dataset.id}"]`).focus(); }
+  else if (act === 'donut-by') { state.donutBy = t.dataset.v; save(); render(); document.querySelector(`[data-act="donut-by"][data-v="${t.dataset.v}"]`).focus(); }
+  else if (act === 'export-dash') exportDashboard();
+  else if (act === 'export-builder') exportBuilder();
+  else if (act === 'save-as-new') saveReport(true);
+  else if (act === 'reset-builder') { state.builder = defaultBuilder(); state.loaded = null; save(); render(); showToast('Builder reset.'); }
+  else if (act === 'load-report') { setMenu(false); loadReport(t.dataset.id); $('#view').focus({ preventScroll: true }); }
+  else if (act === 'rename-report') { state.renaming = t.dataset.id; render(); $(`#rn-${t.dataset.id}`).select(); }
+  else if (act === 'cancel-rename') { state.renaming = null; render(); }
+  else if (act === 'delete-report') {
+    const i = state.reports.findIndex(x => x.id === t.dataset.id); if (i < 0) return;
+    const [removed] = state.reports.splice(i, 1); if (state.loaded && state.loaded.id === removed.id) state.loaded = null;
+    undoFn = () => { state.reports.splice(i, 0, removed); save(); render(); };
+    save(); render(); showToast(`Deleted “${removed.name}”.`, true);
+  }
+  else if (act === 'undo') { if (undoFn) undoFn(); undoFn = null; $('#toast').hidden = true; }
+  else if (act === 'reset-data') resetData();
+});
+
+// Select changes for filters and builder config
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.dataset.filter) { applyFilterChange(el.dataset.filter === 'bld' ? state.builder : state.filters, el.dataset.key, el.value); save(); render(); const again = document.querySelector(`[data-filter="${el.dataset.filter}"][data-key="${el.dataset.key}"]`); if (again) again.focus(); }
+  else if (el.dataset.build) { state.builder[el.dataset.build] = el.value; save(); render(); $(`#${el.dataset.build}`).focus(); }
+});
+
+// Form submits for saving and renaming reports
+document.addEventListener('submit', e => {
+  if (e.target.id === 'saveForm') { e.preventDefault(); saveReport(false); }
+  else if (e.target.dataset.rename) {
+    e.preventDefault();
+    const r = state.reports.find(x => x.id === e.target.dataset.rename), val = $('input', e.target).value.trim();
+    if (r && val) { r.name = val; r.updated = Date.now(); }
+    state.renaming = null; save(); render(); showToast('Report renamed.');
+  }
+});
+
+// Escape closes the drawer and any open tooltip
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if ($('#sidebar').classList.contains('open')) setMenu(false); document.querySelectorAll('.tip').forEach(t => { t.hidden = true; }); }
+});
+
+// Nav links close the drawer and move focus to the content
+$('#nav').addEventListener('click', e => { if (!e.target.closest('a')) return; setMenu(false); setTimeout(() => $('#view').focus({ preventScroll: true }), 0); });
+
+// Hash routing
+const VIEWS = Object.keys(TITLES);
+window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (VIEWS.includes(v) && v !== state.view) { state.view = v; state.renaming = null; render(); $('#view').scrollTop = 0; } });
+
+// Redraw charts when the content width changes
+new ResizeObserver(() => { charts.forEach(c => { if (Number(c.el.dataset.w) !== c.el.clientWidth) { c.draw(); c.el.dataset.w = c.el.clientWidth; } }); }).observe($('#view'));
+
+// Start the app
+load();
+$('#todayLabel').textContent = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(TODAY);
+const startView = location.hash.slice(1);
+if (VIEWS.includes(startView)) state.view = startView;
+render();
+</script>
+</body>
+</html>

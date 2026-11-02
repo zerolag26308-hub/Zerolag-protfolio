@@ -1123,7 +1123,16 @@ a.work-card:hover .work-card__media {
   padding-bottom: clamp(2.5rem, 2rem + 2vw, 3.5rem);
 }
 
-/* Concept index on the work page */
+/* Project index on the work page */
+.index-group .work-grid {
+  margin-top: 1.5rem;
+}
+
+.work-card[hidden] {
+  display: none;
+}
+
+
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -1734,10 +1743,13 @@ a.work-card:hover .work-card__media {
 
 /* Black and white keeps mixed photos looking like one set, colour returns on hover */
 .team-card__photo {
-  width: 100%;
+  width: calc(100% - 1.5rem);
   height: auto;
-  aspect-ratio: 4 / 5;
+  margin: 0.75rem 0.75rem 0;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: top;
+  border-radius: var(--radius);
   filter: grayscale(1);
   transition: filter 0.4s var(--ease);
 }
@@ -2319,7 +2331,9 @@ a.work-card:hover .work-card__media {
 
   .team-card__photo {
     flex: none;
-    width: 38%;
+    align-self: flex-start;
+    width: 28%;
+    margin: 0.75rem 0 0.75rem 0.75rem;
   }
 }
 

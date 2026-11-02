@@ -1,0 +1,1237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aster &amp; Co. | Furniture, lighting and everyday goods</title>
+<meta name="description" content="Aster &amp; Co. is a home and everyday-goods store: small-run furniture, lighting and daily objects from Portmere, Maine, with free delivery over $150 and five years of repairs.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E4A4A'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23E0AC2B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital@1&display=swap" rel="stylesheet">
+<style>
+/* Design tokens */
+:root{
+  --stone:#EFEBE3; --stone-2:#E4DED2; --paper:#F9F7F2; --ink:#1B2826; --muted:#56605B; --line:#CDC6B8;
+  --teal:#0E4A4A; --teal-deep:#0A3536; --mustard:#E0AC2B; --mustard-lt:#F2CB63; --on-dark:#E6E9E2; --err:#96281A;
+  --display:"Libre Caslon Display",Georgia,"Times New Roman",serif;
+  --ital:"Libre Caslon Text",Georgia,serif;
+  --text:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --bar-h:32px; --nav-h:68px; --gut:clamp(16px,3.4vw,48px); --focus:#0E4A4A;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + var(--nav-h));-webkit-text-size-adjust:100%}
+html.lock{overflow:hidden}
+body{margin:0;background:var(--stone);color:var(--ink);font:400 17px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+h1,h2,h3,p,ul,dl,dd,figure,fieldset,legend{margin:0;padding:0}
+ul{list-style:none}
+fieldset{border:0;min-width:0}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+h1,h2,.display{font-family:var(--display);font-weight:400;letter-spacing:-.005em;text-wrap:balance}
+h2{font-size:clamp(36px,4.6vw,66px);line-height:1.05}
+.it{font-family:var(--ital);font-style:italic;font-weight:400}
+.wrap{padding-inline:var(--gut);max-width:1600px;margin-inline:auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:12px 26px;border-radius:2px;font-weight:600;font-size:16px;text-decoration:none;text-align:center;transition:background-color .18s,color .18s}
+.btn-solid{background:var(--teal);color:#fff}
+.btn-solid:hover{background:var(--teal-deep)}
+.btn-ghost{box-shadow:inset 0 0 0 1px var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-block{width:100%}
+.tlink{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:15px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.tlink:hover{text-decoration-thickness:2px}
+
+/* Zero Lag project bar */
+.zl-bar{position:sticky;top:0;z-index:70;display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--ink);color:#B9B4A8;font-size:13px;line-height:1.3;padding:6px var(--gut)}
+.zl-bar a{color:#F4F1EA;font-weight:600;white-space:nowrap;text-decoration:none}
+.zl-bar a:hover{text-decoration:underline;text-underline-offset:3px}
+.zl-bar a:focus-visible{outline-color:var(--mustard-lt)}
+.zl-bar span{text-align:center}
+.zl-bar strong{color:#F4F1EA;font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Navigation */
+.nav{position:sticky;top:var(--bar-h);z-index:40;background:var(--stone);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:clamp(16px,3vw,44px);height:var(--nav-h);padding-inline:var(--gut);max-width:1600px;margin-inline:auto}
+.logo{display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:var(--teal);font-family:var(--display);font-size:26px;line-height:1;white-space:nowrap}
+.logo svg{width:28px;height:28px;flex:none}
+.logo em{font-family:var(--ital);font-size:.82em}
+.links{display:flex;gap:clamp(14px,2.2vw,32px)}
+.links a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-size:16px;font-weight:500;background:linear-gradient(var(--teal),var(--teal)) 0 calc(100% - 8px)/0 1px no-repeat;transition:background-size .2s}
+.links a:hover{background-size:100% 1px}
+.nav-tools{display:flex;align-items:center;gap:2px;margin:0 -8px 0 auto}
+.icon-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:2px}
+.icon-btn:hover{background:var(--stone-2)}
+.icon-btn svg{width:22px;height:22px}
+.badge{position:absolute;top:3px;right:1px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--teal);color:#fff;font-size:11.5px;font-weight:700;line-height:18px;text-align:center}
+.burger{display:none}
+@media (max-width:860px){
+  :root{--nav-h:60px}
+  .burger{display:inline-flex}
+  .links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:6px var(--gut) 14px;max-height:calc(100dvh - var(--bar-h) - var(--nav-h));overflow:auto}
+  .links.open{display:flex}
+  .links a{width:100%;min-height:52px;font-family:var(--display);font-size:26px;border-bottom:1px solid var(--line);background:none}
+  .links li:last-child a{border-bottom:0}
+}
+@media (max-width:359px){
+  .logo{font-size:22px;gap:6px}
+  .logo svg{width:24px;height:24px}
+  .icon-btn{width:40px}
+}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,64px);align-items:center;padding-left:var(--gut);max-width:1600px;margin-inline:auto}
+.hero-copy{padding-block:40px}
+h1{font-size:clamp(50px,6.5vw,104px);line-height:1;margin-bottom:26px}
+.hero-copy p{max-width:30em;font-size:clamp(17px,1.4vw,20px);color:var(--muted);margin-bottom:32px}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px}
+.hero-fig{position:relative}
+.hero-fig img{width:100%;height:auto;aspect-ratio:1400/1235;object-fit:cover}
+.hero-fig figcaption{position:absolute;right:0;bottom:0;background:var(--stone);padding:10px 16px;font-size:15px;max-width:calc(100% - 16px)}
+.hotspot{position:absolute;left:47%;top:60%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--paper);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:26px;line-height:1;box-shadow:0 2px 10px rgba(27,40,38,.3);transition:transform .2s}
+.hotspot:hover{transform:scale(1.1)}
+.promises{border-block:1px solid var(--line);margin-top:0}
+.promises ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.promises li{padding:16px clamp(12px,2vw,28px);font-size:15.5px}
+.promises li:first-child{padding-left:0}
+.promises li+li{border-left:1px solid var(--line)}
+.promises strong{font-weight:600}
+@media (max-width:860px){
+  .hero{grid-template-columns:minmax(0,1fr);padding-left:0;gap:0}
+  .hero-copy{padding:36px var(--gut) 32px}
+  .promises ul{grid-template-columns:minmax(0,1fr)}
+  .promises li,.promises li:first-child{padding:12px 0}
+  .promises li+li{border-left:0;border-top:1px solid var(--line)}
+}
+
+/* Shop */
+.shop{background:var(--paper);padding-block:clamp(56px,7vw,104px)}
+.shop-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px 48px;align-items:end;margin-bottom:36px}
+.shop-head p{color:var(--muted);max-width:30em}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-block:12px;border-block:1px solid var(--line);margin-bottom:28px}
+.chips{display:flex;flex-wrap:wrap;gap:4px 6px}
+.chip{min-height:44px;padding:8px 14px;border-radius:2px;font-size:15.5px;font-weight:500;transition:background-color .15s}
+.chip:hover{background:var(--stone)}
+.chip[aria-pressed="true"]{background:var(--teal);color:#fff}
+.sort{display:flex;align-items:center;gap:10px;font-size:15.5px}
+.sort select{min-height:44px;padding:8px 34px 8px 12px;border:1px solid var(--muted);border-radius:2px;background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%231B2826' stroke-width='1.5'/%3E%3C/svg%3E") right 12px center/11px no-repeat;appearance:none;max-width:100%}
+.result-n{font-size:15px;color:var(--muted);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:44px 20px;grid-auto-flow:dense}
+.card{min-width:0;position:relative}
+.card.wide{grid-column:span 2}
+.card-img{display:block;position:relative;width:100%;height:clamp(280px,27vw,430px);overflow:hidden;background:var(--stone-2);border-radius:2px}
+.card-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1));transition:transform .5s ease}
+.card:hover .card-img img{transform:scale(calc(var(--z,1) * 1.025))}
+.qv-pill{position:absolute;left:10px;bottom:10px;background:var(--paper);padding:6px 12px;border-radius:2px;font-size:14px;font-weight:600;opacity:0;transform:translateY(4px);transition:opacity .18s,transform .18s}
+.card:hover .qv-pill,.card-img:focus-visible .qv-pill{opacity:1;transform:none}
+@media (hover:none){.qv-pill{opacity:1;transform:none}}
+.heart{position:absolute;top:8px;right:8px;width:44px;height:44px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:color .15s}
+.heart svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7}
+.heart:hover{color:var(--teal)}
+.heart[aria-pressed="true"]{color:var(--teal)}
+.heart[aria-pressed="true"] svg{fill:currentColor}
+.card-meta{display:flex;justify-content:space-between;gap:6px 14px;margin-top:12px}
+.card h3{font-size:17px;font-weight:600;line-height:1.3}
+.card .price{font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.card .sub{font-size:15px;color:var(--muted);line-height:1.4;margin-top:3px}
+.tag{font-family:var(--ital);font-style:italic;font-size:14px;color:var(--teal);margin-top:3px}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px}
+.dots{display:flex;gap:5px}
+.dot{width:13px;height:13px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(27,40,38,.35)}
+.empty{grid-column:1/-1;padding:56px 0;text-align:center}
+.empty .display{font-size:34px;margin-bottom:6px}
+@media (max-width:860px){
+  .shop-head{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 14px}
+  .card-img{height:auto;aspect-ratio:4/5}
+  .card.wide .card-img{aspect-ratio:16/10}
+  .card-meta{flex-direction:column}
+  .card.wide .card-meta{flex-direction:row}
+}
+
+/* Teal corner feature */
+.corner{--focus:var(--mustard-lt);background:var(--teal);color:#fff;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.corner-fig img{width:100%;height:100%;min-height:420px;object-fit:cover;object-position:30% 50%}
+.corner-body{padding:clamp(40px,5vw,84px) var(--gut) clamp(40px,5vw,84px) clamp(28px,4.4vw,72px);align-self:center}
+.corner-body>p{color:var(--on-dark);margin:18px 0 28px;max-width:30em}
+.corner-list li{display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid rgba(255,255,255,.3);min-height:56px}
+.corner-list li:last-child{border-bottom:1px solid rgba(255,255,255,.3)}
+.corner-list button{min-height:44px;text-align:left;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;font-weight:500}
+.corner-list span{font-variant-numeric:tabular-nums;white-space:nowrap}
+.corner .btn{background:var(--mustard-lt);color:var(--ink);margin-top:26px}
+.corner .btn:hover{background:#fff}
+@media (max-width:860px){
+  .corner{grid-template-columns:minmax(0,1fr)}
+  .corner-fig img{min-height:0;aspect-ratio:3/2}
+  .corner-body{padding:40px var(--gut) 48px}
+}
+
+/* Standards */
+.standards{padding-block:clamp(56px,7vw,112px)}
+.std-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px clamp(32px,6vw,96px)}
+.std-intro{position:sticky;top:calc(var(--bar-h) + var(--nav-h) + 32px);align-self:start}
+.std-intro p{color:var(--muted);margin-top:18px;max-width:27em}
+.std-row{display:grid;grid-template-columns:minmax(0,11rem) minmax(0,1fr);gap:8px 28px;padding-block:26px;border-top:1px solid var(--line)}
+.std-row:last-child{border-bottom:1px solid var(--line)}
+.std-num{font-family:var(--display);font-size:clamp(42px,4.4vw,60px);line-height:1;color:var(--teal)}
+.std-row h3{font-size:19px;font-weight:600;margin-bottom:4px}
+.std-row p{color:var(--muted)}
+.fine{font-size:14.5px;color:var(--muted)}
+@media (max-width:860px){
+  .std-grid{grid-template-columns:minmax(0,1fr)}
+  .std-intro{position:static}
+  .std-row{grid-template-columns:minmax(0,1fr)}
+}
+
+/* Promise */
+.reviews{background:var(--paper);padding-block:clamp(56px,7vw,104px)}
+.rev-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px clamp(32px,6vw,96px)}
+.rev-lead p{font-family:var(--display);font-size:clamp(30px,3.6vw,52px);line-height:1.14}
+.rev-lead .who{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:15.5px;color:var(--muted)}
+.rev-item h3{font-size:19px;font-weight:600;margin-bottom:6px}
+.rev-item p{color:var(--muted)}
+.rev-item+.rev-item{border-top:1px solid var(--line);margin-top:26px;padding-top:26px}
+.init{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--teal);color:#fff}
+.init svg{width:22px;height:22px}
+@media (max-width:860px){.rev-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Visit */
+.visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;background:var(--stone)}
+.visit-fig img{width:100%;height:100%;min-height:380px;object-fit:cover;object-position:100% 85%}
+.visit-body{padding:clamp(40px,5.5vw,88px) var(--gut) clamp(40px,5.5vw,88px) clamp(28px,5vw,80px)}
+.visit-body>p{margin-top:16px;color:var(--muted);max-width:32em}
+.visit-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 32px;margin-top:30px}
+.visit-cols h3{font-size:16.5px;font-weight:600;margin-bottom:6px}
+.hours{font-size:16px}
+.hours div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-block:5px}
+.hours dd{font-variant-numeric:tabular-nums;white-space:nowrap}
+.visit address{font-style:normal;font-size:16px}
+.visit address a{display:inline-block;padding-block:4px;text-underline-offset:3px}
+@media (max-width:860px){
+  .visit{grid-template-columns:minmax(0,1fr)}
+  .visit-fig img{min-height:0;aspect-ratio:4/3}
+  .visit-body{padding:40px var(--gut) 48px}
+}
+@media (max-width:440px){.visit-cols{grid-template-columns:minmax(0,1fr)}}
+
+/* Help questions */
+.help{background:var(--paper);padding-block:clamp(56px,6vw,96px)}
+.help-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px clamp(32px,6vw,96px)}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding-block:12px;font-weight:600;font-size:18px;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;font-weight:400;line-height:1;color:var(--teal);flex:none}
+details[open] summary::after{content:"\2212"}
+details p{padding-bottom:20px;color:var(--muted);max-width:38em}
+@media (max-width:860px){.help-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Newsletter band */
+.letter{background:var(--mustard);padding-block:clamp(44px,5vw,72px);--focus:#1B2826}
+.letter-in{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px clamp(32px,5vw,80px);align-items:end}
+.letter h2{font-size:clamp(34px,4vw,58px)}
+.letter label{display:block;font-weight:600;font-size:16px;margin-bottom:6px}
+.letter-row{display:flex;gap:8px}
+.letter input{flex:1;min-width:0;min-height:50px;padding:10px 14px;background:var(--paper);border:1px solid var(--ink);border-radius:2px}
+.letter .btn{background:var(--ink);color:#fff;flex:none}
+.letter .btn:hover{background:var(--teal-deep)}
+.letter-msg{min-height:1.5em;margin-top:8px;font-size:15.5px;font-weight:500}
+.letter-msg.bad{color:#561005;font-weight:600}
+@media (max-width:860px){.letter-in{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:400px){.letter-row{flex-direction:column}}
+
+/* Footer */
+.foot{--focus:var(--mustard-lt);background:var(--teal-deep);color:var(--on-dark);padding-block:56px 28px;font-size:16px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:32px 28px}
+.foot .logo{color:#fff}
+.foot-about{margin-top:14px;max-width:24em}
+.foot h3{font-size:16px;font-weight:600;color:#fff;margin-bottom:8px}
+.foot li a,.foot address a{display:inline-block;padding-block:5px;text-decoration:none}
+.foot li a:hover,.foot address a:hover{text-decoration:underline}
+.foot address{font-style:normal}
+.foot-base{margin-top:40px;padding-top:18px;border-top:1px solid rgba(255,255,255,.28);font-size:14.5px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px}
+@media (max-width:860px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot-brand{grid-column:1/-1}}
+@media (max-width:359px){.foot-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Overlays sit under the project bar so it stays visible */
+.overlay{position:fixed;left:0;right:0;bottom:0;top:var(--bar-h);z-index:50;visibility:hidden;overflow:hidden;transition:visibility 0s .32s}
+.overlay.open{visibility:visible;transition-delay:0s}
+.scrim{position:absolute;inset:0;background:rgba(16,28,27,.55);opacity:0;transition:opacity .3s}
+.overlay.open .scrim{opacity:1}
+.panel{position:absolute;background:var(--paper);color:var(--ink);--focus:#0E4A4A}
+.x-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:2px;flex:none}
+.x-btn:hover{background:var(--stone)}
+.x-btn svg{width:20px;height:20px}
+
+/* Quick view */
+.qv-panel{inset:0;margin:auto;width:min(980px,calc(100% - 48px));height:fit-content;max-height:calc(100% - 48px);overflow:auto;opacity:0;transform:translateY(14px);transition:opacity .25s,transform .25s}
+.overlay.open .qv-panel{opacity:1;transform:none}
+.qv-grid{display:grid;grid-template-columns:minmax(0,11fr) minmax(0,10fr)}
+.qv-img{background:var(--stone-2);min-height:100%;overflow:hidden}
+.qv-img img{width:100%;height:100%;min-height:520px;object-fit:cover;transform:scale(var(--z,1))}
+.qv-info{padding:24px 28px 28px;position:relative}
+.qv-close{position:absolute;top:10px;right:10px}
+.qv-info h2{font-size:clamp(30px,3vw,40px);padding-right:44px;margin-bottom:4px}
+.qv-price{font-size:19px;font-weight:500;margin-bottom:12px}
+.qv-info .desc{color:var(--muted);font-size:16px}
+.opt{margin-top:18px}
+.opt legend,.opt-label{font-size:15.5px;font-weight:600;margin-bottom:6px;display:block}
+.opt legend span{font-weight:400;color:var(--muted)}
+.swatches{display:flex;flex-wrap:wrap;gap:4px}
+.sw{position:relative;display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer}
+.sw input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.sw i{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(27,40,38,.35)}
+.sw input:checked+i{outline:2px solid var(--ink);outline-offset:3px}
+.sw input:focus-visible+i{outline:3px solid var(--teal);outline-offset:4px}
+.sizes{display:flex;flex-wrap:wrap;gap:6px}
+.sz{position:relative;cursor:pointer}
+.sz input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.sz span{display:flex;align-items:center;justify-content:center;width:48px;height:44px;border:1px solid var(--muted);border-radius:2px;font-size:15px;font-weight:500}
+.sz input:checked+span{background:var(--teal);border-color:var(--teal);color:#fff}
+.sz input:focus-visible+span{outline:3px solid var(--teal);outline-offset:2px}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--muted);border-radius:2px}
+.stepper button{width:44px;height:44px;font-size:20px;line-height:1}
+.stepper button:hover{background:var(--stone)}
+.stepper output{min-width:32px;text-align:center;font-variant-numeric:tabular-nums;font-weight:500}
+.qv-actions{display:flex;gap:8px;margin-top:20px}
+.qv-actions .btn{flex:1;padding-inline:14px}
+.qv-actions .heart{position:static;flex:none;width:50px;height:50px;border-radius:2px;box-shadow:inset 0 0 0 1px var(--muted);background:none}
+.qv-note{margin-top:14px;font-size:14.5px;color:var(--muted)}
+@media (max-width:760px){
+  .qv-panel{inset:auto 0 0 0;width:100%;max-height:100%;margin:0;transform:translateY(30px)}
+  .qv-grid{grid-template-columns:minmax(0,1fr)}
+  .qv-img{min-height:0}
+  .qv-img img{min-height:0;height:auto;aspect-ratio:16/10}
+  .qv-info{position:static;padding:18px var(--gut) 24px}
+  .qv-close{top:8px;right:8px;background:var(--paper)}
+  .qv-info h2{padding-right:0}
+}
+
+/* Cart drawer */
+.drawer{top:0;right:0;bottom:0;width:min(460px,100%);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.7,.2,1)}
+.overlay.open .drawer{transform:none}
+.dr-head{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 12px 22px;border-bottom:1px solid var(--line)}
+.dr-head h2{font-size:30px}
+.ship{padding:14px 22px;background:var(--stone);font-size:15.5px}
+.ship-track{height:6px;margin-top:8px;background:var(--stone-2);box-shadow:inset 0 0 0 1px var(--line);border-radius:3px;overflow:hidden}
+.ship-fill{height:100%;background:var(--teal);transition:width .3s}
+.dr-items{flex:1;overflow:auto;padding:0 22px}
+.line{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;padding-block:18px;border-bottom:1px solid var(--line)}
+.line img{width:84px;height:100px;object-fit:cover;background:var(--stone-2);border-radius:2px}
+.line-top{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:16px;line-height:1.3}
+.line-top span:last-child{white-space:nowrap;font-weight:500;font-variant-numeric:tabular-nums}
+.line small{display:block;font-size:14.5px;color:var(--muted);margin-top:2px}
+.line-ctl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;margin-top:8px}
+.line .stepper button{width:40px;height:40px}
+.remove{min-height:44px;font-size:14.5px;text-decoration:underline;text-underline-offset:3px;color:var(--muted)}
+.remove:hover{color:var(--ink)}
+.dr-empty{padding:48px 0;text-align:center}
+.dr-empty .display{font-size:30px;margin-bottom:6px}
+.dr-empty p+p{color:var(--muted);margin-bottom:20px}
+.dr-foot{padding:16px 22px 20px;border-top:1px solid var(--line);background:var(--paper)}
+.row{display:flex;justify-content:space-between;gap:14px;font-variant-numeric:tabular-nums}
+.row.big{font-size:19px;font-weight:600}
+.dr-foot .fine{margin:2px 0 12px}
+
+/* Checkout */
+.co-panel{inset:0;margin:auto;width:min(980px,calc(100% - 48px));height:fit-content;max-height:calc(100% - 48px);overflow:auto;opacity:0;transform:translateY(14px);transition:opacity .25s,transform .25s}
+.overlay.open .co-panel{opacity:1;transform:none}
+.co-head .x-btn{margin-left:auto}
+.co-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px 12px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:2}
+.co-steps{display:flex;flex-wrap:wrap;gap:2px 18px;font-size:15px;color:var(--muted)}
+.co-steps [aria-current="step"]{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--teal);text-decoration-thickness:2px;text-underline-offset:5px}
+.co-grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+.co-main{padding:24px 28px 30px}
+.co-main h2{font-size:clamp(30px,3vw,38px);margin-bottom:16px}
+.co-main h2:focus{outline:none}
+.co-side{background:var(--stone);padding:24px 26px}
+.co-side h3{font-size:17px;font-weight:600;margin-bottom:10px}
+.co-line{display:flex;justify-content:space-between;gap:12px;padding-block:8px;border-bottom:1px solid var(--line);font-size:15.5px}
+.co-line small{display:block;color:var(--muted);font-size:14.5px}
+.co-line>span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.co-tot{margin-top:10px;display:grid;gap:4px;font-size:15.5px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.f{min-width:0}
+.f.full{grid-column:1/-1}
+.f label{display:block;font-size:15px;font-weight:600;margin-bottom:4px}
+.f label span{font-weight:400;color:var(--muted)}
+.f input{width:100%;min-height:46px;padding:9px 12px;background:#fff;border:1px solid var(--muted);border-radius:2px}
+.f input[aria-invalid="true"]{border-color:var(--err);box-shadow:inset 0 0 0 1px var(--err)}
+.err{display:block;color:var(--err);font-size:14.5px;font-weight:500;margin-top:3px}
+.choices{display:grid;gap:8px}
+.choice{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;padding:12px 14px;border:1px solid var(--line);border-radius:2px;cursor:pointer;background:#fff}
+.choice:has(input:checked){border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+.choice input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--teal)}
+.choice b{display:block;font-weight:600;font-size:16px}
+.choice small{display:block;color:var(--muted);font-size:14.5px;line-height:1.4}
+.co-legend{font-size:15px;font-weight:600;margin-bottom:6px}
+.co-acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:22px}
+.review-to{background:var(--stone);padding:12px 14px;margin-bottom:16px;font-size:15.5px;overflow-wrap:anywhere}
+.review-to b{font-weight:600}
+.confirm-mark{width:52px;height:52px;margin-bottom:14px;color:var(--teal)}
+.confirm dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;margin:16px 0;font-size:16px}
+.confirm dt{color:var(--muted)}
+.confirm dd{overflow-wrap:anywhere;font-weight:500}
+@media (max-width:760px){
+  .co-panel{inset:0;width:100%;max-height:100%;height:100%;margin:0}
+  .co-grid{grid-template-columns:minmax(0,1fr)}
+  .co-head{padding:8px 8px 8px var(--gut)}
+  .co-main{padding:20px var(--gut) 26px}
+  .co-side{padding:20px var(--gut) 26px}
+}
+@media (max-width:440px){.fields{grid-template-columns:minmax(0,1fr)}.co-acts .btn{width:100%}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
+  .card:hover .card-img img{transform:scale(var(--z,1))}
+  .hotspot:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Aster &amp; Co.</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="aster" viewBox="0 0 32 32">
+    <g fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round">
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(45 16 16)"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(90 16 16)"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(135 16 16)"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(180 16 16)"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(225 16 16)"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(270 16 16)"/>
+      <path d="M16 13C13.6 9.6 14 5 16 2c2 3 2.4 7.6 0 11z" transform="rotate(315 16 16)"/>
+    </g>
+    <circle cx="16" cy="16" r="2.7" fill="#E0AC2B"/>
+  </symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.500S3.5 15.3 3.5 9.200A4.7 4.7 0 0 1 12 6.500a4.7 4.7 0 0 1 8.5 2.700c0 6.1-8.5 11.3-8.5 11.300z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 20 20"><path d="M4 4l12 12M16 4L4 16" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="logo" href="#top" aria-label="Aster and Co. home"><svg aria-hidden="true"><use href="#aster"/></svg><span>Aster <em>&amp;</em> Co.</span></a>
+    <nav aria-label="Main">
+      <ul class="links" id="menu">
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#corner">The Teal Corner</a></li>
+        <li><a href="#standards">Our standards</a></li>
+        <li><a href="#visit">Visit</a></li>
+        <li><a href="#help">Help</a></li>
+      </ul>
+    </nav>
+    <div class="nav-tools">
+      <button class="icon-btn" type="button" data-act="show-saved" id="saved-btn" aria-label="Saved items, 0">
+        <svg fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><use href="#i-heart"/></svg>
+        <span class="badge" id="saved-count" hidden>0</span>
+      </button>
+      <button class="icon-btn" type="button" data-act="open-cart" id="cart-btn" aria-label="Open cart, 0 items">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l1 12.500H4L5 8z"/><path d="M8.5 10.500V7a3.5 3.5 0 0 1 7 0v3.5"/></svg>
+        <span class="badge" id="cart-count" hidden>0</span>
+      </button>
+      <button class="icon-btn burger" type="button" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3.5 8h17M3.5 16h17"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <h1 id="hero-title">Fewer things, made to stay.</h1>
+      <p>Furniture, lighting and everyday goods from small workshops we have stood inside. Every piece we sell is repaired free for its first five years.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="#shop">Shop the autumn collection</a>
+        <a class="tlink" href="#visit">Visit us on Harbor Street</a>
+      </div>
+    </div>
+    <figure class="hero-fig">
+      <img src="../../assets/projects/home-armchair-room.jpg" width="1400" height="1235" fetchpriority="high" alt="A calm living room with an ochre armchair, a slim brass floor lamp and framed black and white art on a pale wall.">
+      <button class="hotspot" type="button" data-act="quick" data-id="brae" aria-label="Quick view: Brae Reading Armchair"><span aria-hidden="true">+</span></button>
+      <figcaption>In the room: <span class="it">Brae Armchair in Ochre,</span> $640</figcaption>
+    </figure>
+  </section>
+
+  <section class="promises" aria-label="Store promises">
+    <div class="wrap">
+      <ul>
+        <li><strong>Free delivery over $150</strong> anywhere in the US</li>
+        <li><strong>60 nights at home</strong> to decide on any seating</li>
+        <li><strong>Five years of free repairs</strong> on everything we sell</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="shop" id="shop" aria-labelledby="shop-title">
+    <div class="wrap">
+      <div class="shop-head">
+        <h2 id="shop-title">The autumn collection</h2>
+        <p>Eight pieces, not eight hundred. We add something only when it earns its place in our own homes first.</p>
+      </div>
+      <div class="toolbar">
+        <div class="chips" role="group" aria-label="Filter by category" id="chips"></div>
+        <div class="sort">
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="featured">Featured</option>
+            <option value="low">Price, low to high</option>
+            <option value="high">Price, high to low</option>
+            <option value="name">Name, A to Z</option>
+          </select>
+        </div>
+      </div>
+      <p class="result-n" id="result-n" role="status"></p>
+      <div class="grid" id="grid"></div>
+      <noscript><p>Our shop needs JavaScript to show products. Call us on (207) 555-0142 and we will help by phone.</p></noscript>
+    </div>
+  </section>
+
+  <section class="corner" id="corner" aria-labelledby="corner-title">
+    <figure class="corner-fig"><img src="../../assets/projects/home-lamp.jpg" width="1400" height="933" loading="lazy" alt="A stone grey pendant lamp glowing softly against a deep teal painted wall."></figure>
+    <div class="corner-body">
+      <h2 id="corner-title">The Teal Corner</h2>
+      <p>Our first shop had one wall this colour, because the paint was on sale. Customers kept asking about it, so we built a small set around it. One sofa, one lamp and one plant make a quiet place to sit.</p>
+      <ul class="corner-list">
+        <li><button type="button" data-act="quick" data-id="marlow">Marlow Three-Seat Sofa</button><span>$1,480</span></li>
+        <li><button type="button" data-act="quick" data-id="quay">Quay Pendant Lamp</button><span>$148</span></li>
+        <li><button type="button" data-act="quick" data-id="tidewater">Tidewater Planter</button><span>$42</span></li>
+      </ul>
+      <button class="btn" type="button" data-act="add-corner">Add all three, $1,670</button>
+    </div>
+  </section>
+
+  <section class="standards" id="standards" aria-labelledby="std-title">
+    <div class="wrap std-grid">
+      <div class="std-intro">
+        <h2 id="std-title">What we ask of everything we sell</h2>
+        <p>Since 2014 we have kept the same short list. If a piece cannot meet it, we leave it out, however good it looks in a photograph.</p>
+      </div>
+      <div>
+        <div class="std-row">
+          <div class="std-num">38</div>
+          <div><h3>Workshops, all visited</h3><p>Someone from Aster has stood on the floor of every workshop we buy from, from an ash joiner in Vermont to a tee knitter outside Porto.</p></div>
+        </div>
+        <div class="std-row">
+          <div class="std-num">5 yrs</div>
+          <div><h3>Of free repairs</h3><p>Worn webbing, a loose leg, a watch strap that gave up. Bring it in or send it back and our Portmere bench will sort it out.</p></div>
+        </div>
+        <div class="std-row">
+          <div class="std-num">1 in 9</div>
+          <div><h3>Pieces make it to the shop</h3><p>We live with each piece for at least three months. Most go back with a kind note and a list of what wore out.</p></div>
+        </div>
+        <div class="std-row">
+          <div class="std-num">0</div>
+          <div><h3>Seasonal sales</h3><p>Prices stay the same all year, so nobody who bought in March feels foolish by June.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews" aria-labelledby="rev-title">
+    <div class="wrap">
+      <h2 class="sr" id="rev-title">The Aster promise</h2>
+      <div class="rev-grid">
+        <div class="rev-lead">
+          <p>If something we sold you wears out, breaks or simply stops suiting the room, bring it back to Harbor Street. We will mend it, re-cover it or take it off your hands.</p>
+          <div class="who"><span class="init" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span>Repairs are done at our own bench in Portmere, usually within two weeks.</span></div>
+        </div>
+        <div class="rev-side">
+          <div class="rev-item">
+            <h3>Five years of free repairs</h3>
+            <p>Worn webbing, a loose joint, a zip that gave up. Send it back or drop it in, and we cover the work and the return shipping.</p>
+          </div>
+          <div class="rev-item">
+            <h3>Sixty nights to decide on seating</h3>
+            <p>Live with a sofa or chair for two months. If it is not right, we collect it from your door and refund you in full.</p>
+          </div>
+          <div class="rev-item">
+            <h3>Thirty-day returns on everything else</h3>
+            <p>Unused goods in their original packaging go back free of charge. Open the box, try it in the room, and take your time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="visit-title">
+    <figure class="visit-fig"><img src="../../assets/projects/home-lounge.jpg" width="1400" height="933" loading="lazy" alt="A bright showroom with pale shell chairs, a low grey sofa, a tall black task lamp and oak shelving."></figure>
+    <div class="visit-body">
+      <h2 id="visit-title">Sit on it before you buy it</h2>
+      <p>Our only shop is a former sail loft two blocks up from the ferry terminal. Every piece in the collection is out on the floor, and there is coffee at the back. Parking is behind the building on Cooper Lane.</p>
+      <div class="visit-cols">
+        <div>
+          <h3 id="hours-h">Opening hours</h3>
+          <dl class="hours" aria-labelledby="hours-h">
+            <div><dt>Mon to Fri</dt><dd>10:00 to 6:30</dd></div>
+            <div><dt>Saturday</dt><dd>9:30 to 6:00</dd></div>
+            <div><dt>Sunday</dt><dd>11:00 to 4:00</dd></div>
+          </dl>
+        </div>
+        <div>
+          <h3>Find us</h3>
+          <address>
+            218 Harbor Street<br>Portmere, ME 04199<br>
+            <a href="tel:+12075550142">(207) 555-0142</a><br>
+            <a href="mailto:hello@example.com">hello@example.com</a>
+          </address>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="help" id="help" aria-labelledby="help-title">
+    <div class="wrap help-grid">
+      <h2 id="help-title">Before you ask</h2>
+      <div>
+        <details open>
+          <summary>How long does delivery take?</summary>
+          <p>Small goods leave our Portmere stockroom within two working days and arrive in three to five. Sofas and armchairs are made to order, so allow five weeks. Our two-person crew will carry them to any room you choose.</p>
+        </details>
+        <details>
+          <summary>What does delivery cost?</summary>
+          <p>Orders over $150 ship free. Anything under that is a flat $12, and pickup from Harbor Street is always free.</p>
+        </details>
+        <details>
+          <summary>Can I return something?</summary>
+          <p>Yes. Small goods can come back unused within 30 days. Seating has a 60-night trial, and if it doesn't suit, we collect it at no charge.</p>
+        </details>
+        <details>
+          <summary>How does the repair promise work?</summary>
+          <p>Email a photo to repairs@example.com. We will send a part, book a local upholsterer or arrange collection. It is free for five years, and fairly priced after that.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter" id="letter" aria-labelledby="letter-title">
+    <div class="wrap letter-in">
+      <h2 id="letter-title">One letter a month, mostly about how things get made.</h2>
+      <form id="news-form" novalidate>
+        <label for="news-email">Email address</label>
+        <div class="letter-row">
+          <input id="news-email" type="email" name="email" autocomplete="email" aria-describedby="news-msg">
+          <button class="btn" type="submit">Sign me up</button>
+        </div>
+        <p class="letter-msg" id="news-msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="Aster and Co. home"><svg aria-hidden="true"><use href="#aster"/></svg><span>Aster <em>&amp;</em> Co.</span></a>
+        <p class="foot-about">Home and everyday goods, chosen slowly in Portmere, Maine, since 2014.</p>
+      </div>
+      <div>
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="#shop" data-go-filter="all">All pieces</a></li>
+          <li><a href="#shop" data-go-filter="furniture">Furniture</a></li>
+          <li><a href="#shop" data-go-filter="accents">Lighting and plants</a></li>
+          <li><a href="#shop" data-go-filter="everyday">Everyday goods</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="#standards">Our standards</a></li>
+          <li><a href="#corner">The Teal Corner</a></li>
+          <li><a href="#help">Delivery and returns</a></li>
+          <li><a href="#letter">The monthly letter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Store</h3>
+        <address>218 Harbor Street<br>Portmere, ME 04199<br><a href="tel:+12075550142">(207) 555-0142</a><br><a href="mailto:hello@example.com">hello@example.com</a></address>
+      </div>
+    </div>
+    <div class="foot-base"><span>&copy; 2026 Aster &amp; Co.</span><span>218 Harbor Street, Portmere, Maine</span></div>
+  </div>
+</footer>
+
+<div class="sr" id="live" role="status" aria-live="polite"></div>
+
+<!-- Quick view -->
+<div class="overlay" id="qv">
+  <div class="scrim" data-act="close"></div>
+  <div class="panel qv-panel" role="dialog" aria-modal="true" aria-labelledby="qv-title" id="qv-panel"></div>
+</div>
+
+<!-- Cart drawer -->
+<div class="overlay" id="cart">
+  <div class="scrim" data-act="close"></div>
+  <div class="panel drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="dr-head">
+      <h2 id="cart-title">Your cart</h2>
+      <button class="x-btn" type="button" data-act="close" data-first aria-label="Close cart"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="ship" id="ship"></div>
+    <div class="dr-items" id="cart-items"></div>
+    <div class="dr-foot" id="cart-foot"></div>
+  </div>
+</div>
+
+<!-- Checkout -->
+<div class="overlay" id="checkout">
+  <div class="scrim" data-act="close"></div>
+  <div class="panel co-panel" role="dialog" aria-modal="true" aria-labelledby="co-label">
+    <div class="co-head">
+      <span class="sr" id="co-label">Checkout</span>
+      <ol class="co-steps" id="co-steps" style="list-style:none;margin:0;padding:0">
+        <li data-step="1">1. Delivery</li>
+        <li data-step="2">2. Review and pay</li>
+      </ol>
+      <button class="x-btn" type="button" data-act="close" aria-label="Close checkout"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="co-grid" id="co-grid">
+      <div class="co-main">
+        <form id="co-form" novalidate>
+          <div id="step1">
+            <h2 tabindex="-1" id="step1-h">Where should it go?</h2>
+            <fieldset style="margin-bottom:16px">
+              <legend class="co-legend">How would you like to receive it?</legend>
+              <div class="choices">
+                <label class="choice"><input type="radio" name="method" value="delivery" checked><span><b>Home delivery</b><small>Free over $150, otherwise $12</small></span></label>
+                <label class="choice"><input type="radio" name="method" value="pickup"><span><b>Pick up at 218 Harbor Street</b><small>Free, ready the next working day</small></span></label>
+              </div>
+            </fieldset>
+            <div class="fields">
+              <div class="f full"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name"></div>
+              <div class="f"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email"></div>
+              <div class="f"><label for="f-phone">Phone <span>(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+              <div class="f full addr"><label for="f-addr">Street address</label><input id="f-addr" name="addr" autocomplete="street-address"></div>
+              <div class="f addr"><label for="f-city">City and state</label><input id="f-city" name="city" autocomplete="address-level2"></div>
+              <div class="f addr"><label for="f-zip">ZIP code</label><input id="f-zip" name="zip" inputmode="numeric" autocomplete="postal-code"></div>
+            </div>
+            <div class="co-acts">
+              <button class="tlink" type="button" data-act="back-cart">Back to cart</button>
+              <button class="btn btn-solid" type="button" data-act="to-review">Continue to review</button>
+            </div>
+          </div>
+          <div id="step2" hidden>
+            <h2 tabindex="-1" id="step2-h">How would you like to pay?</h2>
+            <div class="review-to" id="review-to"></div>
+            <fieldset>
+              <legend class="co-legend">Payment</legend>
+              <div class="choices">
+                <label class="choice"><input type="radio" name="pay" value="door" checked><span><b id="pay-a-t">Pay on delivery</b><small id="pay-a-s">Cash or contactless, paid to our courier at your door</small></span></label>
+                <label class="choice"><input type="radio" name="pay" value="invoice"><span><b>Pay by invoice</b><small>We email an invoice, due within 7 days of receipt</small></span></label>
+              </div>
+            </fieldset>
+            <p class="fine" style="margin-top:12px">No card details are needed now. You pay when the order arrives, or by invoice within seven days.</p>
+            <div class="co-acts">
+              <button class="tlink" type="button" data-act="back-step1">Edit details</button>
+              <button class="btn btn-solid" type="submit">Place order</button>
+            </div>
+          </div>
+        </form>
+        <div id="step3" class="confirm" hidden></div>
+      </div>
+      <aside class="co-side" id="co-side" aria-label="Order summary"></aside>
+    </div>
+  </div>
+</div>
+
+<script>
+// Product catalogue
+const PRODUCTS = [
+  {id:'marlow',name:'Marlow Three-Seat Sofa',cat:'furniture',price:1480,wide:1,img:'home-sofa',pos:'50% 62%',tag:'Made to order, 5 weeks',
+   alt:'A deep teal velvet three-seat sofa with tapered oak legs in an empty pale room.',
+   sub:'Cotton velvet, ash frame, oiled oak legs',
+   desc:'Eighty-four inches of deep, unfussy seating. The velvet covers zip off for cleaning, and the feather-wrapped cushions can be re-stuffed when they eventually soften.',
+   colors:[['Deep Teal','#10494A'],['Moss','#5C6340'],['Oat','#D6CCB8']]},
+  {id:'tidewater',name:'Tidewater Planter',cat:'accents',price:42,img:'home-planter',pos:'50% 50%',
+   alt:'A sea glass green glazed planter holding a spiky zebra succulent on a white surface.',
+   sub:'Glazed stoneware, 5 in',
+   desc:'Thrown and glazed in a two-person studio in Vermont, with a drainage hole and a felted base. It arrives planted with a zebra succulent from Lowe Street Nursery.',
+   colors:[['Sea Glass','#A9DDCD'],['Chalk','#EEE9DF'],['Slate','#5D6A6E']]},
+  {id:'ferry',name:'Ferry Day Pack',cat:'everyday',price:128,img:'home-backpack',pos:'50% 45%',
+   alt:'A navy canvas backpack with a small yellow label, standing on a pale floor in raking light.',
+   sub:'Recycled twill, 18 litres',
+   desc:'Holds a 15-inch laptop, a lunch and a spare sweater without looking like it does. Recycled cotton-nylon twill, a padded sleeve and zips built to be replaced.',
+   colors:[['Ink Navy','#1D2A44'],['Charcoal','#3C3F41']]},
+  {id:'tee',name:'Everyday Heavy Tee',cat:'everyday',price:38,img:'home-tee',pos:'50% 20%',tag:'Back in stock',sizes:['S','M','L','XL'],
+   alt:'A man wearing a plain white crew neck t-shirt in front of blurred shelves of plants.',
+   sub:'220 gsm organic cotton',
+   desc:'A proper weight that keeps its shape, knitted and garment-washed outside Porto. It shrinks less than one percent, and the collar stays flat.',
+   colors:[['White','#FBFAF6'],['Stone','#C9C1B1'],['Pine','#1F4A40']]},
+  {id:'brae',name:'Brae Reading Armchair',cat:'furniture',price:640,img:'home-armchair-room',pos:'48% 72%',tag:'Made to order, 5 weeks',
+   alt:'An ochre upholstered armchair on slim black legs beside a brass floor lamp.',
+   sub:'Wool blend, ash frame, black steel legs',
+   desc:'Built for a whole chapter: a high back, a shallow arm and a seat that will not swallow you. Upholstered in a hard-wearing wool blend woven in Maine.',
+   colors:[['Ochre','#D9A21B'],['Deep Teal','#10494A'],['Oat','#D6CCB8']]},
+  {id:'quay',name:'Quay Pendant Lamp',cat:'accents',price:148,wide:1,img:'home-lamp',pos:'30% 50%',
+   alt:'A stone grey dome pendant lamp lit against a deep teal wall.',
+   sub:'Powder-coated aluminium, 13 in shade',
+   desc:'A spun aluminium dome with a matte finish, and six feet of cloth cord you can shorten at home. It takes a standard E26 bulb, and we include a warm one.',
+   colors:[['Stone Grey','#B9B8B1'],['Deep Teal','#10494A'],['Ochre','#D9A21B']]},
+  {id:'tern',name:'Tern Field Watch',cat:'everyday',price:165,wide:1,img:'home-watch',pos:'50% 50%',
+   alt:'A minimal round watch with a black face and white strap, shown from the front and back on a pale grey surface.',
+   sub:'38 mm steel case, quartz movement',
+   desc:'A plain dial with nothing to charge or sync. Brushed steel, water resistant to 50 metres, and a strap that swaps without tools. A new battery is free for life.',
+   colors:[['Chalk','#E8E8E6'],['Black','#232526']]},
+  {id:'holm',name:'Holm Shell Chair',cat:'furniture',price:395,wide:1,img:'home-lounge',pos:'40% 92%',zoom:'--z:1.5;transform-origin:22% 100%;',
+   alt:'Pale grey upholstered shell chairs on oak legs arranged around a low round table.',
+   sub:'Moulded shell, wool cover, oak legs',
+   desc:'A curved shell that holds you without any fuss, on a solid oak base. Good at a dining table and better in a corner. Photographed on our shop floor.',
+   colors:[['Fog','#C9CED0'],['Pine','#1F4A40']]}
+];
+const FILTERS = [['all','All'],['furniture','Furniture'],['accents','Lighting and plants'],['everyday','Everyday goods'],['saved','Saved']];
+const FREE_AT = 150, SHIP_FEE = 12, MAX_QTY = 10;
+const $ = (s, r = document) => r.querySelector(s);
+const money = n => '$' + n.toLocaleString('en-US');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const byId = id => PRODUCTS.find(p => p.id === id);
+const photo = p => `../../assets/projects/${p.img}.jpg`;
+const crop = p => `object-position:${p.pos};${p.zoom || ''}`;
+const state = {filter:'all', sort:'featured', saved:new Set(), cart:[]};
+const heartSvg = '<svg aria-hidden="true"><use href="#i-heart"/></svg>';
+const live = msg => { $('#live').textContent = msg; };
+
+// Keeps the sticky nav and overlays below the project bar
+const bar = $('.zl-bar');
+const syncBar = () => document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
+syncBar();
+new ResizeObserver(syncBar).observe(bar);
+
+// Filter chips
+function renderChips() {
+  $('#chips').innerHTML = FILTERS.map(([k, label]) => {
+    const n = k === 'saved' ? ` (${state.saved.size})` : '';
+    return `<button class="chip" type="button" data-act="filter" data-f="${k}" aria-pressed="${state.filter === k}">${label}${n}</button>`;
+  }).join('');
+}
+
+// Product grid honouring the current filter and sort
+function visibleProducts() {
+  let list = PRODUCTS.filter(p => state.filter === 'all' || (state.filter === 'saved' ? state.saved.has(p.id) : p.cat === state.filter));
+  if (state.sort === 'low') list = [...list].sort((a, b) => a.price - b.price);
+  if (state.sort === 'high') list = [...list].sort((a, b) => b.price - a.price);
+  if (state.sort === 'name') list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+  return list;
+}
+function heartLabel(p) { return state.saved.has(p.id) ? `Remove ${p.name} from saved items` : `Save ${p.name}`; }
+function renderGrid() {
+  const list = visibleProducts();
+  $('#result-n').textContent = `Showing ${list.length} ${list.length === 1 ? 'piece' : 'pieces'}`;
+  if (!list.length) {
+    $('#grid').innerHTML = `<div class="empty"><p class="display">Nothing saved yet</p><p>Tap the heart on any piece to keep it here while you decide.</p><button class="tlink" type="button" data-act="filter" data-f="all">Show all pieces</button></div>`;
+    return;
+  }
+  $('#grid').innerHTML = list.map(p => `
+    <article class="card${p.wide ? ' wide' : ''}" data-card="${p.id}">
+      <button class="card-img" type="button" data-act="quick" data-id="${p.id}" aria-label="Quick view: ${p.name}">
+        <img src="${photo(p)}" alt="${p.alt}" loading="lazy" style="${crop(p)}">
+        <span class="qv-pill" aria-hidden="true">Quick view</span>
+      </button>
+      <button class="heart" type="button" data-act="heart" data-id="${p.id}" aria-pressed="${state.saved.has(p.id)}" aria-label="${heartLabel(p)}">${heartSvg}</button>
+      <div class="card-meta">
+        <div><h3>${p.name}</h3><p class="sub">${p.sub}</p>${p.tag ? `<p class="tag">${p.tag}</p>` : ''}</div>
+        <span class="price">${money(p.price)}</span>
+      </div>
+      <div class="card-foot">
+        <span class="dots" aria-label="${p.colors.length} colours" role="img">${p.colors.map(c => `<i class="dot" style="background:${c[1]}"></i>`).join('')}</span>
+        <button class="tlink" type="button" data-act="quick-add" data-id="${p.id}" aria-label="Add ${p.name} to cart">Add to cart</button>
+      </div>
+    </article>`).join('');
+}
+function setFilter(f) {
+  state.filter = f;
+  renderChips();
+  renderGrid();
+}
+
+// Wishlist hearts stay in step everywhere they appear
+function toggleSaved(id) {
+  const p = byId(id);
+  const on = !state.saved.has(id);
+  if (on) state.saved.add(id); else state.saved.delete(id);
+  document.querySelectorAll(`.heart[data-id="${id}"]`).forEach(h => {
+    h.setAttribute('aria-pressed', on);
+    h.setAttribute('aria-label', heartLabel(p));
+  });
+  const n = state.saved.size;
+  $('#saved-count').textContent = n;
+  $('#saved-count').hidden = !n;
+  $('#saved-btn').setAttribute('aria-label', `Saved items, ${n}`);
+  const pressed = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.act : '';
+  renderChips();
+  if (state.filter === 'saved') {
+    renderGrid();
+    if (pressed === 'heart' && !active) $('#result-n').setAttribute('tabindex', '-1'), $('#result-n').focus({preventScroll:true});
+  }
+  live(on ? `${p.name} saved` : `${p.name} removed from saved items`);
+}
+
+// Overlay handling with focus trap and return focus
+let active = null, returnTo = null;
+const pageRegions = () => [$('#nav'), $('main'), $('.foot')];
+function openOverlay(id, opener) {
+  closeMenu();
+  const el = document.getElementById(id);
+  if (active) active.classList.remove('open');
+  else returnTo = opener || document.activeElement;
+  active = el;
+  el.classList.add('open');
+  document.documentElement.classList.add('lock');
+  pageRegions().forEach(r => { r.inert = true; });
+  const first = el.querySelector('[data-first]') || el.querySelector('button');
+  first.focus({preventScroll:true});
+}
+function closeOverlay() {
+  if (!active) return;
+  active.classList.remove('open');
+  active = null;
+  document.documentElement.classList.remove('lock');
+  pageRegions().forEach(r => { r.inert = false; });
+  const target = returnTo && returnTo.isConnected && returnTo !== document.body ? returnTo : $('#cart-btn');
+  target.focus({preventScroll:true});
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (active) closeOverlay();
+    else if (menu.classList.contains('open')) { closeMenu(); burger.focus(); }
+  }
+  if (e.key !== 'Tab' || !active) return;
+  const f = [...active.querySelectorAll('a[href],button,input,select,summary')].filter(x => !x.disabled && x.offsetParent !== null);
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
+// Mobile menu
+const menu = $('#menu'), burger = $('#burger');
+function closeMenu() {
+  menu.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+  burger.setAttribute('aria-label', 'Open menu');
+}
+burger.addEventListener('click', () => {
+  const on = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', on);
+  burger.setAttribute('aria-label', on ? 'Close menu' : 'Open menu');
+});
+menu.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
+
+// Quick view
+let qv = null;
+function openQuick(id, opener) {
+  const p = byId(id);
+  qv = {id, color:p.colors[0][0], size:p.sizes ? p.sizes[1] : '', qty:1};
+  $('#qv-panel').innerHTML = `
+    <div class="qv-grid">
+      <div class="qv-img"><img src="${photo(p)}" alt="${p.alt}" style="${crop(p)}"></div>
+      <div class="qv-info">
+        <button class="x-btn qv-close" type="button" data-act="close" aria-label="Close quick view"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+        <h2 id="qv-title">${p.name}</h2>
+        <p class="qv-price">${money(p.price)}</p>
+        <p class="desc">${p.desc}</p>
+        <fieldset class="opt">
+          <legend>Colour: <span id="qv-color">${p.colors[0][0]}</span></legend>
+          <div class="swatches">${p.colors.map((c, i) => `
+            <label class="sw"><input type="radio" name="qv-c" value="${c[0]}" aria-label="${c[0]}"${i ? '' : ' checked'}><i style="background:${c[1]}"></i></label>`).join('')}</div>
+        </fieldset>
+        ${p.sizes ? `<fieldset class="opt"><legend>Size</legend><div class="sizes">${p.sizes.map((s, i) => `
+          <label class="sz"><input type="radio" name="qv-s" value="${s}"${i === 1 ? ' checked' : ''}><span>${s}</span></label>`).join('')}</div></fieldset>` : ''}
+        <div class="opt">
+          <span class="opt-label" id="qv-q-l">Quantity</span>
+          <div class="stepper" role="group" aria-labelledby="qv-q-l">
+            <button type="button" data-act="qv-qty" data-d="-1" aria-label="Decrease quantity">&minus;</button>
+            <output id="qv-qty" aria-live="polite">1</output>
+            <button type="button" data-act="qv-qty" data-d="1" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <div class="qv-actions">
+          <button class="btn btn-solid" type="button" data-act="qv-add" id="qv-add">Add to cart, ${money(p.price)}</button>
+          <button class="heart" type="button" data-act="heart" data-id="${p.id}" aria-pressed="${state.saved.has(p.id)}" aria-label="${heartLabel(p)}">${heartSvg}</button>
+        </div>
+        <p class="qv-note">Pictured in ${p.colors[0][0]}. ${p.tag && p.tag.startsWith('Made') ? 'Made to order and delivered in about 5 weeks.' : 'Ready to ship within two working days.'}</p>
+      </div>
+    </div>`;
+  openOverlay('qv', opener);
+}
+function updateQv() {
+  $('#qv-qty').textContent = qv.qty;
+  $('#qv-add').textContent = `Add to cart, ${money(byId(qv.id).price * qv.qty)}`;
+}
+$('#qv-panel').addEventListener('change', e => {
+  if (e.target.name === 'qv-c') { qv.color = e.target.value; $('#qv-color').textContent = qv.color; }
+  if (e.target.name === 'qv-s') qv.size = e.target.value;
+});
+
+// Cart
+const subtotal = () => state.cart.reduce((t, l) => t + byId(l.id).price * l.qty, 0);
+const shipping = method => (method === 'pickup' || subtotal() >= FREE_AT || !state.cart.length) ? 0 : SHIP_FEE;
+const cartCount = () => state.cart.reduce((t, l) => t + l.qty, 0);
+function addToCart(id, color, size, qty) {
+  const key = [id, color, size].join('~');
+  const line = state.cart.find(l => l.key === key);
+  if (line) line.qty = Math.min(MAX_QTY, line.qty + qty);
+  else state.cart.push({key, id, color, size, qty});
+}
+function lineOpts(l) { return l.color + (l.size ? `, size ${l.size}` : ''); }
+function renderCart() {
+  const box = $('#cart-items');
+  const f = document.activeElement;
+  const wasIn = f && box.contains(f);
+  const sel = wasIn ? `[data-act="${f.dataset.act}"][data-d="${f.dataset.d || ''}"][data-key="${f.dataset.key}"]` : null;
+  const sub = subtotal(), n = cartCount();
+  $('#cart-count').textContent = n;
+  $('#cart-count').hidden = !n;
+  $('#cart-btn').setAttribute('aria-label', `Open cart, ${n} ${n === 1 ? 'item' : 'items'}`);
+  $('#cart-title').textContent = n ? `Your cart (${n})` : 'Your cart';
+  const left = FREE_AT - sub;
+  const pct = Math.min(100, Math.round(sub / FREE_AT * 100));
+  $('#ship').hidden = !n;
+  $('#ship').innerHTML = `<span id="ship-msg">${left > 0 ? `You are <strong>${money(left)}</strong> away from free delivery.` : '<strong>Your order ships free.</strong>'}</span>
+    <div class="ship-track" role="progressbar" aria-labelledby="ship-msg" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><div class="ship-fill" style="width:${pct}%"></div></div>`;
+  if (!n) {
+    box.innerHTML = `<div class="dr-empty"><p class="display">Nothing here yet</p><p>Your next favourite chair is two clicks away.</p><a class="btn btn-solid" href="#shop" data-act="close">Browse the collection</a></div>`;
+    $('#cart-foot').hidden = true;
+  } else {
+    box.innerHTML = state.cart.map(l => {
+      const p = byId(l.id), k = esc(l.key);
+      return `<div class="line">
+        <img src="${photo(p)}" alt="" style="object-position:${p.pos}">
+        <div>
+          <div class="line-top"><span>${p.name}</span><span>${money(p.price * l.qty)}</span></div>
+          <small>${lineOpts(l)}</small>
+          <div class="line-ctl">
+            <div class="stepper" role="group" aria-label="Quantity of ${p.name}">
+              <button type="button" data-act="line-qty" data-d="-1" data-key="${k}" aria-label="Decrease quantity of ${p.name}">&minus;</button>
+              <output>${l.qty}</output>
+              <button type="button" data-act="line-qty" data-d="1" data-key="${k}" aria-label="Increase quantity of ${p.name}"${l.qty >= MAX_QTY ? ' disabled' : ''}>+</button>
+            </div>
+            <button class="remove" type="button" data-act="line-remove" data-d="" data-key="${k}" aria-label="Remove ${p.name} from cart">Remove</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    $('#cart-foot').hidden = false;
+    $('#cart-foot').innerHTML = `<div class="row big"><span>Subtotal</span><span id="cart-sub">${money(sub)}</span></div>
+      <p class="fine">${left > 0 ? `Plus ${money(SHIP_FEE)} delivery, or pick up free in Portmere.` : 'Delivery is on us.'} Prices include sales tax.</p>
+      <button class="btn btn-solid btn-block" type="button" data-act="checkout">Check out</button>`;
+  }
+  if (wasIn) (box.querySelector(sel) || $('#cart .x-btn')).focus({preventScroll:true});
+}
+function changeLine(key, d) {
+  const l = state.cart.find(x => x.key === key);
+  if (!l) return;
+  l.qty = Math.min(MAX_QTY, l.qty + d);
+  if (l.qty < 1) state.cart = state.cart.filter(x => x !== l);
+  renderCart();
+  live(l.qty < 1 ? `${byId(l.id).name} removed` : `${byId(l.id).name} quantity ${l.qty}. Subtotal ${money(subtotal())}`);
+}
+
+// Checkout steps
+const form = $('#co-form');
+function method() { return form.elements.method.value; }
+function renderSide(lines, ship) {
+  const sub = lines.reduce((t, l) => t + l.price * l.qty, 0);
+  $('#co-side').innerHTML = `<h3>Your order</h3>
+    ${lines.map(l => `<div class="co-line"><span>${l.name}${l.qty > 1 ? ` &times; ${l.qty}` : ''}<small>${l.opts}</small></span><span>${money(l.price * l.qty)}</span></div>`).join('')}
+    <div class="co-tot">
+      <div class="row"><span>Subtotal</span><span>${money(sub)}</span></div>
+      <div class="row"><span>${method() === 'pickup' ? 'Store pickup' : 'Delivery'}</span><span id="co-ship">${ship ? money(ship) : 'Free'}</span></div>
+      <div class="row big"><span>Total</span><span id="co-total">${money(sub + ship)}</span></div>
+    </div>`;
+}
+const snapshot = () => state.cart.map(l => ({name:byId(l.id).name, price:byId(l.id).price, qty:l.qty, opts:lineOpts(l), made:(byId(l.id).tag || '').startsWith('Made')}));
+function showStep(n) {
+  $('#step1').hidden = n !== 1;
+  $('#step2').hidden = n !== 2;
+  form.hidden = n === 3;
+  $('#step3').hidden = n !== 3;
+  $('#co-steps').hidden = n === 3;
+  document.querySelectorAll('#co-steps li').forEach(li => {
+    if (+li.dataset.step === n) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+  });
+  $('#co-label').textContent = n === 3 ? 'Order confirmation' : `Checkout, step ${n} of 2`;
+  $('#checkout .co-panel').scrollTop = 0;
+}
+function syncMethod() {
+  const pickup = method() === 'pickup';
+  document.querySelectorAll('.addr').forEach(x => { x.hidden = pickup; });
+  $('#pay-a-t').textContent = pickup ? 'Pay at pickup' : 'Pay on delivery';
+  $('#pay-a-s').textContent = pickup ? 'Cash or contactless at the Harbor Street counter' : 'Cash or contactless, paid to our courier at your door';
+  renderSide(snapshot(), shipping(method()));
+}
+function setError(input, msg) {
+  const id = input.id + '-err';
+  const old = document.getElementById(id);
+  if (old) old.remove();
+  input.removeAttribute('aria-invalid');
+  input.removeAttribute('aria-describedby');
+  if (!msg) return false;
+  const s = document.createElement('span');
+  s.className = 'err'; s.id = id; s.textContent = msg;
+  input.after(s);
+  input.setAttribute('aria-invalid', 'true');
+  input.setAttribute('aria-describedby', id);
+  return true;
+}
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+function validateStep1() {
+  const e = form.elements, pickup = method() === 'pickup';
+  const checks = [
+    [e.name, e.name.value.trim().length >= 2 ? '' : 'Please enter your full name.'],
+    [e.email, EMAIL_RE.test(e.email.value.trim()) ? '' : 'Please enter a valid email, like you@example.com.'],
+    [e.phone, !e.phone.value.trim() || /^[\d\s()+.-]{7,}$/.test(e.phone.value.trim()) ? '' : 'That phone number looks too short.'],
+    [e.addr, pickup || e.addr.value.trim().length >= 4 ? '' : 'Please enter a street address.'],
+    [e.city, pickup || e.city.value.trim().length >= 2 ? '' : 'Please enter your city and state.'],
+    [e.zip, pickup || /^\d{5}(-\d{4})?$/.test(e.zip.value.trim()) ? '' : 'Please enter a 5-digit ZIP code.']
+  ];
+  let firstBad = null;
+  checks.forEach(([input, msg]) => { if (setError(input, msg) && !firstBad) firstBad = input; });
+  if (firstBad) firstBad.focus();
+  return !firstBad;
+}
+function toReview() {
+  if (!validateStep1()) return;
+  const e = form.elements, pickup = method() === 'pickup';
+  $('#review-to').innerHTML = pickup
+    ? `<b>${esc(e.name.value.trim())}</b>, picking up at 218 Harbor Street, Portmere, ME<br>${esc(e.email.value.trim())}`
+    : `<b>${esc(e.name.value.trim())}</b>, ${esc(e.addr.value.trim())}, ${esc(e.city.value.trim())} ${esc(e.zip.value.trim())}<br>${esc(e.email.value.trim())}`;
+  showStep(2);
+  $('#step2-h').focus({preventScroll:true});
+}
+form.addEventListener('change', e => { if (e.target.name === 'method') syncMethod(); });
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  if ($('#step2').hidden) { toReview(); return; }
+  placeOrder();
+});
+form.addEventListener('input', e => { if (e.target.getAttribute('aria-invalid')) setError(e.target, ''); });
+function arrivalText(lines, pickup) {
+  const when = new Date();
+  if (pickup) { when.setDate(when.getDate() + 1); }
+  else when.setDate(when.getDate() + (lines.some(l => l.made) ? 35 : 5));
+  const d = when.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  return pickup ? `Ready for pickup from ${d}` : `${lines.some(l => l.made) ? 'Our crew will call to book a date around' : 'Arriving by'} ${d}`;
+}
+function placeOrder() {
+  const e = form.elements, pickup = method() === 'pickup';
+  const lines = snapshot(), ship = shipping(method());
+  const total = lines.reduce((t, l) => t + l.price * l.qty, 0) + ship;
+  const orderNo = 'AC-' + String(Math.floor(10000 + Math.random() * 89999));
+  const payText = e.pay.value === 'invoice' ? 'Invoice by email' : (pickup ? 'Pay at pickup' : 'Pay on delivery');
+  const first = e.name.value.trim().split(/\s+/)[0];
+  const email = e.email.value.trim();
+  saveLocal('aster-orders', {no:orderNo, name:e.name.value.trim(), email, method:method(), pay:e.pay.value, total, lines:lines.map(l => ({name:l.name, qty:l.qty})), placed:new Date().toISOString()});
+  $('#step3').innerHTML = `
+    <svg class="confirm-mark" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l8 8 15-17"/></svg>
+    <h2 tabindex="-1" id="step3-h">Thank you, ${esc(first)}. Your order is in.</h2>
+    <dl>
+      <dt>Order</dt><dd id="order-no">${orderNo}</dd>
+      <dt>Total</dt><dd>${money(total)}</dd>
+      <dt>Payment</dt><dd>${payText}</dd>
+      <dt>Next</dt><dd>${arrivalText(lines, pickup)}</dd>
+    </dl>
+    <p class="fine">A confirmation is on its way to ${esc(email)}. Questions about your order? Call (207) 555-0142, Tuesday to Sunday.</p>
+    <div class="co-acts"><button class="btn btn-solid" type="button" data-act="done">Continue shopping</button></div>`;
+  renderSide(lines, ship);
+  state.cart = [];
+  renderCart();
+  form.reset();
+  document.querySelectorAll('.addr').forEach(x => { x.hidden = false; });
+  showStep(3);
+  $('#step3-h').focus({preventScroll:true});
+}
+
+// Click handling for every data-act control
+document.addEventListener('click', e => {
+  const goFilter = e.target.closest('[data-go-filter]');
+  if (goFilter) setFilter(goFilter.dataset.goFilter);
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const act = b.dataset.act, id = b.dataset.id;
+  if (act === 'filter') {
+    setFilter(b.dataset.f);
+    const again = $(`.chip[data-f="${b.dataset.f}"]`);
+    if (again) again.focus({preventScroll:true});
+  } else if (act === 'quick') openQuick(id, b);
+  else if (act === 'quick-add') {
+    const p = byId(id);
+    addToCart(id, p.colors[0][0], p.sizes ? p.sizes[1] : '', 1);
+    renderCart();
+    openOverlay('cart', b);
+    live(`${p.name} added to cart`);
+  } else if (act === 'heart') toggleSaved(id);
+  else if (act === 'show-saved') {
+    setFilter('saved');
+    $('#shop').scrollIntoView();
+    $(`.chip[data-f="saved"]`).focus({preventScroll:true});
+  } else if (act === 'open-cart') { renderCart(); openOverlay('cart', b); }
+  else if (act === 'close') closeOverlay();
+  else if (act === 'qv-qty') { qv.qty = Math.max(1, Math.min(MAX_QTY, qv.qty + +b.dataset.d)); updateQv(); }
+  else if (act === 'qv-add') {
+    addToCart(qv.id, qv.color, qv.size, qv.qty);
+    renderCart();
+    openOverlay('cart');
+    live(`${byId(qv.id).name} added to cart`);
+  } else if (act === 'add-corner') {
+    ['marlow', 'quay', 'tidewater'].forEach(x => addToCart(x, byId(x).colors[0][0], '', 1));
+    renderCart();
+    openOverlay('cart', b);
+    live('Three pieces added to cart');
+  } else if (act === 'line-qty') changeLine(b.dataset.key, +b.dataset.d);
+  else if (act === 'line-remove') changeLine(b.dataset.key, -MAX_QTY);
+  else if (act === 'checkout') {
+    showStep(1);
+    syncMethod();
+    openOverlay('checkout');
+    form.elements.name.focus({preventScroll:true});
+  } else if (act === 'back-cart') { renderCart(); openOverlay('cart'); }
+  else if (act === 'to-review') toReview();
+  else if (act === 'back-step1') { showStep(1); $('#step1-h').focus({preventScroll:true}); }
+  else if (act === 'done') closeOverlay();
+});
+
+$('#sort').addEventListener('change', e => { state.sort = e.target.value; renderGrid(); });
+
+// Appends a record to a localStorage list, ignoring storage errors
+function saveLocal(key, record) {
+  try {
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    list.push(record);
+    localStorage.setItem(key, JSON.stringify(list));
+  } catch (err) {}
+}
+
+// Newsletter validates, stores the address and confirms inline
+$('#news-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const input = $('#news-email'), msg = $('#news-msg'), val = input.value.trim();
+  if (!EMAIL_RE.test(val)) {
+    msg.textContent = 'Please enter a valid email address, like you@example.com.';
+    msg.className = 'letter-msg bad';
+    input.setAttribute('aria-invalid', 'true');
+    input.focus();
+    return;
+  }
+  input.removeAttribute('aria-invalid');
+  msg.className = 'letter-msg';
+  saveLocal('aster-letter', {email:val, at:new Date().toISOString()});
+  msg.textContent = `Thank you. The next letter goes to ${val} on the first Sunday of the month.`;
+  input.value = '';
+});
+
+renderChips();
+renderGrid();
+renderCart();
+</script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16181D">
+<meta name="description" content="Partner Retainer Program: a monthly bank of design, development and QA hours that partner agencies resell under their own brand, with a live hours bank, request queue, SLA table, QA checklists and a printable monthly report.">
+<title>Partner Retainer Program</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='10' height='10' rx='2' fill='%233451B2'/%3E%3Crect x='18' y='4' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='4' y='18' width='10' height='10' rx='2' fill='%233451B2' opacity='.45'/%3E%3Crect x='18' y='18' width='10' height='10' rx='2' fill='%233451B2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+
+/* Design tokens */
+:root {
+  --bar-h: 32px;
+  --bg: #F3F3F1;
+  --surface: #FFFFFF;
+  --sunken: #EAEAE6;
+  --line: #DDDDD8;
+  --line-strong: #9A9A93;
+  --ink: #16181D;
+  --ink-2: #4A4D55;
+  --ink-3: #6B6E76;
+  --accent: #3451B2;
+  --accent-hover: #28408F;
+  --accent-soft: #E4E9F9;
+  --accent-ink: #27408F;
+  --green: #1F6B45;
+  --green-soft: #DFF0E6;
+  --amber: #8A5A0A;
+  --amber-soft: #FBEFD2;
+  --red: #A3301F;
+  --red-soft: #F9E3DF;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(22,24,29,.06), 0 4px 14px rgba(22,24,29,.06);
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--bar-h) + 12px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 14px/1.5 var(--sans); }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-ink); }
+img, svg { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* Zero Lag bar (required first element in body) */
+.zl-bar { position: sticky; top: 0; z-index: 100; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; background: var(--ink); color: #C9CBD1; font-size: 13px; line-height: 1; }
+.zl-bar a { color: #E6E7EA; text-decoration: none; font-weight: 500; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar a:focus-visible { outline-color: #fff; outline-offset: -2px; }
+.zl-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* Skip link */
+.skip { position: absolute; left: 8px; top: calc(var(--bar-h) + 8px); z-index: 90; background: var(--surface); padding: 8px 12px; border-radius: var(--radius); transform: translateY(-300%); }
+.skip:focus { transform: none; }
+
+/* Workspace header: programme name on the left, page nav on the right */
+.ws-head { background: var(--surface); border-bottom: 1px solid var(--line); }
+.ws-head .wrap { display: flex; align-items: center; gap: 16px; min-height: 56px; }
+.ws-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.ws-brand b { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.ws-brand span { font-size: 12.5px; color: var(--ink-3); display: block; line-height: 1.2; }
+.ws-nav { margin-left: auto; display: flex; gap: 2px; }
+.ws-nav a { padding: 7px 10px; border-radius: var(--radius); color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 13.5px; white-space: nowrap; }
+.ws-nav a:hover { background: var(--sunken); color: var(--ink); }
+.ws-nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
+@media (max-width: 640px) { .wrap { width: calc(100% - 24px); } .ws-nav a { padding: 6px 8px; font-size: 13px; } .ws-brand b { white-space: nowrap; } }
+@media (max-width: 560px) { .ws-head .wrap { flex-wrap: wrap; padding: 10px 0; gap: 6px 16px; min-height: 0; } .ws-nav { margin-left: 0; width: 100%; } }
+
+/* Page intro */
+.intro { padding: 28px 0 18px; }
+.intro .eyebrow { font: 500 12px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--accent-ink); }
+.intro h1 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; }
+.intro p.lede { max-width: 62ch; color: var(--ink-2); font-size: 15px; margin-top: 8px; }
+
+/* Section rhythm */
+.section { padding: 22px 0; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 12px; }
+.section-head h2 { font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.section-head p { color: var(--ink-3); font-size: 13.5px; }
+.section-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Panels and cards */
+.pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.pane-head h3 { font-size: 14px; font-weight: 600; }
+.pane-head .tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.pane-body { padding: 14px; }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
+.span-3 { grid-column: span 3; } .span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; } .span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; } .span-8 { grid-column: span 8; } .span-9 { grid-column: span 9; } .span-12 { grid-column: span 12; }
+@media (max-width: 960px) { .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9 { grid-column: span 12; } .span-3, .span-4, .span-6 { grid-column: span 6; } }
+@media (max-width: 600px) { .span-3, .span-4, .span-6 { grid-column: span 12; } }
+
+/* Stat tiles */
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
+.tile .t-label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+.tile .t-val { font-size: 26px; font-weight: 600; line-height: 1.15; margin-top: 2px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.tile .t-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+
+/* Buttons and controls */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 500; white-space: nowrap; color: var(--ink); }
+.btn:hover { background: var(--sunken); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--ink-2); }
+.btn.ghost:hover { background: var(--sunken); color: var(--ink); }
+.btn.small { min-height: 28px; padding: 3px 9px; font-size: 13px; }
+.btn.icon { padding: 0; width: 34px; }
+.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 4px 10px; font-size: 13px; font-weight: 500; color: var(--ink-2); min-height: 28px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+input[type=text], input[type=search], input[type=date], input[type=number], input[type=email], select, textarea { width: 100%; min-height: 34px; padding: 6px 9px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+input[type=color] { width: 44px; height: 34px; padding: 2px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #fff; }
+input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+textarea { resize: vertical; min-height: 72px; display: block; }
+[aria-invalid="true"] { border-color: var(--red) !important; box-shadow: inset 0 0 0 1px var(--red); }
+.err { color: var(--red); font-size: 12.5px; font-weight: 500; }
+.err[hidden] { display: none; }
+.hint { color: var(--ink-3); font-size: 12.5px; }
+
+/* Tags and status chips */
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; line-height: 1.6; background: var(--sunken); color: var(--ink-2); white-space: nowrap; }
+.chip.blue { background: var(--accent-soft); color: var(--accent-ink); }
+.chip.green { background: var(--green-soft); color: var(--green); }
+.chip.amber { background: var(--amber-soft); color: var(--amber); }
+.chip.red { background: var(--red-soft); color: var(--red); }
+
+/* Tables */
+.scroll-x { overflow-x: auto; position: relative; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); background: #F7F7F5; white-space: nowrap; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+
+/* Progress bar */
+.bar { height: 8px; background: var(--sunken); border-radius: 999px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
+
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 0); background: var(--ink); color: #fff; padding: 9px 14px; border-radius: var(--radius); font-size: 13.5px; z-index: 200; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+.toast[hidden] { display: none; }
+
+/* Footer */
+.ws-foot { border-top: 1px solid var(--line); padding: 20px 0 32px; color: var(--ink-3); font-size: 13px; }
+.ws-foot .wrap { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.ws-foot a { color: var(--ink-2); }
+
+/* Print: hide chrome */
+@media print { .zl-bar, .ws-head, .skip, .toast { display: none !important; } body { background: #fff; } }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Page layout */
+main { padding-bottom: 32px; }
+.intro .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: start; }
+.intro .month { margin-top: 26px; }
+.intro .month { font: 500 13px var(--mono); color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; white-space: nowrap; }
+@media (max-width: 700px) { .intro .wrap { grid-template-columns: minmax(0, 1fr); } .intro .month { justify-self: start; } }
+@media (max-width: 400px) { .intro .month { white-space: normal; max-width: 100%; } }
+
+/* Plan selector */
+.plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.plan { position: relative; display: block; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 12px 14px; cursor: pointer; min-width: 0; }
+.plan:hover { border-color: var(--line-strong); }
+.plan input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.plan:has(input:checked) { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-soft); }
+.plan:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.plan b { display: block; font-size: 20px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
+.plan .price { display: block; font: 500 13px var(--mono); color: var(--ink-2); margin-top: 2px; }
+.plan .rate { display: block; font-size: 12.5px; color: var(--ink-3); margin-top: 4px; }
+@media (max-width: 600px) { .plans { grid-template-columns: minmax(0, 1fr); } .plan { display: grid; grid-template-columns: auto 1fr; gap: 0 12px; align-items: baseline; } .plan .rate { grid-column: 1 / -1; } }
+
+/* Hours bank */
+.bank { margin-top: 14px; }
+.bank-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 8px; }
+.bank-top h3 { font-size: 14px; font-weight: 600; }
+.bank-top .sum { font: 500 13px var(--mono); color: var(--ink-2); }
+.bank-bar { display: flex; height: 22px; background: var(--sunken); border-radius: 5px; overflow: hidden; }
+.bank-bar i { display: block; height: 100%; flex: 0 0 auto; transition: width .35s ease; min-width: 0; }
+.bank-bar i + i { box-shadow: inset 1px 0 0 rgba(255,255,255,.7); }
+.c-design { background: #3451B2; }
+.c-dev { background: #2A8C7A; }
+.c-qa { background: #C78A1D; }
+.c-over { background: var(--red); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font-size: 13px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 6px; }
+.legend i:not([class]) { background: var(--sunken); border: 1px solid var(--line); }
+.legend .num { color: var(--ink); }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.tile .t-val.bad { color: var(--red); }
+@media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rule { margin-top: 14px; display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--sunken); border-radius: var(--radius); font-size: 13px; color: var(--ink-2); }
+.rule svg { flex: none; width: 16px; height: 16px; margin-top: 2px; fill: none; stroke: var(--ink-2); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.rule b { color: var(--ink); font-weight: 600; }
+
+/* Work log */
+.worklog td.title { min-width: 200px; }
+.worklog td.title b { display: block; font-weight: 500; }
+.worklog td.num { white-space: nowrap; }
+.worklog td.title span { color: var(--ink-3); font-size: 12.5px; }
+.worklog tfoot td { font-weight: 600; background: #F7F7F5; border-top: 1px solid var(--line); }
+.worklog .del { border: 0; background: none; color: var(--ink-3); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+.worklog .del:hover { background: var(--red-soft); color: var(--red); }
+th button.sort { border: 0; background: none; padding: 0; font: inherit; color: inherit; display: inline-flex; align-items: center; gap: 4px; }
+th button.sort svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+th button.sort[aria-sort="none"] svg { opacity: .35; }
+th button.sort[aria-sort="ascending"] svg { transform: rotate(180deg); }
+.who { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.who i { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; font: 600 10.5px var(--mono); color: #fff; background: var(--ink-2); font-style: normal; }
+.who i.h { background: #3451B2; } .who i.a { background: #2A8C7A; } .who i.e { background: #8A5A0A; } .who i.z { background: #7A3E9D; }
+.form { display: grid; gap: 12px; }
+.form .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.form .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.form .actions .hint { margin-left: auto; }
+@media (max-width: 400px) { .form .row { grid-template-columns: minmax(0, 1fr); } }
+.empty { padding: 20px 14px; color: var(--ink-3); text-align: center; font-size: 13.5px; }
+
+/* Request queue */
+.queue { display: grid; gap: 10px; padding: 12px; }
+.req { border: 1px solid var(--line); border-radius: var(--radius); padding: 11px 12px; display: grid; gap: 8px; background: var(--surface); }
+.req.done { background: #FAFAF8; }
+.req.done .req-title { color: var(--ink-3); }
+.req-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.req-title { font-weight: 600; font-size: 14px; margin-right: auto; min-width: 0; }
+.req p.brief { color: var(--ink-2); font-size: 13px; }
+.req dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 6px 14px; font-size: 12.5px; }
+.req dt { color: var(--ink-3); }
+.req dd { font-weight: 500; font-variant-numeric: tabular-nums; }
+.req dd.late { color: var(--red); }
+.req dd.met { color: var(--green); }
+.req-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.req-actions .hint { margin-left: auto; }
+.logprompt { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; background: var(--accent-soft); border-radius: var(--radius); font-size: 13px; color: var(--accent-ink); }
+.logprompt b { font-weight: 600; }
+.logprompt .btn { margin-left: auto; }
+.queue-filter { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* SLA table */
+.sla th:first-child, .sla td:first-child { font-weight: 600; }
+.sla .sub { display: block; color: var(--ink-3); font-size: 12px; font-weight: 400; }
+.sla-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+.sla-notes h3 { font-size: 13.5px; font-weight: 600; margin-bottom: 6px; }
+.sla-notes ul { display: grid; gap: 4px; font-size: 13.5px; color: var(--ink-2); }
+.sla-notes li { padding-left: 18px; position: relative; }
+.sla-notes li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+.sla-notes .out li::before { background: var(--line-strong); }
+@media (max-width: 640px) { .sla-notes { grid-template-columns: minmax(0, 1fr); } }
+
+/* QA checklist runner */
+.qa-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.qa-progress { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.ring { width: 44px; height: 44px; flex: none; }
+.ring circle { fill: none; stroke-width: 4; }
+.ring .track { stroke: var(--sunken); }
+.ring .fill { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset .35s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
+.ring.pass .fill { stroke: var(--green); }
+.qa-progress .pct { font: 600 15px var(--mono); line-height: 1.1; }
+.qa-progress .pct small { display: block; font: 400 12px var(--sans); color: var(--ink-3); }
+.qa-list { display: grid; gap: 2px; margin-top: 12px; }
+.qa-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 9px 10px; border-radius: var(--radius); }
+.qa-item:hover { background: var(--sunken); }
+.qa-item input { margin: 3px 0 0; }
+.qa-item label { cursor: pointer; }
+.qa-item label b { font-weight: 500; display: block; }
+.qa-item label span { color: var(--ink-3); font-size: 12.5px; display: block; }
+.qa-item.ticked label b { text-decoration: line-through; color: var(--ink-3); }
+.qa-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.qa-foot .status { margin-left: auto; font-size: 13px; }
+
+/* Monthly report */
+.report-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 12px; }
+.report-tools .field { min-width: 220px; flex: 1 1 220px; max-width: 360px; }
+.report { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 32px; max-width: 820px; box-shadow: var(--shadow); }
+.report header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 20px; align-items: flex-start; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
+.report header h2 { font-size: 22px; font-weight: 600; letter-spacing: -.02em; line-height: 1.2; }
+.report header .meta { font: 500 12.5px var(--mono); color: var(--ink-2); text-align: right; line-height: 1.6; }
+.report h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin: 22px 0 8px; }
+.report .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.report .kpis div { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; }
+.report .kpis small { display: block; color: var(--ink-3); font-size: 12px; }
+.report .kpis b { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.report table { font-size: 13px; }
+.report th, .report td { padding: 6px 8px; }
+.report ul { display: grid; gap: 4px; font-size: 13.5px; }
+.report li { display: flex; gap: 10px; justify-content: space-between; border-bottom: 1px dotted var(--line); padding-bottom: 4px; }
+.report li span.num { color: var(--ink-2); white-space: nowrap; }
+.report .note { margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-3); }
+@media (max-width: 640px) { .report { padding: 18px 16px; } .report .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .report header .meta { text-align: left; } }
+
+/* Print only the report */
+@media print {
+  @page { margin: 16mm; }
+  body * { visibility: hidden; }
+  #report, #report * { visibility: visible; }
+  #report { position: absolute; left: 0; top: 0; width: 100%; max-width: none; border: 0; box-shadow: none; padding: 0; }
+  .report .kpis div, .report table, .report li { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Partner Retainer Program</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="ws-head"><div class="wrap"><a class="ws-brand" href="index.html"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="10" height="10" rx="2" fill="#3451B2"/><rect x="18" y="4" width="10" height="10" rx="2" fill="#3451B2" opacity=".45"/><rect x="4" y="18" width="10" height="10" rx="2" fill="#3451B2" opacity=".45"/><rect x="18" y="18" width="10" height="10" rx="2" fill="#3451B2"/></svg><div><b>Partner Workspace</b><span>Zero Lag white-label programme</span></div></a><nav class="ws-nav" aria-label="Programme"><a href="../partner-design-sprint/index.html">Design Sprint</a><a href="../agency-dev-outsourcing/index.html">Dev Outsourcing</a><a href="../partner-retainer/index.html" aria-current="page">Retainer</a></nav></div></header>
+
+<main id="main" tabindex="-1">
+  <section class="intro">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">White-label retainer</p>
+        <h1>Partner Retainer Program</h1>
+        <p class="lede">Your agency buys a monthly bank of design, development and QA hours. You brief the work, we deliver it, and everything ships under your brand. This workspace is where the hours, requests, service levels and the monthly report live.</p>
+      </div>
+      <div class="month" id="period-label">Billing period</div>
+    </div>
+  </section>
+
+  <!-- Retainer dashboard -->
+  <section class="section" aria-labelledby="h-bank">
+    <div class="wrap">
+      <div class="section-head"><h2 id="h-bank">Hours bank</h2><p>Pick the tier, then watch the bank move as work is logged.</p></div>
+      <div class="pane">
+        <div class="pane-body">
+          <fieldset class="plans" id="plans">
+            <legend class="vh">Retainer tier</legend>
+            <label class="plan"><input type="radio" name="plan" value="40"><b>40 h <small>/ month</small></b><span class="price">£3,200 / month</span><span class="rate">£80 per hour · overage billed at the same rate</span></label>
+            <label class="plan"><input type="radio" name="plan" value="80" checked><b>80 h <small>/ month</small></b><span class="price">£6,000 / month</span><span class="rate">£75 per hour · dedicated lead on the account</span></label>
+            <label class="plan"><input type="radio" name="plan" value="120"><b>120 h <small>/ month</small></b><span class="price">£8,400 / month</span><span class="rate">£70 per hour · two parallel work streams</span></label>
+          </fieldset>
+          <div class="bank">
+            <div class="bank-top"><h3>Usage this period</h3><span class="sum num" id="bank-sum"></span></div>
+            <div class="bank-bar" id="bank-bar" role="img" aria-label="Hours used by discipline"></div>
+            <div class="legend" id="bank-legend" aria-live="polite"></div>
+          </div>
+          <div class="tiles" id="tiles" aria-live="polite">
+            <div class="tile"><div class="t-label">Hours used</div><div class="t-val num" id="t-used">0</div><div class="t-sub" id="t-used-sub"></div></div>
+            <div class="tile"><div class="t-label">Hours remaining</div><div class="t-val num" id="t-left">0</div><div class="t-sub" id="t-left-sub"></div></div>
+            <div class="tile"><div class="t-label">Days left in period</div><div class="t-val num" id="t-days">0</div><div class="t-sub" id="t-days-sub"></div></div>
+            <div class="tile"><div class="t-label">Open requests</div><div class="t-val num" id="t-open">0</div><div class="t-sub" id="t-open-sub"></div></div>
+          </div>
+          <p class="rule"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><b>Programme rule:</b> up to 10% of unused hours roll over into the next period, once. Hours beyond the bank are billed at the tier's hourly rate at month end. Periods run from the 15th of each month; tier changes apply from the next one.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work log -->
+  <section class="section" aria-labelledby="h-work">
+    <div class="wrap">
+      <div class="section-head"><h2 id="h-work">Work log</h2><p>Every item we deliver is logged against the bank, with who did it and how long it took.</p></div>
+      <div class="grid">
+        <div class="pane span-8 worklog">
+          <div class="pane-head"><h3>Logged this period</h3><div class="tools"><span class="hint" id="work-count"></span></div></div>
+          <div class="scroll-x">
+            <table>
+              <thead><tr>
+                <th><button class="sort" type="button" data-sort="date" aria-sort="descending">Date <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></th>
+                <th>Work</th>
+                <th>Discipline</th>
+                <th>By</th>
+                <th class="r"><button class="sort" type="button" data-sort="hours" aria-sort="none">Hours <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></th>
+                <th><span class="vh">Remove</span></th>
+              </tr></thead>
+              <tbody id="work-rows"></tbody>
+              <tfoot><tr><td colspan="4">Total</td><td class="r num" id="work-total">0</td><td></td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="pane span-4">
+          <div class="pane-head"><h3>Log work</h3></div>
+          <form class="pane-body form" id="work-form" novalidate>
+            <div class="field"><label for="w-title">What was done</label><input type="text" id="w-title" maxlength="90" autocomplete="off"><p class="err" id="w-title-err" hidden>Give the work a short title.</p></div>
+            <div class="row">
+              <div class="field"><label for="w-disc">Discipline</label><select id="w-disc"><option value="design">Design</option><option value="dev">Development</option><option value="qa">QA</option></select></div>
+              <div class="field"><label for="w-who">By</label><select id="w-who"><option>Hammad</option><option>Ali</option><option>Ebad</option><option>Zunair</option></select></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="w-hours">Hours</label><input type="number" id="w-hours" min="0.5" max="40" step="0.5" value="2"><p class="err" id="w-hours-err" hidden>Between 0.5 and 40, in half hours.</p></div>
+              <div class="field"><label for="w-date">Date</label><input type="date" id="w-date"><p class="err" id="w-date-err" hidden>Pick a date inside this period.</p></div>
+            </div>
+            <div class="actions"><button class="btn primary" type="submit">Log hours</button><span class="hint">Deducts from the bank straight away</span></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Requests -->
+  <section class="section" aria-labelledby="h-req">
+    <div class="wrap">
+      <div class="section-head"><h2 id="h-req">Requests</h2><p>Brief new work here. The service-level target is worked out from priority and type.</p></div>
+      <div class="grid">
+        <div class="pane span-5">
+          <div class="pane-head"><h3>New request</h3></div>
+          <form class="pane-body form" id="req-form" novalidate>
+            <div class="field"><label for="r-title">Title</label><input type="text" id="r-title" maxlength="90" autocomplete="off" aria-describedby="r-title-err"><p class="err" id="r-title-err" hidden>Add a title of at least 4 characters.</p></div>
+            <div class="row">
+              <div class="field"><label for="r-type">Type</label><select id="r-type"><option value="design">Design</option><option value="dev">Development</option><option value="qa">QA</option></select></div>
+              <div class="field"><label for="r-prio">Priority</label><select id="r-prio"><option value="low">Low</option><option value="normal" selected>Normal</option><option value="urgent">Urgent</option></select></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="r-due">Needed by</label><input type="date" id="r-due" aria-describedby="r-due-err"><p class="err" id="r-due-err" hidden>Pick a date from today onwards.</p></div>
+              <div class="field"><label for="r-est">Estimated hours</label><input type="number" id="r-est" min="0.5" max="80" step="0.5" value="4" aria-describedby="r-est-err"><p class="err" id="r-est-err" hidden>Between 0.5 and 80 hours.</p></div>
+            </div>
+            <div class="field"><label for="r-brief">Brief</label><textarea id="r-brief" maxlength="600"></textarea></div>
+            <div class="actions"><button class="btn primary" type="submit">Add to queue</button><span class="hint" id="r-sla-preview"></span></div>
+          </form>
+        </div>
+        <div class="pane span-7">
+          <div class="pane-head"><h3>Request queue</h3><div class="tools"><div class="seg queue-filter" id="queue-filter" role="group" aria-label="Filter requests"><button type="button" data-filter="open" aria-pressed="true">Open</button><button type="button" data-filter="done" aria-pressed="false">Done</button><button type="button" data-filter="all" aria-pressed="false">All</button></div></div></div>
+          <div class="queue" id="queue" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLA -->
+  <section class="section" aria-labelledby="h-sla">
+    <div class="wrap">
+      <div class="section-head"><h2 id="h-sla">Service levels</h2><p>Targets are in business days (Mon–Fri, excluding UK bank holidays) from the moment a request is briefed.</p></div>
+      <div class="pane">
+        <div class="scroll-x">
+          <table class="sla">
+            <thead><tr><th>Priority</th><th>First response</th><th>Work starts</th><th>Delivery · Design</th><th>Delivery · Development</th><th>Delivery · QA</th></tr></thead>
+            <tbody>
+              <tr><td>Urgent <span class="sub">Broken production, launch blockers</span></td><td>2 business hours</td><td>Same business day</td><td>2 business days</td><td>2 business days</td><td>1 business day</td></tr>
+              <tr><td>Normal <span class="sub">Planned features and pages</span></td><td>1 business day</td><td>3 business days</td><td>7 business days</td><td>10 business days</td><td>3 business days</td></tr>
+              <tr><td>Low <span class="sub">Nice-to-haves, backlog</span></td><td>2 business days</td><td>5 business days</td><td>15 business days</td><td>15 business days</td><td>5 business days</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pane-body sla-notes">
+          <div><h3>Included in the bank</h3><ul><li>UI and brand-aligned design in Figma, handed over as your files</li><li>Front-end and CMS development on your repositories and hosting</li><li>QA passes with written reports and reproduction steps</li><li>Weekly written status update and a monthly report</li><li>One shared channel and a named lead</li></ul></div>
+          <div class="out"><h3>Not included</h3><ul><li>Hosting, domains, licences and third-party subscriptions</li><li>Native mobile app development</li><li>On-site meetings and travel</li><li>Work outside UK business hours, unless agreed per request</li><li>Content writing and photography</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QA checklist -->
+  <section class="section" aria-labelledby="h-qa">
+    <div class="wrap">
+      <div class="section-head"><h2 id="h-qa">QA checklist</h2><p>Nothing ships under your name until the checklist passes. Pick the one that fits the release.</p></div>
+      <div class="pane">
+        <div class="pane-body">
+          <div class="qa-head">
+            <div class="seg" role="group" aria-label="Checklist" id="qa-picker"><button type="button" data-list="web" aria-pressed="true">Web release</button><button type="button" data-list="landing" aria-pressed="false">Landing page</button><button type="button" data-list="email" aria-pressed="false">Email campaign</button></div>
+            <div class="qa-progress"><svg class="ring" id="qa-ring" viewBox="0 0 44 44" aria-hidden="true"><circle class="track" cx="22" cy="22" r="19"/><circle class="fill" cx="22" cy="22" r="19" stroke-dasharray="119.4" stroke-dashoffset="119.4"/></svg><div class="pct"><span id="qa-pct">0%</span><small id="qa-count">0 of 0</small></div></div>
+          </div>
+          <div class="qa-list" id="qa-list"></div>
+          <div class="qa-foot"><button class="btn primary" type="button" id="qa-pass" disabled>Mark pass</button><button class="btn ghost" type="button" id="qa-reset">Reset</button><span class="status" id="qa-status" aria-live="polite"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Monthly report -->
+  <section class="section" aria-labelledby="h-report">
+    <div class="wrap">
+      <div class="section-head"><h2 id="h-report">Monthly report</h2><p>Built from the log and the queue above. Print it or save it as a PDF for your records.</p></div>
+      <div class="report-tools">
+        <div class="field"><label for="agency">Agency name on the report</label><input type="text" id="agency" maxlength="60" autocomplete="organization" aria-describedby="agency-hint"><p class="hint" id="agency-hint">Leave blank to show “Your agency”.</p></div>
+        <button class="btn primary" type="button" id="print"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2M6 14h12v7H6z"/></svg>Print report</button>
+        <button class="btn ghost" type="button" id="reset-all">Reset workspace</button>
+      </div>
+      <article class="report" id="report" aria-live="polite"></article>
+    </div>
+  </section>
+</main>
+
+<footer class="ws-foot"><div class="wrap"><span>Partner Workspace · Zero Lag white-label programme</span><a href="../partner-design-sprint/index.html">Design Sprint</a><a href="../agency-dev-outsourcing/index.html">Dev Outsourcing</a><a href="../../contact.html">Talk to us about a retainer</a></div></footer>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'zl-retainer';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+
+  // Dates: the billing period runs from the 15th of one month to the 14th of the next
+  var now = new Date();
+  var ANCHOR = 15;
+  var periodStart = new Date(now.getFullYear(), now.getMonth() - (now.getDate() < ANCHOR ? 1 : 0), ANCHOR);
+  var nextStart = new Date(periodStart.getFullYear(), periodStart.getMonth() + 1, ANCHOR);
+  var periodEnd = new Date(nextStart.getFullYear(), nextStart.getMonth(), nextStart.getDate() - 1);
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var ymd = function (d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+  var parse = function (s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); };
+  var shift = function (d, days) { var c = new Date(d); c.setDate(c.getDate() + days); return c; };
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var fmt = function (s) { var d = parse(s); return d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3); };
+  var fmtLong = function (s) { var d = parse(s); return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear(); };
+  var periodName = periodStart.getDate() + ' ' + MONTHS[periodStart.getMonth()].slice(0, 3) + ' – ' + periodEnd.getDate() + ' ' + MONTHS[periodEnd.getMonth()].slice(0, 3) + ' ' + periodEnd.getFullYear();
+  var today = ymd(now);
+
+  // Business-day arithmetic for service-level targets
+  function addBusinessDays(d, n) {
+    var c = new Date(d);
+    while (n > 0) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) n--; }
+    return c;
+  }
+  // Seed dates sit inside the period, counted back from today
+  function daysAgo(n) { var d = shift(now, -n); if (d < periodStart) d = periodStart; return ymd(d); }
+
+  var PLANS = { 40: { price: 3200, rate: 80 }, 80: { price: 6000, rate: 75 }, 120: { price: 8400, rate: 70 } };
+  var DISC = { design: 'Design', dev: 'Development', qa: 'QA' };
+  var PRIO = { urgent: 'Urgent', normal: 'Normal', low: 'Low' };
+  var SLA = {
+    urgent: { response: '2 business hours', start: 0, deliver: { design: 2, dev: 2, qa: 1 } },
+    normal: { response: '1 business day', start: 3, deliver: { design: 7, dev: 10, qa: 3 } },
+    low: { response: '2 business days', start: 5, deliver: { design: 15, dev: 15, qa: 5 } }
+  };
+  var CHECKLISTS = {
+    web: { name: 'Web release', items: [
+      ['Cross-browser pass', 'Latest Chrome, Safari, Firefox and Edge on desktop; Safari and Chrome on mobile', true],
+      ['Lighthouse accessibility score 90 or above', 'Run on the home page and the two most-visited templates', true],
+      ['Lighthouse performance score 80 or above', 'Mobile profile, throttled'],
+      ['Forms validate and submit', 'Every form reaches its destination and shows a confirmation', true],
+      ['404 page in place', 'Branded, with a link back to the home page', true],
+      ['Analytics events fire', 'Page views plus every tracked click and form event'],
+      ['Titles, descriptions and social preview tags', 'Checked on each template with a share-preview tool'],
+      ['Redirects from retired URLs', 'Old paths return 301 to the right page'],
+      ['Favicon and app icons', 'All sizes, including dark tabs'],
+      ['Console clear of errors', 'No uncaught errors or failed requests on any template', true]
+    ]},
+    landing: { name: 'Landing page', items: [
+      ['Copy proofread against the approved document', 'Headings, body, legal line and button labels', true],
+      ['Layout holds at 320px', 'No horizontal scroll, hero text readable', true],
+      ['Primary call to action tracked', 'Click event with campaign parameters'],
+      ['Form posts to the CRM', 'Test lead appears with the right source tag', true],
+      ['Thank-you state works', 'Confirmation page or inline message after submit'],
+      ['Page weight under 1.5 MB', 'Images compressed and lazy-loaded'],
+      ['Text contrast passes', 'AA on every text colour over its background', true],
+      ['Social preview image set', '1200 by 630, checked in a share-preview tool']
+    ]},
+    email: { name: 'Email campaign', items: [
+      ['Renders in Gmail, Outlook and Apple Mail', 'Desktop and mobile clients from the test matrix', true],
+      ['Alt text on every image', 'Meaningful text, no filenames'],
+      ['Plain-text version included', 'Reads well on its own'],
+      ['Links tracked and pointing to the right pages', 'Every link opened from the test send', true],
+      ['Unsubscribe link present and working', 'Required by law, tested end to end', true],
+      ['Preheader text set', 'No "view in browser" showing as the preview'],
+      ['Dark-mode check', 'Logos and buttons legible when colours invert'],
+      ['Test send approved', 'Sign-off from the account lead before scheduling', true]
+    ]}
+  };
+
+  // Default workspace content for a fresh visit
+  function seed() {
+    return {
+      plan: 80,
+      agency: '',
+      filter: 'open',
+      sort: { key: 'date', dir: 'desc' },
+      qa: { list: 'web', ticked: { web: [0, 1, 3], landing: [], email: [] }, passed: {} },
+      work: [
+        { id: 1, date: daysAgo(1), title: 'Blog CMS migration: content model and templates', disc: 'dev', who: 'Hammad', hours: 7 },
+        { id: 2, date: daysAgo(1), title: 'Mobile navigation QA on iOS Safari', disc: 'qa', who: 'Ebad', hours: 2 },
+        { id: 3, date: daysAgo(2), title: 'Accessibility fixes: contrast and focus states', disc: 'dev', who: 'Ali', hours: 5 },
+        { id: 4, date: daysAgo(3), title: 'Newsletter email template, two layouts', disc: 'design', who: 'Zunair', hours: 4 },
+        { id: 5, date: daysAgo(5), title: 'Release QA pass, version 2.14', disc: 'qa', who: 'Ebad', hours: 3 },
+        { id: 6, date: daysAgo(6), title: 'Checkout form validation and error messages', disc: 'dev', who: 'Ali', hours: 4.5 },
+        { id: 7, date: daysAgo(8), title: 'Pricing page build with plan toggle', disc: 'dev', who: 'Hammad', hours: 9 },
+        { id: 8, date: daysAgo(10), title: 'Homepage hero redesign, two directions', disc: 'design', who: 'Zunair', hours: 6 }
+      ],
+      requests: [
+        { id: 1, title: 'Fix cart total rounding when a discount code is applied', type: 'dev', prio: 'urgent', created: daysAgo(1), due: ymd(shift(now, 2)), est: 3, brief: 'Totals show one penny off on orders with the SPRING10 code. Reproduce with any basket over £50.', status: 'progress' },
+        { id: 2, title: 'Landing page for the spring campaign', type: 'design', prio: 'normal', created: daysAgo(2), due: ymd(shift(now, 12)), est: 8, brief: 'Hero, three benefit blocks, lead form. Copy deck is in the shared folder; brand kit v3 applies.', status: 'queued' },
+        { id: 3, title: 'Regression test on the new checkout flow', type: 'qa', prio: 'normal', created: daysAgo(1), due: ymd(shift(now, 7)), est: 4, brief: 'Full pass across the test matrix once the cart fix lands. Report in the usual format.', status: 'queued' },
+        { id: 4, title: 'Broken footer links after the domain move', type: 'dev', prio: 'urgent', created: daysAgo(6), due: daysAgo(4), est: 1.5, brief: 'Four footer links still point at the old domain.', status: 'done', doneAt: daysAgo(5), logged: true }
+      ]
+    };
+  }
+
+  var state;
+  function load() {
+    try { var raw = localStorage.getItem(KEY); state = raw ? JSON.parse(raw) : seed(); } catch (e) { state = seed(); }
+    if (!state || !state.work || !state.requests || !state.qa) state = seed();
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  var nextId = function (list) { return list.reduce(function (m, x) { return Math.max(m, x.id); }, 0) + 1; };
+  var h = function (n) { return (Math.round(n * 10) / 10).toString(); };
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var inPeriod = function (s) { var d = parse(s); return d >= periodStart && d <= periodEnd; };
+
+  // Toast message
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, 2600);
+  }
+
+  // Totals used by the bank, tiles and report
+  function totals() {
+    var by = { design: 0, dev: 0, qa: 0 };
+    state.work.forEach(function (w) { if (inPeriod(w.date)) by[w.disc] += w.hours; });
+    var used = by.design + by.dev + by.qa;
+    var plan = +state.plan;
+    return { by: by, used: used, plan: plan, left: Math.max(0, plan - used), over: Math.max(0, used - plan), rollover: Math.min(Math.max(0, plan - used), plan * 0.1) };
+  }
+
+  // Delivery target for a request
+  function slaTarget(r) {
+    var days = SLA[r.prio].deliver[r.type];
+    return ymd(addBusinessDays(parse(r.created), days));
+  }
+  function slaMet(r) { return r.status === 'done' && r.doneAt <= slaTarget(r); }
+
+  function renderBank() {
+    var t = totals();
+    var plan = PLANS[t.plan];
+    $('#bank-sum').textContent = h(t.used) + ' of ' + t.plan + ' h used';
+    var bar = $('#bank-bar'); bar.innerHTML = '';
+    var scale = Math.max(t.plan, t.used);
+    [['design', t.by.design], ['dev', t.by.dev], ['qa', t.by.qa]].forEach(function (p) {
+      if (p[1] <= 0) return;
+      var i = document.createElement('i'); i.className = 'c-' + p[0]; i.style.width = (p[1] / scale * 100) + '%'; bar.appendChild(i);
+    });
+    if (t.over > 0) bar.setAttribute('aria-label', h(t.used) + ' hours used, ' + h(t.over) + ' over the bank');
+    else bar.setAttribute('aria-label', h(t.used) + ' of ' + t.plan + ' hours used, ' + h(t.left) + ' remaining');
+    $('#bank-legend').innerHTML =
+      '<span><i class="c-design"></i>Design <span class="num">' + h(t.by.design) + ' h</span></span>' +
+      '<span><i class="c-dev"></i>Development <span class="num">' + h(t.by.dev) + ' h</span></span>' +
+      '<span><i class="c-qa"></i>QA <span class="num">' + h(t.by.qa) + ' h</span></span>' +
+      (t.over > 0 ? '<span><i class="c-over"></i>Over the bank <span class="num">' + h(t.over) + ' h</span></span>' : '<span><i></i>Remaining <span class="num">' + h(t.left) + ' h</span></span>');
+    $('#t-used').textContent = h(t.used);
+    $('#t-used-sub').textContent = Math.round(t.used / t.plan * 100) + '% of ' + t.plan + ' h · £' + plan.price.toLocaleString('en-GB') + ' tier';
+    var leftEl = $('#t-left');
+    leftEl.textContent = t.over > 0 ? '-' + h(t.over) : h(t.left);
+    leftEl.classList.toggle('bad', t.over > 0);
+    $('#t-left-sub').textContent = t.over > 0 ? 'Overage at £' + plan.rate + '/h: £' + (t.over * plan.rate).toLocaleString('en-GB') : 'Up to ' + h(t.rollover) + ' h would roll over';
+    var daysLeft = Math.round((periodEnd - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+    $('#t-days').textContent = daysLeft;
+    $('#t-days-sub').textContent = 'Renews ' + fmtLong(ymd(nextStart));
+    var open = state.requests.filter(function (r) { return r.status !== 'done'; });
+    var est = open.reduce(function (s, r) { return s + r.est; }, 0);
+    $('#t-open').textContent = open.length;
+    $('#t-open-sub').textContent = h(est) + ' h estimated' + (est > t.left ? ', more than remains' : '');
+  }
+
+  function renderWork() {
+    var rows = state.work.filter(function (w) { return inPeriod(w.date); });
+    var s = state.sort;
+    rows.sort(function (a, b) {
+      var v = s.key === 'hours' ? a.hours - b.hours : (a.date < b.date ? -1 : a.date > b.date ? 1 : b.id - a.id);
+      return s.dir === 'asc' ? v : -v;
+    });
+    $$('th button.sort').forEach(function (b) { b.setAttribute('aria-sort', b.dataset.sort === s.key ? (s.dir === 'asc' ? 'ascending' : 'descending') : 'none'); });
+    var body = $('#work-rows');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="6" class="empty">Nothing logged yet this period.</td></tr>'; }
+    else body.innerHTML = rows.map(function (w) {
+      return '<tr data-id="' + w.id + '"><td class="num">' + fmt(w.date) + '</td><td class="title"><b>' + esc(w.title) + '</b></td><td><span class="chip">' + DISC[w.disc] + '</span></td><td><span class="who"><i class="' + w.who[0].toLowerCase() + '">' + w.who[0] + '</i>' + w.who + '</span></td><td class="r num">' + h(w.hours) + '</td><td><button class="del" type="button" data-del="' + w.id + '" aria-label="Remove ' + esc(w.title) + '">Remove</button></td></tr>';
+    }).join('');
+    var total = rows.reduce(function (a, w) { return a + w.hours; }, 0);
+    $('#work-total').textContent = h(total) + ' h';
+    $('#work-count').textContent = rows.length + ' item' + (rows.length === 1 ? '' : 's');
+  }
+
+  var STATUS = { queued: ['Queued', 'chip'], progress: ['In progress', 'chip blue'], done: ['Done', 'chip green'] };
+  var PRIO_CHIP = { urgent: 'chip red', normal: 'chip amber', low: 'chip' };
+  function renderQueue() {
+    $$('#queue-filter button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === state.filter)); });
+    var list = state.requests.filter(function (r) { return state.filter === 'all' || (state.filter === 'done' ? r.status === 'done' : r.status !== 'done' || !r.logged); });
+    var order = { urgent: 0, normal: 1, low: 2 };
+    list.sort(function (a, b) { return (a.status === 'done') - (b.status === 'done') || order[a.prio] - order[b.prio] || (a.due < b.due ? -1 : 1); });
+    var q = $('#queue');
+    if (!list.length) { q.innerHTML = '<p class="empty">' + (state.filter === 'done' ? 'Nothing finished yet this period.' : 'The queue is clear.') + '</p>'; return; }
+    q.innerHTML = list.map(function (r) {
+      var target = slaTarget(r);
+      var st = STATUS[r.status];
+      var targetClass = r.status === 'done' ? (slaMet(r) ? 'met' : 'late') : (target < today ? 'late' : '');
+      var targetText = r.status === 'done' ? (slaMet(r) ? 'Met · delivered ' + fmt(r.doneAt) : 'Missed · delivered ' + fmt(r.doneAt)) : fmt(target) + (target < today ? ' · overdue' : '');
+      var actions = '';
+      if (r.status === 'queued') actions = '<button class="btn small" type="button" data-act="progress" data-id="' + r.id + '">Start work</button>';
+      if (r.status === 'progress') actions = '<button class="btn small primary" type="button" data-act="done" data-id="' + r.id + '">Mark done</button><button class="btn small ghost" type="button" data-act="queued" data-id="' + r.id + '">Back to queue</button>';
+      if (r.status === 'done') actions = '<button class="btn small ghost" type="button" data-act="progress" data-id="' + r.id + '">Reopen</button>';
+      actions += '<button class="btn small ghost" type="button" data-act="remove" data-id="' + r.id + '">Remove</button>';
+      var prompt = (r.status === 'done' && !r.logged) ? '<div class="logprompt"><span>Done. Log <b>' + h(r.est) + ' h</b> of ' + DISC[r.type] + ' to the work log?</span><button class="btn small primary" type="button" data-act="log" data-id="' + r.id + '">Log hours</button><button class="btn small ghost" type="button" data-act="skip" data-id="' + r.id + '">Skip</button></div>' : '';
+      return '<article class="req' + (r.status === 'done' ? ' done' : '') + '">' +
+        '<div class="req-top"><h4 class="req-title">' + esc(r.title) + '</h4><span class="' + PRIO_CHIP[r.prio] + '">' + PRIO[r.prio] + '</span><span class="chip">' + DISC[r.type] + '</span><span class="' + st[1] + '">' + st[0] + '</span></div>' +
+        (r.brief ? '<p class="brief">' + esc(r.brief) + '</p>' : '') +
+        '<dl><div><dt>Briefed</dt><dd>' + fmt(r.created) + '</dd></div><div><dt>Needed by</dt><dd>' + fmt(r.due) + '</dd></div><div><dt>Service-level target</dt><dd class="' + targetClass + '">' + targetText + '</dd></div><div><dt>Estimate</dt><dd>' + h(r.est) + ' h</dd></div></dl>' +
+        prompt +
+        '<div class="req-actions">' + actions + (r.logged ? '<span class="hint">Hours logged</span>' : '') + '</div></article>';
+    }).join('');
+  }
+
+  function renderQA() {
+    var list = CHECKLISTS[state.qa.list];
+    var ticked = state.qa.ticked[state.qa.list] || [];
+    $$('#qa-picker button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.list === state.qa.list)); });
+    $('#qa-list').innerHTML = list.items.map(function (it, i) {
+      var on = ticked.indexOf(i) > -1;
+      return '<div class="qa-item' + (on ? ' ticked' : '') + '"><input type="checkbox" id="qa-' + i + '" data-i="' + i + '"' + (on ? ' checked' : '') + '><label for="qa-' + i + '"><b>' + it[0] + '</b><span>' + it[1] + '</span></label>' + (it[2] ? '<span class="chip">Required</span>' : '<span class="chip" style="visibility:hidden">Optional</span>') + '</div>';
+    }).join('');
+    var n = list.items.length, done = ticked.length;
+    var pct = Math.round(done / n * 100);
+    $('#qa-pct').textContent = pct + '%';
+    $('#qa-count').textContent = done + ' of ' + n;
+    var ring = $('#qa-ring');
+    ring.querySelector('.fill').setAttribute('stroke-dashoffset', (119.4 * (1 - done / n)).toFixed(1));
+    var requiredLeft = list.items.filter(function (it, i) { return it[2] && ticked.indexOf(i) < 0; }).length;
+    var passed = state.qa.passed[state.qa.list];
+    ring.classList.toggle('pass', !!passed);
+    $('#qa-pass').disabled = requiredLeft > 0 || !!passed;
+    $('#qa-status').textContent = passed ? list.name + ' passed on ' + fmtLong(passed) : (requiredLeft ? requiredLeft + ' required item' + (requiredLeft > 1 ? 's' : '') + ' left before this can pass' : 'All required items ticked');
+  }
+
+  function renderReport() {
+    var t = totals();
+    var plan = PLANS[t.plan];
+    var agency = state.agency.trim() || 'Your agency';
+    var done = state.work.filter(function (w) { return inPeriod(w.date); }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var open = state.requests.filter(function (r) { return r.status !== 'done'; });
+    var finished = state.requests.filter(function (r) { return r.status === 'done'; });
+    var met = finished.filter(slaMet).length;
+    var passedLists = Object.keys(state.qa.passed).map(function (k) { return CHECKLISTS[k].name; });
+    var rows = ['design', 'dev', 'qa'].map(function (d) {
+      return '<tr><td>' + DISC[d] + '</td><td class="r num">' + h(t.by[d]) + ' h</td><td class="r num">' + (t.used ? Math.round(t.by[d] / t.used * 100) : 0) + '%</td></tr>';
+    }).join('');
+    $('#report').innerHTML =
+      '<header><div><h2>' + esc(agency) + '</h2><div>Retainer report · ' + periodName + '</div></div><div class="meta">Tier: ' + t.plan + ' h / month<br>Prepared ' + fmtLong(today) + '<br>By Zero Lag</div></header>' +
+      '<div class="kpis"><div><small>Hours used</small><b>' + h(t.used) + '</b></div><div><small>Hours remaining</small><b>' + (t.over ? '-' + h(t.over) : h(t.left)) + '</b></div><div><small>Items delivered</small><b>' + done.length + '</b></div><div><small>Within service level</small><b>' + met + ' of ' + finished.length + '</b></div></div>' +
+      '<h3>Hours by discipline</h3><table><thead><tr><th>Discipline</th><th class="r">Hours</th><th class="r">Share</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td><b>Total</b></td><td class="r num"><b>' + h(t.used) + ' h</b></td><td class="r num">' + (t.over ? h(t.over) + ' h over' : h(t.left) + ' h left') + '</td></tr></tfoot></table>' +
+      '<h3>Work delivered</h3>' + (done.length ? '<ul>' + done.map(function (w) { return '<li><span>' + fmt(w.date) + ' · ' + esc(w.title) + ' <small>(' + w.who + ')</small></span><span class="num">' + h(w.hours) + ' h</span></li>'; }).join('') + '</ul>' : '<p class="hint">No work logged this period.</p>') +
+      '<h3>Open requests carried into next period</h3>' + (open.length ? '<ul>' + open.map(function (r) { return '<li><span>' + esc(r.title) + ' · ' + PRIO[r.prio] + ' ' + DISC[r.type] + '</span><span class="num">' + h(r.est) + ' h est.</span></li>'; }).join('') + '</ul>' : '<p class="hint">The queue is clear.</p>') +
+      '<h3>Quality</h3><p>' + (passedLists.length ? 'Checklists passed this period: ' + passedLists.join(', ') + '.' : 'No release checklist has been signed off yet this period.') + ' ' + finished.length + ' request' + (finished.length === 1 ? '' : 's') + ' closed, ' + met + ' within the service-level target.</p>' +
+      '<h3>Next period</h3><p>' + (t.over ? h(t.over) + ' h over the bank will be invoiced at £' + plan.rate + ' per hour (£' + (t.over * plan.rate).toLocaleString('en-GB') + '). No hours roll over.' : h(t.rollover) + ' h roll over into the period starting ' + fmtLong(ymd(nextStart)) + ' (10% of the bank is the cap), so the next period opens with ' + h(t.plan + t.rollover) + ' h.') + '</p>' +
+      '<p class="note">Prepared by Zero Lag for ' + esc(agency) + ' under the Partner Retainer Program. Figures reflect the workspace at the time of printing.</p>';
+  }
+
+  function renderAll() { renderBank(); renderWork(); renderQueue(); renderQA(); renderReport(); save(); }
+
+  // Inline validation helper
+  function flag(input, errId, bad) {
+    input.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    $('#' + errId).hidden = !bad;
+    return !bad;
+  }
+
+  // Wire up controls
+  function init() {
+    load();
+    $('#period-label').textContent = 'Billing period: ' + periodName;
+    $$('#plans input').forEach(function (r) { r.checked = +r.value === +state.plan; });
+    $('#agency').value = state.agency;
+    var wd = $('#w-date'); wd.value = today; wd.min = ymd(periodStart); wd.max = ymd(periodEnd);
+    var rd = $('#r-due'); rd.value = ymd(shift(now, 7)); rd.min = today;
+
+    $('#plans').addEventListener('change', function (e) { if (e.target.name === 'plan') { state.plan = +e.target.value; renderAll(); toast('Tier set to ' + state.plan + ' h a month'); } });
+
+    $('#work-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var title = $('#w-title'), hours = $('#w-hours'), date = $('#w-date');
+      var hv = parseFloat(hours.value);
+      var ok = flag(title, 'w-title-err', title.value.trim().length < 3);
+      ok = flag(hours, 'w-hours-err', !(hv >= 0.5 && hv <= 40 && Math.abs(hv * 2 - Math.round(hv * 2)) < 1e-9)) && ok;
+      ok = flag(date, 'w-date-err', !date.value || !inPeriod(date.value)) && ok;
+      if (!ok) { ($('[aria-invalid="true"]', this) || title).focus(); return; }
+      state.work.push({ id: nextId(state.work), date: date.value, title: title.value.trim(), disc: $('#w-disc').value, who: $('#w-who').value, hours: hv });
+      title.value = ''; hours.value = '2';
+      renderAll(); toast(h(hv) + ' h logged. ' + h(totals().left) + ' h left in the bank.');
+      title.focus();
+    });
+
+    $('#work-rows').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-del]'); if (!b) return;
+      var id = +b.dataset.del;
+      var w = state.work.filter(function (x) { return x.id === id; })[0];
+      state.work = state.work.filter(function (x) { return x.id !== id; });
+      renderAll(); toast('Removed. ' + h(w.hours) + ' h returned to the bank.');
+    });
+    $$('th button.sort').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var key = b.dataset.sort;
+        state.sort = { key: key, dir: state.sort.key === key && state.sort.dir === 'desc' ? 'asc' : 'desc' };
+        renderWork(); save();
+      });
+    });
+
+    // Live service-level preview under the request form
+    function previewSla() {
+      var p = $('#r-prio').value, ty = $('#r-type').value;
+      var target = addBusinessDays(now, SLA[p].deliver[ty]);
+      $('#r-sla-preview').textContent = 'Target delivery ' + fmt(ymd(target)) + ' · first response ' + SLA[p].response;
+    }
+    $('#r-prio').addEventListener('change', previewSla); $('#r-type').addEventListener('change', previewSla); previewSla();
+
+    $('#req-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var title = $('#r-title'), due = $('#r-due'), est = $('#r-est');
+      var ev = parseFloat(est.value);
+      var ok = flag(title, 'r-title-err', title.value.trim().length < 4);
+      ok = flag(due, 'r-due-err', !due.value || due.value < today) && ok;
+      ok = flag(est, 'r-est-err', !(ev >= 0.5 && ev <= 80)) && ok;
+      if (!ok) { ($('[aria-invalid="true"]', this) || title).focus(); return; }
+      state.requests.push({ id: nextId(state.requests), title: title.value.trim(), type: $('#r-type').value, prio: $('#r-prio').value, created: today, due: due.value, est: ev, brief: $('#r-brief').value.trim(), status: 'queued' });
+      title.value = ''; $('#r-brief').value = ''; est.value = '4';
+      state.filter = state.filter === 'done' ? 'open' : state.filter;
+      renderAll(); toast('Request added to the queue.');
+      title.focus();
+    });
+
+    $('#queue-filter').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-filter]'); if (!b) return;
+      state.filter = b.dataset.filter; renderQueue(); save();
+    });
+
+    $('#queue').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      var id = +b.dataset.id, act = b.dataset.act;
+      var r = state.requests.filter(function (x) { return x.id === id; })[0]; if (!r) return;
+      if (act === 'remove') { state.requests = state.requests.filter(function (x) { return x.id !== id; }); toast('Request removed.'); }
+      else if (act === 'done') { r.status = 'done'; r.doneAt = today; toast(slaMet(r) ? 'Done, inside the service-level target.' : 'Done, after the service-level target.'); }
+      else if (act === 'log') {
+        state.work.push({ id: nextId(state.work), date: today, title: r.title, disc: r.type, who: r.type === 'design' ? 'Zunair' : r.type === 'qa' ? 'Ebad' : 'Hammad', hours: r.est });
+        r.logged = true; toast(h(r.est) + ' h logged to the work log.');
+      }
+      else if (act === 'skip') { r.logged = true; }
+      else { r.status = act; if (act !== 'done') { delete r.doneAt; } }
+      renderAll();
+    });
+
+    $('#qa-picker').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-list]'); if (!b) return;
+      state.qa.list = b.dataset.list; renderQA(); save();
+    });
+    $('#qa-list').addEventListener('change', function (e) {
+      var i = +e.target.dataset.i; var arr = state.qa.ticked[state.qa.list] || (state.qa.ticked[state.qa.list] = []);
+      if (e.target.checked) { if (arr.indexOf(i) < 0) arr.push(i); } else { arr.splice(arr.indexOf(i), 1); delete state.qa.passed[state.qa.list]; }
+      renderQA(); renderReport(); save();
+    });
+    $('#qa-pass').addEventListener('click', function () {
+      state.qa.passed[state.qa.list] = today; renderQA(); renderReport(); save();
+      toast(CHECKLISTS[state.qa.list].name + ' checklist signed off.');
+    });
+    $('#qa-reset').addEventListener('click', function () {
+      state.qa.ticked[state.qa.list] = []; delete state.qa.passed[state.qa.list]; renderQA(); renderReport(); save();
+    });
+
+    $('#agency').addEventListener('input', function () { state.agency = this.value; renderReport(); save(); });
+    $('#print').addEventListener('click', function () { window.print(); });
+    $('#reset-all').addEventListener('click', function () {
+      if (!confirm('Reset the workspace to its starting content?')) return;
+      state = seed(); $$('#plans input').forEach(function (r) { r.checked = +r.value === +state.plan; }); $('#agency').value = '';
+      renderAll(); toast('Workspace reset.');
+    });
+
+    renderAll();
+  }
+  init();
+})();
+</script>
+</body>
+</html>

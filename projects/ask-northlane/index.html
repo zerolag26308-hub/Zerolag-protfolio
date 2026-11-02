@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#007F5F">
+<title>Ask Northlane | In-app help assistant</title>
+<meta name="description" content="Ask Northlane answers product questions from the Northlane Analytics help docs using retrieval over indexed passages, with cited sources on every reply.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%23007F5F'/%3E%3Cpath d='M6 20 10 5M18 20 14 5M12 20v-3M12 13.5v-3M12 7.5V5' stroke='%23fff' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #13211f;
+  --ink-2: #3f514d;
+  --muted: #6b7c78;
+  --line: #d8e0de;
+  --line-strong: #b4c1be;
+  --bg: #f4f7f6;
+  --surface: #ffffff;
+  --tint: #eaf1ee;
+  --accent: #007f5f;
+  --accent-deep: #005c45;
+  --accent-soft: #e2f3ed;
+  --accent-ink: #004d3a;
+  --amber: #b45309;
+  --amber-soft: #fdf1e0;
+  --bad: #b42318;
+  --bad-soft: #fbe9e7;
+  --bar-h: 30px;
+  --radius: 6px;
+  --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; height: 100dvh; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font: 400 14.5px/1.5 var(--sans); -webkit-text-size-adjust: 100%; overflow: hidden; }
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent-deep); }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Zero Lag bar */
+.zl-bar { flex: none; position: sticky; top: 0; z-index: 90; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 14px; background: #0d1a17; color: #9fb3ad; font-size: 13px; }
+.zl-bar a { color: #cfe3dc; text-decoration: none; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* App frame */
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 264px minmax(0, 1fr) 320px; }
+.side { background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 16px 16px 12px; }
+.brand b { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; }
+.brand span { display: block; font-size: 12.5px; color: var(--muted); }
+.side-section { padding: 10px 16px 14px; border-top: 1px solid var(--line); }
+.side-section h2 { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--surface); font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+.btn:hover { background: var(--tint); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+.btn.full { width: 100%; }
+.btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.suggest { display: grid; gap: 6px; }
+.suggest button { text-align: left; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); font-size: 13px; line-height: 1.35; color: var(--ink-2); }
+.suggest button:hover { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-soft); }
+.topics { display: flex; flex-wrap: wrap; gap: 6px; }
+.topics button { padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 12.5px; color: var(--ink-2); }
+.topics button:hover { border-color: var(--accent); color: var(--accent-ink); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 10px; }
+.stat b { display: block; font-size: 18px; font-weight: 700; line-height: 1.1; }
+.stat span { font-size: 12px; color: var(--muted); }
+.side-foot { margin-top: auto; padding: 12px 16px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); flex: none; }
+
+/* Chat column */
+.chat { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.chat-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 20px; background: var(--surface); border-bottom: 1px solid var(--line); min-height: 54px; }
+.chat-head h1 { font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.chat-head .sub { color: var(--muted); font-size: 13px; }
+.chat-head .spacer { flex: 1; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--accent-ink); white-space: nowrap; }
+.ghost { display: none; }
+.thread { flex: 1; min-height: 0; overflow-y: auto; padding: 20px 20px 8px; scroll-behavior: smooth; }
+.thread-in { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+.msg { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; }
+.msg.user { grid-template-columns: minmax(0, 1fr); justify-items: end; }
+.avatar { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--accent); color: #fff; }
+.bubble { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px; max-width: 100%; }
+.msg.user .bubble { background: var(--ink); color: #fff; border-color: var(--ink); border-radius: 10px 10px 2px 10px; max-width: 78%; }
+.bubble p + p { margin-top: 8px; }
+.bubble code { font-family: var(--mono); font-size: 12.5px; background: var(--tint); padding: 1px 5px; border-radius: 4px; }
+.msg.user .bubble code { background: rgba(255,255,255,.14); }
+.bubble .also { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); color: var(--ink-2); font-size: 13.5px; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.meta .lab { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-right: 2px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px 3px 7px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--bg); font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+.chip:hover { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-soft); }
+.chip .sc { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.fb { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.fb span { font-size: 12px; color: var(--muted); margin-right: 2px; }
+.fb button { width: 28px; height: 28px; border-radius: 6px; border: 1px solid transparent; background: none; color: var(--muted); display: grid; place-items: center; }
+.fb button:hover { background: var(--tint); color: var(--ink); }
+.fb button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); border-color: var(--accent); }
+.fb button svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fb .thanks { font-size: 12px; color: var(--accent-ink); font-weight: 600; }
+.time { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+.msg.user .time { text-align: right; }
+.typing { display: inline-flex; gap: 4px; align-items: center; padding: 6px 2px; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: bounce 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; }
+.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+.composer { flex: none; padding: 10px 20px 16px; background: linear-gradient(to bottom, rgba(244,247,246,0), var(--bg) 30%); }
+.composer-in { max-width: 760px; margin: 0 auto; }
+.inputrow { position: relative; display: flex; gap: 8px; align-items: flex-end; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 10px; padding: 6px 6px 6px 12px; }
+.inputrow:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ph { position: absolute; left: 12px; top: 12px; color: var(--muted); pointer-events: none; white-space: nowrap; overflow: hidden; max-width: calc(100% - 60px); text-overflow: ellipsis; }
+.inputrow.filled .ph { display: none; }
+.inputrow textarea { flex: 1; border: 0; background: none; resize: none; min-height: 24px; max-height: 120px; padding: 6px 0; line-height: 1.4; outline: none; }
+.send { width: 36px; height: 36px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; display: grid; place-items: center; flex: none; }
+.send:hover { background: var(--accent-deep); }
+.send:disabled { background: var(--line-strong); cursor: default; }
+.send svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hint { font-size: 12px; color: var(--muted); margin-top: 6px; display: flex; justify-content: space-between; gap: 10px; }
+.hint kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--line-strong); border-radius: 3px; padding: 0 4px; background: var(--surface); }
+
+/* Retrieval inspector */
+.inspect { background: var(--surface); border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.inspect-head { padding: 14px 16px 10px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
+.inspect-head h2 { font-size: 13.5px; font-weight: 700; }
+.inspect-head .pill { margin-left: auto; }
+.inspect-body { padding: 12px 16px 16px; display: grid; gap: 14px; }
+.ib h3 { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 7px; }
+.tokens { display: flex; flex-wrap: wrap; gap: 5px; }
+.tok { font-family: var(--mono); font-size: 11.5px; padding: 2px 6px; border-radius: 4px; background: var(--tint); color: var(--ink-2); }
+.tok.exp { background: var(--amber-soft); color: var(--amber); }
+.tok.ctx { background: #eef; color: #3b3b8f; }
+.scores { display: grid; gap: 8px; }
+.score { display: grid; gap: 3px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); text-align: left; width: 100%; }
+.score:hover { border-color: var(--accent); }
+.score.top { border-color: var(--accent); background: var(--accent-soft); }
+.score .row { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; font-weight: 600; }
+.score .row .mono { color: var(--accent-ink); }
+.score .bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.score .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; transition: width .4s ease; }
+.score .hits { font-size: 11.5px; color: var(--muted); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 12.5px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; font-family: var(--mono); font-size: 12px; text-align: right; }
+.empty { font-size: 13px; color: var(--muted); padding: 8px 0; }
+.verdict { font-size: 12.5px; padding: 8px 10px; border-radius: var(--radius); background: var(--tint); color: var(--ink-2); }
+.verdict.good { background: var(--accent-soft); color: var(--accent-ink); }
+.verdict.low { background: var(--amber-soft); color: var(--amber); }
+.verdict.none { background: var(--bad-soft); color: var(--bad); }
+
+/* Source drawer */
+.drawer { position: fixed; inset: 0; z-index: 100; display: none; }
+.drawer[open] { display: block; }
+.drawer .scrim { position: absolute; inset: 0; background: rgba(13,26,23,.45); }
+.drawer .panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(480px, 100%); background: var(--surface); box-shadow: -8px 0 30px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+.drawer .ph { display: flex; align-items: flex-start; gap: 10px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.drawer .ph .crumb { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.drawer .ph h2 { font-size: 18px; font-weight: 700; letter-spacing: -.01em; margin-top: 2px; }
+.drawer .close { margin-left: auto; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--line-strong); background: var(--surface); display: grid; place-items: center; flex: none; }
+.drawer .close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
+.drawer .pb { padding: 18px; overflow-y: auto; font-size: 15px; line-height: 1.6; }
+.drawer .pb mark { background: #fff3b0; color: inherit; border-radius: 2px; padding: 0 1px; }
+.drawer .pf { margin-top: auto; padding: 12px 18px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--muted); }
+.drawer .pf a { margin-left: auto; font-weight: 600; }
+
+/* Responsive */
+.toggle-inspect { display: none; }
+@media (max-width: 1180px) {
+  .app { grid-template-columns: 240px minmax(0, 1fr); }
+  .inspect { position: fixed; top: var(--bar-h); right: 0; bottom: 0; width: min(340px, 100%); transform: translateX(100%); transition: transform .25s ease; z-index: 70; box-shadow: -8px 0 30px rgba(0,0,0,.1); }
+  .inspect.open { transform: none; }
+  .toggle-inspect { display: inline-flex; }
+}
+@media (max-width: 820px) {
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .side { border-right: 0; border-bottom: 1px solid var(--line); overflow: visible; }
+  .side .side-section.topics-sec, .side .side-section.stats-sec, .side-foot { display: none; }
+  .side .side-section { border-top: 0; padding-top: 0; }
+  .brand { padding: 12px 16px 8px; }
+  .suggest { display: flex; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+  .suggest button { flex: none; max-width: 240px; }
+  .side-section h2 { display: none; }
+  .newconv { display: none; }
+  .chat-head .sub { display: none; }
+  .thread, .composer { padding-left: 14px; padding-right: 14px; }
+  .msg.user .bubble { max-width: 90%; }
+}
+@media (max-width: 400px) { .hint .right { display: none; } .chat-head h1 { font-size: 15px; } }
+@media (prefers-reduced-motion: reduce) {
+  .typing i { animation: none; opacity: .7; }
+  .inspect { transition: none; }
+  .score .bar i { transition: none; }
+  .thread { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Ask Northlane</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<div class="app">
+  <aside class="side" aria-label="Assistant sidebar">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#007F5F"/><path d="M6 20 10 5M18 20 14 5M12 20v-3M12 13.5v-3M12 7.5V5" stroke="#fff" stroke-width="2" fill="none"/></svg>
+      <div><b>Ask Northlane</b><span>Help assistant for Northlane Analytics</span></div>
+    </div>
+    <div class="side-section">
+      <button class="btn full newconv" id="newConv" type="button"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New conversation</button>
+    </div>
+    <div class="side-section">
+      <h2>Suggested questions</h2>
+      <div class="suggest" id="suggest"></div>
+    </div>
+    <div class="side-section topics-sec">
+      <h2>Browse help topics</h2>
+      <div class="topics" id="topics"></div>
+    </div>
+    <div class="side-section stats-sec">
+      <h2>Knowledge base</h2>
+      <div class="stats">
+        <div class="stat"><b id="statDocs">0</b><span>passages indexed</span></div>
+        <div class="stat"><b id="statTerms">0</b><span>vocabulary terms</span></div>
+        <div class="stat"><b id="statUp">0</b><span>rated helpful</span></div>
+        <div class="stat"><b id="statDown">0</b><span>rated unhelpful</span></div>
+      </div>
+    </div>
+    <div class="side-foot"><span class="dot" aria-hidden="true"></span>Index built in <span class="mono" id="indexMs">0</span> ms, runs in your browser</div>
+  </aside>
+
+  <section class="chat" aria-label="Conversation">
+    <header class="chat-head">
+      <h1>Help assistant</h1>
+      <span class="sub">Answers come from the Northlane help docs, with the source cited.</span>
+      <span class="spacer"></span>
+      <span class="pill"><span class="dot" aria-hidden="true" style="box-shadow:none;width:7px;height:7px"></span>Retrieval: TF-IDF</span>
+      <button class="btn toggle-inspect" id="toggleInspect" type="button" aria-expanded="false" aria-controls="inspect">Scores</button>
+    </header>
+    <div class="thread" id="thread" role="log" aria-live="polite" aria-relevant="additions">
+      <div class="thread-in" id="threadIn"></div>
+    </div>
+    <div class="composer">
+      <form class="composer-in" id="composer">
+        <label class="sr-only" for="q">Ask a question about Northlane</label>
+        <div class="inputrow">
+          <span class="ph" id="ph" aria-hidden="true">Ask a question about Northlane…</span><textarea id="q" rows="1" autocomplete="off"></textarea>
+          <button class="send" id="send" type="submit" aria-label="Send question"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="hint"><span><kbd>Enter</kbd> to send, <kbd>Shift</kbd>+<kbd>Enter</kbd> for a new line</span><span class="right">Conversation is saved on this device only</span></div>
+      </form>
+    </div>
+  </section>
+
+  <aside class="inspect" id="inspect" aria-label="Retrieval inspector">
+    <div class="inspect-head">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="stroke:#007f5f;fill:none;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <h2>Retrieval inspector</h2>
+      <span class="pill mono" id="retMs">—</span>
+    </div>
+    <div class="inspect-body" id="inspectBody">
+      <p class="empty">Ask something and the matching scores for every candidate passage appear here.</p>
+    </div>
+  </aside>
+</div>
+
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <div class="ph">
+      <div><div class="crumb" id="drawerCrumb">Help docs</div><h2 id="drawerTitle">Passage</h2></div>
+      <button class="close" type="button" data-close aria-label="Close source"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="pb" id="drawerBody"></div>
+    <div class="pf"><span>Passage <span class="mono" id="drawerId"></span></span><span class="mono" id="drawerScore"></span><a href="#" id="drawerAsk">Ask a follow-up</a></div>
+  </div>
+</div>
+
+<script>
+// Help documentation passages that make up the knowledge base
+const DOCS = [
+  {id:'pr-01', section:'Pricing', title:'Plans and what they include', text:'Northlane has three plans. Starter is free and includes 100,000 tracked events per month, one project, 30-day data history and up to 3 team members. Growth is $149 per month for 2 million events, unlimited projects, 13-month history and unlimited seats. Enterprise is priced on event volume and adds SSO, audit logs, a dedicated data region and a 99.95% uptime agreement.', reply:'There are three plans. Starter is free (100k events a month, 1 project, 30-day history, 3 seats). Growth is $149/month with 2M events, unlimited projects and seats, and 13 months of history. Enterprise is quoted on volume and adds SSO, audit logs, a dedicated region and a 99.95% uptime agreement.'},
+  {id:'pr-02', section:'Pricing', title:'How events are counted for billing', text:'Billing is based on tracked events, meaning every call to track() that reaches our servers. Identify, group and page calls are not counted. Events that are rejected by a filter or dropped as duplicates within the same second are also excluded from your usage. Your usage counter resets on the first day of each billing month.', reply:'Only track() calls that reach our servers count toward billing. identify, group and page calls are free, and events dropped by filters or deduplicated are not counted. Usage resets on the first day of each billing month.'},
+  {id:'pr-03', section:'Pricing', title:'What happens when you exceed your event quota', text:'If you go over your monthly event quota we keep ingesting your data for the rest of the month. On Starter, events over the limit are stored but hidden from reports until you upgrade. On Growth, additional events are billed at $0.00006 per event (that is $60 per million) on your next invoice. You will receive an email at 80% and 100% of quota.', reply:'We never stop ingesting. On Starter, events over 100k are stored but hidden until you upgrade. On Growth, overage is billed at $60 per million events on your next invoice. You get email alerts at 80% and 100% of quota.'},
+  {id:'pr-04', section:'Pricing', title:'Annual billing discount and invoices', text:'Paying annually gives a 20% discount on Growth, making it $1,430 per year. Invoices are issued in USD and available as PDF under Settings, then Billing. We accept Visa, Mastercard, American Express and, for annual Enterprise contracts, bank transfer with 30-day payment terms. VAT numbers can be added to invoices from the Billing page.', reply:'Annual billing saves 20% on Growth ($1,430 a year instead of $1,788). Invoices are in USD as PDF under Settings → Billing. We take Visa, Mastercard and Amex, and Enterprise annual contracts can pay by bank transfer on 30-day terms.'},
+  {id:'pr-05', section:'Pricing', title:'Cancelling or downgrading your plan', text:'You can downgrade or cancel at any time from Settings, then Billing. Downgrades take effect at the end of the current billing period and you keep full access until then. When you move to Starter, data older than 30 days remains stored for 90 days so you can export it, after which it is deleted. No cancellation fees apply.', reply:'Downgrade or cancel from Settings → Billing. Changes take effect at the end of your billing period and you keep access until then. After moving to Starter, data older than 30 days is kept for 90 days for export before deletion. There are no cancellation fees.'},
+  {id:'pr-06', section:'Pricing', title:'Discounts for startups, education and non-profits', text:'Startups under two years old with less than $2M in funding can apply for Growth free for 12 months through the Northlane Launch program. Registered non-profits and accredited educational institutions receive 50% off Growth permanently. Apply by emailing programs@northlane.app with proof of status; applications are reviewed within five business days.', reply:'Yes. Early-stage startups (under two years old, under $2M raised) can get Growth free for 12 months via Northlane Launch. Non-profits and schools get 50% off Growth permanently. Email programs@northlane.app with proof of status and we reply within five business days.'},
+  {id:'ev-01', section:'Events', title:'Tracking a custom event', text:'Use northlane.track(name, properties) to record a custom event. Event names should be past tense and human readable, for example "Report Exported". Properties is an optional object of up to 50 keys with string, number, boolean or ISO date values. Events appear in Live View within seconds and in reports within two minutes.', reply:'Call northlane.track("Report Exported", { format: "csv" }). Use past-tense, readable names and pass up to 50 properties (strings, numbers, booleans or ISO dates). Events show in Live View within seconds and in reports within about two minutes.'},
+  {id:'ev-02', section:'Events', title:'Event naming conventions', text:'We recommend the Object Action convention: a noun followed by a past tense verb, such as "Invoice Paid" or "Dashboard Shared". Keep names under 60 characters and avoid putting variable data like IDs or dates in the name; put those in properties instead. Northlane treats names as case sensitive, so "Signup" and "signup" are different events.', reply:'Follow the Object Action pattern: "Invoice Paid", "Dashboard Shared". Keep names under 60 characters, never embed IDs or dates in the name (use properties), and remember names are case sensitive.'},
+  {id:'ev-03', section:'Events', title:'Identifying users and merging anonymous activity', text:'Call northlane.identify(userId, traits) once you know who the user is. Any anonymous events recorded earlier in the same browser or device are merged into that user profile automatically. Traits such as email, plan and company are stored on the profile and can be used to filter any report. Use a stable internal ID rather than an email address as the userId.', reply:'Call northlane.identify(userId, { email, plan }) once a user logs in. Earlier anonymous events from that browser are merged into their profile automatically. Use a stable internal ID as the userId, not an email.'},
+  {id:'ev-04', section:'Events', title:'Autocapture of page views and clicks', text:'With autocapture enabled, the web SDK records page views, button clicks, link clicks and form submissions without any track() calls. Captured elements are described by their text, id and CSS classes. Autocapture is off by default; enable it with northlane.init(key, { autocapture: true }). You can exclude sensitive elements by adding the data-nl-ignore attribute.', reply:'Enable it with northlane.init(key, { autocapture: true }) and the web SDK records page views, clicks and form submissions on its own. Add data-nl-ignore to any element you want left out. It is off by default.'},
+  {id:'ev-05', section:'Events', title:'Event filters and blocking noisy events', text:'Under Data, then Event filters, you can drop events before they are stored. Filters match on event name, property values or source. Dropped events do not count toward billing. A common use is blocking events from internal staff by filtering on an email domain trait, or dropping high-volume heartbeat events that are not useful in reports.', reply:'Go to Data → Event filters and add a rule that matches on event name, property value or source. Dropped events are never stored and never billed. Teams often use this to exclude internal staff by email domain or to drop heartbeat events.'},
+  {id:'ev-06', section:'Events', title:'Group analytics for accounts and workspaces', text:'Use northlane.group(groupId, traits) to attach a user to an account, team or workspace. Group traits such as plan tier and seat count let you build account-level reports: how many accounts completed onboarding, which plan tiers retain best, and so on. A user can belong to several groups, for example a company and a workspace within it.', reply:'Call northlane.group(accountId, { plan: "growth", seats: 24 }) to link users to an account. You can then build account-level funnels and retention, and a user can belong to more than one group.'},
+  {id:'ev-07', section:'Events', title:'Live View for debugging events in real time', text:'Live View, found in the left navigation, shows a scrolling stream of events as they arrive with a delay of one to three seconds. Click any event to inspect its properties, user and SDK version. Use the filter box to narrow by event name or user ID. Live View is the fastest way to verify a new integration is sending the right data.', reply:'Open Live View from the left navigation. Events stream in with a one to three second delay and you can click any of them to inspect properties, the user and SDK version. Filter by event name or user ID to check a new integration.'},
+  {id:'ev-08', section:'Events', title:'Fixing events that arrive with the wrong timestamp', text:'Events are stamped with the device clock when they are created and corrected for clock skew on arrival. If a batch arrives more than 7 days late it is stored but excluded from trend reports. You can pass an explicit timestamp property as an ISO 8601 string when importing historical data, in which case server correction is skipped.', reply:'Events take the device time but we correct for clock skew when they arrive. Batches more than 7 days late are stored but left out of trend reports. For historical imports pass an ISO 8601 timestamp property and we will use it as is.'},
+  {id:'db-01', section:'Dashboards', title:'Creating a dashboard', text:'Click New dashboard from the Dashboards page, give it a name and start adding tiles. Each tile is a saved report: a trend, funnel, retention curve, breakdown table or single number. Drag tiles to rearrange and resize them on a 12-column grid. Dashboards are private to you until you share them with your team or make them workspace-wide.', reply:'Go to Dashboards → New dashboard, name it, then add tiles. Each tile is a saved report (trend, funnel, retention, breakdown or single number) and you can drag to arrange them on a 12-column grid. It stays private until you share it.'},
+  {id:'db-02', section:'Dashboards', title:'Sharing a dashboard and public links', text:'Use the Share button to give access to specific teammates, to everyone in the workspace, or to create a public link. Public links are read-only, can be protected with a password and can be set to expire. Anyone with a public link sees live data but cannot change filters or drill into users. You can revoke a public link at any time.', reply:'Click Share on the dashboard to pick teammates, open it to the whole workspace, or create a read-only public link. Public links can have a password and an expiry date, and you can revoke them whenever you like.'},
+  {id:'db-03', section:'Dashboards', title:'Dashboard filters and date ranges', text:'A filter bar at the top of every dashboard applies a date range and up to five property filters to all tiles at once. Choose a relative range like Last 28 days so the dashboard stays current, or a fixed range for a specific launch. Individual tiles can be pinned to ignore the dashboard filter if they need their own range.', reply:'Use the filter bar at the top of the dashboard. It applies a date range and up to five property filters to every tile. Pick a relative range such as Last 28 days to keep it current, and pin individual tiles if they should ignore the shared filter.'},
+  {id:'db-04', section:'Dashboards', title:'Scheduled dashboard emails and Slack digests', text:'Open the dashboard menu and choose Schedule to send a snapshot by email or to a Slack channel daily, weekly or monthly. The snapshot includes an image of each tile and a link back to the live dashboard. Schedules run in the workspace time zone, which you can change in Settings, then General.', reply:'From the dashboard menu choose Schedule and pick email or a Slack channel, then daily, weekly or monthly. Recipients get an image of each tile plus a link to the live dashboard. Schedules use the workspace time zone set in Settings → General.'},
+  {id:'db-05', section:'Dashboards', title:'Comparing periods and showing change', text:'Any trend or single number tile can show a comparison to the previous period or the same period last year. Turn it on in the tile editor under Compare. Single number tiles then show the change as a percentage with an up or down arrow, and trend charts overlay the earlier period as a dotted line.', reply:'Open the tile editor and switch on Compare, choosing previous period or same period last year. Single-number tiles then show a percentage change with an arrow and trend charts overlay the earlier period as a dotted line.'},
+  {id:'db-06', section:'Dashboards', title:'Funnel reports and conversion windows', text:'A funnel measures how many users complete an ordered series of events. Set a conversion window, for example 7 days, so that steps must happen within that time to count. Funnels can be broken down by any property to compare conversion across plans, countries or devices. Click any step to see the users who dropped off.', reply:'Build a funnel from an ordered list of events and set a conversion window (such as 7 days) that steps must fall within. Break it down by any property to compare segments and click a step to see who dropped off.'},
+  {id:'sd-01', section:'SDK setup', title:'Installing the JavaScript SDK', text:'Install with npm install @northlane/browser or add the script tag from Settings, then Project, then Install. Initialise once at app start with northlane.init("YOUR_PUBLIC_KEY"). The public key is safe to ship in client code; it can only write events, never read data. The SDK is 9 KB gzipped and loads asynchronously.', reply:'Run npm install @northlane/browser (or paste the script tag from Settings → Project → Install), then call northlane.init("YOUR_PUBLIC_KEY") once at startup. The public key is safe in client code because it can only write events. The SDK is 9 KB gzipped.'},
+  {id:'sd-02', section:'SDK setup', title:'Server-side SDKs for Node, Python, Go and Ruby', text:'Server libraries are available for Node.js, Python, Go and Ruby, with the same track, identify and group methods as the browser SDK. Server SDKs use a secret key found under Settings, then Project, then API keys, and batch events in memory, flushing every 10 seconds or 100 events. Call flush() before your process exits.', reply:'We have server SDKs for Node.js, Python, Go and Ruby with the same track, identify and group methods. They use the secret key from Settings → Project → API keys, batch events and flush every 10 seconds or 100 events. Call flush() before your process exits.'},
+  {id:'sd-03', section:'SDK setup', title:'Mobile SDKs for iOS, Android and React Native', text:'Native SDKs are published for iOS (Swift Package Manager and CocoaPods), Android (Gradle) and React Native (npm). Mobile SDKs queue events on disk while offline and send them when a connection returns. App lifecycle events such as Application Opened and Application Backgrounded are captured automatically.', reply:'Yes. iOS (Swift Package Manager or CocoaPods), Android (Gradle) and React Native (npm) SDKs are available. They queue events on disk while offline and capture lifecycle events like Application Opened automatically.'},
+  {id:'sd-04', section:'SDK setup', title:'Verifying your installation', text:'After initialising the SDK, open Live View and load your app. You should see a page view or Application Opened event within a few seconds. If nothing appears, check that the public key matches the project, that an ad blocker is not blocking requests to ingest.northlane.app, and that init() is called before any track() calls.', reply:'Open Live View and load your app. A page view or Application Opened event should appear within seconds. If not, check the public key matches the project, that an ad blocker is not blocking ingest.northlane.app, and that init() runs before any track() calls.'},
+  {id:'sd-05', section:'SDK setup', title:'Using a reverse proxy to avoid ad blockers', text:'Some ad blockers block requests to analytics domains. You can route events through your own domain by setting the host option: northlane.init(key, { host: "https://nl.yourdomain.com" }) and forwarding that path to ingest.northlane.app with a reverse proxy. Guides are available for Cloudflare Workers, Nginx and Vercel rewrites.', reply:'Set the host option, for example northlane.init(key, { host: "https://nl.yourdomain.com" }), and reverse proxy that domain to ingest.northlane.app. We have guides for Cloudflare Workers, Nginx and Vercel rewrites.'},
+  {id:'sd-06', section:'SDK setup', title:'Importing historical data', text:'Use the Import API to load past events in batches of up to 5,000. Each event needs a name, userId or anonymousId and an ISO 8601 timestamp. Imports do not appear in Live View but are available in reports once the import job finishes. Imported events count toward your monthly quota in the month they are imported.', reply:'Use the Import API with batches of up to 5,000 events, each with a name, userId or anonymousId and an ISO 8601 timestamp. They skip Live View and appear in reports when the job completes. Imported events count toward the quota of the month you import them in.'},
+  {id:'rt-01', section:'Retention', title:'Reading a retention report', text:'The retention report shows, for users who performed a starting event in a given week, the percentage who came back and performed a return event in each following week. Rows are weekly cohorts and columns are weeks since the first event. Darker cells mean higher retention. The bottom row averages all cohorts with enough data.', reply:'Each row is a weekly cohort of users who did the starting event; each column shows the percentage who came back and did the return event N weeks later. Darker cells are better and the bottom row averages all mature cohorts.'},
+  {id:'rt-02', section:'Retention', title:'Choosing starting and return events', text:'For most products use a sign-up or first-use event as the starting event and a core value action, such as Report Viewed, as the return event. Avoid using Any Event as the return event because passive sessions inflate the curve. You can filter the cohort by traits, for example only users on the Growth plan.', reply:'Use your sign-up or first-use event as the start and a core value action (for example Report Viewed) as the return event. Avoid Any Event as the return since passive sessions inflate retention. You can also filter cohorts by traits like plan.'},
+  {id:'rt-03', section:'Retention', title:'Unbounded versus bounded retention', text:'Bounded retention counts a user as retained only if they returned in exactly that week. Unbounded retention counts them if they returned in that week or any later week, which produces a smoother curve that never goes up. Switch between them in the report settings. Unbounded is better for products used irregularly.', reply:'Bounded counts users who came back in exactly that week; unbounded counts anyone who came back that week or later, giving a smoother, always-declining curve. Switch in the report settings. Use unbounded for irregular usage patterns.'},
+  {id:'rt-04', section:'Retention', title:'Churn and at-risk user lists', text:'Churn risk lists are built from retention: users who were active in the past 30 days but have not performed the return event in 14 days appear under Users, then At risk. You can export this list or send it to your CRM through the HubSpot or Salesforce integration to trigger outreach.', reply:'Go to Users → At risk to see users active in the last 30 days who have not done the return event in 14 days. You can export the list or push it to HubSpot or Salesforce to trigger outreach.'},
+  {id:'ex-01', section:'Data export', title:'Exporting a report to CSV', text:'Every report has a Download button in its top right corner that exports the current view as CSV or PNG. CSV exports include all rows, not just the ones visible, up to 100,000 rows. For larger datasets use the Export API or a warehouse sync. Downloads respect the filters and date range applied to the report.', reply:'Click the Download button in the top right of any report and pick CSV or PNG. CSV includes every row (up to 100,000) with your current filters and date range applied. For bigger extracts use the Export API or a warehouse sync.'},
+  {id:'ex-02', section:'Data export', title:'Syncing raw events to your data warehouse', text:'Growth and Enterprise plans can sync raw events and user profiles to Snowflake, BigQuery, Redshift or an S3 bucket. Set up a destination under Data, then Warehouse sync. Syncs run hourly and are incremental, so only new or changed rows are written. Tables are created with one column per event property.', reply:'On Growth or Enterprise, go to Data → Warehouse sync and add Snowflake, BigQuery, Redshift or S3 as a destination. Syncs run hourly and incrementally, writing one table per event with a column per property.'},
+  {id:'ex-03', section:'Data export', title:'Export API for raw events', text:'The Export API returns raw events as newline-delimited JSON for any date range, paginated with a cursor. Authenticate with a secret key and request GET /v1/export?from=2026-01-01&to=2026-01-31. Requests are rate limited to 60 per minute and each page returns up to 10,000 events. Exports are available on all plans.', reply:'Call GET /v1/export?from=…&to=… with your secret key to pull raw events as newline-delimited JSON, 10,000 per page with a cursor. It is limited to 60 requests a minute and available on every plan.'},
+  {id:'ex-04', section:'Data export', title:'Deleting a user and their data', text:'To satisfy a GDPR or CCPA deletion request, open the user profile and choose Delete user, or call DELETE /v1/users/{id}. Deletion removes the profile, traits and all events within 30 days and is confirmed by email. Aggregated report numbers are not recomputed, but the user will no longer appear in any user list or export.', reply:'Open the user profile and choose Delete user, or call DELETE /v1/users/{id}. Their profile, traits and events are removed within 30 days and you get an email confirmation. Aggregates stay as they were.'},
+  {id:'ex-05', section:'Data export', title:'Data retention and history limits', text:'Starter keeps 30 days of event history, Growth keeps 13 months and Enterprise retains data for as long as your contract specifies, with 3 years by default. Reports can only query dates within your retention window. If you need older data, use a warehouse sync so a full copy lives in your own storage.', reply:'Starter keeps 30 days, Growth 13 months and Enterprise 3 years by default (or whatever the contract says). Reports can only look inside that window, so for a permanent copy set up a warehouse sync.'},
+  {id:'ss-01', section:'SSO and security', title:'Setting up single sign-on with SAML', text:'SSO is available on the Enterprise plan. Go to Settings, then Security, then Single sign-on and choose SAML. Enter the IdP metadata URL from Okta, Azure AD, Google Workspace or OneLogin, then copy the Northlane ACS URL and Entity ID back into your identity provider. Test with one user before enforcing SSO for the whole workspace.', reply:'On Enterprise, go to Settings → Security → Single sign-on, choose SAML and paste your IdP metadata URL (Okta, Azure AD, Google Workspace and OneLogin are supported). Copy the ACS URL and Entity ID back into the IdP, then test with one user before enforcing it.'},
+  {id:'ss-02', section:'SSO and security', title:'Enforcing SSO and handling locked-out users', text:'Once SSO is enforced, members can only sign in through your identity provider and password login is disabled. Workspace owners keep a recovery login with a one-time code sent to their email in case the IdP is down. Users removed from the IdP lose access at their next session refresh, which happens at most every 8 hours.', reply:'With SSO enforced, password login is turned off for everyone except workspace owners, who keep an emergency email-code login. Users removed from your IdP lose access within 8 hours at their next session refresh.'},
+  {id:'ss-03', section:'SSO and security', title:'Two-factor authentication', text:'Any user can enable two-factor authentication from their profile using an authenticator app such as Google Authenticator or 1Password. Workspace admins can require 2FA for all members under Settings, then Security. Recovery codes are shown once at setup; store them somewhere safe. SMS codes are not supported.', reply:'Turn it on from your profile with an authenticator app (Google Authenticator, 1Password and similar). Admins can require it for the whole workspace under Settings → Security. Save the recovery codes shown at setup; SMS is not supported.'},
+  {id:'ss-04', section:'SSO and security', title:'Roles and permissions', text:'Northlane has four roles. Owners manage billing and can delete the workspace. Admins manage members, projects and security settings. Editors create and edit reports and dashboards. Viewers can open shared reports and dashboards but cannot change them. Roles are set per workspace, and project-level access can be restricted further on Enterprise.', reply:'There are four roles: Owner (billing and workspace deletion), Admin (members, projects, security), Editor (create and edit reports) and Viewer (read-only). Enterprise can additionally restrict access per project.'},
+  {id:'ss-05', section:'SSO and security', title:'Where data is stored and compliance', text:'Data is stored in the EU (Frankfurt) or US (Oregon) region, chosen when you create the workspace and fixed thereafter. Northlane is SOC 2 Type II certified and GDPR compliant, and a data processing agreement is available from the Legal page. All data is encrypted in transit with TLS 1.2 or higher and at rest with AES-256.', reply:'You pick EU (Frankfurt) or US (Oregon) when creating the workspace. We are SOC 2 Type II certified and GDPR compliant, offer a DPA from the Legal page, and encrypt data in transit (TLS 1.2+) and at rest (AES-256).'},
+  {id:'ac-01', section:'Account', title:'Inviting teammates', text:'Admins can invite teammates from Settings, then Members, by email address or by sharing an invite link that works for anyone with your company email domain. Invitations expire after 7 days. Starter allows 3 members; Growth and Enterprise have no seat limit and seats are never billed separately.', reply:'Go to Settings → Members and invite by email or share the domain invite link. Invites expire after 7 days. Starter allows 3 members; Growth and Enterprise have unlimited seats at no extra cost.'},
+  {id:'ac-02', section:'Account', title:'Changing your email, password or workspace name', text:'Personal details, including your email address and password, live under your profile menu in the bottom left. Workspace name, URL slug and time zone are under Settings, then General, and can be changed by Owners and Admins. Changing the URL slug updates all shared links automatically.', reply:'Your own email and password are under the profile menu in the bottom left. The workspace name, URL slug and time zone are in Settings → General (Owners and Admins only). Shared links update automatically if you change the slug.'},
+  {id:'ac-03', section:'Account', title:'Contacting support and response times', text:'Email support@northlane.app or use the chat bubble in the app. Starter gets email support with replies within two business days. Growth includes chat support with replies within four business hours. Enterprise customers have a named account manager, a shared Slack channel and a one-hour response target for urgent issues.', reply:'Email support@northlane.app or use the in-app chat. Starter: email replies within two business days. Growth: chat replies within four business hours. Enterprise: a named account manager, shared Slack channel and one-hour response for urgent issues.'},
+  {id:'ac-04', section:'Account', title:'Integrations with Slack, HubSpot, Salesforce and Zapier', text:'Connect integrations under Settings, then Integrations. Slack receives alerts and scheduled dashboards. HubSpot and Salesforce receive user traits and computed properties such as last active date. Zapier lets you trigger actions when an event occurs. Webhooks are available for anything else and fire within five seconds of the event.', reply:'Open Settings → Integrations. Slack gets alerts and scheduled dashboards, HubSpot and Salesforce get user traits and computed properties, Zapier triggers workflows on events, and generic webhooks fire within five seconds for everything else.'},
+  {id:'ac-05', section:'Account', title:'Setting up alerts on a metric', text:'Open any trend report, click Alert and set a condition such as "drops more than 20% versus the previous day" or "exceeds 500". Alerts are evaluated hourly and delivered by email, Slack or webhook. You can snooze an alert for 24 hours from the notification itself. Each workspace can have up to 50 active alerts on Growth.', reply:'On any trend report click Alert and set a rule, for example "drops more than 20% vs the previous day". Alerts run hourly and go to email, Slack or a webhook. You can snooze one for 24 hours from the notification. Growth allows up to 50 active alerts.'}
+];
+
+// Suggested starter questions
+const SUGGESTED = [
+  'How much does the Growth plan cost?',
+  'How do I track a custom event?',
+  'Can I share a dashboard with a public link?',
+  'How do I set up SSO with Okta?',
+  'What is the difference between bounded and unbounded retention?',
+  'How do I export raw events to BigQuery?'
+];
+
+// Words ignored when indexing
+const STOP = new Set('a an the and or but of to in on for with is are was were be been being it its this that these those at by from as i me my we our you your they their them he she his her can could would should will shall may might do does did done have has had having how what which when where why who whom whose not no yes if then than so too very just also into onto about over after before between through during within without up down out off again further here there all any both each few more most other some such only own same s t ll re ve d m let us please tell know want need like get got go going there is'.split(' '));
+
+// Query expansion so informal phrasing still reaches the right passage
+const SYN = {
+  cost:'pricing', costs:'pricing', price:'pricing', prices:'pricing', pay:'pricing', paying:'pricing', expensive:'pricing', cheap:'pricing', fee:'pricing', fees:'pricing', plan:'pricing', plans:'pricing', tier:'pricing', subscription:'pricing', money:'pricing', charge:'billing', charged:'billing', bill:'billing', invoice:'invoices', receipt:'invoices', card:'billing', creditcard:'billing', refund:'cancel', cancel:'cancelling', cancellation:'cancelling', unsubscribe:'cancelling', downgrade:'downgrades', upgrade:'plan', limit:'quota', limits:'quota', cap:'quota', overage:'quota', exceed:'quota', free:'starter', trial:'starter', discount:'discounts', nonprofit:'non-profits', charity:'non-profits', student:'educational', school:'educational', university:'educational', startup:'startups',
+  login:'sso', signin:'sso', 'sign-in':'sso', 'single-sign-on':'sso', saml:'sso', okta:'sso', azure:'sso', onelogin:'sso', oauth:'sso', idp:'sso', password:'login', passwords:'login', '2fa':'two-factor', mfa:'two-factor', authenticator:'two-factor', security:'security', encryption:'encrypted', encrypt:'encrypted', soc2:'soc', gdpr:'gdpr', hipaa:'compliance', compliant:'compliance', region:'region', eu:'eu', europe:'eu', permission:'roles', permissions:'roles', role:'roles', admin:'admins', viewer:'viewers', editor:'editors', owner:'owners',
+  track:'track', tracking:'track', tracked:'track', log:'track', record:'track', send:'track', capture:'track', instrument:'track', event:'event', events:'event', custom:'custom', property:'properties', props:'properties', name:'naming', names:'naming', naming:'naming', convention:'conventions', identify:'identify', user:'users', users:'users', anonymous:'anonymous', merge:'merged', alias:'identify', group:'group', account:'account', accounts:'account', company:'group', companies:'group', autocapture:'autocapture', clicks:'clicks', pageview:'page', pageviews:'page', filter:'filters', filters:'filters', block:'filters', exclude:'filters', ignore:'filters', internal:'internal', staff:'internal', employees:'internal', debug:'live', debugging:'live', realtime:'live', 'real-time':'live', stream:'live', timestamp:'timestamp', timestamps:'timestamp', time:'timestamp', late:'late', clock:'clock',
+  dashboard:'dashboard', dashboards:'dashboard', chart:'tile', charts:'tile', graph:'tile', widget:'tile', widgets:'tile', tile:'tile', report:'report', reports:'report', share:'share', sharing:'share', shared:'share', public:'public', link:'link', embed:'public', password:'password', schedule:'schedule', scheduled:'schedule', digest:'schedule', email:'email', emails:'email', slack:'slack', compare:'compare', comparison:'compare', previous:'previous', 'year-over-year':'year', yoy:'year', funnel:'funnel', funnels:'funnel', conversion:'conversion', convert:'conversion', dropoff:'dropped', date:'date', range:'range', daterange:'range',
+  sdk:'sdk', install:'install', installing:'install', installation:'install', setup:'install', 'set-up':'install', integrate:'install', integration:'integrations', integrations:'integrations', snippet:'script', script:'script', npm:'npm', javascript:'javascript', js:'javascript', react:'javascript', vue:'javascript', nextjs:'javascript', browser:'browser', web:'browser', website:'browser', node:'node', nodejs:'node', python:'python', django:'python', go:'go', golang:'go', ruby:'ruby', rails:'ruby', php:'server', java:'server', backend:'server', server:'server', 'server-side':'server', mobile:'mobile', ios:'ios', iphone:'ios', swift:'ios', android:'android', kotlin:'android', 'react-native':'react', flutter:'mobile', app:'app', apps:'app', key:'key', keys:'key', apikey:'key', token:'key', secret:'secret', verify:'verifying', working:'verifying', test:'verifying', testing:'verifying', nothing:'verifying', missing:'verifying', adblock:'blockers', adblocker:'blockers', blocker:'blockers', blocked:'blockers', blocks:'blockers', proxy:'proxy', domain:'domain', cname:'proxy', import:'import', importing:'import', historical:'historical', backfill:'historical', migrate:'import', migration:'import',
+  retention:'retention', retain:'retention', retained:'retention', cohort:'cohorts', cohorts:'cohorts', churn:'churn', churned:'churn', 'at-risk':'risk', stickiness:'retention', returning:'return', comeback:'return', bounded:'bounded', unbounded:'unbounded', curve:'curve',
+  export:'export', exporting:'export', exports:'export', download:'download', csv:'csv', excel:'csv', spreadsheet:'csv', png:'png', image:'png', warehouse:'warehouse', snowflake:'snowflake', bigquery:'bigquery', redshift:'redshift', s3:'s3', sync:'sync', api:'api', rest:'api', endpoint:'api', json:'json', raw:'raw', delete:'delete', deletion:'delete', remove:'delete', erase:'delete', forget:'delete', ccpa:'gdpr', privacy:'gdpr', history:'history', keep:'retention', stored:'stored', storage:'stored', 'how-long':'history',
+  invite:'invite', invites:'invite', inviting:'invite', teammate:'teammates', teammates:'teammates', colleague:'teammates', member:'members', members:'members', seat:'seats', seats:'seats', team:'team', rename:'name', workspace:'workspace', timezone:'zone', 'time-zone':'zone', support:'support', help:'support', contact:'support', human:'support', person:'support', agent:'support', ticket:'support', sla:'response', response:'response', hubspot:'hubspot', salesforce:'salesforce', crm:'crm', zapier:'zapier', webhook:'webhooks', webhooks:'webhooks', alert:'alert', alerts:'alert', notify:'alert', notification:'alert', notifications:'alert', threshold:'alert', anomaly:'alert'
+};
+
+// Lowercase, strip punctuation, drop stopwords and apply a light stemmer
+function stem(w) {
+  if (w.length <= 3) return w;
+  if (w.endsWith('ies')) return w.slice(0, -3) + 'y';
+  if (w.endsWith('sses')) return w.slice(0, -2);
+  if (w.endsWith('ing') && w.length > 5) w = w.slice(0, -3);
+  else if (w.endsWith('ed') && w.length > 4) w = w.slice(0, -2);
+  if (w.endsWith('s') && !w.endsWith('ss') && w.length > 3) w = w.slice(0, -1);
+  return w;
+}
+function tokenize(text) {
+  return text.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9\-\.]+/g, ' ').split(' ')
+    .map(w => w.replace(/^[\-.]+|[\-.]+$/g, '')).filter(w => w && !STOP.has(w) && !/^\d+$/.test(w) || /^\d+(fa)$/.test(w))
+    .map(stem);
+}
+
+// Build the TF-IDF index
+const index = { docs: [], idf: {}, vocab: 0 };
+function buildIndex() {
+  const t0 = performance.now();
+  const df = {};
+  DOCS.forEach(d => {
+    const toks = tokenize(d.title + ' ' + d.title + ' ' + d.section + ' ' + d.text);
+    const tf = {};
+    toks.forEach(t => { tf[t] = (tf[t] || 0) + 1; });
+    Object.keys(tf).forEach(t => { df[t] = (df[t] || 0) + 1; });
+    index.docs.push({ doc: d, tf });
+  });
+  const N = DOCS.length;
+  Object.keys(df).forEach(t => { index.idf[t] = Math.log((N + 1) / (df[t] + 1)) + 1; });
+  index.vocab = Object.keys(df).length;
+  index.docs.forEach(entry => {
+    const vec = {};
+    let norm = 0;
+    Object.keys(entry.tf).forEach(t => { const w = (1 + Math.log(entry.tf[t])) * index.idf[t]; vec[t] = w; norm += w * w; });
+    norm = Math.sqrt(norm) || 1;
+    Object.keys(vec).forEach(t => { vec[t] /= norm; });
+    entry.vec = vec;
+  });
+  return performance.now() - t0;
+}
+
+// Expand a query with synonyms and optional carried context, then weight it
+function queryVector(text, contextTokens) {
+  const raw = text.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9\-]+/g, ' ').split(' ').filter(Boolean);
+  const original = [], expanded = [];
+  raw.forEach(w => {
+    if (STOP.has(w)) return;
+    const s = stem(w);
+    if (index.idf[s] !== undefined) original.push(s);
+    const syn = SYN[w] || SYN[s];
+    if (syn) { const ss = stem(syn); if (index.idf[ss] !== undefined && ss !== s) expanded.push(ss); }
+  });
+  const weights = {};
+  original.forEach(t => { weights[t] = (weights[t] || 0) + 1; });
+  expanded.forEach(t => { weights[t] = (weights[t] || 0) + 0.7; });
+  const ctx = [];
+  if (contextTokens && original.length + expanded.length <= 2) {
+    contextTokens.forEach(t => { if (!weights[t]) { weights[t] = 0.45; ctx.push(t); } });
+  }
+  const vec = {};
+  let norm = 0;
+  Object.keys(weights).forEach(t => { const w = (1 + Math.log(weights[t])) * (index.idf[t] || 1) * (weights[t] < 1 ? weights[t] : 1); vec[t] = w; norm += w * w; });
+  norm = Math.sqrt(norm) || 1;
+  Object.keys(vec).forEach(t => { vec[t] /= norm; });
+  return { vec, original, expanded, ctx };
+}
+
+// Score every passage against the query by cosine similarity
+function retrieve(text, contextTokens) {
+  const t0 = performance.now();
+  const q = queryVector(text, contextTokens);
+  const results = index.docs.map(entry => {
+    let dot = 0; const hits = [];
+    Object.keys(q.vec).forEach(t => { if (entry.vec[t]) { dot += q.vec[t] * entry.vec[t]; hits.push(t); } });
+    return { doc: entry.doc, score: dot, hits };
+  }).sort((a, b) => b.score - a.score);
+  return { q, results, ms: performance.now() - t0 };
+}
+
+// Small talk that should not go through retrieval
+const SMALL = [
+  { re: /^(hi|hello|hey|good (morning|afternoon|evening)|yo)\b/i, reply: 'Hi! I can answer questions about Northlane pricing, events, dashboards, SDK setup, retention, exports and security. What would you like to know?' },
+  { re: /^(thanks|thank you|thx|cheers|great|perfect|awesome)\b/i, reply: 'You are welcome. If anything was unclear, use the thumbs on an answer so the help team can improve the docs.' },
+  { re: /^(bye|goodbye|see you)\b/i, reply: 'Bye for now. Your conversation stays saved on this device if you want to come back to it.' },
+  { re: /^(who|what) are you\b/i, reply: 'I am Ask Northlane, the help assistant built into Northlane Analytics. I search the help documentation for the passages that best match your question and show you where each answer came from.' }
+];
+
+// Turn retrieval results into a reply with sources
+function compose(text, ctxTokens) {
+  const small = SMALL.find(s => s.re.test(text.trim()));
+  if (small) return { reply: small.reply, sources: [], ret: null, confidence: 'chat' };
+  const ret = retrieve(text, ctxTokens);
+  const top = ret.results[0];
+  if (!top || top.score < 0.09) {
+    return { reply: 'I could not find anything in the help docs that answers that. Try rephrasing with a product term such as events, dashboards, SDK, retention, export or SSO, or email support@northlane.app and a person will help.', sources: [], ret, confidence: 'none' };
+  }
+  const sources = ret.results.filter((r, i) => i === 0 || (r.score >= top.score * 0.5 && r.score > 0.1)).slice(0, 3);
+  let reply = top.doc.reply;
+  let also = '';
+  const second = ret.results[1];
+  if (second && second.score >= top.score * 0.62 && second.score > 0.12 && second.doc.section !== top.doc.section) {
+    also = 'Related: ' + second.doc.title + '. ' + second.doc.reply.split(/(?<=\.)\s/)[0];
+  } else if (second && second.score >= top.score * 0.75 && second.score > 0.12) {
+    also = 'Also relevant: ' + second.doc.reply.split(/(?<=\.)\s/)[0];
+  }
+  const confidence = top.score >= 0.2 ? 'good' : 'low';
+  if (confidence === 'low') reply = 'I think this is what you are after, though the match is not strong. ' + reply;
+  return { reply, also, sources, ret, confidence };
+}
+
+// Conversation state persisted on this device
+const LS_HIST = 'ask-northlane-history';
+const LS_FB = 'ask-northlane-feedback';
+let history = [];
+let feedback = [];
+let lastQueryTokens = null;
+let lastRetrieval = null;
+try { history = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); feedback = JSON.parse(localStorage.getItem(LS_FB) || '[]'); } catch (e) { history = []; feedback = []; }
+function save() { try { localStorage.setItem(LS_HIST, JSON.stringify(history.slice(-60))); localStorage.setItem(LS_FB, JSON.stringify(feedback.slice(-200))); } catch (e) {} }
+
+const $ = s => document.querySelector(s);
+const threadIn = $('#threadIn'), thread = $('#thread'), q = $('#q'), sendBtn = $('#send');
+const fmtTime = iso => new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// Render inline code spans for things that look like code
+function rich(s) { return esc(s).replace(/((?:northlane|DELETE |GET |npm install )[^\s,]*(?:\([^)]*\))?[^\s,.]*)/g, '<code>$1</code>'); }
+
+const BOT_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20 10 5M18 20 14 5M12 20v-3M12 13.5v-3M12 7.5V5" stroke="#fff" stroke-width="2" fill="none"/></svg>';
+const UP = '<svg viewBox="0 0 24 24"><path d="M7 11v9H4v-9h3zm3 9h7.5a2 2 0 0 0 2-1.6l1.2-6A2 2 0 0 0 18.7 10H14l.8-4.2A1.5 1.5 0 0 0 12.1 5L10 11v9z"/></svg>';
+const DOWN = '<svg viewBox="0 0 24 24" style="transform:rotate(180deg)"><path d="M7 11v9H4v-9h3zm3 9h7.5a2 2 0 0 0 2-1.6l1.2-6A2 2 0 0 0 18.7 10H14l.8-4.2A1.5 1.5 0 0 0 12.1 5L10 11v9z"/></svg>';
+
+function renderMessage(m) {
+  const el = document.createElement('div');
+  el.className = 'msg ' + m.role;
+  el.dataset.id = m.id;
+  if (m.role === 'user') {
+    el.innerHTML = `<div><div class="bubble">${esc(m.text)}</div><div class="time">${fmtTime(m.at)}</div></div>`;
+  } else {
+    const chips = (m.sources || []).map(s => `<button class="chip" type="button" data-src="${s.id}" data-score="${s.score}">${esc(s.title)}<span class="sc">${s.score.toFixed(2)}</span></button>`).join('');
+    const fb = feedback.find(f => f.msgId === m.id);
+    el.innerHTML = `<div class="avatar" aria-hidden="true">${BOT_SVG}</div><div><div class="bubble"><p>${rich(m.text)}</p>${m.also ? `<div class="also">${rich(m.also)}</div>` : ''}
+      ${(chips || m.sources) ? `<div class="meta">${chips ? `<span class="lab">Sources</span>${chips}` : ''}<div class="fb"><span>Was this helpful?</span><button type="button" data-fb="1" aria-label="Yes, helpful" aria-pressed="${fb && fb.helpful ? 'true' : 'false'}">${UP}</button><button type="button" data-fb="0" aria-label="No, not helpful" aria-pressed="${fb && !fb.helpful ? 'true' : 'false'}">${DOWN}</button>${fb ? '<span class="thanks">Thanks</span>' : ''}</div></div>` : ''}
+      </div><div class="time">${fmtTime(m.at)}</div></div>`;
+  }
+  return el;
+}
+
+function renderThread() {
+  threadIn.innerHTML = '';
+  if (!history.length) {
+    history.push({ id: 'm' + Date.now(), role: 'assistant', at: new Date().toISOString(), text: 'Hello, I am the Northlane help assistant. Ask me anything about setting up tracking, building dashboards, retention reports, exports, billing or security and I will find the answer in our docs and show you the source.', sources: null });
+    save();
+  }
+  history.forEach(m => threadIn.appendChild(renderMessage(m)));
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function showTyping() {
+  const el = document.createElement('div');
+  el.className = 'msg assistant'; el.id = 'typing';
+  el.innerHTML = `<div class="avatar" aria-hidden="true">${BOT_SVG}</div><div class="bubble"><div class="typing" aria-label="Assistant is typing"><i></i><i></i><i></i></div></div>`;
+  threadIn.appendChild(el); thread.scrollTop = thread.scrollHeight;
+}
+
+function ask(text) {
+  text = text.trim();
+  if (!text) return;
+  const um = { id: 'u' + Date.now(), role: 'user', at: new Date().toISOString(), text };
+  history.push(um); threadIn.appendChild(renderMessage(um)); thread.scrollTop = thread.scrollHeight;
+  q.value = ''; q.style.height = 'auto'; q.closest('.inputrow').classList.remove('filled'); sendBtn.disabled = true;
+  const result = compose(text, lastQueryTokens);
+  if (result.ret) { lastQueryTokens = result.ret.q.original.concat(result.ret.q.expanded).slice(0, 4); lastRetrieval = { text, ...result.ret, confidence: result.confidence }; renderInspector(); }
+  showTyping();
+  const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 150 : 450 + Math.min(900, result.reply.length * 3);
+  setTimeout(() => {
+    const t = document.getElementById('typing'); if (t) t.remove();
+    const am = { id: 'a' + Date.now(), role: 'assistant', at: new Date().toISOString(), text: result.reply, also: result.also || '', sources: result.sources.map(s => ({ id: s.doc.id, title: s.doc.title, score: s.score })), confidence: result.confidence, question: text };
+    history.push(am); save();
+    threadIn.appendChild(renderMessage(am)); thread.scrollTop = thread.scrollHeight;
+    sendBtn.disabled = false; q.focus();
+  }, delay);
+}
+
+// Retrieval inspector shows how the last answer was chosen
+function renderInspector() {
+  const body = $('#inspectBody');
+  if (!lastRetrieval) { body.innerHTML = '<p class="empty">Ask something and the matching scores for every candidate passage appear here.</p>'; return; }
+  const r = lastRetrieval;
+  $('#retMs').textContent = r.ms.toFixed(2) + ' ms';
+  const top = r.results[0];
+  const verdict = r.confidence === 'none' ? `<div class="verdict none">No passage scored above the 0.09 answer threshold, so the assistant declined rather than guess.</div>`
+    : r.confidence === 'low' ? `<div class="verdict low">Best match ${top.score.toFixed(3)} is under the 0.20 confidence mark, so the reply is hedged.</div>`
+    : `<div class="verdict good">Best match ${top.score.toFixed(3)} is a confident hit. ${r.results.filter(x => x.score >= top.score * 0.5 && x.score > 0.1).length} passage(s) cited.</div>`;
+  const toks = r.q.original.map(t => `<span class="tok">${esc(t)}</span>`).join('') + r.q.expanded.map(t => `<span class="tok exp" title="added by synonym expansion">+${esc(t)}</span>`).join('') + r.q.ctx.map(t => `<span class="tok ctx" title="carried from the previous question">↩ ${esc(t)}</span>`).join('');
+  const max = top.score || 1;
+  const rows = r.results.slice(0, 6).map((x, i) => `<button class="score ${i === 0 && x.score >= 0.09 ? 'top' : ''}" type="button" data-src="${x.doc.id}" data-score="${x.score}"><div class="row"><span>${esc(x.doc.title)}</span><span class="mono">${x.score.toFixed(3)}</span></div><div class="bar"><i style="width:${(x.score / max * 100).toFixed(1)}%"></i></div><div class="hits">${x.hits.length ? 'matched: ' + x.hits.join(', ') : 'no shared terms'}</div></button>`).join('');
+  body.innerHTML = `<div class="ib"><h3>Question</h3><div style="font-size:13px">${esc(r.text)}</div></div>
+    <div class="ib"><h3>Query terms after expansion</h3><div class="tokens">${toks || '<span class="empty">No indexable terms</span>'}</div></div>
+    <div class="ib"><h3>Verdict</h3>${verdict}</div>
+    <div class="ib"><h3>Candidate passages, cosine similarity</h3><div class="scores">${rows}</div></div>
+    <div class="ib"><h3>Index</h3><dl class="kv"><dt>Passages scored</dt><dd>${DOCS.length}</dd><dt>Vocabulary</dt><dd>${index.vocab} terms</dd><dt>Weighting</dt><dd>log tf × idf</dd><dt>Similarity</dt><dd>cosine</dd><dt>Answer threshold</dt><dd>0.09</dd></dl></div>`;
+}
+
+// Source drawer
+const drawer = $('#drawer');
+let lastFocus = null;
+function openSource(id, score) {
+  const d = DOCS.find(x => x.id === id); if (!d) return;
+  lastFocus = document.activeElement;
+  $('#drawerCrumb').textContent = 'Help docs / ' + d.section;
+  $('#drawerTitle').textContent = d.title;
+  const terms = lastRetrieval ? lastRetrieval.q.original.concat(lastRetrieval.q.expanded) : [];
+  let html = esc(d.text);
+  if (terms.length) {
+    const re = new RegExp('\\b(' + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')[a-z]*', 'gi');
+    html = html.replace(re, '<mark>$&</mark>');
+  }
+  $('#drawerBody').innerHTML = `<p>${html}</p>`;
+  $('#drawerId').textContent = d.id;
+  $('#drawerScore').textContent = score !== undefined ? 'score ' + Number(score).toFixed(3) : '';
+  $('#drawerAsk').dataset.title = d.title;
+  drawer.setAttribute('open', '');
+  $('#drawer .close').focus();
+}
+function closeDrawer() { drawer.removeAttribute('open'); if (lastFocus) lastFocus.focus(); }
+drawer.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeDrawer(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.hasAttribute('open')) closeDrawer(); });
+$('#drawerAsk').addEventListener('click', e => { e.preventDefault(); closeDrawer(); q.value = 'Tell me more about ' + e.currentTarget.dataset.title.toLowerCase(); q.closest('.inputrow').classList.add('filled'); q.focus(); autosize(); });
+
+// Wire up clicks for sources, feedback and inspector rows
+document.addEventListener('click', e => {
+  const src = e.target.closest('[data-src]');
+  if (src) { openSource(src.dataset.src, src.dataset.score); return; }
+  const fb = e.target.closest('[data-fb]');
+  if (fb) {
+    const msgEl = fb.closest('.msg'); const id = msgEl.dataset.id; const helpful = fb.dataset.fb === '1';
+    const m = history.find(x => x.id === id);
+    feedback = feedback.filter(f => f.msgId !== id);
+    feedback.push({ msgId: id, helpful, question: m && m.question, topSource: m && m.sources && m.sources[0] ? m.sources[0].id : null, at: new Date().toISOString() });
+    save();
+    msgEl.replaceWith(renderMessage(m));
+    updateStats();
+  }
+});
+
+$('#composer').addEventListener('submit', e => { e.preventDefault(); if (!sendBtn.disabled) ask(q.value); });
+q.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!sendBtn.disabled) ask(q.value); } });
+function autosize() { q.style.height = 'auto'; q.style.height = Math.min(120, q.scrollHeight) + 'px'; }
+q.addEventListener('input', () => { autosize(); q.closest('.inputrow').classList.toggle('filled', q.value.length > 0); });
+$('#newConv').addEventListener('click', () => { history = []; lastQueryTokens = null; lastRetrieval = null; save(); renderThread(); renderInspector(); $('#retMs').textContent = '—'; q.focus(); });
+$('#toggleInspect').addEventListener('click', e => { const open = $('#inspect').classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded', open); });
+document.addEventListener('click', e => { const ins = $('#inspect'); if (ins.classList.contains('open') && !ins.contains(e.target) && !e.target.closest('#toggleInspect') && !e.target.closest('.drawer')) { ins.classList.remove('open'); $('#toggleInspect').setAttribute('aria-expanded', 'false'); } });
+
+// Sidebar: suggestions, topics and stats
+function updateStats() {
+  $('#statDocs').textContent = DOCS.length;
+  $('#statTerms').textContent = index.vocab;
+  $('#statUp').textContent = feedback.filter(f => f.helpful).length;
+  $('#statDown').textContent = feedback.filter(f => !f.helpful).length;
+}
+function initSidebar() {
+  $('#suggest').innerHTML = SUGGESTED.map(s => `<button type="button" data-q="${esc(s)}">${esc(s)}</button>`).join('');
+  $('#suggest').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b && !sendBtn.disabled) ask(b.dataset.q); });
+  const sections = [...new Set(DOCS.map(d => d.section))];
+  $('#topics').innerHTML = sections.map(s => `<button type="button" data-topic="${esc(s)}">${esc(s)}</button>`).join('');
+  $('#topics').addEventListener('click', e => { const b = e.target.closest('[data-topic]'); if (b) { const first = DOCS.find(d => d.section === b.dataset.topic); openSource(first.id); } });
+}
+
+const built = buildIndex();
+$('#indexMs').textContent = built.toFixed(1);
+initSidebar();
+updateStats();
+renderThread();
+</script>
+</body>
+</html>

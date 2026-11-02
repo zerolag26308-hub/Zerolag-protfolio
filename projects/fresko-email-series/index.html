@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fresko lifecycle emails | Zero Lag</title>
+<meta name="description" content="Lifecycle email series for the Fresko food delivery app: the automation flow, six responsive HTML emails with subject-line variants, and the sending rules.">
+<meta name="theme-color" content="#2A1A12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='20' r='15' fill='%23C8321A'/%3E%3Cpath d='M18 8c2-3 6-4 9-3-1 3-5 5-9 3z' fill='%231E6B43'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Design tokens matched to the Fresko app */
+:root{
+  --tomato:#C8321A; --tomato-dark:#A32713; --tomato-tint:#FCE9E2; --basil:#1E6B43; --basil-dark:#17553A; --basil-tint:#E3F2E8;
+  --cream:#FFF8EE; --sand:#F5EADB; --surface:#FFFFFF; --ink:#2A1A12; --muted:#6A5649; --line:#EDE0CF; --amber:#E8A317; --amber-tint:#FBEFD0;
+  --display:"Fredoka","Trebuchet MS",system-ui,sans-serif; --body:"Nunito","Segoe UI",system-ui,sans-serif; --mono:ui-monospace,Menlo,Consolas,monospace;
+  --bar-h:34px; --nav-h:52px; --gut:clamp(16px,3.4vw,48px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + var(--nav-h) + 12px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:500 16px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:4px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+h2{font-size:clamp(30px,3.6vw,46px);line-height:1.06}
+h3{font-size:22px;line-height:1.2}
+.wrap{padding-inline:var(--gut);max-width:1380px;margin-inline:auto}
+
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:80;height:var(--bar-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--gut);background:var(--ink);color:#C9B4A5;font-size:13px;line-height:1}
+.zl-bar a{color:#FFF4E4;text-decoration:none;font-weight:700;white-space:nowrap}
+.zl-bar a:hover{text-decoration:underline;text-underline-offset:3px}
+.zl-bar a:focus-visible{outline-color:#FFD49A}
+.zl-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl-bar strong{color:#fff;font-weight:700}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Hero */
+.hero{background:var(--tomato);color:#fff;overflow:hidden;position:relative}
+.hero::after{content:"";position:absolute;right:-120px;top:-160px;width:520px;height:520px;border-radius:50%;background:var(--tomato-dark);opacity:.6}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px 56px;padding-block:clamp(44px,6vw,84px);align-items:center;z-index:1}
+.brandline{display:flex;align-items:center;gap:8px;font:700 28px/1 var(--display);margin-bottom:22px}
+.brandline svg{width:30px;height:30px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#FFD1C4;margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--amber)}
+h1{font-size:clamp(40px,5vw,70px);line-height:1;margin-bottom:18px}
+.lede{font-size:clamp(17px,1.35vw,20px);color:#FFE4DB;max-width:32em;font-weight:600}
+.facts{display:grid;border-top:1px solid rgba(255,255,255,.25)}
+.facts div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.25);font-size:15px}
+.facts dt{color:#FFD1C4;font-weight:700}
+.facts dd{font-weight:600}
+.hero-mails{position:relative;height:300px;margin-bottom:20px}
+.hero-mails .m{position:absolute;width:72%;background:#fff;color:var(--ink);border-radius:14px;padding:14px 16px;box-shadow:0 18px 40px rgba(42,26,18,.3);display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;font-size:14px}
+.hero-mails .m i{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--basil-tint);color:var(--basil);font-style:normal;font-weight:800}
+.hero-mails .m b{display:block;font-weight:800}
+.hero-mails .m span{color:var(--muted);font-size:13px}
+.hero-mails .m1{left:0;top:0;transform:rotate(-3deg)}
+.hero-mails .m2{left:18%;top:95px;transform:rotate(1.5deg)}
+.hero-mails .m3{left:6%;top:190px;transform:rotate(-1deg)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.hero-mails{height:280px;max-width:480px}}
+
+/* Section nav */
+.secnav{position:sticky;top:var(--bar-h);z-index:60;background:var(--cream);border-bottom:1px solid var(--line)}
+.secnav ul{display:flex;gap:4px;height:var(--nav-h);align-items:center;padding-inline:var(--gut);max-width:1380px;margin-inline:auto;overflow-x:auto;scrollbar-width:none}
+.secnav ul::-webkit-scrollbar{display:none}
+.secnav a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;font-size:14.5px;font-weight:700;text-decoration:none;white-space:nowrap;color:var(--muted);transition:background-color .15s,color .15s}
+.secnav a:hover{background:var(--sand);color:var(--ink)}
+.secnav a[aria-current="true"]{background:var(--tomato);color:#fff}
+
+/* Sections */
+.sec{padding-block:clamp(52px,6.5vw,96px);border-bottom:1px solid var(--line)}
+.sec:nth-of-type(even){background:var(--surface)}
+.sec-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:14px 48px;align-items:end;margin-bottom:30px}
+.sec-head p{color:var(--muted);max-width:34em}
+.num{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.04em;display:block;margin-bottom:10px}
+@media (max-width:860px){.sec-head{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.sec:nth-of-type(even) .card{background:var(--cream)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;border-radius:14px;font:600 15px/1.2 var(--display);text-decoration:none;transition:background-color .18s,color .18s}
+.btn-solid{background:var(--tomato);color:#fff}
+.btn-solid:hover{background:var(--tomato-dark)}
+.btn-ghost{box-shadow:inset 0 0 0 2px var(--line);background:var(--surface)}
+.btn-ghost:hover{background:var(--sand)}
+.btn-sm{min-height:36px;padding:6px 13px;font-size:14px}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:2px 10px;border-radius:999px;font-size:12.5px;font-weight:800;white-space:nowrap}
+.tag-tomato{background:var(--tomato-tint);color:var(--tomato-dark)}.tag-basil{background:var(--basil-tint);color:var(--basil-dark)}.tag-amber{background:var(--amber-tint);color:#7A5508}.tag-ghost{box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+
+/* Flow diagram */
+.flow{padding:16px;overflow-x:auto}
+.flow svg{width:100%;min-width:880px;height:auto}
+.flow .lane-bg{fill:var(--sand);opacity:.55}
+.flow .lane-t{font:800 12px var(--body);fill:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.flow .edge{fill:none;stroke:#B9A692;stroke-width:1.8}
+.flow .edge.yes{stroke:var(--basil)}
+.flow .edge.no{stroke:var(--tomato)}
+.flow .arr{fill:#B9A692}.flow .arr.yes{fill:var(--basil)}.flow .arr.no{fill:var(--tomato)}
+.flow .trig rect{fill:var(--ink)}
+.flow .trig text{fill:#fff;font:700 12.5px var(--body)}
+.flow .trig .ic{fill:var(--amber)}
+.flow .delay rect{fill:#fff;stroke:#B9A692;stroke-width:1.2;stroke-dasharray:3 3}
+.flow .delay text{fill:var(--muted);font:700 12px var(--body)}
+.flow .dec path{fill:var(--amber-tint);stroke:var(--amber);stroke-width:1.4}
+.flow .dec text{fill:var(--ink);font:700 11.5px var(--body)}
+.flow .mail{cursor:pointer}
+.flow .mail rect{fill:#fff;stroke:var(--line);stroke-width:1.5;transition:stroke .15s}
+.flow .mail:hover rect,.flow .mail:focus-visible rect{stroke:var(--tomato);stroke-width:2.5}
+.flow .mail.on rect{fill:var(--tomato-tint);stroke:var(--tomato);stroke-width:2.5}
+.flow .mail .n{fill:var(--tomato);font:700 11px var(--display)}
+.flow .mail .t{fill:var(--ink);font:700 13.5px var(--body)}
+.flow .mail .s{fill:var(--muted);font:600 11.5px var(--body)}
+.flow .yn{font:800 11px var(--body)}
+.flow .yn.yes{fill:var(--basil)}.flow .yn.no{fill:var(--tomato)}
+.flow .exit text{fill:var(--muted);font:600 12px var(--body);font-style:italic}
+.flow-legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:13.5px;color:var(--muted)}
+.flow-legend span{display:inline-flex;align-items:center;gap:7px}
+.flow-legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+
+/* Email previews */
+.mail-layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px;align-items:start}
+.mail-list{display:grid;gap:8px}
+.mail-item{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:start;width:100%;text-align:left;padding:12px 14px;border-radius:14px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .15s}
+.sec:nth-of-type(even) .mail-item{background:var(--cream)}
+.mail-item:hover{box-shadow:inset 0 0 0 2px #D9C6B0}
+.mail-list .mail-item[aria-current="true"]{background:var(--tomato);color:#fff;box-shadow:none}
+.mail-item .n{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--tomato-tint);color:var(--tomato-dark);font:700 14px var(--display)}
+.mail-item[aria-current="true"] .n{background:rgba(255,255,255,.2);color:#fff}
+.mail-item b{display:block;font-weight:800;font-size:15px;line-height:1.25}
+.mail-item small{display:block;font-size:12.5px;opacity:.8;margin-top:2px}
+.client{border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 14px 40px rgba(42,26,18,.08)}
+.client-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:#F4EFE7;border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%;background:#D9C6B0}
+.seg{display:inline-flex;background:#fff;border-radius:10px;padding:3px;box-shadow:inset 0 0 0 1px var(--line)}
+.seg button{min-height:32px;padding:4px 12px;border-radius:8px;font-size:13.5px;font-weight:800;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button svg{width:16px;height:16px}
+.hdr{padding:14px 18px;border-bottom:1px solid var(--line);display:grid;gap:4px;font-size:14px}
+.hdr .row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px}
+.hdr .k{color:var(--muted);font-weight:700}
+.hdr .av{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--tomato);color:#fff;font:700 11px var(--display);vertical-align:middle;margin-right:6px}
+.hdr .subj{font-size:17px;font-weight:800}
+.hdr .pre{color:var(--muted)}
+.stage{background:#E9E2D6;padding:22px;display:flex;justify-content:center;min-height:420px;transition:padding .2s}
+.stage.mobile{padding:22px 0}
+.stage iframe{border:0;background:#fff;width:640px;max-width:100%;height:900px;transition:width .25s;box-shadow:0 4px 20px rgba(42,26,18,.12)}
+.stage.mobile iframe{width:390px;border-radius:28px}
+.src{display:none;background:#1F1410;color:#F2E6D8;padding:18px 20px;font:500 12.5px/1.5 var(--mono);overflow:auto;max-height:720px;white-space:pre;tab-size:2}
+.src .tg{color:#FFB38A}.src .at{color:#F2CB63}.src .cm{color:#9C8A7B}
+.client.code .stage{display:none}.client.code .src{display:block}
+.mail-detail{margin-top:18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.mail-detail .card{padding:18px 20px}
+.mail-detail h4{font:600 15px var(--display);margin-bottom:10px}
+.ab{display:grid;gap:6px}
+.ab label{display:grid;grid-template-columns:22px 28px minmax(0,1fr);gap:8px;align-items:center;min-height:36px;padding:4px 8px;border-radius:10px;font-size:14.5px;cursor:pointer}
+.ab label:hover{background:var(--sand)}
+.ab input{width:18px;height:18px;accent-color:var(--tomato);margin:0}
+.ab .v{font:700 12px var(--display);color:var(--tomato);background:var(--tomato-tint);border-radius:6px;text-align:center;padding:2px 0}
+.ab .note{grid-column:3;font-size:12.5px;color:var(--muted);margin-top:-4px}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.spec dt{color:var(--muted);font-weight:700}
+@media (max-width:1000px){.mail-layout{grid-template-columns:minmax(0,1fr)}.mail-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.mail-detail{grid-template-columns:minmax(0,1fr)}.stage{padding:12px}}
+@media (max-width:560px){.mail-list{grid-template-columns:minmax(0,1fr)}}
+
+/* Rules */
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.rules .card{padding:20px 22px}
+.rules h3{font-size:19px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.rules h3 i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--basil-tint);color:var(--basil);font-style:normal}
+.rules h3 i svg{width:18px;height:18px}
+.rules ul{display:grid;gap:6px;font-size:14.5px;color:var(--muted)}
+.rules li{display:grid;grid-template-columns:14px 1fr;gap:8px}
+.rules li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--tomato);margin-top:8px}
+.tbl-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:18px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:820px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--sand)}
+tbody tr:last-child td{border-bottom:0}
+td .v{display:inline-block;font:700 11.5px var(--display);color:var(--tomato);background:var(--tomato-tint);border-radius:6px;padding:1px 6px;margin-right:6px}
+@media (max-width:900px){.rules{grid-template-columns:minmax(0,1fr)}}
+
+.foot-site{padding:28px 0 40px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+.foot-site a{color:var(--tomato-dark);font-weight:800}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Fresko lifecycle emails</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="brandline"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="20" r="15" fill="#fff"/><path d="M18 8c2-3 6-4 9-3-1 3-5 5-9 3z" fill="#1E6B43"/></svg>Fresko</p>
+      <p class="eyebrow">Digital marketing &middot; Email lifecycle</p>
+      <h1>Six emails that follow a person from sign-up to their fifth order</h1>
+      <p class="lede">A lifecycle series for a food delivery app: the automation flow with its triggers and delays, six responsive HTML emails you can read on desktop and phone, three subject lines for each to test, and the rules that stop the series from becoming noise.</p>
+    </div>
+    <div>
+      <div class="hero-mails" aria-hidden="true">
+        <div class="m m1"><i>01</i><div><b>Welcome to Fresko, Priya</b><span>Four kitchens deliver to your door tonight.</span></div></div>
+        <div class="m m2"><i>03</i><div><b>Your cart is still warm</b><span>Margherita Classica, Garlic Knots. Rosso Forno is open till 11.</span></div></div>
+        <div class="m m3"><i>06</i><div><b>Five orders in. You're a Regular.</b><span>Free Friday delivery starts now.</span></div></div>
+      </div>
+      <dl class="facts">
+        <div><dt>Emails</dt><dd>Welcome, first-order nudge, abandoned cart, order follow-up, win-back, loyalty</dd></div>
+        <div><dt>Built as</dt><dd>Table-based HTML, 640px, stacks under 480px, dark-mode safe colours</dd></div>
+        <div><dt>Team</dt><dd>Zunair (copy), Ebad (build), Hammad (flow and rules)</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Deliverables">
+  <ul>
+    <li><a href="#flow">Automation flow</a></li>
+    <li><a href="#emails">The six emails</a></li>
+    <li><a href="#subjects">Subject-line tests</a></li>
+    <li><a href="#rules">Sending rules</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- Flow -->
+<section class="sec" id="flow" aria-labelledby="flow-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">01 / 04</span><h2 id="flow-h">The automation flow</h2></div>
+      <p>Three journeys, each started by something the person did or did not do. Dark boxes are triggers, dashed pills are waits, diamonds are checks. Select any email to open it below.</p>
+    </div>
+    <figure class="card flow" id="flow-fig"></figure>
+    <div class="flow-legend"><span><i style="background:var(--ink)"></i>Trigger</span><span><i style="background:#fff;border:1px dashed #B9A692"></i>Wait</span><span><i style="background:var(--amber-tint);border:1px solid var(--amber)"></i>Check</span><span><i style="background:#fff;border:1.5px solid var(--line)"></i>Email</span><span><i style="background:var(--basil)"></i>Yes</span><span><i style="background:var(--tomato)"></i>No</span></div>
+  </div>
+</section>
+
+<!-- Emails -->
+<section class="sec" id="emails" aria-labelledby="em-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">02 / 04</span><h2 id="em-h">The six emails</h2></div>
+      <p>Each one is real, responsive HTML built with nested tables so it survives the email clients that still need them. Switch between desktop and phone widths, or view the source.</p>
+    </div>
+    <div class="mail-layout">
+      <div class="mail-list" id="mail-list" role="tablist" aria-label="Emails"></div>
+      <div>
+        <div class="client" id="client">
+          <div class="client-top">
+            <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div class="seg" role="group" aria-label="Preview width">
+                <button id="w-desk" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg>&nbsp;Desktop</button>
+                <button id="w-mob" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>&nbsp;Phone</button>
+              </div>
+              <div class="seg" role="group" aria-label="View">
+                <button id="v-render" aria-pressed="true">Rendered</button>
+                <button id="v-html" aria-pressed="false">View HTML</button>
+              </div>
+            </div>
+          </div>
+          <div class="hdr">
+            <div class="row"><span class="k">From</span><span><span class="av" aria-hidden="true">F</span>Fresko &lt;hello@fresko.example&gt;</span></div>
+            <div class="row"><span class="k">To</span><span>Priya Natarajan &lt;priya.n@example.com&gt;</span></div>
+            <div class="row"><span class="k">Subject</span><span><span class="subj" id="h-subj"></span> <span class="pre" id="h-pre"></span></span></div>
+          </div>
+          <div class="stage" id="stage"><iframe id="frame" title="Email preview"></iframe></div>
+          <pre class="src" id="src" tabindex="0"></pre>
+        </div>
+        <div class="mail-detail">
+          <div class="card"><h4>Subject lines to test</h4><div class="ab" id="ab"></div></div>
+          <div class="card"><h4>How it sends</h4><dl class="spec" id="spec"></dl><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" id="copy-html">Copy HTML</button><a class="btn btn-ghost btn-sm" id="open-tab" href="#" target="_blank" rel="noopener">Open in a new tab</a></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Subject tests -->
+<section class="sec" id="subjects" aria-labelledby="sub-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">03 / 04</span><h2 id="sub-h">Subject-line variants</h2></div>
+      <p>Three lines per email, each testing a different idea: a plain statement, a specific detail, and a question or offer. One idea per test, and the preheader stays fixed so only the subject changes.</p>
+    </div>
+    <div class="tbl-wrap"><table id="sub-table"><thead><tr><th>Email</th><th>A &middot; Plain</th><th>B &middot; Specific</th><th>C &middot; Offer or question</th><th>Preheader (fixed)</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- Rules -->
+<section class="sec" id="rules" aria-labelledby="rules-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="num">04 / 04</span><h2 id="rules-h">Sending rules</h2></div>
+      <p>The flow only works if it knows when to stay quiet. These rules sit above every journey.</p>
+    </div>
+    <div class="rules">
+      <div class="card"><h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i>Timing</h3><ul><li>Nothing sends between 10pm and 8am in the person's own time zone</li><li>Food emails land at 11am or 5pm, when people decide what to eat</li><li>Abandoned cart waits 45 minutes, long enough to finish checking out on their own</li></ul></div>
+      <div class="card"><h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/></svg></i>Frequency</h3><ul><li>At most one lifecycle email per day and three per week, per person</li><li>Abandoned cart fires once in any seven days, no matter how many carts</li><li>A placed order cancels any pending nudge or win-back in the queue</li></ul></div>
+      <div class="card"><h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></i>Consent and exits</h3><ul><li>Every email carries a one-click unsubscribe and a link to notification settings in the app</li><li>Unsubscribing from marketing keeps order receipts and delivery updates</li><li>Anyone who deletes their account leaves every journey the same minute</li></ul></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot-site">
+  <span>Lifecycle emails for Fresko by <a href="../../index.html">Zero Lag</a></span>
+  <span>Every email on this page is rendered from its own HTML source, shown under View HTML.</span>
+</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const IMG = n => `../../assets/projects/${n}.jpg`;
+
+// Section nav highlights the section in view
+(function(){
+  const links = $$('.secnav a');
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false')); }); }, { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach(a => { io.observe($(a.getAttribute('href'))); a.addEventListener('click', () => a.scrollIntoView({ inline: 'center', block: 'nearest' })); });
+})();
+
+// Email building blocks, all table based with inline styles
+const C = { tomato:'#C8321A', basil:'#1E6B43', ink:'#2A1A12', muted:'#6A5649', cream:'#FFF8EE', sand:'#F5EADB', line:'#EDE0CF', amber:'#E8A317' };
+const FONT = "'Nunito','Segoe UI',Helvetica,Arial,sans-serif";
+const row = (inner, pad = '0 32px') => `<tr><td class="pad" style="padding:${pad};">${inner}</td></tr>`;
+const heading = t => row(`<h1 style="margin:0 0 12px;font-family:${FONT};font-size:30px;line-height:1.15;font-weight:800;color:${C.ink};">${t}</h1>`, '28px 32px 0');
+const para = (t, extra = '') => row(`<p style="margin:0 0 16px;font-family:${FONT};font-size:16px;line-height:1.55;color:${C.ink};${extra}">${t}</p>`);
+const small = t => row(`<p style="margin:0 0 16px;font-family:${FONT};font-size:13px;line-height:1.5;color:${C.muted};">${t}</p>`);
+const hero = (img, alt) => row(`<img src="${IMG(img)}" width="640" alt="${alt}" style="display:block;width:100%;max-width:640px;height:auto;border:0;">`, '0');
+const button = (label, href = '#', color = C.tomato) => row(`<table role="presentation" cellpadding="0" cellspacing="0" border="0" class="btn"><tr><td align="center" bgcolor="${color}" style="border-radius:14px;"><a href="${href}" style="display:inline-block;padding:15px 28px;font-family:${FONT};font-size:16px;font-weight:800;color:#ffffff;text-decoration:none;border-radius:14px;">${label}</a></td></tr></table>`, '4px 32px 28px');
+const divider = () => row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1px solid ${C.line};font-size:0;line-height:0;">&nbsp;</td></tr></table>`, '8px 32px');
+const codeBox = (code, note) => row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" bgcolor="${C.sand}" style="padding:20px;border-radius:16px;border:2px dashed ${C.amber};"><p style="margin:0 0 4px;font-family:${FONT};font-size:12px;letter-spacing:2px;text-transform:uppercase;color:${C.muted};font-weight:800;">${note}</p><p style="margin:0;font-family:${FONT};font-size:30px;letter-spacing:4px;font-weight:800;color:${C.ink};">${code}</p></td></tr></table>`, '4px 32px 20px');
+const cols = items => row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${items.map(i => `<td class="col" width="33%" valign="top" style="padding:0 8px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="${i.bg}" style="padding:16px;border-radius:14px;"><p style="margin:0 0 4px;font-family:${FONT};font-size:15px;font-weight:800;color:${C.ink};">${i.t}</p><p style="margin:0;font-family:${FONT};font-size:13.5px;line-height:1.45;color:${C.muted};">${i.d}</p></td></tr></table></td>`).join('')}</tr></table>`, '8px 32px 8px');
+const kitchens = list => row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${list.map(k => `<tr><td width="72" valign="top" style="padding:0 14px 12px 0;"><img src="${IMG(k.img)}" width="72" height="72" alt="" style="display:block;width:72px;height:72px;border-radius:14px;object-fit:cover;"></td><td valign="middle" style="padding:0 0 12px;"><p style="margin:0;font-family:${FONT};font-size:16px;font-weight:800;color:${C.ink};">${k.n}</p><p style="margin:2px 0 0;font-family:${FONT};font-size:13.5px;color:${C.muted};">${k.d}</p></td><td width="90" align="right" valign="middle" style="padding:0 0 12px;"><a href="#" style="font-family:${FONT};font-size:14px;font-weight:800;color:${C.tomato};text-decoration:none;">Order &rarr;</a></td></tr>`).join('')}</table>`, '0 32px 12px');
+const cart = (items, kitchen) => row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${C.line};border-radius:16px;"><tr><td style="padding:16px 18px 6px;font-family:${FONT};font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:${C.muted};font-weight:800;">Your cart at ${kitchen}</td></tr>${items.map(i => `<tr><td style="padding:6px 18px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="font-family:${FONT};font-size:15px;color:${C.ink};font-weight:700;">${i.q} &times; ${i.n}</td><td align="right" style="font-family:${FONT};font-size:15px;color:${C.ink};font-weight:700;white-space:nowrap;">$${i.p.toFixed(2)}</td></tr></table></td></tr>`).join('')}<tr><td style="padding:10px 18px 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1px solid ${C.line};padding-top:10px;font-family:${FONT};font-size:15px;color:${C.muted};font-weight:700;">Subtotal, before delivery</td><td align="right" style="border-top:1px solid ${C.line};padding-top:10px;font-family:${FONT};font-size:17px;color:${C.ink};font-weight:800;">$${items.reduce((s, i) => s + i.p * i.q, 0).toFixed(2)}</td></tr></table></td></tr></table>`, '4px 32px 20px');
+const stars = () => row(`<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center"><tr>${[1,2,3,4,5].map(n => `<td style="padding:0 4px;"><a href="#rate-${n}" style="display:inline-block;width:48px;height:48px;line-height:48px;text-align:center;border-radius:12px;background:${C.sand};font-family:${FONT};font-size:22px;color:${C.amber};text-decoration:none;" aria-label="${n} star${n > 1 ? 's' : ''}">&#9733;</a></td>`).join('')}</tr></table>`, '0 32px 24px');
+const progress = (done, total) => row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${Array.from({ length: total }, (_, i) => `<td width="${Math.floor(100 / total)}%" bgcolor="${i < done ? C.basil : C.sand}" style="height:12px;font-size:0;line-height:0;border-radius:6px;${i ? 'border-left:4px solid #ffffff;' : ''}">&nbsp;</td>`).join('')}</tr></table><p style="margin:8px 0 16px;font-family:${FONT};font-size:13px;color:${C.muted};font-weight:700;">${done} of ${total} orders</p>`, '0 32px');
+
+function wrapEmail(e, body) {
+  return `<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>${esc(e.subjects[0])}</title>
+<style>
+  /* Clients that honour embedded styles get the stacked phone layout */
+  body { margin: 0; padding: 0; background: ${C.cream}; }
+  table { border-collapse: collapse; }
+  img { border: 0; }
+  @media only screen and (max-width: 480px) {
+    .outer { width: 100% !important; }
+    .pad { padding-left: 20px !important; padding-right: 20px !important; }
+    .col { display: block !important; width: 100% !important; padding-right: 0 !important; }
+    .btn { width: 100% !important; }
+    .btn a { display: block !important; }
+    h1 { font-size: 26px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background:${C.cream};">
+<!-- Preheader: shown in the inbox preview, hidden in the email body -->
+<div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:${C.cream};">${esc(e.pre)}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.cream}">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" class="outer" width="640" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:640px;max-width:100%;border-radius:20px;overflow:hidden;">
+<!-- Header -->
+<tr><td bgcolor="${C.tomato}" style="padding:18px 32px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+    <td style="font-family:'Fredoka','Trebuchet MS',Arial,sans-serif;font-size:26px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">Fresko</td>
+    <td align="right" style="font-family:${FONT};font-size:13px;font-weight:700;color:#FFD1C4;">Good food from nearby kitchens</td>
+  </tr></table>
+</td></tr>
+${body}
+<!-- Footer -->
+<tr><td bgcolor="${C.sand}" style="padding:22px 32px;">
+  <p style="margin:0 0 6px;font-family:${FONT};font-size:12.5px;line-height:1.5;color:${C.muted};">You are getting this because you made a Fresko account with priya.n@example.com. <a href="#unsubscribe" style="color:${C.muted};">Unsubscribe</a> &middot; <a href="#settings" style="color:${C.muted};">Notification settings</a></p>
+  <p style="margin:0;font-family:${FONT};font-size:12.5px;line-height:1.5;color:${C.muted};">Fresko, 40 Mercer Lane, Suite 3, Portland, OR 97209</p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+const EMAILS = [
+  { id:'welcome', n:'01', name:'Welcome', pre:'Four kitchens deliver to your door tonight.', trigger:'Account created', delay:'Immediately', cap:'Once per account', exit:'None', subjects:['Welcome to Fresko, Priya','Dinner is sorted. Here is how Fresko works','You are in. Which kitchen first?'], notes:['First name from the account','Explains the three things the app does','Leads with a question'],
+    body: e => hero('food-spread', 'A table of dishes from Fresko kitchens') + heading('Welcome, Priya. Dinner just got closer.') + para('Fresko brings food from independent kitchens near you, cooked when you order and carried over by a rider you can follow on the map. Four kitchens deliver to your street tonight.') + cols([{ t:'Find it by craving', d:'Search any dish, then narrow by cuisine or free delivery.', bg:C.sand }, { t:'Cash on delivery', d:'Pay the rider at the door if you would rather not add a card.', bg:'#FCE9E2' }, { t:'Live tracking', d:'See your order being cooked, picked up and on its way.', bg:'#E3F2E8' }]) + button('Browse kitchens near you') },
+  { id:'nudge', n:'02', name:'First-order nudge', pre:'$5 off with FRESKO5 on orders over $20.', trigger:'Welcome sent and no order', delay:'2 days after welcome', cap:'Once per account', exit:'Any order placed', subjects:['$5 off your first Fresko order','Rosso Forno is 12 minutes from you','Still deciding? Here is $5 to help'], notes:['The offer, plainly','Nearest kitchen by delivery time','Acknowledges the pause'],
+    body: e => heading('Your first order is $5 off.') + para('No rush, but when you are hungry: use the code below at checkout on any order over $20. It works at every kitchen on Fresko.') + codeBox('FRESKO5', 'Your code') + para('Four kitchens are open near you right now:', 'font-weight:800;margin-bottom:10px;') + kitchens([{ n:'Rosso Forno', d:'Wood-fired pizza · 12 min · free delivery', img:'food-pizza' }, { n:'Barley & Bloom', d:'Grain bowls · 18 min', img:'food-bowl' }, { n:'Leaf & Ladle', d:'Salads and soups · 15 min', img:'food-salad' }, { n:'Ember & Clove', d:'From the coals · 24 min', img:'food-plate' }]) + button('Use FRESKO5') },
+  { id:'cart', n:'03', name:'Abandoned cart', pre:'Margherita Classica and Garlic Knots. Rosso Forno is open till 11.', trigger:'Cart with items, no checkout', delay:'45 minutes after last cart change', cap:'Once in any 7 days', exit:'Order placed or cart emptied', subjects:['Your cart is still warm','Margherita Classica is waiting at Rosso Forno','Forgot something? Your Rosso Forno order'], notes:['Light, in the app voice','Names the dish and the kitchen','Question with a specific'],
+    body: e => heading('You left dinner in your cart.') + para('Rosso Forno is cooking until 11pm tonight. Your cart is saved exactly as you left it; finish in two taps and a rider will be at your door in about 25 minutes.') + cart([{ q:1, n:'Margherita Classica', p:14.00 }, { q:1, n:'Garlic Knots (6)', p:6.50 }, { q:2, n:'Sparkling Blood Orange', p:3.50 }], 'Rosso Forno') + button('Finish your order') + small('Changed your mind? Nothing to do. We will not send another one of these this week.') },
+  { id:'rate', n:'04', name:'Order follow-up', pre:'Two taps to rate it, and Tomas gets your tip.', trigger:'Order marked delivered', delay:'90 minutes after delivery', cap:'Once per order', exit:'Rating given in app', subjects:['How was Barley & Bloom?','Rate your order from Barley & Bloom','Tomas got it there in 19 minutes. How was the food?'], notes:['Short and direct','Explicit about the ask','Rider detail, then the question'],
+    body: e => heading('How was Barley & Bloom?') + para('Order #17553 was delivered by Tomas at 7:42pm. A quick rating helps the kitchen and helps us decide who to show you next time.') + stars() + divider() + para('<strong>Reorder in one tap.</strong> Crispy Tofu Rainbow Bowl and Sesame Edamame, same as tonight, whenever you want them again.', 'margin-top:12px;') + button('Reorder from Barley & Bloom', '#', C.basil) },
+  { id:'winback', n:'05', name:'Win-back', pre:'Three new kitchens since you last ordered. Free delivery this week.', trigger:'No order for 30 days', delay:'Day 30 at 5pm local time', cap:'Once per 90 days', exit:'Any order placed', subjects:['Three new kitchens since you last ordered','Maison Lark just joined Fresko','Free delivery on your next order, this week only'], notes:['What is new, counted','Names one kitchen','The offer and its limit'],
+    body: e => hero('food-restaurant', 'A kitchen pass with plates ready to go') + heading('Three kitchens joined while you were away.') + para('It has been a month since your last order, so here is what is new near you. Delivery is free on your next order until Sunday; no code needed, it is already on your account.') + kitchens([{ n:'Maison Lark', d:'French bistro · duck leg confit, steak frites', img:'food-plate' }, { n:'Ember & Clove', d:'From the coals · seared beef, charred cauliflower', img:'food-spread' }, { n:'Leaf & Ladle', d:'Now open for lunch · soups and salads', img:'food-salad' }]) + button('See what is new') },
+  { id:'loyal', n:'06', name:'Loyalty', pre:'Free Friday delivery and first look at new kitchens start now.', trigger:'5th order delivered', delay:'Next morning at 11am', cap:'Once per account', exit:'None', subjects:['Five orders in. You are a Regular now','A thank-you from four kitchens','Your Fresko Regulars perks start today'], notes:['The milestone, stated','From the kitchens, not us','Benefits first'],
+    body: e => heading('That was your fifth order. You are a Regular.') + para('Priya, you have ordered from four kitchens in six weeks. That makes you a Fresko Regular, and that comes with a few things from us and from them.') + progress(5, 5) + cols([{ t:'Free Friday delivery', d:'Every Friday, every kitchen, no minimum.', bg:'#E3F2E8' }, { t:'First look', d:'New kitchens show up for you a week before everyone else.', bg:C.sand }, { t:'Front of the queue', d:'Messages to support go to a person first.', bg:'#FCE9E2' }]) + button('See your Regulars perks', '#', C.basil) + small('Perks stay as long as you order once a month. If life gets in the way, they pause rather than disappear.') }
+];
+EMAILS.forEach(e => { e.html = wrapEmail(e, e.body(e)); });
+
+// Email list and preview
+let cur = 0, curSubj = 0;
+$('#mail-list').innerHTML = EMAILS.map((e, i) => `<button class="mail-item" role="tab" data-i="${i}" aria-current="false"><span class="n">${e.n}</span><span><b>${esc(e.name)}</b><small>${esc(e.trigger)} · ${esc(e.delay)}</small></span></button>`).join('');
+function hiHTML(src) {
+  return esc(src).replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="cm">$1</span>').replace(/(&lt;\/?)([a-zA-Z0-9!]+)/g, '$1<span class="tg">$2</span>').replace(/\s([a-zA-Z-]+)=(&quot;)/g, ' <span class="at">$1</span>=$2');
+}
+function showEmail(i, keepSubj) {
+  cur = i; if (!keepSubj) curSubj = 0;
+  const e = EMAILS[i];
+  $$('.mail-item').forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
+  $$('#flow-fig .mail').forEach(n => n.classList.toggle('on', n.dataset.id === e.id));
+  $('#frame').srcdoc = e.html;
+  $('#src').innerHTML = hiHTML(e.html);
+  $('#h-subj').textContent = e.subjects[curSubj]; $('#h-pre').textContent = '— ' + e.pre;
+  $('#ab').innerHTML = e.subjects.map((s, k) => `<label><input type="radio" name="subj" value="${k}" ${k === curSubj ? 'checked' : ''}><span class="v">${'ABC'[k]}</span><span>${esc(s)}</span><span class="note">${esc(e.notes[k])}</span></label>`).join('');
+  $('#spec').innerHTML = `<dt>Trigger</dt><dd>${esc(e.trigger)}</dd><dt>Delay</dt><dd>${esc(e.delay)}</dd><dt>Frequency</dt><dd>${esc(e.cap)}</dd><dt>Leaves flow when</dt><dd>${esc(e.exit)}</dd><dt>Size</dt><dd>${(e.html.length / 1024).toFixed(1)} KB</dd>`;
+  $('#open-tab').href = URL.createObjectURL(new Blob([e.html], { type:'text/html' }));
+}
+$('#mail-list').addEventListener('click', e => { const b = e.target.closest('.mail-item'); if (b) showEmail(+b.dataset.i); });
+$('#ab').addEventListener('change', e => { curSubj = +e.target.value; $('#h-subj').textContent = EMAILS[cur].subjects[curSubj]; });
+$('#frame').addEventListener('load', () => { const f = $('#frame'); try { f.style.height = Math.max(420, f.contentDocument.documentElement.scrollHeight + 2) + 'px'; } catch (err) { f.style.height = '900px'; } });
+function setWidth(mobile) { $('#stage').classList.toggle('mobile', mobile); $('#w-desk').setAttribute('aria-pressed', String(!mobile)); $('#w-mob').setAttribute('aria-pressed', String(mobile)); setTimeout(() => $('#frame').dispatchEvent(new Event('load')), 300); }
+$('#w-desk').addEventListener('click', () => setWidth(false));
+$('#w-mob').addEventListener('click', () => setWidth(true));
+function setView(code) { $('#client').classList.toggle('code', code); $('#v-render').setAttribute('aria-pressed', String(!code)); $('#v-html').setAttribute('aria-pressed', String(code)); }
+$('#v-render').addEventListener('click', () => setView(false));
+$('#v-html').addEventListener('click', () => setView(true));
+$('#copy-html').addEventListener('click', async () => {
+  const b = $('#copy-html');
+  try { await navigator.clipboard.writeText(EMAILS[cur].html); b.textContent = 'Copied'; } catch (err) { b.textContent = 'Select and copy'; }
+  setTimeout(() => { b.textContent = 'Copy HTML'; }, 1500);
+});
+
+// Subject table
+$('#sub-table tbody').innerHTML = EMAILS.map(e => `<tr><td><strong>${e.n} ${esc(e.name)}</strong></td>${e.subjects.map((s, k) => `<td><span class="v">${'ABC'[k]}</span>${esc(s)}</td>`).join('')}<td style="color:var(--muted)">${esc(e.pre)}</td></tr>`).join('');
+
+// Flow diagram
+(function drawFlow() {
+  const W = 1180, H = 560;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Automation flow: sign-up journey with welcome and first-order nudge, cart journey with abandoned cart email, order journey with follow-up and loyalty, and a win-back after thirty days">`;
+  s += `<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" class="arr"/></marker><marker id="ay" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" class="arr yes"/></marker><marker id="an" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" class="arr no"/></marker></defs>`;
+  const lanes = [['Sign-up journey', 0, 190], ['Cart journey', 200, 120], ['Order journey', 330, 230]];
+  lanes.forEach(([t, y, h]) => { s += `<rect class="lane-bg" x="0" y="${y}" width="${W}" height="${h}" rx="12"/><text class="lane-t" x="18" y="${y + 24}">${t}</text>`; });
+  const trig = (x, y, t) => `<g class="trig"><rect x="${x}" y="${y}" width="150" height="44" rx="10"/><circle class="ic" cx="${x + 18}" cy="${y + 22}" r="5"/><text x="${x + 32}" y="${y + 27}">${t}</text></g>`;
+  const delay = (x, y, t, w = 110) => `<g class="delay"><rect x="${x}" y="${y}" width="${w}" height="30" rx="15"/><text x="${x + w / 2}" y="${y + 19}" text-anchor="middle">${t}</text></g>`;
+  const dec = (x, y, t1, t2) => `<g class="dec"><path d="M${x} ${y - 36} l62 36 -62 36 -62 -36z"/><text x="${x}" y="${y - 2}" text-anchor="middle">${t1}</text><text x="${x}" y="${y + 13}" text-anchor="middle">${t2}</text></g>`;
+  const mail = (x, y, id, n, t, sub) => `<g class="mail" data-id="${id}" tabindex="0" role="button" aria-label="Open email ${n} ${t}"><rect x="${x}" y="${y}" width="170" height="56" rx="12"/><text class="n" x="${x + 14}" y="${y + 20}">EMAIL ${n}</text><text class="t" x="${x + 14}" y="${y + 37}">${t}</text><text class="s" x="${x + 14}" y="${y + 50}">${sub}</text></g>`;
+  const edge = (d, k = '') => `<path class="edge ${k}" d="${d}" marker-end="url(#${k === 'yes' ? 'ay' : k === 'no' ? 'an' : 'a'})"/>`;
+  const yn = (x, y, k) => `<text class="yn ${k}" x="${x}" y="${y}">${k === 'yes' ? 'YES' : 'NO'}</text>`;
+  // Sign-up journey
+  s += trig(30, 60, 'Account created') + edge('M180 82 H212') + mail(214, 54, 'welcome', '01', 'Welcome', 'sent immediately') + edge('M384 82 H412') + delay(414, 67, 'wait 2 days') + edge('M524 82 H556');
+  s += dec(620, 82, 'Placed an', 'order?') + edge('M682 82 H718', 'no') + yn(688, 74, 'no') + mail(720, 54, 'nudge', '02', 'First-order nudge', '$5 off with FRESKO5') + edge('M890 82 H922') + delay(924, 67, 'wait 5 days') + edge('M1034 82 H1066') + dec(1120, 82, 'Ordered', 'yet?');
+  s += edge('M620 118 V150 H740', 'yes') + yn(628, 142, 'yes') + `<g class="exit"><text x="748" y="154">leaves sign-up journey, joins order journey</text></g>`;
+  s += edge('M1120 118 V165 H1060 ', 'no') + yn(1126, 142, 'no') + `<g class="exit"><text x="1052" y="169" text-anchor="end">waits for the 30-day win-back</text></g>`;
+  s += edge('M1120 46 V22 H1000', 'yes') + yn(1126, 40, 'yes') + `<g class="exit"><text x="994" y="26" text-anchor="end">joins order journey</text></g>`;
+  // Cart journey
+  s += trig(30, 240, 'Cart left behind') + edge('M180 262 H212') + delay(214, 247, 'wait 45 min', 118) + edge('M332 262 H364') + dec(428, 262, 'Checked', 'out?') + edge('M490 262 H526', 'no') + yn(496, 254, 'no') + mail(528, 234, 'cart', '03', 'Abandoned cart', 'once in any 7 days');
+  s += edge('M698 262 H730') + `<g class="exit"><text x="738" y="266">stops; an order placed within 24 hours cancels any queued nudge</text></g>`;
+  s += edge('M428 298 V312 H470', 'yes') + yn(434, 312, 'yes') + `<g class="exit"><text x="478" y="316">nothing sent</text></g>`;
+  // Order journey
+  s += trig(30, 370, 'Order delivered') + edge('M180 392 H212') + delay(214, 377, 'wait 90 min') + edge('M324 392 H356') + mail(358, 364, 'rate', '04', 'Order follow-up', 'rate it, tip the rider') + edge('M528 392 H560') + dec(624, 392, 'Fifth', 'order?');
+  s += edge('M686 392 H722', 'yes') + yn(692, 384, 'yes') + mail(724, 364, 'loyal', '06', 'Loyalty', 'Regulars perks, next 11am');
+  s += edge('M624 428 V470 H690', 'no') + yn(630, 460, 'no') + delay(692, 455, 'no order for 30 days', 160) + edge('M852 470 H884') + mail(886, 442, 'winback', '05', 'Win-back', 'once per 90 days');
+  s += edge('M1056 470 H1090') + `<g class="exit"><text x="1096" y="474">stops</text></g>`;
+  s += `<g class="exit"><text x="30" y="540">Any order placed removes the person from the sign-up journey and clears queued cart and win-back emails.</text></g>`;
+  s += '</svg>';
+  $('#flow-fig').innerHTML = s;
+  $('#flow-fig').addEventListener('click', e => { const n = e.target.closest('.mail'); if (!n) return; showEmail(EMAILS.findIndex(x => x.id === n.dataset.id)); $('#emails').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
+  $('#flow-fig').addEventListener('keydown', e => { const n = e.target.closest('.mail'); if (n && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); n.click(); } });
+})();
+showEmail(0);
+</script>
+</body>
+</html>

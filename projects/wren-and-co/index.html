@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3EEE6">
+<title>Wren &amp; Co — Brand identity</title>
+<meta name="description" content="Brand identity for Wren &amp; Co, a boutique lifestyle label: logo system, colour, typography, voice and applications, every asset drawn in SVG and CSS.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='none' stroke='%232F4A3C' stroke-width='3'/%3E%3Cpath d='M15 22l8 22 9-18 9 18 8-22' fill='none' stroke='%232F4A3C' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Brand tokens */
+:root{
+  --linen:#F3EEE6; --parchment:#FBF8F3; --oat:#E8DFD2; --sand:#D3C7B6; --stone:#9A8F80; --bark:#5C554C; --ink:#26231F;
+  --thicket:#2F4A3C; --thicket-deep:#223629; --clay:#B5684A; --clay-deep:#8F4F36;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif; --sans:"Figtree","Helvetica Neue",Arial,sans-serif;
+  --gut:clamp(16px,4vw,56px); --bar-h:32px; --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:48px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--linen);color:var(--ink);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+h1,h2,h3,.display{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;text-wrap:balance}
+.wrap{padding-inline:var(--gut);max-width:1360px;margin-inline:auto}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
+.lede{color:var(--bark);max-width:60ch}
+
+/* Zero Lag bar */
+.zl-bar{position:sticky;top:0;z-index:60;height:var(--bar-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--gut);background:var(--oat);color:var(--bark);font-size:13px;line-height:1;border-bottom:1px solid var(--sand)}
+.zl-bar a{color:var(--thicket);text-decoration:none;font-weight:600;white-space:nowrap}
+.zl-bar a:hover{text-decoration:underline;text-underline-offset:3px}
+.zl-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl-bar strong{color:var(--ink);font-weight:600}
+@media (max-width:479px){.zl-bar span{display:none}}
+
+/* Hero */
+.hero{padding:clamp(32px,5vw,60px) 0 clamp(28px,4vw,52px);border-bottom:1px solid var(--sand)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:end}
+.hero .mark{width:min(100%,640px);color:var(--thicket)}
+.hero h1{font-size:clamp(28px,3.2vw,40px);line-height:1.15;margin-top:28px;max-width:22ch}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--clay)}
+.hero p{margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.chips a{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border:1px solid var(--sand);border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;background:var(--parchment);transition:border-color .15s,background .15s}
+.chips a:hover{border-color:var(--thicket);background:var(--oat)}
+.facts{display:grid;gap:0;border-top:1px solid var(--sand)}
+.facts div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--sand);font-size:15px}
+.facts dt{color:var(--bark)}
+.facts dd{font-weight:500;text-align:right}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.facts{margin-top:8px}}
+
+/* Sections */
+section{padding:clamp(40px,5.5vw,72px) 0;border-bottom:1px solid var(--sand)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px clamp(24px,4vw,64px);margin-bottom:clamp(24px,3.5vw,44px)}
+.sec-head h2{font-size:clamp(30px,3.6vw,46px);line-height:1.08;margin-top:8px}
+.sec-head p{align-self:end}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr}}
+
+/* Logo tiles */
+.tiles{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.tile{position:relative;background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r);display:flex;flex-direction:column;min-width:0}
+.tile .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:clamp(24px,4vw,56px) clamp(20px,3vw,40px);min-height:220px;color:var(--thicket)}
+.tile.dark{background:var(--thicket);border-color:var(--thicket);color:var(--parchment)}
+.tile.dark .stage{color:var(--parchment)}
+.tile.dark .tile-foot{border-color:rgba(255,255,255,.14)}
+.tile.dark .tile-foot span{color:var(--sand)}
+.tile.dark .ghost{border-color:rgba(255,255,255,.3);color:var(--parchment)}
+.tile.dark .ghost:hover{background:rgba(255,255,255,.1)}
+.tile-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 16px;border-top:1px solid var(--sand);font-size:13.5px}
+.tile-foot b{font-weight:600}
+.tile-foot span{color:var(--bark)}
+.tile-foot .acts{margin-left:auto;display:flex;gap:6px}
+.ghost{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border:1px solid var(--sand);border-radius:var(--r);font-size:13px;font-weight:600;color:var(--thicket);background:transparent;transition:background .15s,border-color .15s}
+.ghost:hover{background:var(--oat);border-color:var(--stone)}
+.ghost svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.span6{grid-column:span 6}.span4{grid-column:span 4}.span8{grid-column:span 8}.span3{grid-column:span 3}.span12{grid-column:span 12}
+.lock-h{width:min(100%,420px)}
+.lock-s{width:min(100%,260px)}
+.lock-m{width:min(100%,150px)}
+@media (max-width:980px){.span4,.span3,.span6{grid-column:span 6}}
+@media (max-width:620px){.span4,.span3,.span6,.span8{grid-column:span 12}.tile .stage{min-height:170px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);background:var(--ink);color:var(--parchment);padding:10px 16px;border-radius:var(--r);font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Rules: clear space, minimum size, misuse */
+.rules{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;margin-top:14px}
+.rule{background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r);padding:20px}
+.rule h3{font-size:20px;margin-bottom:6px}
+.rule p{font-size:14.5px;color:var(--bark)}
+.rule .svg-wrap{margin-top:16px;color:var(--thicket)}
+.minsize{display:flex;flex-wrap:wrap;gap:24px 36px;align-items:flex-end;margin-top:20px;color:var(--thicket)}
+.minsize figure{display:grid;gap:8px}
+.minsize figcaption{font-size:12.5px;color:var(--bark);font-variant-numeric:tabular-nums}
+.misuse{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px}
+.mis{position:relative;background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r);overflow:hidden}
+.mis .stage{height:150px;display:flex;align-items:center;justify-content:center;padding:20px;color:var(--thicket);overflow:hidden}
+.mis figcaption{padding:10px 14px 12px;font-size:13.5px;border-top:1px solid var(--sand);color:var(--bark)}
+.mis .x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:var(--clay);color:#fff;display:grid;place-items:center}
+.mis .x svg{width:12px;height:12px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round}
+.mis .busy{background:url("../../assets/projects/home-lounge.jpg") center/cover}
+@media (max-width:860px){.rules{grid-template-columns:1fr}.misuse{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.misuse{grid-template-columns:1fr}}
+
+/* Colour */
+.swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.sw{border:1px solid var(--sand);border-radius:var(--r);overflow:hidden;background:var(--parchment)}
+.sw .chip{height:140px;display:flex;align-items:flex-end;padding:14px;font-family:var(--serif);font-size:22px}
+.sw dl{padding:12px 14px 14px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.sw dt{color:var(--bark)}
+.sw dd{font-variant-numeric:tabular-nums}
+.sw dd.use{grid-column:1/-1;color:var(--bark);margin-top:4px;border-top:1px solid var(--sand);padding-top:8px}
+.ramp{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin-top:14px;border:1px solid var(--sand);border-radius:var(--r);overflow:hidden}
+.ramp div{height:92px;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;font-size:12px;font-variant-numeric:tabular-nums;line-height:1.35}
+.ramp b{font-weight:600;display:block}
+.pairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px}
+.pair{border-radius:var(--r);padding:18px 16px 14px;min-height:150px;display:flex;flex-direction:column;border:1px solid var(--sand)}
+.pair .big{font-family:var(--serif);font-size:30px;line-height:1.1}
+.pair .sm{font-size:14px;margin-top:6px;opacity:.85}
+.pair .meta{margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.pair .grade{font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid currentColor;font-size:11.5px;letter-spacing:.04em}
+@media (max-width:980px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}.pairs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.swatches{grid-template-columns:1fr}.ramp{grid-template-columns:repeat(4,minmax(0,1fr))}.ramp div{height:72px}}
+@media (max-width:420px){.pairs{grid-template-columns:1fr}}
+
+/* Typography */
+.type-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+.spec{background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r)}
+.spec-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px 24px;padding:20px 22px;border-bottom:1px solid var(--sand);align-items:baseline}
+.spec-row:last-child{border-bottom:0}
+.spec-row .meta{font-size:12.5px;color:var(--bark);line-height:1.5;font-variant-numeric:tabular-nums}
+.spec-row .meta b{display:block;color:var(--ink);font-weight:600;font-size:13px}
+.t-display{font-family:var(--serif);font-size:clamp(34px,4.4vw,56px);line-height:1.05;letter-spacing:-.015em;font-weight:500}
+.t-display em{font-style:italic;font-weight:400}
+.t-h2{font-family:var(--serif);font-size:clamp(24px,2.6vw,32px);line-height:1.2;letter-spacing:-.01em;font-weight:500}
+.t-h3{font-family:var(--serif);font-size:22px;line-height:1.3;font-weight:500}
+.t-body{font-size:17px;line-height:1.6;max-width:56ch}
+.t-cap{font-size:13.5px;line-height:1.5;color:var(--bark);max-width:48ch}
+.t-label{font-size:12px;line-height:1;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+.families{display:grid;gap:14px;align-content:start}
+.fam{background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r);padding:18px 20px}
+.fam .glyphs{font-size:44px;line-height:1.1;margin-bottom:6px}
+.fam .glyphs.serif{font-family:var(--serif);font-weight:500}
+.fam h3{font-family:var(--sans);font-size:15px;font-weight:600}
+.fam p{font-size:13.5px;color:var(--bark);margin-top:4px}
+.try{grid-column:1/-1;background:var(--thicket);color:var(--parchment);border-radius:var(--r);padding:clamp(20px,3vw,32px)}
+.try label{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--sand)}
+.try input{display:block;width:100%;margin-top:10px;padding:12px 14px;border:1px solid rgba(255,255,255,.3);border-radius:var(--r);background:rgba(255,255,255,.06);color:var(--parchment);font-size:16px}
+.try input:focus-visible{outline-color:var(--sand)}
+.try .out{font-family:var(--serif);font-size:clamp(34px,5vw,72px);line-height:1.05;letter-spacing:-.015em;margin-top:22px;min-height:1.1em;overflow-wrap:anywhere}
+.try .out em{font-style:italic;font-weight:400;color:var(--sand)}
+@media (max-width:860px){.type-grid{grid-template-columns:1fr}.spec-row{grid-template-columns:1fr}}
+
+/* Voice */
+.voice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.v{background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r);padding:22px}
+.v .n{font-family:var(--serif);font-style:italic;color:var(--clay);font-size:18px}
+.v h3{font-size:24px;margin-top:4px}
+.v p{color:var(--bark);font-size:14.5px;margin-top:6px}
+.dd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.dd div{border-radius:var(--r);padding:14px;font-size:14.5px;line-height:1.5;display:grid;gap:6px;align-content:start}
+.dd .do{background:#E9EFE8;border:1px solid #C9D6C8}
+.dd .dont{background:#F6E7DE;border:1px solid #E6C6B5}
+.dd b{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.dd .do b{color:var(--thicket)}
+.dd .dont b{color:var(--clay-deep)}
+.dd small{display:block;font-size:12.5px;color:var(--bark)}
+@media (max-width:860px){.voice{grid-template-columns:1fr}}
+@media (max-width:480px){.dd{grid-template-columns:1fr}}
+
+/* Applications */
+.apps{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.app{background:var(--parchment);border:1px solid var(--sand);border-radius:var(--r);padding:clamp(18px,3vw,32px);display:flex;flex-direction:column;gap:18px;min-width:0}
+.app h3{font-family:var(--sans);font-size:14px;font-weight:600;display:flex;justify-content:space-between;gap:12px}
+.app h3 span{color:var(--bark);font-weight:400}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{aspect-ratio:85/55;border-radius:3px;padding:7%;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(38,35,31,.12),0 8px 24px -12px rgba(38,35,31,.3);min-width:0}
+.card.front{background:var(--parchment);color:var(--thicket);border:1px solid var(--sand);justify-content:space-between}
+.card.front .mono{width:18%}
+.card.front .wm{width:62%;align-self:flex-end}
+.card.back{background:var(--thicket);color:var(--parchment);justify-content:flex-end;gap:2%}
+.card .name{font-family:var(--serif);font-size:clamp(14px,2.4cqw,20px);line-height:1.1}
+.card{container-type:inline-size}
+.card .role{font-size:clamp(8px,3.4cqw,11px);letter-spacing:.14em;text-transform:uppercase;color:var(--sand);margin-top:2%}
+.card address{font-style:normal;font-size:clamp(8px,3.6cqw,12px);line-height:1.5;margin-top:auto;color:var(--oat)}
+@media (max-width:1100px){.cards{grid-template-columns:1fr}.card{max-width:360px}}
+.tote{display:flex;justify-content:center;padding:10px 0}
+.tote svg{width:min(100%,300px)}
+.ig{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.ig > *{aspect-ratio:1;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:9%;container-type:inline-size}
+.ig img{width:100%;height:100%;object-fit:cover}
+.ig .t{font-family:var(--serif);line-height:1.1;font-size:clamp(12px,9cqw,30px);letter-spacing:-.01em}
+.ig .t em{font-style:italic;font-weight:400}
+.ig .c{background:var(--clay);color:var(--parchment)}
+.ig .g{background:var(--thicket);color:var(--parchment)}
+.ig .o{background:var(--oat);color:var(--thicket)}
+.ig .l{background:var(--parchment);color:var(--ink);border:1px solid var(--sand)}
+.ig .lab{font-size:clamp(8px,4.6cqw,12px);letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.ig .mono{width:34%}
+.sign{background:var(--oat);border-radius:var(--r);padding:clamp(12px,2.5vw,28px) clamp(12px,2.5vw,28px) 0;overflow:hidden}
+.sign svg{width:100%}
+.sticker,.candle{display:flex;justify-content:center}
+.candle svg{width:min(100%,230px)}
+.sig{display:flex;gap:14px;align-items:flex-start;padding:18px;border:1px solid var(--sand);background:#fff;border-radius:var(--r);font-size:13.5px;line-height:1.5}
+.sig svg{width:40px;flex:none;color:var(--thicket)}
+.sig b{display:block;font-family:var(--serif);font-size:17px;font-weight:500}
+.sig span{display:block;color:var(--bark)}
+.sig a{color:var(--thicket);text-decoration:none;font-weight:500}
+.sig .sig-rule{height:2px;background:var(--thicket);margin:8px 0 6px;width:28px}
+.sticker svg{width:min(100%,260px)}
+@media (max-width:980px){.app.span4,.app.span8{grid-column:span 12}}
+
+/* Footer */
+footer{padding:36px 0 48px;display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;font-size:14px;color:var(--bark)}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
+footer a{color:var(--thicket);font-weight:600;text-decoration:none}
+footer a:hover{text-decoration:underline;text-underline-offset:3px}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Wren &amp; Co</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Brand identity</p>
+      <svg class="mark" viewBox="0 0 420 96" role="img" aria-label="Wren and Co wordmark with monogram" style="margin-top:18px">
+        <g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></g>
+        <text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+        <text x="94" y="86" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="10.5" letter-spacing="3" fill="currentColor">LINEN · CERAMICS · CANDLES</text>
+      </svg>
+      <h1>Identity for a boutique lifestyle label: <em>linen, ceramics, small-batch candles.</em></h1>
+      <p class="lede">A quiet, editorial identity built to be used by two people without a design team. Every asset on this page is the real thing: the logo is inline SVG you can download, the colours are measured for contrast, and the applications are set in the actual type.</p>
+      <nav class="chips" aria-label="Sections">
+        <a href="#identity">Identity</a><a href="#colour">Colour</a><a href="#typography">Typography</a><a href="#voice">Voice</a><a href="#applications">Applications</a>
+      </nav>
+    </div>
+    <dl class="facts">
+      <div><dt>Service</dt><dd>UI/UX Design</dd></div>
+      <div><dt>Deliverables</dt><dd>Logo system, colour, type, voice, applications</dd></div>
+      <div><dt>Primary type</dt><dd>Fraunces</dd></div>
+      <div><dt>Secondary type</dt><dd>Figtree</dd></div>
+      <div><dt>Format</dt><dd>Living web guideline</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main id="main">
+<!-- Logo system -->
+<section id="identity">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="eyebrow">01 — Logo system</p><h2>A monogram that stands alone, a wordmark that stays quiet.</h2></div>
+      <p class="lede">The W is drawn from four strokes inside a thin ring, with a single dot where the two peaks would meet. It reads as a bird in flight at small sizes and as a letter at large ones. The wordmark sets the name in Fraunces with an italic ampersand so it never feels corporate.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile span8">
+        <div class="stage">
+          <svg class="lock-h" data-logo="horizontal" viewBox="0 0 420 96" role="img" aria-label="Horizontal lockup">
+            <g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></g>
+            <text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+            <text x="94" y="86" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="10.5" letter-spacing="3" fill="currentColor">LINEN · CERAMICS · CANDLES</text>
+          </svg>
+        </div>
+        <div class="tile-foot"><b>Horizontal lockup</b><span>Primary. Website header, email, invoices.</span>
+          <div class="acts"><button class="ghost" type="button" data-copy="horizontal"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>Copy SVG</button><button class="ghost" type="button" data-download="horizontal"><svg viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M4 20h16"/></svg>Download SVG</button></div></div>
+      </div>
+      <div class="tile span4">
+        <div class="stage">
+          <svg class="lock-s" data-logo="stacked" viewBox="0 0 300 210" role="img" aria-label="Stacked lockup">
+            <g transform="translate(118 6)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></g>
+            <text x="150" y="140" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="52" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+            <text x="150" y="176" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="10.5" letter-spacing="3" fill="currentColor">LINEN · CERAMICS · CANDLES</text>
+          </svg>
+        </div>
+        <div class="tile-foot"><b>Stacked</b><span>Square placements, labels.</span>
+          <div class="acts"><button class="ghost" type="button" data-copy="stacked" aria-label="Copy stacked lockup SVG"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg></button><button class="ghost" type="button" data-download="stacked"><svg viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M4 20h16"/></svg>SVG</button></div></div>
+      </div>
+      <div class="tile span4">
+        <div class="stage">
+          <svg class="lock-m" data-logo="monogram" viewBox="0 0 64 64" role="img" aria-label="Monogram">
+            <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="tile-foot"><b>Monogram</b><span>Favicon, wax seal, embroidery.</span>
+          <div class="acts"><button class="ghost" type="button" data-copy="monogram" aria-label="Copy monogram SVG"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg></button><button class="ghost" type="button" data-download="monogram"><svg viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M4 20h16"/></svg>SVG</button></div></div>
+      </div>
+      <div class="tile span8 dark">
+        <div class="stage">
+          <svg class="lock-h" data-logo="reversed" viewBox="0 0 420 96" role="img" aria-label="Reversed lockup on green">
+            <g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></g>
+            <text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+            <text x="94" y="86" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="10.5" letter-spacing="3" fill="currentColor">LINEN · CERAMICS · CANDLES</text>
+          </svg>
+        </div>
+        <div class="tile-foot"><b>Reversed</b><span>On Thicket, Clay or photography with a dark overlay.</span>
+          <div class="acts"><button class="ghost" type="button" data-copy="reversed"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>Copy SVG</button><button class="ghost" type="button" data-download="reversed"><svg viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M4 20h16"/></svg>Download SVG</button></div></div>
+      </div>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <h3>Clear space</h3>
+        <p>Keep a margin of x on every side, where x is the height of the ring. Nothing else sits inside it: no type, no edges, no photography.</p>
+        <div class="svg-wrap">
+          <svg viewBox="0 0 560 200" role="img" aria-label="Clear space diagram: the lockup sits inside a dashed boundary one ring-height away on every side">
+            <rect x="60" y="34" width="440" height="132" fill="none" stroke="#B5684A" stroke-width="1.2" stroke-dasharray="4 4"/>
+            <rect x="124" y="70" width="312" height="60" fill="none" stroke="#9A8F80" stroke-width="1" stroke-dasharray="2 3"/>
+            <g transform="translate(124 70) scale(.65)">
+              <g transform="translate(0 8)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></g>
+              <text x="86" y="60" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+              <text x="88" y="84" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="10.5" letter-spacing="3" fill="currentColor">LINEN · CERAMICS · CANDLES</text>
+            </g>
+            <g stroke="#B5684A" stroke-width="1.2" fill="none">
+              <path d="M60 24v-8M124 24v-8M60 20h64"/><path d="M50 34h-8M50 70h-8M46 34v36"/><path d="M500 24v-8M436 24v-8M436 20h64"/><path d="M510 130h8M510 166h8M514 130v36"/>
+            </g>
+            <g font-family="Figtree, Arial, sans-serif" font-size="12" fill="#B5684A" font-weight="600">
+              <text x="92" y="12" text-anchor="middle">x</text><text x="468" y="12" text-anchor="middle">x</text><text x="36" y="56" text-anchor="end">x</text><text x="528" y="152">x</text>
+            </g>
+            <text x="60" y="190" font-family="Figtree, Arial, sans-serif" font-size="12" fill="#5C554C">x = ring height (64 units at native scale)</text>
+          </svg>
+        </div>
+      </div>
+      <div class="rule">
+        <h3>Minimum size</h3>
+        <p>Below these sizes the tagline drops and the stroke of the W closes up. Use the monogram alone when the width is under 120 px.</p>
+        <div class="minsize">
+          <figure>
+            <svg viewBox="0 0 420 70" width="120" aria-hidden="true"><g transform="translate(6 3)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></g><text x="92" y="54" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text></svg>
+            <figcaption>Horizontal, no tagline · 120 px / 32 mm</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 64 64" width="24" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="3"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <figcaption>Monogram · 24 px / 8 mm</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 64 64" width="16" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="4"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <figcaption>Favicon · 16 px, heavier strokes</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="misuse" aria-label="Incorrect uses">
+      <figure class="mis"><div class="stage"><svg viewBox="0 0 420 96" preserveAspectRatio="none" style="width:240px;height:40px" aria-hidden="true"><g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g><text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text></svg></div><span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span><figcaption>Do not stretch or condense</figcaption></figure>
+      <figure class="mis"><div class="stage" style="color:#E0399A"><svg viewBox="0 0 420 96" style="width:220px" aria-hidden="true"><g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="#2BB3E8" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g><text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text></svg></div><span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span><figcaption>Do not recolour outside the palette</figcaption></figure>
+      <figure class="mis"><div class="stage busy"><svg viewBox="0 0 420 96" style="width:220px;color:#fff" aria-hidden="true"><g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g><text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text></svg></div><span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span><figcaption>Do not place on busy photography without an overlay</figcaption></figure>
+      <figure class="mis"><div class="stage"><svg viewBox="0 0 420 96" style="width:220px;filter:drop-shadow(3px 4px 2px rgba(0,0,0,.45))" aria-hidden="true"><g transform="translate(6 16)"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g><text x="92" y="63" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor" stroke="#B5684A" stroke-width="1.5">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text></svg></div><span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span><figcaption>Do not add outlines, shadows or effects</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- Colour -->
+<section id="colour">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="eyebrow">02 — Colour</p><h2>Two colours with a name, and a ramp of linen between them.</h2></div>
+      <p class="lede">Thicket carries the brand; Clay is the only accent and is used sparingly, for one action or one word on a page. Everything else is the neutral ramp, which is warm enough to sit next to undyed fabric and unglazed clay without looking grey.</p>
+    </div>
+    <div class="swatches" id="swatches"></div>
+    <div class="ramp" id="ramp" role="list" aria-label="Neutral ramp"></div>
+    <h3 style="font-size:22px;margin-top:36px">Text on colour</h3>
+    <p class="lede" style="font-size:14.5px;margin-top:4px">Contrast ratios are calculated from the hex values above as the page loads, so a change to the palette shows up here immediately. AA requires 4.5:1 for body text and 3:1 for large text.</p>
+    <div class="pairs" id="pairs"></div>
+  </div>
+</section>
+
+<!-- Typography -->
+<section id="typography">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="eyebrow">03 — Typography</p><h2>Fraunces for the voice, Figtree for the instructions.</h2></div>
+      <p class="lede">Fraunces is a soft, slightly wonky serif that takes well to large sizes and italics. Figtree does the work underneath: prices, care labels, shipping notes. One weight of each for most things, so the system stays simple to use.</p>
+    </div>
+    <div class="type-grid">
+      <div class="spec">
+        <div class="spec-row"><div class="meta"><b>Display</b>Fraunces 500 · 56 / 1.05<br>tracking −1.5%</div><p class="t-display">Made slowly, <em>kept for years.</em></p></div>
+        <div class="spec-row"><div class="meta"><b>Heading</b>Fraunces 500 · 32 / 1.2<br>tracking −1%</div><p class="t-h2">Stoneware for a table that gets used</p></div>
+        <div class="spec-row"><div class="meta"><b>Subheading</b>Fraunces 500 · 22 / 1.3</div><p class="t-h3">Washed linen, woven in Lithuania</p></div>
+        <div class="spec-row"><div class="meta"><b>Body</b>Figtree 400 · 17 / 1.6</div><p class="t-body">Each candle is poured by hand in batches of forty, in a blend of rapeseed and coconut wax. The scent is cedar, dry grass and a little smoke. It burns for around fifty hours if you trim the wick.</p></div>
+        <div class="spec-row"><div class="meta"><b>Caption</b>Figtree 400 · 13.5 / 1.5<br>colour Bark</div><p class="t-cap">Shown in Oat. The weave relaxes after the first wash and the colour softens slightly.</p></div>
+        <div class="spec-row"><div class="meta"><b>Label</b>Figtree 600 · 12 / 1<br>tracking 18%, uppercase</div><p class="t-label">Small batch · Hand poured</p></div>
+      </div>
+      <div class="families">
+        <div class="fam"><p class="glyphs serif" aria-hidden="true">Aa Qg &amp;</p><h3>Fraunces</h3><p>Variable serif by Undercase Type. Weights 400 and 500, italic for emphasis and the ampersand.</p></div>
+        <div class="fam"><p class="glyphs" aria-hidden="true">Aa Qg 1234</p><h3>Figtree</h3><p>Geometric sans by Erik Kennedy. Weights 400, 500 and 600. Tabular figures for prices.</p></div>
+      </div>
+      <div class="try">
+        <label for="try-in">Try a headline in the brand type</label>
+        <input id="try-in" type="text" value="Linen that softens with every wash" maxlength="80" autocomplete="off">
+        <p class="out" id="try-out" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Voice -->
+<section id="voice">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="eyebrow">04 — Voice &amp; tone</p><h2>Written like a note from the person who made it.</h2></div>
+      <p class="lede">Wren &amp; Co speaks plainly about materials, time and care. It never sells a lifestyle, never exclaims, and never pretends an object will change your life. Four principles, each with the same copy written both ways.</p>
+    </div>
+    <div class="voice">
+      <article class="v"><p class="n">One</p><h3>Say less, mean it</h3><p>Short sentences. One idea per line. If a word is doing no work, cut it.</p>
+        <div class="dd">
+          <div class="do"><b>Do</b><small>Product description</small>Oak serving board. Oiled, not varnished, so it can be sanded back and oiled again. 38 × 22 cm.</div>
+          <div class="dont"><b>Don't</b><small>Product description</small>Elevate your hosting game with our stunning, artisanal oak serving board, lovingly crafted to make every gathering unforgettable!</div>
+        </div>
+      </article>
+      <article class="v"><p class="n">Two</p><h3>Describe the object, not the lifestyle</h3><p>Material, origin, dimensions, how it ages. Let the reader decide what it means for them.</p>
+        <div class="dd">
+          <div class="do"><b>Do</b><small>Instagram caption</small>The Fen candle, back on the bench this week. Cedar, dry grass, a little smoke. Forty at a time.</div>
+          <div class="dont"><b>Don't</b><small>Instagram caption</small>Cosy season is HERE and we are obsessed. Light the Fen, pour a glass, and let the self-care begin ✨🕯️</div>
+        </div>
+      </article>
+      <article class="v"><p class="n">Three</p><h3>Honest about limits</h3><p>Small batches run out. Say so, say when, and don't dress it up as scarcity marketing.</p>
+        <div class="dd">
+          <div class="do"><b>Do</b><small>Out-of-stock notice</small>Sold out. The next batch is poured on 14 November and ships the week after. Leave your email and we'll tell you once, when it's ready.</div>
+          <div class="dont"><b>Don't</b><small>Out-of-stock notice</small>GONE! Our bestseller flew off the shelves. Join the waitlist NOW before you miss out again!</div>
+        </div>
+      </article>
+      <article class="v"><p class="n">Four</p><h3>Warm, never cute</h3><p>Friendly like a good shopkeeper, not like a mascot. No puns in transactional messages.</p>
+        <div class="dd">
+          <div class="do"><b>Do</b><small>Order email subject</small>Your order is on its way — Wren &amp; Co, no. 2184</div>
+          <div class="dont"><b>Don't</b><small>Order email subject</small>Wren-derful news!! Your goodies have left the nest 🐦📦</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Applications -->
+<section id="applications">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="eyebrow">05 — Applications</p><h2>The identity in use, built from the same assets.</h2></div>
+      <p class="lede">Each application below is laid out in CSS and SVG from the lockups and tokens above, at its real proportions. Change a colour in the palette and these follow.</p>
+    </div>
+    <div class="apps">
+      <div class="app span8">
+        <h3>Business card <span>85 × 55 mm, uncoated 350 gsm</span></h3>
+        <div class="cards">
+          <div class="card front">
+            <svg class="mono" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></svg>
+            <svg class="wm" viewBox="0 0 330 70" aria-label="Wren and Co"><text x="0" y="54" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="54" letter-spacing="-1" fill="currentColor">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text></svg>
+          </div>
+          <div class="card back">
+            <p class="name">Imogen Hale</p>
+            <p class="role">Founder &amp; maker</p>
+            <address>imogen@wrenandco.shop<br>+44 1736 300 418<br>4 Chapel Yard, Penzance TR18 2AL</address>
+          </div>
+        </div>
+      </div>
+      <div class="app span4">
+        <h3>Tote label <span>Woven, 60 × 40 mm</span></h3>
+        <div class="tote">
+          <svg viewBox="0 0 300 220" role="img" aria-label="Woven tote label with the stacked lockup and care text">
+            <path d="M40 10h220a6 6 0 0 1 6 6v140l-116 54L34 156V16a6 6 0 0 1 6-6z" fill="#F3EEE6" stroke="#D3C7B6" stroke-width="2"/>
+            <path d="M48 20h204v128L150 196 48 148z" fill="none" stroke="#2F4A3C" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <g transform="translate(126 38)" fill="none" stroke="#2F4A3C"><circle cx="24" cy="24" r="21.5" stroke-width="1.6"/><path d="M11.3 16.5l6 16.5 6.7-13.5 6.7 13.5 6-16.5" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/></g>
+            <text x="150" y="124" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="30" letter-spacing="-.5" fill="#2F4A3C">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+            <text x="150" y="146" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="8" letter-spacing="2.2" fill="#B5684A">HEAVY LINEN · PENZANCE</text>
+            <text x="150" y="162" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="8" fill="#5C554C">Wash cold · Hang to dry</text>
+          </svg>
+        </div>
+      </div>
+      <div class="app span4">
+        <h3>Instagram grid <span>9 tiles, 1:1</span></h3>
+        <div class="ig">
+          <figure><img src="../../assets/projects/home-planter.jpg" alt="A pale stoneware planter holding a small green plant on a light shelf." loading="lazy" width="1400" height="932"></figure>
+          <div class="o"><p class="t">Made <em>slowly</em></p></div>
+          <div class="g"><svg class="mono" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="currentColor"/></svg></div>
+          <div class="c"><p class="t">Batch<br>no. 41</p></div>
+          <figure><img src="../../assets/projects/home-tee.jpg" alt="A folded heavy cotton tee in undyed cream on a wooden surface." loading="lazy" width="1400" height="1400"></figure>
+          <div class="l"><p class="lab">Back in<br>the shop<br>Friday</p></div>
+          <div class="o"><p class="t"><em>Cedar,</em> dry grass, smoke</p></div>
+          <figure><img src="../../assets/projects/home-lamp.jpg" alt="A grey pendant lamp glowing against a deep green wall." loading="lazy" width="1400" height="933"></figure>
+          <div class="g"><p class="t">Wren <em>&amp;</em> Co</p></div>
+        </div>
+      </div>
+      <div class="app span8">
+        <h3>Storefront sign <span>Painted timber fascia, 3.6 × 0.6 m</span></h3>
+        <div class="sign">
+          <svg viewBox="0 0 720 240" role="img" aria-label="Shopfront with a deep green fascia board carrying the wordmark and a hanging monogram sign">
+            <rect x="0" y="0" width="720" height="118" fill="#2F4A3C"/>
+            <rect x="0" y="118" width="720" height="6" fill="#223629"/>
+            <rect x="24" y="14" width="672" height="90" fill="none" stroke="#D3C7B6" stroke-width="1" opacity=".55"/>
+            <text x="360" y="72" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="52" letter-spacing="-1" fill="#F3EEE6">Wren <tspan font-style="italic" font-weight="400">&amp;</tspan> Co</text>
+            <text x="360" y="94" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="10" letter-spacing="3" fill="#D3C7B6">LINEN · CERAMICS · CANDLES · EST. PENZANCE</text>
+            <rect x="0" y="124" width="720" height="116" fill="#E8DFD2"/>
+            <rect x="60" y="124" width="600" height="116" fill="#D8E2DA" stroke="#223629" stroke-width="4"/>
+            <rect x="62" y="124" width="596" height="116" fill="url(#glass)"/>
+            <defs><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#223629" stop-opacity=".12"/></linearGradient></defs>
+            <line x1="360" y1="124" x2="360" y2="240" stroke="#223629" stroke-width="4"/>
+            <text x="210" y="196" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="14" fill="#2F4A3C" opacity=".85">Open Wed – Sat, 10 – 5</text>
+            <text x="510" y="196" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="9" letter-spacing="2" font-weight="600" fill="#2F4A3C" opacity=".8">4 CHAPEL YARD</text>
+            <g transform="translate(640 124)"><path d="M0 0v22h40" fill="none" stroke="#223629" stroke-width="3"/><g transform="translate(16 22)"><rect x="0" y="0" width="48" height="48" rx="24" fill="#F3EEE6" stroke="#223629" stroke-width="2"/><g transform="translate(8 8) scale(.5)" fill="none" stroke="#2F4A3C"><path d="M15 22l8 22 9-18 9 18 8-22" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g></g></g>
+          </svg>
+        </div>
+      </div>
+      <div class="app span4">
+        <h3>Packaging sticker <span>Round, 60 mm, kraft</span></h3>
+        <div class="sticker">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Round clay-coloured sticker with the monogram and the words small batch, hand poured, Penzance around the edge">
+            <defs><path id="ring" d="M100 100m-72 0a72 72 0 1 1 144 0a72 72 0 1 1-144 0"/></defs>
+            <circle cx="100" cy="100" r="98" fill="#B5684A"/>
+            <circle cx="100" cy="100" r="86" fill="none" stroke="#F3EEE6" stroke-width="1" opacity=".6"/>
+            <circle cx="100" cy="100" r="58" fill="none" stroke="#F3EEE6" stroke-width="1" opacity=".6"/>
+            <text font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="11" fill="#F3EEE6" textLength="452" lengthAdjust="spacing"><textPath href="#ring" textLength="452" lengthAdjust="spacing">SMALL BATCH · HAND POURED · WREN &amp; CO · PENZANCE ·</textPath></text>
+            <g transform="translate(68 68)" fill="none" stroke="#F3EEE6"><path d="M15 22l8 22 9-18 9 18 8-22" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.4" fill="#F3EEE6" stroke="none"/></g>
+            <text x="100" y="128" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="11" fill="#F3EEE6">no. 41</text>
+          </svg>
+        </div>
+      </div>
+      <div class="app span4">
+        <h3>Candle label <span>Wrap, 60 × 80 mm, kraft</span></h3>
+        <div class="candle">
+          <svg viewBox="0 0 230 300" role="img" aria-label="Candle label for the Fen candle listing scent notes, burn time and batch">
+            <rect x="1" y="1" width="228" height="298" rx="3" fill="#F3EEE6" stroke="#D3C7B6" stroke-width="2"/>
+            <rect x="14" y="14" width="202" height="272" fill="none" stroke="#2F4A3C" stroke-width="1"/>
+            <text x="115" y="48" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="9" letter-spacing="2.6" fill="#B5684A">WREN &amp; CO</text>
+            <text x="115" y="118" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="500" font-size="64" letter-spacing="-1.5" fill="#2F4A3C">Fen</text>
+            <text x="115" y="146" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="14" fill="#5C554C">cedar, dry grass, a little smoke</text>
+            <line x1="60" y1="170" x2="170" y2="170" stroke="#D3C7B6"/>
+            <text x="115" y="196" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="10" fill="#26231F">Rapeseed and coconut wax · 220 g</text>
+            <text x="115" y="214" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="10" fill="#26231F">Around 50 hours · Trim the wick to 5 mm</text>
+            <text x="115" y="258" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-weight="600" font-size="8.5" letter-spacing="1.8" fill="#2F4A3C">PENZANCE · BATCH 41</text>
+          </svg>
+        </div>
+      </div>
+      <div class="app span4">
+        <h3>Email signature <span>HTML, no images</span></h3>
+        <div class="sig">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M15 22l8 22 9-18 9 18 8-22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15.5" r="2.6" fill="currentColor"/></svg>
+          <div><b>Imogen Hale</b><span>Founder &amp; maker, Wren &amp; Co</span><div class="sig-rule"></div><a href="#applications">wrenandco.shop</a><span>+44 1736 300 418 · 4 Chapel Yard, Penzance</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <p>Identity work by Zero Lag. Logo files, colour values and type settings on this page are the deliverable itself.</p>
+  <nav aria-label="Zero Lag"><a href="../../work.html">All projects</a><a href="../../contact.html">Start a project like this</a></nav>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// Palette source of truth for swatches, ramp and contrast checks
+const palette = {
+  thicket:{name:'Thicket',hex:'#2F4A3C',use:'Primary. Logo, headings, buttons, the fascia board.'},
+  clay:{name:'Clay',hex:'#B5684A',use:'Accent. One action or one word per page, stickers, wax seals.'},
+  ink:{name:'Ink',hex:'#26231F',use:'Body text. Warmer than black so it sits well on linen.'},
+  linen:{name:'Linen',hex:'#F3EEE6',use:'Page background and reversed type.'},
+  parchment:{name:'Parchment',hex:'#FBF8F3',use:'Cards, paper stock, raised surfaces.'},
+  oat:{name:'Oat',hex:'#E8DFD2',use:'Secondary surfaces, Instagram type tiles.'}
+};
+const ramp = [['Parchment','#FBF8F3'],['Linen','#F3EEE6'],['Oat','#E8DFD2'],['Sand','#D3C7B6'],['Stone','#9A8F80'],['Bark','#5C554C'],['Ink','#26231F']];
+
+// Convert hex to RGB triplet
+const rgb = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+// WCAG relative luminance
+const lum = h => { const [r,g,b] = rgb(h).map(v => { v/=255; return v<=.03928 ? v/12.92 : Math.pow((v+.055)/1.055,2.4); }); return .2126*r+.7152*g+.0722*b; };
+// Contrast ratio between two hex colours
+const contrast = (a,b) => { const l1=lum(a), l2=lum(b); return (Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05); };
+const grade = r => r>=7 ? 'AAA' : r>=4.5 ? 'AA' : r>=3 ? 'AA large' : 'Fail';
+
+// Render swatches
+document.getElementById('swatches').innerHTML = Object.values(palette).map(c => {
+  const dark = lum(c.hex) < .4;
+  return `<div class="sw"><div class="chip" style="background:${c.hex};color:${dark?'#F3EEE6':'#26231F'}">${c.name}</div>
+  <dl><dt>Hex</dt><dd>${c.hex}</dd><dt>RGB</dt><dd>${rgb(c.hex).join(', ')}</dd><dd class="use">${c.use}</dd></dl></div>`;
+}).join('');
+
+// Render neutral ramp
+document.getElementById('ramp').innerHTML = ramp.map(([n,h],i) => {
+  const dark = lum(h) < .4;
+  return `<div role="listitem" style="background:${h};color:${dark?'#F3EEE6':'#26231F'}"><b>${n} ${(i+1)*100}</b>${h}</div>`;
+}).join('');
+
+// Render text-on-colour pairings with live contrast ratios
+const pairs = [['ink','linen'],['linen','thicket'],['parchment','clay'],['thicket','oat'],['clay','linen'],['thicket','parchment'],['oat','ink'],['clay','parchment']];
+document.getElementById('pairs').innerHTML = pairs.map(([fg,bg]) => {
+  const f = palette[fg], b = palette[bg], r = contrast(f.hex,b.hex), g = grade(r);
+  return `<div class="pair" style="background:${b.hex};color:${f.hex}"><p class="big">Aa</p><p class="sm">${f.name} on ${b.name}</p>
+  <div class="meta"><span>${r.toFixed(2)}:1</span><span class="grade">${g}</span></div></div>`;
+}).join('');
+
+// Live headline preview in brand type, italicising the first word
+const tryIn = document.getElementById('try-in'), tryOut = document.getElementById('try-out');
+const renderTry = () => {
+  const words = tryIn.value.trim().split(/\s+/).filter(Boolean);
+  tryOut.replaceChildren();
+  if (!words.length) { tryOut.textContent = 'Type something above'; return; }
+  const em = document.createElement('em'); em.textContent = words[0];
+  tryOut.append(em, words.length > 1 ? ' ' + words.slice(1).join(' ') : '');
+};
+tryIn.addEventListener('input', renderTry); renderTry();
+
+// Serialise a lockup to standalone SVG text with colour and web font embedded
+const logoColour = { horizontal:'#2F4A3C', stacked:'#2F4A3C', monogram:'#2F4A3C', reversed:'#F3EEE6' };
+function svgSource(name) {
+  const src = document.querySelector(`svg[data-logo="${name}"]`);
+  const svg = src.cloneNode(true);
+  svg.removeAttribute('class'); svg.removeAttribute('data-logo'); svg.removeAttribute('style');
+  svg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+  svg.setAttribute('color', logoColour[name]);
+  const style = document.createElementNS('http://www.w3.org/2000/svg','style');
+  style.textContent = "@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;1,400&family=Figtree:wght@600&display=swap');";
+  svg.prepend(style);
+  if (name === 'reversed') {
+    const bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bg.setAttribute('width','420'); bg.setAttribute('height','96'); bg.setAttribute('fill','#2F4A3C');
+    svg.insertBefore(bg, style.nextSibling);
+  }
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(svg);
+}
+
+// Brief confirmation message at the bottom of the screen
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// Download the chosen lockup as an .svg file
+document.querySelectorAll('[data-download]').forEach(btn => btn.addEventListener('click', () => {
+  const name = btn.dataset.download;
+  const blob = new Blob([svgSource(name)], {type:'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), {href:url, download:`wren-and-co-${name}.svg`});
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(`Saved wren-and-co-${name}.svg`);
+}));
+
+// Copy the chosen lockup's SVG markup to the clipboard
+document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  const name = btn.dataset.copy, text = svgSource(name);
+  try {
+    if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+    else {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly',''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.append(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    }
+    toast(`Copied the ${name} lockup as SVG`);
+  } catch { toast('Copy failed. Use Download SVG instead.'); }
+}));
+</script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1c1a2e">
+<title>Pulsecheck | Customer feedback sentiment analysis</title>
+<meta name="description" content="Pulsecheck reads support tickets and reviews, scores their sentiment with negation-aware lexicon analysis, groups them by topic and surfaces issues that are getting worse.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c1a2e'/%3E%3Cpath d='M4 17h5l3-8 4 15 4-11 2 4h6' fill='none' stroke='%23f97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --sunken: #f0eee9;
+  --line: #e4e1da;
+  --line-strong: #c3beb2;
+  --ink: #1c1a2e;
+  --ink-2: #46435c;
+  --muted: #6f6c82;
+  --accent: #f97316;
+  --accent-deep: #c2410c;
+  --accent-soft: #fff1e6;
+  --pos: #0f9d6e;
+  --pos-soft: #dff5ec;
+  --neg: #dc3545;
+  --neg-soft: #fde6e8;
+  --neu: #8a8798;
+  --neu-soft: #ecebf0;
+  --bar-h: 30px;
+  --radius: 8px;
+  --sans: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100dvh; background: var(--bg); color: var(--ink); font: 400 14.5px/1.5 var(--sans); }
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+svg { display: block; }
+table { border-collapse: collapse; width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Zero Lag bar */
+.zl-bar { position: sticky; top: 0; z-index: 90; height: var(--bar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 14px; background: #131221; color: #a3a0b8; font-size: 13px; }
+.zl-bar a { color: #d6d3e6; text-decoration: none; white-space: nowrap; }
+.zl-bar a:hover { color: #fff; text-decoration: underline; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+/* Shell */
+.wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 32px); }
+.top { display: flex; align-items: center; gap: 14px; padding: 18px 0 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand b { display: block; font-size: 19px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.brand span { display: block; font-size: 12.5px; color: var(--muted); }
+.top .right { margin-left: auto; font-size: 12.5px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
+.tabs button { border: 0; background: none; padding: 10px 14px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tabs button .n { font-family: var(--mono); font-size: 11.5px; margin-left: 6px; color: var(--muted); background: var(--sunken); padding: 1px 6px; border-radius: 999px; }
+.view[hidden] { display: none; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+.ch { display: flex; align-items: center; gap: 8px 14px; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.ch h2 { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.ch .sub { font-size: 12.5px; color: var(--muted); }
+.ch .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.cb { padding: 14px 16px; }
+
+/* Overview */
+.ov { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 14px; }
+.ov-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 14px; }
+.gauge { display: grid; place-items: center; padding: 8px 16px 0; }
+.gauge svg { width: 100%; max-width: 260px; height: auto; }
+.gauge .big { font-size: 34px; font-weight: 700; letter-spacing: -.03em; fill: var(--ink); font-family: var(--sans); }
+.gauge .lab { font-size: 12px; fill: var(--muted); font-family: var(--sans); font-weight: 500; }
+.split { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 16px 16px; }
+.split div { text-align: center; padding: 8px 6px; border-radius: 6px; background: var(--sunken); }
+.split b { display: block; font-size: 18px; font-weight: 700; }
+.split span { font-size: 12px; color: var(--muted); }
+.split .p b { color: var(--pos); } .split .n b { color: var(--neg); } .split .u b { color: var(--neu); }
+.stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin: 0 16px 14px; }
+.stack i { display: block; height: 100%; }
+.trend svg { width: 100%; height: auto; font-family: var(--sans); }
+.trend text { font-size: 11.5px; fill: var(--muted); font-weight: 500; }
+.trend .g line { stroke: var(--line); }
+.trend .ln { fill: none; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+.trend .pt { stroke: #fff; stroke-width: 2; }
+.leg { display: flex; gap: 16px; padding: 0 16px 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.leg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.topics { display: grid; gap: 9px; padding: 14px 16px 16px; }
+.topic { display: grid; grid-template-columns: 140px minmax(0, 1fr) 44px; gap: 10px; align-items: center; font-size: 13px; background: none; border: 0; padding: 0; text-align: left; width: 100%; color: var(--ink); }
+.topic:hover .nm { color: var(--accent-deep); text-decoration: underline; }
+.topic .nm { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topic .bar { height: 16px; border-radius: 4px; overflow: hidden; display: flex; background: var(--sunken); }
+.topic .bar i { display: block; height: 100%; }
+.topic .ct { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; }
+.kw { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 16px; }
+.kw span { font-size: 12.5px; padding: 3px 9px; border-radius: 999px; font-weight: 500; }
+.kw .p { background: var(--pos-soft); color: var(--pos); } .kw .n { background: var(--neg-soft); color: var(--neg); }
+.kw span b { font-family: var(--mono); font-weight: 500; opacity: .8; margin-left: 4px; }
+
+/* Tickets */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+select, .search { min-height: 34px; padding: 5px 10px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); font-size: 13px; }
+.search-wrap { position: relative; }
+.search { width: 220px; padding-left: 30px; }
+.search-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; }
+.search-wrap .hint { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 13px; }
+.search-wrap.filled .hint { display: none; }
+.tbl-wrap { overflow-x: auto; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px; vertical-align: middle; }
+th { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; background: var(--sunken); white-space: nowrap; }
+th button { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; }
+th button[aria-sort]::after { content: " ↕"; opacity: .5; }
+th button[aria-sort="descending"]::after { content: " ↓"; opacity: 1; } th button[aria-sort="ascending"]::after { content: " ↑"; opacity: 1; }
+tr.row { cursor: pointer; }
+tr.row:hover td { background: #fbfaf7; }
+tr.row[aria-expanded="true"] td { background: var(--sunken); border-bottom-color: transparent; }
+td.snip { max-width: 440px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sent { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.sent::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.sent.positive { background: var(--pos-soft); color: var(--pos); } .sent.negative { background: var(--neg-soft); color: var(--neg); } .sent.neutral { background: var(--neu-soft); color: var(--neu); }
+.tpill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; background: var(--sunken); color: var(--ink-2); white-space: nowrap; }
+tr.detail td { padding: 0 12px 14px; background: var(--sunken); }
+.detail-in { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 14px; }
+.detail-in p { font-size: 14.5px; line-height: 1.65; white-space: normal; }
+.detail-meta { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; align-content: start; }
+.detail-meta b { color: var(--ink); font-family: var(--mono); font-weight: 500; }
+mark { padding: 1px 3px; border-radius: 3px; color: inherit; font-weight: 600; }
+mark.p { background: var(--pos-soft); box-shadow: inset 0 -2px 0 var(--pos); } mark.n { background: var(--neg-soft); box-shadow: inset 0 -2px 0 var(--neg); }
+mark.neg { text-decoration: underline dotted; } mark.int { font-style: italic; }
+mark.flip { background: #fff1c2; box-shadow: inset 0 -2px 0 #d9a400; }
+.empty { padding: 24px 16px; color: var(--muted); text-align: center; }
+.tfoot { display: flex; justify-content: space-between; padding: 10px 16px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; gap: 8px; }
+
+/* Emerging */
+.em { display: grid; gap: 0; }
+.em-row { display: grid; grid-template-columns: 170px 110px minmax(0, 1fr) 90px; gap: 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.em-row:last-child { border-bottom: 0; }
+.em-row .nm { font-weight: 700; }
+.em-row .nm small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.em-row .delta { font-family: var(--mono); font-size: 15px; font-weight: 500; }
+.em-row .delta.up { color: var(--neg); } .em-row .delta.down { color: var(--pos); } .em-row .delta.flat { color: var(--muted); }
+.em-row .delta small { display: block; font-family: var(--sans); font-size: 11.5px; color: var(--muted); font-weight: 400; }
+.em-row .cmp { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.em-row .cmp .b { height: 8px; border-radius: 4px; background: var(--sunken); overflow: hidden; }
+.em-row .cmp .b i { display: block; height: 100%; background: var(--neg); }
+.em-row .cmp .b i.prev { background: var(--line-strong); }
+.em-row .cmp span { display: flex; justify-content: space-between; }
+.em-row .spark svg { width: 90px; height: 32px; }
+.em-row.rising { background: #fff8f3; }
+.em-flag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--neg-soft); color: var(--neg); margin-left: 6px; vertical-align: 1px; }
+.examples { padding: 6px 16px 16px; display: grid; gap: 8px; }
+.ex { border-left: 3px solid var(--neg); padding: 6px 12px; background: var(--sunken); border-radius: 0 6px 6px 0; font-size: 13.5px; }
+.ex small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+/* Try your own */
+.try { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px; }
+textarea { width: 100%; min-height: 180px; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); resize: vertical; line-height: 1.55; font-size: 15px; }
+textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
+.try-out { padding: 14px 16px; font-size: 15px; line-height: 1.7; min-height: 60px; }
+.try-side { display: grid; gap: 14px; align-content: start; }
+.score-card { padding: 16px; display: grid; gap: 10px; }
+.score-card .big { font-size: 40px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.meter { position: relative; height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--neg), #e8e6e0 50%, var(--pos)); }
+.meter i { position: absolute; top: -4px; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid var(--ink); transform: translateX(-50%); transition: left .25s; }
+.meter-lab { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); }
+.kvs { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 13px; }
+.kvs dt { color: var(--muted); } .kvs dd { margin: 0; font-family: var(--mono); font-size: 12.5px; text-align: right; }
+.quick-texts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.quick-texts button { font-size: 12.5px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-2); }
+.quick-texts button:hover { border-color: var(--accent); color: var(--accent-deep); }
+.legend-words { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 12.5px; color: var(--muted); padding: 0 16px 14px; }
+.foot { padding: 24px 0 32px; font-size: 12.5px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+
+@media (max-width: 980px) { .ov, .ov-row, .try { grid-template-columns: minmax(0, 1fr); } .ov-row { margin-top: 0; } .ov { gap: 14px; } .ov > .card, .ov-row > .card { margin-top: 0; } }
+@media (max-width: 760px) {
+  .trend text { font-size: 17px; }
+  .em-row { grid-template-columns: minmax(0, 1fr) 90px; }
+  .em-row .cmp, .em-row .spark { grid-column: 1 / -1; }
+  .em-row .spark { display: none; }
+  .detail-in { grid-template-columns: minmax(0, 1fr); }
+  .topic { grid-template-columns: 110px minmax(0, 1fr) 40px; }
+  .ch .tools { margin-left: 0; width: 100%; }
+  .search { width: 100%; } .search-wrap { width: 100%; }
+}
+@media (max-width: 420px) { .split { grid-template-columns: 1fr 1fr 1fr; gap: 5px; } .split b { font-size: 16px; } .topic { grid-template-columns: 90px minmax(0, 1fr) 36px; font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Pulsecheck</strong></span><a href="../../contact.html">Start a project like this</a></div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#1c1a2e"/><path d="M4 17h5l3-8 4 15 4-11 2 4h6" fill="none" stroke="#f97316" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><b>Pulsecheck</b><span>Customer feedback sentiment for Keelo</span></div>
+    </div>
+    <div class="right"><span><span class="mono" id="nTickets">0</span> tickets, 8 weeks</span><span>Scored <span class="mono" id="scoreMs"></span> in the browser</span></div>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Views">
+    <button role="tab" id="tab-overview" aria-selected="true" aria-controls="v-overview">Overview</button>
+    <button role="tab" id="tab-tickets" aria-selected="false" aria-controls="v-tickets">Tickets<span class="n" id="tabCount"></span></button>
+    <button role="tab" id="tab-emerging" aria-selected="false" aria-controls="v-emerging">Emerging issues</button>
+    <button role="tab" id="tab-try" aria-selected="false" aria-controls="v-try">Try your own text</button>
+  </div>
+
+  <section class="view" id="v-overview" role="tabpanel" aria-labelledby="tab-overview">
+    <div class="ov">
+      <div class="card">
+        <div class="ch"><h2>Overall sentiment</h2><span class="sub">last 8 weeks</span></div>
+        <div class="gauge" id="gauge"></div>
+        <div class="split" id="split"></div>
+        <div class="stack" id="stack"></div>
+      </div>
+      <div class="card trend">
+        <div class="ch"><div><h2>Sentiment trend</h2><div class="sub">share of tickets per week</div></div></div>
+        <div class="cb" id="trend"></div>
+        <div class="leg"><span><i style="background:var(--pos)"></i>Positive</span><span><i style="background:var(--neg)"></i>Negative</span><span><i style="background:var(--neu)"></i>Neutral</span></div>
+      </div>
+    </div>
+    <div class="ov-row">
+      <div class="card">
+        <div class="ch"><div><h2>Topics</h2><div class="sub">tickets by topic, coloured by sentiment · click to filter</div></div></div>
+        <div class="topics" id="topicBars"></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div><h2>Most frequent sentiment words</h2><div class="sub">after negation handling</div></div></div>
+        <div class="kw" id="kwPos" style="padding-top:14px"></div>
+        <div class="kw" id="kwNeg"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view card" id="v-tickets" role="tabpanel" aria-labelledby="tab-tickets" hidden>
+    <div class="ch">
+      <div><h2>Tickets</h2><div class="sub">Click a row to see the words that drove the score</div></div>
+      <div class="tools filters">
+        <label class="sr-only" for="fSent">Sentiment</label>
+        <select id="fSent"><option value="">All sentiment</option><option value="positive">Positive</option><option value="neutral">Neutral</option><option value="negative">Negative</option></select>
+        <label class="sr-only" for="fTopic">Topic</label>
+        <select id="fTopic"><option value="">All topics</option></select>
+        <label class="sr-only" for="fChan">Channel</label>
+        <select id="fChan"><option value="">All channels</option></select>
+        <div class="search-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="hint" aria-hidden="true">Search text or name</span><label class="sr-only" for="fQ">Search</label><input class="search" id="fQ" type="search" autocomplete="off"></div>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table id="tbl"><thead><tr><th><button type="button" data-sort="date" aria-sort="descending">Date</button></th><th>Customer</th><th>Channel</th><th>Topic</th><th>Message</th><th><button type="button" data-sort="score" aria-sort="none">Score</button></th><th>Sentiment</th></tr></thead><tbody></tbody></table></div>
+    <div class="tfoot"><span id="tblCount"></span><span>Score runs from −1 (very negative) to +1 (very positive)</span></div>
+  </section>
+
+  <section class="view" id="v-emerging" role="tabpanel" aria-labelledby="tab-emerging" hidden>
+    <div class="card">
+      <div class="ch"><div><h2>Emerging issues</h2><div class="sub">Negative share per topic, last 4 weeks against the 4 weeks before</div></div></div>
+      <div class="em" id="em"></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="ch"><div><h2 id="exTitle">Recent negative tickets</h2><div class="sub">from the fastest-rising topic</div></div></div>
+      <div class="examples" id="examples"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-try" role="tabpanel" aria-labelledby="tab-try" hidden>
+    <div class="try">
+      <div>
+        <div class="card">
+          <div class="ch"><div><h2>Score any text</h2><div class="sub">Paste a review, ticket or message and it is scored as you type</div></div></div>
+          <div class="cb">
+            <label class="sr-only" for="tryText">Text to score</label>
+            <textarea id="tryText">The new update is honestly great, the app opens much faster now. Delivery was not quick though and support never replied to my second email.</textarea>
+            <div class="quick-texts" id="quickTexts"></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="ch"><div><h2>Highlighted words</h2></div></div>
+          <div class="try-out" id="tryOut"></div>
+          <div class="legend-words"><span><mark class="p">positive</mark></span><span><mark class="n">negative</mark></span><span><mark class="flip">flipped by negation</mark></span><span><mark class="int">intensifier</mark></span></div>
+        </div>
+      </div>
+      <div class="try-side">
+        <div class="card score-card">
+          <div><span class="sub" style="font-size:12.5px;color:var(--muted)">Sentiment score</span><div class="big" id="tryScore">0.00</div></div>
+          <div class="meter"><i id="tryPin" style="left:50%"></i></div>
+          <div class="meter-lab"><span>Negative</span><span>Neutral</span><span>Positive</span></div>
+          <span class="sent neutral" id="tryLabel" style="justify-self:start">Neutral</span>
+        </div>
+        <div class="card"><div class="ch"><h2>Breakdown</h2></div><div class="cb"><dl class="kvs" id="tryKv"></dl></div></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot"><span>Lexicon scoring with negation windows, intensifiers and contrast weighting.</span><span>Topic assignment by keyword match.</span><span>No data leaves the browser.</span></p>
+</div>
+
+<script>
+// Sentiment lexicon, -3 to +3
+const LEX = {
+  love:3, loved:3, loving:3, excellent:3, amazing:3, fantastic:3, outstanding:3, perfect:3, brilliant:3, superb:3, flawless:3, delighted:3, wonderful:3, exceptional:3,
+  great:2, awesome:2, happy:2, pleased:2, impressed:2, helpful:2, friendly:2, smooth:2, fast:2, quick:2, easy:2, reliable:2, recommend:2, thrilled:2, glad:2, thank:2, thanks:2, resolved:2, fixed:2, solved:2, best:2, intuitive:2, seamless:2, prompt:2, polite:2, patient:2, generous:2, beautiful:2, sturdy:2, responsive:2, works:1, worked:1, working:1,
+  good:1, nice:1, fine:1, decent:1, okay:1, ok:1, clear:1, useful:1, better:1, improved:1, improvement:1, appreciate:1, appreciated:1, satisfied:1, quickly:1, correct:1, accurate:1, worth:1, like:1, liked:1, enjoy:1, enjoyed:1, convenient:1, stable:1, faster:1, cheaper:1, affordable:1, fair:1, kind:1, refunded:1, arrived:1, early:1, simple:1, solid:1, workaround:1, answered:1, reply:1, replied:1, respond:1, responded:1, accept:1, match:1, matches:1,
+  bad:-1, slow:-1, slower:-1, confusing:-1, confused:-1, unclear:-1, late:-1, delay:-1, delayed:-1, waiting:-1, waited:-1, wait:-1, issue:-1, issues:-1, problem:-1, problems:-1, annoying:-1, difficult:-1, hard:-1, expensive:-1, pricey:-1, missing:-1, wrong:-1, unexpected:-1, disappointed:-1, disappointing:-1, meh:-1, mediocre:-1, buggy:-1, glitch:-1, glitchy:-1, frustrating:-1, frustrated:-1, unhelpful:-1, lost:-1, inconvenient:-1, outdated:-1, clunky:-1, overpriced:-1, ignored:-1, stuck:-1, error:-1, errors:-1, fails:-1, failed:-1, cancel:-1, cancelled:-1, cancelling:-1, damaged:-1, poor:-1, hassle:-1,
+  terrible:-2, awful:-2, horrible:-2, broken:-2, broke:-2, crash:-2, crashes:-2, crashed:-2, crashing:-2, freezes:-2, freeze:-2, frozen:-2, useless:-2, angry:-2, furious:-2, unacceptable:-2, rude:-2, scam:-2, ridiculous:-2, nightmare:-2, worst:-2, charged:-1, overcharged:-2, double:-1, twice:-1, ruined:-2, garbage:-2, hate:-2, hated:-2, pathetic:-2, dreadful:-2, unusable:-2, disaster:-2, disgusting:-3, appalling:-3, infuriating:-3, dangerous:-2, unresponsive:-2, incompetent:-2, misleading:-2, dishonest:-3, regret:-2, abysmal:-3
+};
+const NEGATORS = new Set(['not', 'no', 'never', 'nothing', 'nobody', 'none', 'neither', 'nor', 'hardly', 'barely', 'without', 'cannot', "can't", "didn't", "doesn't", "don't", "isn't", "wasn't", "weren't", "won't", "wouldn't", "couldn't", "shouldn't", "haven't", "hasn't", "aren't", 'lacks', 'lacking']);
+const INTENS = { very: 1.5, really: 1.5, extremely: 1.9, incredibly: 1.8, absolutely: 1.8, totally: 1.6, completely: 1.6, so: 1.4, super: 1.5, truly: 1.4, utterly: 1.8, highly: 1.4, especially: 1.3, seriously: 1.4, genuinely: 1.3, slightly: 0.5, somewhat: 0.6, 'bit': 0.6, 'little': 0.6, kinda: 0.6, fairly: 0.8, pretty: 1.2, quite: 1.2 };
+const CONTRAST = new Set(['but', 'however', 'although', 'though', 'yet', 'unfortunately']);
+
+// Topic keyword map
+const TOPICS = {
+  'Billing': ['invoice', 'invoices', 'charged', 'charge', 'charges', 'refund', 'refunded', 'billing', 'billed', 'payment', 'payments', 'card', 'receipt', 'subscription', 'renewed', 'renewal', 'double', 'overcharged', 'bill', 'transaction', 'statement'],
+  'Delivery': ['delivery', 'delivered', 'deliver', 'shipping', 'shipped', 'shipment', 'courier', 'parcel', 'package', 'arrived', 'arrive', 'tracking', 'dispatch', 'dispatched', 'driver', 'depot', 'doorstep', 'estimated', 'order', 'box'],
+  'App crashes': ['crash', 'crashes', 'crashed', 'crashing', 'freeze', 'freezes', 'frozen', 'bug', 'bugs', 'glitch', 'glitchy', 'update', 'updated', 'version', 'loading', 'blank', 'screen', 'logs', 'logged', 'login', 'reinstall', 'reinstalled', 'ios', 'android', 'spinner', 'open', 'opens', 'restart', 'updating'],
+  'Onboarding': ['setup', 'set', 'onboarding', 'started', 'tutorial', 'guide', 'import', 'imported', 'signup', 'sign', 'walkthrough', 'pairing', 'pair', 'migration', 'migrate', 'instructions', 'configure', 'first', 'account', 'welcome', 'steps', 'verification', 'verify'],
+  'Support response': ['support', 'agent', 'reply', 'replied', 'response', 'responded', 'ticket', 'chat', 'hold', 'callback', 'answered', 'answer', 'rep', 'team', 'email', 'emails', 'escalated', 'hours', 'days', 'helpdesk', 'bot', 'human'],
+  'Pricing': ['price', 'prices', 'pricing', 'expensive', 'pricey', 'cost', 'costs', 'cheaper', 'cheap', 'value', 'increase', 'increased', 'plan', 'plans', 'upgrade', 'discount', 'affordable', 'overpriced', 'tier', 'premium', 'free', 'worth'],
+  'Product quality': ['quality', 'material', 'durable', 'sturdy', 'design', 'build', 'feature', 'features', 'charts', 'graph', 'works', 'product', 'device', 'strap', 'sensor', 'tracker', 'screen', 'scratched', 'water', 'accurate', 'accuracy', 'sleep', 'heart', 'steps', 'sync', 'syncs', 'battery', 'charger', 'hardware']
+};
+const TOPIC_COLORS = { 'Billing': '#7c3aed', 'Delivery': '#0891b2', 'App crashes': '#dc3545', 'Support response': '#f97316', 'Pricing': '#ca8a04', 'Onboarding': '#0f9d6e', 'Product quality': '#2563eb', 'Other': '#8a8798' };
+
+// Support tickets and reviews: day offset from 7 Sep 2026, channel, customer, text
+const RAW = [
+  [0,'Email','Priya Natarajan','My Keelo tracker arrived two days early and the setup took five minutes. Really pleased so far.'],
+  [0,'Chat','Tom Whitfield','I was charged twice for the September renewal. Please refund the duplicate payment.'],
+  [1,'App Store','Marcus Oyelaran','Sleep tracking is impressively accurate. Battery lasts the whole week as promised.'],
+  [1,'Email','Hannah Kowalski','Delivery was late by four days and the tracking page never updated. Not a great first impression.'],
+  [2,'Web form','Diego Álvarez','The parcel came with a damaged box but the device itself is fine. Just letting you know.'],
+  [2,'Chat','Sophie Lindqvist','Support replied within an hour and sorted the invoice address. Helpful and polite.'],
+  [3,'Social','Ben Carrick','Still waiting on my order. Courier says it was dispatched, Keelo says it is processing. Which is it?'],
+  [3,'Email','Fatima Rahimi','Honestly the onboarding guide is confusing. It took me three attempts to pair the device.'],
+  [4,'App Store','Lena Fischer','Good app, clear charts, syncs quickly. Would like a dark mode though.'],
+  [4,'Chat','Rohan Mehta','The premium plan price increase was unexpected. I was not told before the renewal.'],
+  [5,'Email','Grace Adebayo','Delivery driver left the package at the wrong flat. Found it eventually but this was a hassle.'],
+  [5,'Web form','Jakob Nielsen','Refund processed in two days, no questions asked. Thank you.'],
+  [6,'Social','Amira Haddad','Loving the new heart rate graph. Keep the updates coming.'],
+  [6,'Chat','Oliver Grant','Shipping estimate said 2 days, it took 9. Delayed twice with no explanation.'],
+  [7,'Email','Chloe Barnett','The strap feels cheap and the clasp broke after two weeks. Disappointed with the build quality.'],
+  [7,'App Store','Samuel Okafor','Easy to set up and the walkthrough was clear. Nice work.'],
+  [8,'Chat','Isabelle Moreau','Was on hold for 40 minutes and then the chat disconnected. Frustrating.'],
+  [8,'Email','Kenji Watanabe','Invoice shows the wrong company name. Can you reissue it?'],
+  [9,'Web form','Natalie Price','Parcel arrived on time and well packaged. Device works perfectly.'],
+  [9,'Social','Luis Fernández','Your pricing page says one thing, my bill says another. Please explain the extra charge.'],
+  [10,'Email','Aisha Bello','Really helpful agent today, fixed my sync issue in minutes. Great service.'],
+  [10,'Chat','Daniel Hughes','The import from my old tracker lost three months of data. Not happy.'],
+  [11,'App Store','Mei Lin','Steps count is accurate and the app is fast. Very satisfied.'],
+  [11,'Email','Patrick Doyle','Still no reply to my email from last week about the missing charger.'],
+  [12,'Web form','Zara Hussain','Delivery was quick, two days. Setup instructions could be clearer.'],
+  [12,'Chat','Felix Brandt','Why does the annual plan cost more than twelve monthly payments? That seems backwards.'],
+  [13,'Social','Nina Petrova','Support team was patient and friendly even though the problem was my fault. Thank you.'],
+  [13,'Email','Harry Mitchell','Courier marked it delivered but nothing arrived. Please investigate.'],
+  [14,'App Store','Olivia Chen','Decent app. Sleep stages seem a bit off some nights but overall fine.'],
+  [14,'Chat','Arjun Patel','Overcharged on my card by £24 this month. Second time this has happened.'],
+  [15,'Email','Emma Larsson','Setup was simple and the welcome email had everything I needed. Smooth start.'],
+  [15,'Web form','Mohammed Al-Sayed','Response time from support is terrible. Four days and counting.'],
+  [16,'Social','Lucy Hartley','Replacement strap arrived fast and free of charge. Appreciate it.'],
+  [16,'Chat','Victor Nkemelu','The water resistance claim is misleading. Sensor stopped working after one swim.'],
+  [17,'Email','Sara Johansson','Delivery slot was missed twice. Third time it finally came. Not impressed.'],
+  [17,'App Store','Ethan Reid','Good value for the price and the hardware feels solid.'],
+  [18,'Chat','Yuki Tanaka','Billing portal would not accept my card. Had to call to pay.'],
+  [18,'Web form','Camila Rojas','Just wanted to say the migration tool worked perfectly. Everything transferred.'],
+  [19,'Email','George Baxter','Price is fair but the discount code from the newsletter did not work at checkout.'],
+  [19,'Social','Ines Dubois','Package delayed in the depot for a week. Tracking was useless.'],
+  [20,'Chat','Liam Connolly','Agent escalated my refund and it was back on my card the next day. Resolved.'],
+  [20,'App Store','Ava Thompson','The app logged me out and I could not get back in for an hour. Annoying but it works now.'],
+  [21,'Email','Noah Schmidt','Great tracker, quick delivery, easy pairing. No complaints.'],
+  [21,'Web form','Layla Mansour','The onboarding video is helpful but the written steps are outdated.'],
+  [22,'Chat','Jonas Berg','Not sure the premium tier is worth it. The free plan covers most of what I need.'],
+  [22,'Social','Rebecca Stone','Delivery today, ordered yesterday. Fast.'],
+  [23,'Email','Kwame Asante','Receipt never arrived after payment. Need it for expenses.'],
+  [23,'App Store','Charlotte Evans','Heart rate readings are accurate against my chest strap. Impressed.'],
+  [24,'Chat','Mateo Silva','Chat bot kept looping and would not hand me to a human. Infuriating.'],
+  [24,'Web form','Anya Volkova','Device arrived early and the first-run guide was clear. Happy customer.'],
+  [25,'Email','Ryan Walsh','Battery drains in two days since last week. Something changed.'],
+  [25,'Social','Ngozi Eze','The support rep was rude and dismissive. Not acceptable.'],
+  [26,'Chat','Elif Yilmaz','Pricing went up but no new features. Hard to justify.'],
+  [26,'App Store','Jack Morrison','Solid app, syncs reliably, good sleep insights.'],
+  [27,'Email','Maya Goldberg','Courier never rang the bell and took the parcel back. Redelivery was quick at least.'],
+  [27,'Web form','Henrik Olsen','Charged for a plan I cancelled in August. Please refund.'],
+  [28,'Chat','Bea Santos','Update 4.2 looks nice but the app now freezes on the sleep screen.'],
+  [28,'Social','Omar Farouk','Delivery was on time and the box was in perfect condition.'],
+  [29,'Email','Imogen Clarke','After the update the app crashes every time I open the workouts tab.'],
+  [29,'App Store','Hugo Martin','Quick support reply and a clear answer. Good experience.'],
+  [30,'Chat','Tariq Hassan','The new version will not sync at all. Reinstalled twice, still broken.'],
+  [30,'Web form','Alice Reynolds','Setup was easy and support answered my one question within minutes.'],
+  [31,'Email','Dmitri Sokolov','Invoice total does not match the plan price on your site. Please check.'],
+  [31,'Social','Pippa Lowe','Since 4.2 the app crashes on launch for me. iPhone 14. Please fix.'],
+  [32,'Chat','Leo Fontaine','Delivery arrived a day early. Nice surprise.'],
+  [32,'App Store','Sana Qureshi','App is stuck on a blank screen after updating. Useless until this is fixed.'],
+  [33,'Email','Will Barker','Support fixed my billing issue quickly. Thanks to Jenna.'],
+  [33,'Web form','Rosa Jiménez','Not a fan of the price increase but the product is still good.'],
+  [34,'Chat','Aaron Levine','App freezes when I try to export data. Happens every time since the update.'],
+  [34,'Social','Beatrice Hall','My order shipped same day and arrived in 48 hours. Great.'],
+  [35,'Email','Yasmin Noor','Crashes constantly on Android 15 after 4.2. Was stable before.'],
+  [35,'App Store','Caleb Fox','Really like the new design but it logs me out daily now.'],
+  [36,'Chat','Ingrid Haugen','Was double charged again. This is the third month. Seriously considering cancelling.'],
+  [36,'Web form','Said Benali','Onboarding was smooth and the import worked first time.'],
+  [37,'Email','Molly Fraser','App crashed mid-workout and lost the whole session. Very frustrating.'],
+  [37,'Social','Paulo Costa','Delivery was fine, device works well. Pricing is a bit steep though.'],
+  [38,'Chat','Hana Kim','Support replied in 20 minutes and gave a workaround for the crash. Helpful.'],
+  [38,'App Store','Finn Murphy','4.2 update broke notifications and the app freezes on the home screen.'],
+  [39,'Email','Carmen López','Refund for the damaged unit was processed quickly. Appreciated.'],
+  [39,'Web form','Stefan Weber','The app will not open since the update. Spinner forever. Unacceptable for a paid plan.'],
+  [40,'Chat','Jade Robinson','Love the new sleep score, works great for me.'],
+  [40,'Social','Ahmed Siddiqui','Crash on launch, every single time. Had to go back to the website.'],
+  [41,'Email','Ella Dawson','Delivery was quick and the packaging is lovely. Good start.'],
+  [41,'App Store','Marco Rossi','After 4.2 the app is slow and glitchy. Please roll back.'],
+  [42,'Chat','Nadia Karim','Still no response to my ticket from Monday about the crash. Need help.'],
+  [42,'Web form','Oscar Lindgren','The premium plan is good value now that the trends feature is included.'],
+  [43,'Email','Thea Nilsson','App crashed and wiped my goals. Restored after reinstall but lost a week of data.'],
+  [43,'Social','Kofi Mensah','Support was fast and friendly, sorted the login loop in one reply.'],
+  [44,'Chat','Lara Hoffmann','Billing page shows an error when I try to update my card.'],
+  [44,'App Store','Dev Sharma','Freezes on the sleep tab since the update. Otherwise a great tracker.'],
+  [45,'Email','Ruby Fletcher','Delivery arrived on time. Setup was simple. All good.'],
+  [45,'Web form','Jamal Washington','The app crashes when I open notifications. Every time. Fix this please.'],
+  [46,'Chat','Sofia Marino','Agent was patient and helpful, walked me through the reinstall. Crash is gone now.'],
+  [46,'Social','Eli Brooks','Not happy about the price increase with no warning.'],
+  [47,'Email','Mia Andersen','App freezes during sync, have to force close it. Started with 4.2.'],
+  [47,'App Store','Zain Malik','Battery life is excellent and the app is easy to use.'],
+  [48,'Chat','Greta Keller','Charged twice, refund promised, nothing after a week. Poor.'],
+  [48,'Web form','Rafael Moreno','Crashes on launch on my Pixel. Reinstalled, cleared cache, still broken.'],
+  [49,'Email','Lily Chambers','Great support experience, quick and clear. Thank you.'],
+  [49,'Social','Hassan Darwish','The app is unusable since the update, it crashes before the home screen loads.'],
+  [50,'Chat','Nora Bakken','Delivery was fast and the tracker is lovely. Very happy.'],
+  [50,'App Store','Victor Lam','Update 4.2.1 fixed the launch crash for me. Thanks for the quick patch.'],
+  [51,'Email','Esme Walker','Onboarding emails are helpful and well timed. Nice touch.'],
+  [51,'Web form','Bilal Ahmed','Still crashing on 4.2.1 when opening workouts. Not fixed for me.'],
+  [52,'Chat','Clara Vogel','Support never answered my chat yesterday. Had to email instead.'],
+  [52,'Social','Theo Adams','The new price is too high for what you get. Cancelling.'],
+  [53,'Email','Priyanka Rao','Everything arrived on time and works well. Pleased with the purchase.'],
+  [53,'App Store','Kai Nakamura','App freezes when switching tabs. Was fine before 4.2.'],
+  [54,'Chat','Anna Kovács','Quick reply from support and a refund the same day. Excellent.'],
+  [54,'Web form','Seb Laurent','Blank screen on launch after update. Reinstall did not help. Very annoying.'],
+  [55,'Email','Jasmine Osei','Loving the tracker, delivery was early and the app is intuitive.'],
+  [55,'Social','Max Brennan','Crashes every morning when it syncs overnight data. Please fix soon.'],
+  [26,'Email','Tomasz Zieliński','Instructions for pairing with Android are missing a step. Figured it out but it was confusing.'],
+  [9,'Chat','Helen Burke','Not bad, not great. The app does what it says.'],
+  [19,'App Store','Ivan Petrov','It is okay. Would be better with a web dashboard.'],
+  [41,'Web form','Julia Ferreira','Device does the job, app does the job, price is what it is.'],
+  [3,'Email','Connor Byrne','Just checking whether my invoice will be sent monthly or annually.'],
+  [36,'Chat','Lotte de Vries','Do you ship to Belgium? Could not find it on the delivery page.'],
+  [16,'Social','Amelia Scott','Does the premium plan include the sleep coaching? Could not find it on the plans page.'],
+  [48,'Email','Ravi Krishnan','How do I migrate my data to a new phone? Could not find a guide.']
+];
+const CHANNELS = ['Email', 'Chat', 'App Store', 'Web form', 'Social'];
+const START = new Date(2026, 8, 7);
+const dayDate = d => { const x = new Date(START); x.setDate(x.getDate() + d); return x; };
+const fmtDate = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+// Score text: lexicon lookup, negation windows, intensifiers and contrast weighting
+function analyse(text) {
+  const raw = text.split(/(\s+)/);
+  const tokens = [];
+  raw.forEach((piece, idx) => { if (piece.trim()) tokens.push({ piece, idx, word: piece.toLowerCase().replace(/^[^a-z']+|[^a-z']+$/g, '') }); });
+  let sum = 0, hits = 0, pos = 0, neg = 0, flipped = 0, weight = 1;
+  const marks = {};
+  tokens.forEach((t, i) => {
+    if (CONTRAST.has(t.word)) { weight = 1.5; sum *= 0.6; return; }
+    const base = LEX[t.word];
+    if (base === undefined) return;
+    let score = base;
+    let intens = 1, intensAt = -1, negated = false;
+    for (let k = 1; k <= 3 && i - k >= 0; k++) {
+      const w = tokens[i - k].word;
+      if (INTENS[w] && intens === 1) { intens = INTENS[w]; intensAt = tokens[i - k].idx; }
+      if (NEGATORS.has(w)) negated = true;
+      if (/[.!?;]$/.test(tokens[i - k].piece)) break;
+    }
+    if (intens !== 1) { score *= intens; marks[intensAt] = marks[intensAt] || 'int'; }
+    if (negated) { score = -score * 0.75; flipped++; }
+    const excl = /!$/.test(t.piece) ? 1.2 : 1;
+    score *= excl * weight;
+    sum += score; hits++;
+    if (score > 0) pos++; else if (score < 0) neg++;
+    marks[t.idx] = (negated ? 'flip ' : '') + (score > 0 ? 'p' : 'n');
+  });
+  const norm = hits ? Math.tanh(sum / (3 * Math.sqrt(hits))) : 0;
+  const label = norm > 0.15 ? 'positive' : norm < -0.15 ? 'negative' : 'neutral';
+  return { score: norm, label, hits, pos, neg, flipped, marks, tokens: tokens.length, raw };
+}
+// Pick the topic whose keywords appear most
+function topicOf(text) {
+  const words = text.toLowerCase().replace(/[^a-z0-9.' ]+/g, ' ').split(/\s+/);
+  let best = 'Other', bestN = 0;
+  Object.keys(TOPICS).forEach(t => { const set = new Set(TOPICS[t]); let n = 0; words.forEach(w => { if (set.has(w)) n++; }); if (n > bestN) { bestN = n; best = t; } });
+  return best;
+}
+function highlight(a) {
+  return a.raw.map((piece, idx) => { const m = a.marks[idx]; if (!m) return esc(piece); return `<mark class="${m}">${esc(piece)}</mark>`; }).join('');
+}
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+// Build the dataset
+const t0 = performance.now();
+const TICKETS = RAW.map((r, i) => { const a = analyse(r[3]); return { id: 'KL-' + (4120 + i), day: r[0], date: dayDate(r[0]), week: Math.floor(r[0] / 7), channel: r[1], name: r[2], text: r[3], topic: topicOf(r[3]), ...a }; }).sort((a, b) => b.day - a.day);
+document.getElementById('scoreMs').textContent = (performance.now() - t0).toFixed(1) + ' ms';
+document.getElementById('nTickets').textContent = TICKETS.length;
+document.getElementById('tabCount').textContent = TICKETS.length;
+const $ = s => document.querySelector(s);
+const pct = (n, d) => d ? Math.round(n / d * 100) : 0;
+
+// Overview: gauge
+function renderOverview() {
+  const n = TICKETS.length, P = TICKETS.filter(t => t.label === 'positive').length, N = TICKETS.filter(t => t.label === 'negative').length, U = n - P - N;
+  const avg = TICKETS.reduce((s, t) => s + t.score, 0) / n;
+  const ang = Math.PI * (1 - (avg + 1) / 2);
+  const cx = 130, cy = 112, r = 96;
+  const arc = (a0, a1, col) => { const x0 = cx + r * Math.cos(a0), y0 = cy - r * Math.sin(a0), x1 = cx + r * Math.cos(a1), y1 = cy - r * Math.sin(a1); return `<path d="M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1}" stroke="${col}" stroke-width="18" fill="none" stroke-linecap="butt"/>`; };
+  const nx = cx + (r - 20) * Math.cos(ang), ny = cy - (r - 20) * Math.sin(ang);
+  $('#gauge').innerHTML = `<svg viewBox="0 0 260 176" role="img" aria-label="Average sentiment ${avg.toFixed(2)}">${arc(Math.PI, Math.PI * 0.575, 'var(--neg)')}${arc(Math.PI * 0.575, Math.PI * 0.425, 'var(--neu)')}${arc(Math.PI * 0.425, 0.001, 'var(--pos)')}<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="var(--ink)"/><text class="big" x="${cx}" y="${cy + 40}" text-anchor="middle">${avg >= 0 ? '+' : ''}${avg.toFixed(2)}</text><text class="lab" x="${cx}" y="${cy + 58}" text-anchor="middle">average score, ${n} tickets</text><text class="lab" x="26" y="${cy + 16}">−1</text><text class="lab" x="222" y="${cy + 16}">+1</text></svg>`;
+  $('#split').innerHTML = `<div class="p"><b>${pct(P, n)}%</b><span>positive</span></div><div class="u"><b>${pct(U, n)}%</b><span>neutral</span></div><div class="n"><b>${pct(N, n)}%</b><span>negative</span></div>`;
+  $('#stack').innerHTML = `<i style="width:${P / n * 100}%;background:var(--pos)"></i><i style="width:${U / n * 100}%;background:var(--neu)"></i><i style="width:${N / n * 100}%;background:var(--neg)"></i>`;
+  renderTrend();
+  renderTopicBars();
+  renderKeywords();
+}
+// Overview: 8-week trend line
+function renderTrend() {
+  const weeks = [...Array(8)].map((_, w) => { const ts = TICKETS.filter(t => t.week === w); const n = ts.length || 1; return { p: ts.filter(t => t.label === 'positive').length / n, g: ts.filter(t => t.label === 'negative').length / n, u: ts.filter(t => t.label === 'neutral').length / n, n: ts.length, start: dayDate(w * 7) }; });
+  const W = 620, H = 220, pl = 36, pr = 30, pt = 14, pb = 28;
+  const x = i => pl + i / 7 * (W - pl - pr), y = v => pt + (1 - v) * (H - pt - pb);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly share of positive, negative and neutral tickets"><g class="g">`;
+  [0, 0.25, 0.5, 0.75].forEach(v => { s += `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}"/><text x="${pl - 6}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`; });
+  s += '</g>';
+  weeks.forEach((w, i) => { s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${fmtDate(w.start)}</text>`; });
+  const line = (key, col) => `<polyline class="ln" stroke="${col}" points="${weeks.map((w, i) => x(i) + ',' + y(w[key])).join(' ')}"/>` + weeks.map((w, i) => `<circle class="pt" cx="${x(i)}" cy="${y(w[key])}" r="4" fill="${col}"><title>Week of ${fmtDate(w.start)}: ${Math.round(w[key] * 100)}% ${key === 'p' ? 'positive' : key === 'g' ? 'negative' : 'neutral'} of ${w.n}</title></circle>`).join('');
+  s += line('u', 'var(--neu)') + line('p', 'var(--pos)') + line('g', 'var(--neg)') + '</svg>';
+  $('#trend').innerHTML = s;
+}
+// Overview: topic bars
+function renderTopicBars() {
+  const names = Object.keys(TOPICS).concat('Other');
+  const rows = names.map(t => { const ts = TICKETS.filter(x => x.topic === t); return { t, n: ts.length, p: ts.filter(x => x.label === 'positive').length, g: ts.filter(x => x.label === 'negative').length }; }).filter(r => r.n).sort((a, b) => b.n - a.n);
+  const max = rows[0].n;
+  $('#topicBars').innerHTML = rows.map(r => `<button class="topic" type="button" data-topic="${r.t}"><span class="nm">${r.t}</span><span class="bar" style="width:${r.n / max * 100}%"><i style="width:${r.g / r.n * 100}%;background:var(--neg)" title="${r.g} negative"></i><i style="width:${(r.n - r.p - r.g) / r.n * 100}%;background:var(--neu)" title="${r.n - r.p - r.g} neutral"></i><i style="width:${r.p / r.n * 100}%;background:var(--pos)" title="${r.p} positive"></i></span><span class="ct">${r.n}</span></button>`).join('');
+}
+$('#topicBars').addEventListener('click', e => { const b = e.target.closest('[data-topic]'); if (!b) return; filters.topic = b.dataset.topic; $('#fTopic').value = filters.topic; showTab('tickets'); renderTable(); });
+// Overview: most common sentiment words
+function renderKeywords() {
+  const cp = {}, cn = {};
+  TICKETS.forEach(t => { t.raw.forEach((piece, idx) => { const m = t.marks[idx]; if (!m || m === 'int') return; const w = piece.toLowerCase().replace(/^[^a-z']+|[^a-z']+$/g, ''); const bag = m.endsWith('p') ? cp : cn; bag[w] = (bag[w] || 0) + 1; }); });
+  const top = bag => Object.entries(bag).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  $('#kwPos').innerHTML = top(cp).map(([w, n]) => `<span class="p">${w}<b>${n}</b></span>`).join('');
+  $('#kwNeg').innerHTML = top(cn).map(([w, n]) => `<span class="n">${w}<b>${n}</b></span>`).join('');
+}
+
+// Tickets table
+const filters = { sent: '', topic: '', chan: '', q: '', sort: 'date', dir: 'desc' };
+let expanded = null;
+$('#fTopic').innerHTML += Object.keys(TOPICS).concat('Other').map(t => `<option value="${t}">${t}</option>`).join('');
+$('#fChan').innerHTML += CHANNELS.map(c => `<option value="${c}">${c}</option>`).join('');
+function filtered() {
+  const q = filters.q.trim().toLowerCase();
+  let rows = TICKETS.filter(t => (!filters.sent || t.label === filters.sent) && (!filters.topic || t.topic === filters.topic) && (!filters.chan || t.channel === filters.chan) && (!q || t.text.toLowerCase().includes(q) || t.name.toLowerCase().includes(q) || t.id.toLowerCase().includes(q)));
+  rows = rows.slice().sort((a, b) => { const v = filters.sort === 'date' ? a.day - b.day : a.score - b.score; return filters.dir === 'asc' ? v : -v; });
+  return rows;
+}
+function renderTable() {
+  const rows = filtered();
+  $('#tbl tbody').innerHTML = rows.length ? rows.map(t => `<tr class="row" data-id="${t.id}" tabindex="0" aria-expanded="${expanded === t.id}"><td class="num">${fmtDate(t.date)}</td><td>${esc(t.name)}</td><td>${t.channel}</td><td><span class="tpill" style="color:${TOPIC_COLORS[t.topic]}">${t.topic}</span></td><td class="snip" title="${esc(t.text)}">${esc(t.text)}</td><td class="num">${t.score >= 0 ? '+' : ''}${t.score.toFixed(2)}</td><td><span class="sent ${t.label}">${t.label}</span></td></tr>` + (expanded === t.id ? `<tr class="detail"><td colspan="7"><div class="detail-in"><p>${highlight(t)}</p><div class="detail-meta"><span>Ticket <b>${t.id}</b></span><span>Sentiment words <b>${t.hits}</b></span><span>Positive / negative <b>${t.pos} / ${t.neg}</b></span><span>Flipped by negation <b>${t.flipped}</b></span><span>Score <b>${t.score.toFixed(3)}</b></span></div></div></td></tr>` : '')).join('') : '<tr><td colspan="7" class="empty">No tickets match these filters.</td></tr>';
+  $('#tblCount').textContent = rows.length + ' of ' + TICKETS.length + ' tickets';
+}
+$('#tbl').addEventListener('click', e => { const tr = e.target.closest('tr.row'); if (tr) { expanded = expanded === tr.dataset.id ? null : tr.dataset.id; renderTable(); } const sb = e.target.closest('[data-sort]'); if (sb) { if (filters.sort === sb.dataset.sort) filters.dir = filters.dir === 'desc' ? 'asc' : 'desc'; else { filters.sort = sb.dataset.sort; filters.dir = 'desc'; } document.querySelectorAll('#tbl [data-sort]').forEach(b => b.setAttribute('aria-sort', b.dataset.sort === filters.sort ? (filters.dir === 'desc' ? 'descending' : 'ascending') : 'none')); renderTable(); } });
+$('#tbl').addEventListener('keydown', e => { const tr = e.target.closest('tr.row'); if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); expanded = expanded === tr.dataset.id ? null : tr.dataset.id; renderTable(); document.querySelector(`tr[data-id="${tr.dataset.id}"]`).focus(); } });
+$('#fSent').addEventListener('change', e => { filters.sent = e.target.value; renderTable(); });
+$('#fTopic').addEventListener('change', e => { filters.topic = e.target.value; renderTable(); });
+$('#fChan').addEventListener('change', e => { filters.chan = e.target.value; renderTable(); });
+$('#fQ').addEventListener('input', e => { filters.q = e.target.value; e.target.closest('.search-wrap').classList.toggle('filled', !!e.target.value); renderTable(); });
+
+// Emerging issues: compare negative share in the last 4 weeks with the 4 before
+function renderEmerging() {
+  const names = Object.keys(TOPICS);
+  const rows = names.map(t => {
+    const prev = TICKETS.filter(x => x.topic === t && x.week < 4), cur = TICKETS.filter(x => x.topic === t && x.week >= 4);
+    const ps = prev.length ? prev.filter(x => x.label === 'negative').length / prev.length : 0, cs = cur.length ? cur.filter(x => x.label === 'negative').length / cur.length : 0;
+    const weekly = [...Array(8)].map((_, w) => { const ts = TICKETS.filter(x => x.topic === t && x.week === w); return ts.length ? ts.filter(x => x.label === 'negative').length / ts.length : null; });
+    return { t, prev, cur, ps, cs, delta: cs - ps, weekly, volume: cur.length - prev.length };
+  }).sort((a, b) => b.delta - a.delta);
+  $('#em').innerHTML = rows.map(r => {
+    const pts = r.weekly.map((v, i) => v === null ? null : (4 + i * 82 / 7) + ',' + (28 - v * 24)).filter(Boolean).join(' ');
+    const rising = r.delta >= 0.15 && r.cur.length >= 4;
+    return `<div class="em-row ${rising ? 'rising' : ''}"><div class="nm">${r.t}${rising ? '<span class="em-flag">Rising</span>' : ''}<small>${r.cur.length} tickets, ${r.volume >= 0 ? '+' : ''}${r.volume} vs prior</small></div><div class="delta ${r.delta > 0.05 ? 'up' : r.delta < -0.05 ? 'down' : 'flat'}">${r.delta >= 0 ? '+' : ''}${Math.round(r.delta * 100)} pts<small>negative share</small></div><div class="cmp"><span>Previous 4 weeks <span class="mono">${Math.round(r.ps * 100)}%</span></span><div class="b"><i class="prev" style="width:${r.ps * 100}%"></i></div><span>Last 4 weeks <span class="mono">${Math.round(r.cs * 100)}%</span></span><div class="b"><i style="width:${r.cs * 100}%"></i></div></div><div class="spark"><svg viewBox="0 0 90 32" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${r.delta > 0.05 ? 'var(--neg)' : 'var(--line-strong)'}" stroke-width="2" stroke-linejoin="round"/></svg></div></div>`;
+  }).join('');
+  const top = rows[0];
+  $('#exTitle').textContent = 'Recent negative tickets: ' + top.t;
+  $('#examples').innerHTML = top.cur.filter(x => x.label === 'negative').slice(0, 5).map(x => `<div class="ex">${highlight(x)}<small>${esc(x.name)} · ${x.channel} · ${fmtDate(x.date)} · score ${x.score.toFixed(2)}</small></div>`).join('') || '<div class="empty">No negative tickets in this topic.</div>';
+}
+
+// Try your own text
+const QUICK_TEXTS = ['Delivery was not fast but the agent was incredibly helpful.', 'Absolutely love it, nothing to complain about!', "The update isn't terrible, though the app still crashes occasionally.", 'Not worth the price. Support never replied and the strap broke.'];
+$('#quickTexts').innerHTML = QUICK_TEXTS.map(s => `<button type="button" data-s="${esc(s)}">${esc(s)}</button>`).join('');
+$('#quickTexts').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) { $('#tryText').value = b.dataset.s; renderTry(); } });
+function renderTry() {
+  const text = $('#tryText').value;
+  const a = analyse(text);
+  $('#tryOut').innerHTML = text.trim() ? highlight(a) : '<span style="color:var(--muted)">Type or paste some text above.</span>';
+  $('#tryScore').textContent = (a.score >= 0 ? '+' : '') + a.score.toFixed(2);
+  $('#tryScore').style.color = a.label === 'positive' ? 'var(--pos)' : a.label === 'negative' ? 'var(--neg)' : 'var(--ink)';
+  $('#tryPin').style.left = ((a.score + 1) / 2 * 100) + '%';
+  $('#tryLabel').className = 'sent ' + a.label; $('#tryLabel').textContent = a.label[0].toUpperCase() + a.label.slice(1);
+  $('#tryKv').innerHTML = `<dt>Words</dt><dd>${a.tokens}</dd><dt>Sentiment words found</dt><dd>${a.hits}</dd><dt>Positive / negative</dt><dd>${a.pos} / ${a.neg}</dd><dt>Flipped by negation</dt><dd>${a.flipped}</dd><dt>Detected topic</dt><dd>${text.trim() ? topicOf(text) : '—'}</dd>`;
+}
+$('#tryText').addEventListener('input', renderTry);
+
+// Tabs
+function showTab(name) {
+  document.querySelectorAll('.tabs [role=tab]').forEach(b => { const on = b.id === 'tab-' + name; b.setAttribute('aria-selected', on); });
+  document.querySelectorAll('.view').forEach(v => { v.hidden = v.id !== 'v-' + name; });
+  try { localStorage.setItem('pulsecheck-tab', name); } catch (e) {}
+}
+document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) showTab(b.id.replace('tab-', '')); });
+document.querySelector('.tabs').addEventListener('keydown', e => { const tabs = [...document.querySelectorAll('.tabs [role=tab]')]; const i = tabs.indexOf(document.activeElement); if (i < 0) return; if (e.key === 'ArrowRight') { tabs[(i + 1) % tabs.length].focus(); tabs[(i + 1) % tabs.length].click(); } if (e.key === 'ArrowLeft') { tabs[(i + tabs.length - 1) % tabs.length].focus(); tabs[(i + tabs.length - 1) % tabs.length].click(); } });
+
+renderOverview(); renderTable(); renderEmerging(); renderTry();
+let savedTab = null; try { savedTab = localStorage.getItem('pulsecheck-tab'); } catch (e) {}
+if (savedTab && document.getElementById('tab-' + savedTab) && !location.hash) showTab(savedTab);
+if (location.hash && document.getElementById('tab-' + location.hash.slice(1))) showTab(location.hash.slice(1));
+</script>
+</body>
+</html>

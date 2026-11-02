@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northlane Analytics | Product usage analytics for software teams</title>
+<meta name="description" content="Northlane turns product events into funnels, retention and usage reports your whole team can read, with a working dashboard, a two-line install and a free trial.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%23007F5F'/%3E%3Cpath d='M6 20 10 5M18 20 14 5M12 20v-3M12 13.5v-3M12 7.5V5' stroke='%23fff' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #13211f;
+  --muted: #4d5e5b;
+  --line: #d8e0de;
+  --line-strong: #b4c1be;
+  --bg: #ffffff;
+  --tint: #f2f6f5;
+  --accent: #007f5f;
+  --accent-deep: #005c45;
+  --accent-band: #00674d;
+  --accent-soft: #e2f3ed;
+  --bad: #b42318;
+  --prev: #76867f;
+  --gutter: clamp(16px, 3vw, 40px);
+  --bar-h: 30px;
+  --nav-h: 60px;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: calc(var(--bar-h) + var(--nav-h) + 16px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.55 "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif; }
+h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: var(--accent-deep); text-underline-offset: 2px; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+table { border-collapse: collapse; }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.wrap { width: 100%; max-width: calc(1320px + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip { position: absolute; left: 12px; top: -60px; background: var(--ink); color: #fff; padding: 8px 12px; z-index: 80; }
+.skip:focus { top: 8px; }
+h2 { font-size: clamp(1.85rem, 3.4vw, 2.75rem); line-height: 1.08; letter-spacing: -0.028em; font-weight: 600; text-wrap: balance; }
+.lede { color: var(--muted); font-size: 1.0625rem; max-width: 56ch; }
+
+/* Zero Lag project bar */
+.zl-bar { position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--ink); color: #a9b3ae; font-size: 13px; line-height: 1.3; padding: 6px var(--gutter); }
+.zl-bar a { color: #fff; font-weight: 600; white-space: nowrap; text-decoration: none; }
+.zl-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.zl-bar a:focus-visible { outline-color: #fff; }
+.zl-bar span { text-align: center; }
+.zl-bar strong { color: #fff; font-weight: 600; }
+@media (max-width: 479px) { .zl-bar span { display: none; } }
+
+
+/* Navigation */
+.nav { position: sticky; top: var(--bar-h); z-index: 50; background: var(--bg); border-bottom: 1px solid var(--line); }
+.nav-in { display: flex; align-items: center; gap: 28px; min-height: 60px; }
+.brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font-weight: 700; font-size: 1.125rem; letter-spacing: -0.02em; }
+.nav-links { display: flex; gap: 22px; margin-left: 12px; font-size: 15px; }
+.nav-links a { color: var(--ink); text-decoration: none; padding: 6px 0; }
+.nav-links a:hover { color: var(--accent-deep); text-decoration: underline; }
+.nav-cta { margin-left: auto; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 18px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: #fff; font-weight: 600; font-size: 15px; text-decoration: none; }
+.btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+.btn-plain { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-plain:hover { background: var(--tint); border-color: var(--ink); }
+.menu-btn { display: none; width: 44px; height: 44px; margin-left: 8px; align-items: center; justify-content: center; background: none; border: 1px solid var(--line-strong); border-radius: 4px; }
+.menu-panel { display: none; }
+@media (max-width: 940px) {
+  .nav-links { display: none; }
+  .menu-btn { display: inline-flex; }
+  .nav-cta { min-height: 44px; padding: 8px 12px; font-size: 14px; white-space: nowrap; }
+  .nav-in { gap: 8px; }
+  .menu-panel:not([hidden]) { display: block; position: absolute; left: 0; right: 0; top: 100%; background: var(--bg); border-bottom: 1px solid var(--line-strong); padding: 6px var(--gutter) 14px; max-height: calc(100vh - var(--bar-h) - var(--nav-h)); overflow: auto; }
+  .menu-panel a { display: block; padding: 12px 0; color: var(--ink); text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--line); }
+  .menu-panel li:last-child a { border-bottom: 0; }
+}
+@media (max-width: 359px) { .brand { font-size: 1rem; gap: 6px; } .nav-cta { padding: 8px 9px; font-size: 13px; } .menu-btn { margin-left: 2px; } }
+
+/* Hero */
+.hero { padding-block: clamp(32px, 4.5vw, 60px) clamp(32px, 4vw, 56px); }
+.hero-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 56px; align-items: end; margin-bottom: clamp(24px, 3vw, 36px); }
+h1 { font-size: clamp(2.4rem, 5.3vw, 4.6rem); line-height: 1; letter-spacing: -0.038em; font-weight: 600; text-wrap: balance; }
+.hero-side p:first-child { font-size: 1.125rem; line-height: 1.45; color: var(--muted); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; align-items: center; }
+.hero-note { font-size: 14px; color: var(--muted); }
+@media (max-width: 860px) { .hero-head { grid-template-columns: minmax(0, 1fr); } }
+
+/* Dashboard shell */
+.dash { display: grid; grid-template-columns: 172px minmax(0, 1fr); border: 1px solid var(--line-strong); border-radius: 6px; background: var(--bg); font-size: 13.5px; line-height: 1.4; }
+.dash-side { background: var(--tint); border-right: 1px solid var(--line); padding: 14px 10px; border-radius: 6px 0 0 6px; }
+.dash-ws { font-weight: 600; padding: 0 8px 12px; font-size: 14px; }
+.dash-ws span { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+.dash-side li { padding: 6px 8px; border-radius: 3px; color: var(--muted); }
+.dash-side li[aria-current] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent); }
+.dash-main { min-width: 0; }
+.dash-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.dash-title { font-size: 15px; font-weight: 600; margin: 0; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--bg); }
+.seg button { border: 0; background: none; padding: 6px 12px; min-height: 34px; font-size: 13px; font-weight: 500; border-right: 1px solid var(--line-strong); white-space: nowrap; }
+.seg button:first-child { border-radius: 3px 0 0 3px; }
+.seg button:last-child { border-right: 0; border-radius: 0 3px 3px 0; }
+.seg button:hover { background: var(--tint); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg button:focus-visible { position: relative; z-index: 1; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.kpi { padding: 12px 14px; border-right: 1px solid var(--line); }
+.kpi:last-child { border-right: 0; }
+.kpi dt { color: var(--muted); font-size: 12.5px; }
+.kpi dd.val { font-size: clamp(1.4rem, 2.3vw, 1.85rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; margin-top: 2px; }
+.kpi dd.delta { font-size: 12.5px; color: var(--muted); }
+.up, .down { display: inline-block; font-size: 9px; vertical-align: 1px; margin-right: 3px; }
+.up { color: var(--accent); }
+.down { color: var(--bad); }
+.dash-panels { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+.panel { padding: 12px 14px; min-width: 0; }
+.panel + .panel { border-left: 1px solid var(--line); }
+.panel-head { display: flex; flex-wrap: wrap; gap: 4px 14px; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.panel-head h3 { font-size: 13.5px; font-weight: 600; }
+.legend { display: flex; gap: 14px; color: var(--muted); font-size: 12.5px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart { position: relative; touch-action: pan-y; }
+.chart svg { width: 100%; }
+.chart svg:focus-visible { outline-offset: 0; }
+.chart text { font-family: inherit; font-size: 11.5px; fill: var(--muted); }
+.line-cur { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.line-cur.draw { stroke-dasharray: 1; animation: draw .55s ease-out; }
+.line-prev { fill: none; stroke: var(--prev); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.area { fill: var(--accent-soft); opacity: .7; }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.tip { position: absolute; top: 0; left: 0; pointer-events: none; background: var(--ink); color: #fff; padding: 7px 9px; border-radius: 4px; font-size: 12px; line-height: 1.4; min-width: 140px; white-space: nowrap; }
+.tip b { display: block; font-weight: 600; }
+.tip div { display: flex; justify-content: space-between; gap: 14px; }
+.ev-table { width: 100%; }
+.ev-table th { font-weight: 500; color: var(--muted); font-size: 12.5px; text-align: right; border-bottom: 1px solid var(--line-strong); padding: 0; }
+.ev-table th:first-child, .ev-table td:first-child { text-align: left; }
+.ev-table th button { width: 100%; background: none; border: 0; padding: 5px 4px; min-height: 30px; color: inherit; font-weight: inherit; text-align: inherit; white-space: nowrap; }
+.ev-table th button:hover { color: var(--ink); text-decoration: underline; }
+.ev-table th[aria-sort] button { color: var(--ink); font-weight: 600; }
+.ev-table .ar { display: inline-block; width: 10px; font-size: 9px; text-align: center; }
+.ev-table td { padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: right; }
+.ev-table tr:last-child td { border-bottom: 0; }
+.ev-table td:first-child { font-family: var(--mono); font-size: 12.5px; overflow-wrap: anywhere; }
+.dash-cap { margin-top: 12px; font-size: 14px; color: var(--muted); }
+@media (max-width: 1240px) {
+  .dash-panels { grid-template-columns: minmax(0, 1fr); }
+  .panel + .panel { border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (max-width: 1000px) {
+  .dash { grid-template-columns: minmax(0, 1fr); }
+  .dash-side { display: none; }
+}
+@media (max-width: 640px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(2) { border-right: 0; }
+  .kpi:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .ev-table .opt { display: none; }
+  .kpi, .panel { padding-inline: 12px; }
+  .dash-top { padding-inline: 12px; }
+}
+
+/* Customer strip */
+.strip { border-block: 1px solid var(--line); padding-block: 22px; }
+.strip-in { display: flex; flex-wrap: wrap; gap: 12px 40px; align-items: baseline; justify-content: space-between; }
+.strip p { font-size: 15px; color: var(--muted); }
+.strip ul { display: flex; flex-wrap: wrap; gap: 8px 30px; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+.strip li:nth-child(2) { font-weight: 400; }
+.strip li:nth-child(4) { letter-spacing: 0.04em; font-size: 1rem; }
+.strip li:nth-child(5) { font-weight: 500; }
+
+/* Feature sections */
+.sect { padding-block: clamp(60px, 8vw, 112px); }
+.sect-tint { background: var(--tint); }
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px 72px; align-items: start; }
+.split .lede { margin-top: 16px; }
+.points { margin-top: 24px; border-top: 1px solid var(--line); }
+.points li { padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.frag { border: 1px solid var(--line-strong); border-radius: 6px; background: var(--bg); font-size: 13.5px; line-height: 1.4; min-width: 0; }
+.frag-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.frag-top h3 { font-size: 14px; font-weight: 600; }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Funnel */
+.funnel { padding: 6px 14px 12px; }
+.f-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 16px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.f-row:last-child { border-bottom: 0; }
+.f-name { font-weight: 600; }
+.f-nums { text-align: right; }
+.f-nums b { font-weight: 600; font-size: 15px; }
+.f-track { grid-column: 1 / -1; height: 18px; background: var(--tint); border-radius: 2px; }
+.f-bar { display: block; height: 100%; background: var(--accent); border-radius: 2px 4px 4px 2px; transition: width .35s ease; }
+.f-meta { grid-column: 1 / -1; color: var(--muted); font-size: 12.5px; display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.f-flag { color: var(--bad); font-weight: 600; }
+.f-sum { padding: 10px 14px; border-top: 1px solid var(--line); background: var(--tint); border-radius: 0 0 6px 6px; }
+
+/* Retention */
+.ret-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 16px 56px; align-items: end; margin-bottom: 32px; }
+.field-inline { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.field-inline select { min-height: 34px; padding: 4px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--bg); color: var(--ink); max-width: 170px; }
+.ret-wrap { padding: 12px 14px; }
+.ret { width: 100%; border-collapse: separate; border-spacing: 2px; table-layout: fixed; }
+.ret th { font-weight: 500; color: var(--muted); font-size: 12.5px; text-align: center; padding: 4px 0; }
+.ret th.co { width: 128px; text-align: left; }
+.ret tbody th { text-align: left; color: var(--ink); }
+.ret tbody th span { color: var(--muted); font-weight: 400; margin-left: 6px; }
+.ret td { text-align: center; height: 36px; font-size: 13px; border-radius: 2px; font-weight: 500; }
+.ret td.empty { background: transparent; }
+.c0 { background: #eaf6f1; color: var(--ink); }
+.c1 { background: #c8e9dd; color: var(--ink); }
+.c2 { background: #93d1bc; color: var(--ink); }
+.c3 { background: #55ae93; color: var(--ink); }
+.c4 { background: #007f5f; color: #fff; }
+.c5 { background: #00553f; color: #fff; }
+.ret-foot { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; align-items: center; padding: 10px 14px; border-top: 1px solid var(--line); background: var(--tint); border-radius: 0 0 6px 6px; }
+.ramp { display: flex; align-items: center; gap: 2px; color: var(--muted); font-size: 12.5px; }
+.ramp i { display: block; width: 22px; height: 12px; }
+.ramp span { margin-inline: 6px; }
+.ramp span:first-child { margin-left: 0; }
+@media (max-width: 900px) { .ret-head { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) {
+  .ret .late { display: none; }
+  .ret th.co { width: 58px; }
+  .ret tbody th span { display: none; }
+  .ret td { font-size: 12px; height: 32px; }
+  .ret-wrap { padding: 8px; }
+}
+
+/* Setup */
+.code { background: var(--ink); color: #e7efed; border-radius: 6px 6px 0 0; padding: 16px 18px; font: 13px/1.6 var(--mono); overflow-x: auto; margin: 0; }
+.code .s { color: #8fdcc1; }
+.code .c { color: #a9bab6; }
+.stream { border: 1px solid var(--line-strong); border-top: 0; border-radius: 0 0 6px 6px; background: var(--bg); font-size: 13.5px; line-height: 1.4; }
+.stream h3 { font-size: 14px; font-weight: 600; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+.stream li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 14px; padding: 9px 16px; border-bottom: 1px solid var(--line); }
+.stream li:last-child { border-bottom: 0; }
+.stream code { font-family: var(--mono); font-size: 12.5px; overflow-wrap: anywhere; }
+.stream small { grid-column: 1; font-size: 12.5px; color: var(--muted); }
+.badge { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 12.5px; font-weight: 600; display: inline-flex; gap: 5px; align-items: center; }
+.badge.ok { color: var(--accent-deep); }
+.badge.warn { color: var(--bad); }
+
+/* Capabilities list */
+.caps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 48px; margin-top: 36px; border-top: 1px solid var(--ink); }
+.caps div { padding: 18px 0 22px; border-bottom: 1px solid var(--line); }
+.caps dt { font-weight: 600; font-size: 1.0625rem; letter-spacing: -0.01em; }
+.caps dd { color: var(--muted); font-size: 15px; margin-top: 4px; }
+@media (max-width: 900px) { .caps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; } }
+@media (max-width: 560px) { .caps { grid-template-columns: minmax(0, 1fr); } }
+
+/* How it holds together */
+.proof { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 40px 72px; align-items: start; }
+.proof blockquote p { font-size: clamp(1.5rem, 3vw, 2.35rem); line-height: 1.18; letter-spacing: -0.024em; font-weight: 500; }
+.who { display: flex; gap: 12px; align-items: center; margin-top: 24px; font-size: 15px; }
+.who i { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-deep); font-style: normal; font-weight: 700; }
+.who span { display: block; color: var(--muted); font-size: 14px; }
+.figs { border-top: 1px solid var(--ink); }
+.figs div { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.figs dd { font-size: 1.85rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; }
+.figs dt { font-size: 14px; color: var(--muted); }
+.figs div { display: flex; flex-direction: column-reverse; }
+@media (max-width: 900px) { .proof { grid-template-columns: minmax(0, 1fr); } }
+
+/* Pricing */
+.price-head { display: flex; flex-wrap: wrap; gap: 14px 40px; justify-content: space-between; align-items: end; margin-bottom: 28px; }
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 48px; align-items: center; border: 1px solid var(--line-strong); border-bottom: 0; border-radius: 6px 6px 0 0; padding: 18px 20px; background: var(--bg); }
+.calc label { display: block; font-weight: 500; font-size: 15px; }
+.calc output { display: block; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; }
+.calc output span { font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+.slider { width: 100%; margin: 12px 0 4px; accent-color: var(--accent); height: 28px; display: block; cursor: pointer; }
+.ticks { position: relative; height: 18px; font-size: 12.5px; color: var(--muted); }
+.ticks span { position: absolute; transform: translateX(-50%); }
+.ticks span:first-child { transform: none; }
+.ticks span:last-child { transform: translateX(-100%); }
+.seg-lg button { min-height: 42px; font-size: 14px; padding: 8px 14px; }
+.plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line-strong); border-radius: 0 0 6px 6px; background: var(--bg); }
+.plan { padding: 20px; border-right: 1px solid var(--line); display: flex; flex-direction: column; box-shadow: inset 0 0 0 0 var(--accent); }
+.plan:last-child { border-right: 0; }
+.plan.fit { background: var(--accent-soft); box-shadow: inset 0 3px 0 0 var(--accent); }
+.plan-top { display: flex; flex-wrap: wrap; gap: 4px 10px; justify-content: space-between; align-items: baseline; }
+.plan h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; }
+.fit-tag { font-size: 13px; font-weight: 600; color: var(--accent-deep); }
+.plan-for { color: var(--muted); font-size: 15px; margin-top: 2px; min-height: 2.9em; }
+.amount { font-size: 2.6rem; font-weight: 600; letter-spacing: -0.035em; line-height: 1.1; margin-top: 12px; }
+.amount small { font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-left: 3px; }
+.amount.na { font-size: 1.35rem; letter-spacing: -0.01em; line-height: 2.86rem; color: var(--muted); font-weight: 500; }
+.billed { font-size: 14px; color: var(--muted); min-height: 1.55em; }
+.plan .btn { margin-top: 14px; }
+.plan ul { margin-top: 16px; font-size: 15px; }
+.plan li { padding: 6px 0 6px 20px; position: relative; border-top: 1px solid var(--line); }
+.plan.fit li { border-top-color: #bcdfd2; }
+.plan li::before { content: ""; position: absolute; left: 2px; top: 13px; width: 9px; height: 5px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
+.rate { margin-top: auto; padding-top: 14px; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 900px) {
+  .plans { grid-template-columns: minmax(0, 1fr); }
+  .plan { border-right: 0; border-bottom: 1px solid var(--line); }
+  .plan:last-child { border-bottom: 0; }
+  .plan-for { min-height: 0; }
+  .calc { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 400px) { .seg-lg button { padding: 8px 10px; font-size: 13.5px; } .calc { padding: 16px 14px; } .plan { padding: 18px 14px; } }
+
+/* FAQ */
+.faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 28px 72px; align-items: start; }
+.faq-grid .lede { margin-top: 14px; font-size: 15px; }
+.faq { border-top: 1px solid var(--ink); }
+.faq h3 { font-size: inherit; font-weight: inherit; }
+.faq-q { display: flex; justify-content: space-between; align-items: center; gap: 16px; width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 15px 0; min-height: 52px; text-align: left; font-size: 1.0625rem; font-weight: 500; letter-spacing: -0.01em; }
+.faq-q:hover { color: var(--accent-deep); }
+.faq-q i { flex: none; position: relative; width: 14px; height: 14px; }
+.faq-q i::before, .faq-q i::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; background: currentColor; transition: transform .15s ease; }
+.faq-q i::after { transform: rotate(90deg); }
+.faq-q[aria-expanded="true"] i::after { transform: rotate(0); }
+.faq-a { padding: 12px 0 20px; border-bottom: 1px solid var(--line); color: var(--muted); padding-right: max(0px, calc(100% - 66ch)); }
+@media (max-width: 900px) { .faq-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Trial band */
+.trial { background: var(--accent-band); color: #fff; padding-block: clamp(56px, 7vw, 96px); }
+.trial :focus-visible { outline-color: #fff; }
+.trial-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: 36px 72px; align-items: start; }
+.trial h2 { font-size: clamp(2rem, 4.2vw, 3.5rem); line-height: 1.03; letter-spacing: -0.034em; }
+.trial p.sub { margin-top: 16px; font-size: 1.0625rem; max-width: 50ch; }
+.steps { margin-top: 28px; counter-reset: s; border-top: 1px solid rgba(255,255,255,.45); max-width: 560px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 26px minmax(0, 1fr); padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.45); }
+.steps li::before { content: counter(s); font-weight: 700; }
+.trial a { color: #fff; font-weight: 600; }
+.trial-contact { margin-top: 20px; font-size: 15px; }
+.tform { background: var(--bg); color: var(--ink); border-radius: 6px; padding: clamp(18px, 2.5vw, 28px); }
+.tform :focus-visible { outline-color: var(--ink); }
+.tform a { color: var(--accent-deep); }
+.tform h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 14px; }
+.fgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+.f { min-width: 0; }
+.f.full { grid-column: 1 / -1; }
+.f label { display: block; font-weight: 500; font-size: 14.5px; margin-bottom: 4px; }
+.f input, .f select { display: block; width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid #76867f; border-radius: 4px; background: #fff; font-size: 16px; }
+.f input[aria-invalid="true"], .f select[aria-invalid="true"] { border-color: var(--bad); box-shadow: inset 0 0 0 1px var(--bad); }
+.err { color: var(--bad); font-size: 13.5px; margin-top: 4px; font-weight: 500; }
+.tform .btn { width: 100%; margin-top: 16px; }
+.fine { font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+.done { outline-offset: 4px; }
+.done h3 { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+.done p + p { margin-top: 10px; color: var(--muted); font-size: 15px; }
+.done button { margin-top: 16px; width: auto; }
+@media (max-width: 900px) { .trial-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .fgrid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Footer */
+.foot { padding-block: 48px 28px; font-size: 15px; }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 4fr) repeat(3, minmax(0, 2.6fr)); gap: 28px 40px; }
+.foot h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.foot li { padding: 3px 0; }
+.foot a { color: var(--ink); }
+.foot-about { color: var(--muted); margin-top: 10px; max-width: 34ch; }
+.foot address { font-style: normal; }
+.foot-base { margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; color: var(--muted); font-size: 14px; }
+@media (max-width: 900px) { .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-grid > :first-child { grid-column: 1 / -1; } }
+@media (max-width: 480px) { .foot-grid { grid-template-columns: minmax(0, 1fr); } }
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="zl-bar"><a href="../../work.html">&larr; Zero Lag</a><span>Project: <strong>Northlane Analytics</strong></span><a href="../../contact.html">Start a project like this</a></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Northlane Analytics home">
+      <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#007F5F"/><path d="M6 20 10 5M18 20 14 5M12 20v-3M12 13.5v-3M12 7.5V5" stroke="#fff" stroke-width="2" fill="none"/></svg>
+      Northlane
+    </a>
+    <nav aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="#product">Dashboard</a></li>
+        <li><a href="#funnels">Funnels</a></li>
+        <li><a href="#retention">Retention</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a class="btn nav-cta" href="#trial">Start free trial</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel" aria-label="Open menu">
+      <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+  </div>
+  <nav class="menu-panel" id="menuPanel" aria-label="Mobile" hidden>
+    <ul>
+      <li><a href="#product">Dashboard</a></li>
+      <li><a href="#funnels">Funnels</a></li>
+      <li><a href="#retention">Retention</a></li>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap">
+      <div class="hero-head">
+        <h1 id="heroTitle">Know which features your users come back to.</h1>
+        <div class="hero-side">
+          <p>Northlane turns product events into funnels, retention and usage reports your whole team can read, with no SQL and no waiting on a data analyst.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#trial">Start free trial</a>
+            <a class="btn btn-plain" href="#pricing">See pricing</a>
+            <span class="hero-note">14 days on Team. No card needed.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash" id="product">
+        <aside class="dash-side" aria-label="Workspace menu">
+          <p class="dash-ws">Ferrow Docs<span>Team workspace</span></p>
+          <ul>
+            <li aria-current="page">Overview</li>
+            <li>Events</li>
+            <li>Funnels</li>
+            <li>Retention</li>
+            <li>Segments</li>
+            <li>Digests</li>
+            <li>Settings</li>
+          </ul>
+        </aside>
+        <div class="dash-main">
+          <div class="dash-top">
+            <h2 class="dash-title" style="font-size:15px;letter-spacing:0;line-height:1.4">Usage overview</h2>
+            <div class="seg" role="group" aria-label="Date range" id="rangeSeg">
+              <button type="button" data-range="7" aria-pressed="false">Last 7 days</button>
+              <button type="button" data-range="30" aria-pressed="true">30 days</button>
+              <button type="button" data-range="90" aria-pressed="false">90 days</button>
+            </div>
+          </div>
+          <dl class="kpis">
+            <div class="kpi"><dt>Avg. daily active users</dt><dd class="val" id="kUsers"></dd><dd class="delta" id="dUsers"></dd></div>
+            <div class="kpi"><dt>Events tracked</dt><dd class="val" id="kEvents"></dd><dd class="delta" id="dEvents"></dd></div>
+            <div class="kpi"><dt>Activation rate</dt><dd class="val" id="kAct"></dd><dd class="delta" id="dAct"></dd></div>
+            <div class="kpi"><dt>Week 4 retention</dt><dd class="val" id="kRet"></dd><dd class="delta" id="dRet"></dd></div>
+          </dl>
+          <div class="dash-panels">
+            <div class="panel">
+              <div class="panel-head">
+                <h3>Daily active users</h3>
+                <div class="legend" aria-hidden="true">
+                  <span><svg width="18" height="4"><path d="M0 2h18" stroke="#007f5f" stroke-width="2"/></svg>This period</span>
+                  <span><svg width="18" height="4"><path d="M0 2h18" stroke="#76867f" stroke-width="1.5" stroke-dasharray="3 3"/></svg>Previous period</span>
+                </div>
+              </div>
+              <div class="chart" id="chart">
+                <svg id="chartSvg" tabindex="0" role="img" aria-label="Daily active users chart"></svg>
+                <div class="tip" id="tip" hidden></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3 id="evTitle">Top events</h3></div>
+              <table class="ev-table" aria-labelledby="evTitle">
+                <thead>
+                  <tr>
+                    <th scope="col" data-key="name"><button type="button">Event<span class="ar" aria-hidden="true"></span></button></th>
+                    <th scope="col" data-key="count"><button type="button">Count<span class="ar" aria-hidden="true"></span></button></th>
+                    <th scope="col" class="opt" data-key="users"><button type="button">Users<span class="ar" aria-hidden="true"></span></button></th>
+                    <th scope="col" class="opt" data-key="per"><button type="button">Per user<span class="ar" aria-hidden="true"></span></button></th>
+                    <th scope="col" data-key="change"><button type="button">Change<span class="ar" aria-hidden="true"></span></button></th>
+                  </tr>
+                </thead>
+                <tbody id="evBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="dash-cap">Switch the date range, hover the chart or sort the table. Showing the Ferrow Docs workspace.</p>
+      <p class="sr-only" role="status" id="dashStatus"></p>
+    </div>
+  </section>
+
+  <section class="strip" aria-label="Customers">
+    <div class="wrap strip-in">
+      <p>Used by product teams at 640 software companies</p>
+      <ul>
+        <li>Ferrow Docs</li>
+        <li>Tallwood</li>
+        <li>Quayline</li>
+        <li>OXBEND</li>
+        <li>Brightmoor Pay</li>
+        <li>Sable+Pine</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sect" id="funnels" aria-labelledby="funnelTitle">
+    <div class="wrap split">
+      <div>
+        <h2 id="funnelTitle">Find the exact step where signups give up.</h2>
+        <p class="lede">Pick any events in any order and Northlane builds the funnel from what users already did, including events from before you asked the question.</p>
+        <ul class="points">
+          <li>Split by plan, channel or any property you send</li>
+          <li>See the median time between each pair of steps</li>
+          <li>Open the list of users who dropped at a step</li>
+        </ul>
+      </div>
+      <div class="frag">
+        <div class="frag-top">
+          <h3>Signup to paid, last 30 days</h3>
+          <div class="seg" role="group" aria-label="Funnel segment" id="funnelSeg">
+            <button type="button" data-seg="all" aria-pressed="true">All</button>
+            <button type="button" data-seg="self" aria-pressed="false">Self-serve</button>
+            <button type="button" data-seg="sales" aria-pressed="false">Sales-led</button>
+          </div>
+        </div>
+        <div class="funnel" id="funnel"></div>
+        <p class="f-sum" id="funnelSum" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sect sect-tint" id="retention" aria-labelledby="retTitle">
+    <div class="wrap">
+      <div class="ret-head">
+        <h2 id="retTitle">Check whether last month's release made people stay.</h2>
+        <p class="lede">Retention grids compare weekly signup cohorts side by side, so a change in habit shows up as a colour shift you can point at in a planning meeting.</p>
+      </div>
+      <div class="frag">
+        <div class="frag-top">
+          <h3>Weekly retention by signup cohort</h3>
+          <div class="field-inline">
+            <label for="retEvent">Counts as returning</label>
+            <select id="retEvent">
+              <option value="any">Any activity</option>
+              <option value="created">Created a doc</option>
+              <option value="shared">Shared a doc</option>
+            </select>
+          </div>
+        </div>
+        <div class="ret-wrap">
+          <table class="ret" id="retTable">
+            <caption class="sr-only">Percentage of each weekly signup cohort that returned in later weeks</caption>
+            <thead id="retHead"></thead>
+            <tbody id="retBody"></tbody>
+          </table>
+        </div>
+        <div class="ret-foot">
+          <p id="retSum" role="status"></p>
+          <div class="ramp" aria-hidden="true"><span>Under 10%</span><i class="c0"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><span>50% or more</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sect" id="setup" aria-labelledby="setupTitle">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <h2 id="setupTitle">Add one snippet this afternoon. See data before you leave.</h2>
+          <p class="lede">Install the SDK for JavaScript, Python, Go, Swift or Kotlin, and send your first event in a few lines. The event inspector checks each one against your tracking plan as it arrives, so a broken property gets caught on the day it ships.</p>
+        </div>
+        <div>
+<pre class="code" tabindex="0" aria-label="Example tracking code"><code><span class="c">// send an event from your app</span>
+import { northlane } from
+  <span class="s">"@northlane/browser"</span>;
+
+northlane.init(<span class="s">"nl_live_7f3a"</span>);
+northlane.track(<span class="s">"doc_shared"</span>, {
+  plan: <span class="s">"team"</span>,
+  recipients: 3,
+});</code></pre>
+          <div class="stream">
+            <h3>Event inspector</h3>
+            <ul>
+              <li><code>doc_shared</code><small>12 seconds ago, 2 properties</small><span class="badge ok"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 5 9.5 10.5 3" stroke="currentColor" stroke-width="2" fill="none"/></svg>Matches plan</span></li>
+              <li><code>template_applied</code><small>48 seconds ago, 3 properties</small><span class="badge ok"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 5 9.5 10.5 3" stroke="currentColor" stroke-width="2" fill="none"/></svg>Matches plan</span></li>
+              <li><code>export_pdf</code><small>2 minutes ago, property "format" is missing</small><span class="badge warn"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11.5 11H.5Z" fill="currentColor"/></svg>Needs a fix</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <dl class="caps">
+        <div><dt>Segments</dt><dd>Save a group like "admins on annual plans" once and apply it to every report.</dd></div>
+        <div><dt>Monday digests</dt><dd>Each team gets the five numbers it chose by email, with changes called out in plain words.</dd></div>
+        <div><dt>Release markers</dt><dd>Mark a deploy on any chart so nobody has to guess what happened on the 14th.</dd></div>
+        <div><dt>Warehouse export</dt><dd>Every raw event lands as Parquet files in your own storage bucket each hour.</dd></div>
+        <div><dt>Roles and single sign-on</dt><dd>SAML, SCIM and read-only seats that never count against your bill.</dd></div>
+        <div><dt>US or EU hosting</dt><dd>Pick a region when you create a workspace. Data stays there, backups included.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sect sect-tint" aria-labelledby="proofTitle">
+    <div class="wrap">
+      <h2 class="sr-only" id="proofTitle">How it holds together</h2>
+      <div class="proof">
+        <figure>
+          <blockquote><p>Every funnel, retention curve and usage report is built from the same event table, so a product manager's chart and the finance export agree to the row. No second copy of the data, and nothing to reconcile on Monday.</p></blockquote>
+          <figcaption class="who"><i aria-hidden="true">1</i><div>One event table<span>Shared by every report in the workspace</span></div></figcaption>
+        </figure>
+        <div>
+          <dl class="figs">
+            <div><dt>Median time from install to first funnel</dt><dd>3.4 hours</dd></div>
+            <div><dt>Events processed on a typical day</dt><dd>2.1 billion</dd></div>
+            <div><dt>Ingestion uptime, last 12 months</dt><dd>99.97%</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sect" id="pricing" aria-labelledby="priceTitle">
+    <div class="wrap">
+      <div class="price-head">
+        <div>
+          <h2 id="priceTitle">Pay for events, not for seats.</h2>
+          <p class="lede" style="margin-top:12px">Everyone at your company can log in. Set your monthly volume and the prices below update.</p>
+        </div>
+        <div class="seg seg-lg" role="group" aria-label="Billing period" id="billSeg">
+          <button type="button" data-bill="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" data-bill="annual" aria-pressed="false">Annual, save 20%</button>
+        </div>
+      </div>
+      <div class="calc">
+        <div>
+          <label for="evSlider">Events per month</label>
+          <input class="slider" type="range" id="evSlider" min="0" max="14" step="1" value="6">
+          <div class="ticks" aria-hidden="true">
+            <span style="left:0">100K</span>
+            <span style="left:21.4%">1M</span>
+            <span style="left:57.1%">10M</span>
+            <span style="left:100%">100M</span>
+          </div>
+        </div>
+        <output for="evSlider" id="evOut"></output>
+      </div>
+      <div class="plans" id="plans">
+        <article class="plan" id="planFree">
+          <div class="plan-top"><h3>Free</h3><span class="fit-tag" hidden>Fits your volume</span></div>
+          <p class="plan-for">For side projects and very early products.</p>
+          <p class="amount" id="pFree"></p>
+          <p class="billed" id="bFree"></p>
+          <a class="btn btn-plain" href="#trial">Start for free</a>
+          <ul>
+            <li>Up to 500K events a month</li>
+            <li>12 months of history</li>
+            <li>Funnels and usage reports</li>
+          </ul>
+          <p class="rate">Community support, replies within 3 business days.</p>
+        </article>
+        <article class="plan" id="planTeam">
+          <div class="plan-top"><h3>Team</h3><span class="fit-tag" hidden>Fits your volume</span></div>
+          <p class="plan-for">For product teams making weekly decisions from usage.</p>
+          <p class="amount" id="pTeam"></p>
+          <p class="billed" id="bTeam"></p>
+          <a class="btn" href="#trial">Start free trial</a>
+          <ul>
+            <li>Up to 20M events a month</li>
+            <li>5 years of history</li>
+            <li>Retention, segments and digests</li>
+            <li>Event inspector and tracking plans</li>
+          </ul>
+          <p class="rate">$89 includes 1M events. Then $14 per million up to 10M, and $9 per million up to 20M.</p>
+        </article>
+        <article class="plan" id="planScale">
+          <div class="plan-top"><h3>Scale</h3><span class="fit-tag" hidden>Fits your volume</span></div>
+          <p class="plan-for">For companies with security reviews and a data team.</p>
+          <p class="amount" id="pScale"></p>
+          <p class="billed" id="bScale"></p>
+          <a class="btn btn-plain" href="#trial">Start free trial</a>
+          <ul>
+            <li>Up to 100M events, more on contract</li>
+            <li>Unlimited history</li>
+            <li>Single sign-on and audit logs</li>
+            <li>Hourly warehouse export</li>
+            <li>Named support engineer</li>
+          </ul>
+          <p class="rate">$640 includes 10M events. Then $8 per million up to 50M, and $5 per million up to 100M.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sect sect-tint" id="faq" aria-labelledby="faqTitle">
+    <div class="wrap faq-grid">
+      <div>
+        <h2 id="faqTitle">Questions we hear on most calls</h2>
+        <p class="lede">Something else? Email <a href="mailto:hello@example.com">hello@example.com</a> and a person replies within one working day.</p>
+      </div>
+      <div class="faq" id="faqList">
+        <h3><button class="faq-q" type="button" aria-expanded="true" aria-controls="a1" id="q1">What counts as an event?<i aria-hidden="true"></i></button></h3>
+        <div class="faq-a" id="a1" role="region" aria-labelledby="q1">One action you send to Northlane, such as doc_shared with its properties. A user profile update doesn't count, and neither does replaying historic data during import.</div>
+        <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a2" id="q2">What happens if we go over our monthly volume?<i aria-hidden="true"></i></button></h3>
+        <div class="faq-a" id="a2" role="region" aria-labelledby="q2" hidden>We never drop your data. You get an email at 80% and 100%, and extra events are billed at your plan's per-million rate. One overage month in any twelve is forgiven automatically.</div>
+        <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a3" id="q3">Do we need an engineer to set this up?<i aria-hidden="true"></i></button></h3>
+        <div class="faq-a" id="a3" role="region" aria-labelledby="q3" hidden>For the first install, yes, for about an hour. After that, product managers can define funnels, segments and reports on their own. Most teams instrument 10 to 15 key events in their first week.</div>
+        <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a4" id="q4">Can we bring our existing data?<i aria-hidden="true"></i></button></h3>
+        <div class="faq-a" id="a4" role="region" aria-labelledby="q4" hidden>Yes. Import up to 24 months of history from CSV or JSON files, or through the bulk API. Imported events appear in reports within a few hours and don't count toward your monthly volume.</div>
+        <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a5" id="q5">Where is our data stored?<i aria-hidden="true"></i></button></h3>
+        <div class="faq-a" id="a5" role="region" aria-labelledby="q5" hidden>In the region you choose when you create a workspace, either the US or the EU. Northlane is SOC 2 Type II audited, and we sign a data processing agreement on every paid plan.</div>
+        <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a6" id="q6">What happens when the trial ends?<i aria-hidden="true"></i></button></h3>
+        <div class="faq-a" id="a6" role="region" aria-labelledby="q6" hidden>Your workspace moves to the Free plan unless you choose a paid one, and nothing is charged. If you sent more than 500K events, reports stay readable for 30 days while you decide.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trial" id="trial" aria-labelledby="trialTitle">
+    <div class="wrap trial-grid">
+      <div>
+        <h2 id="trialTitle">Start with the question you can't answer today.</h2>
+        <p class="sub">Your trial runs for 14 days on the Team plan, with up to 5M events and no card.</p>
+        <ol class="steps">
+          <li>Create a workspace and choose US or EU hosting.</li>
+          <li>Add the snippet and send your first events.</li>
+          <li>Build a funnel with a Northlane engineer on a 30 minute call, if you'd like one.</li>
+        </ol>
+        <p class="trial-contact">Prefer to talk first? Call <a href="tel:+12185550142">(218) 555-0142</a>, Monday to Friday, 8am to 6pm Central.</p>
+      </div>
+      <div class="tform">
+        <form id="trialForm" novalidate>
+          <h3>Start free trial</h3>
+          <div class="fgrid">
+            <div class="f"><label for="fName">Full name</label><input id="fName" name="name" type="text" autocomplete="name" required aria-describedby="eName"><p class="err" id="eName" hidden></p></div>
+            <div class="f"><label for="fEmail">Work email</label><input id="fEmail" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="eEmail"><p class="err" id="eEmail" hidden></p></div>
+            <div class="f"><label for="fCompany">Company</label><input id="fCompany" name="company" type="text" autocomplete="organization" required aria-describedby="eCompany"><p class="err" id="eCompany" hidden></p></div>
+            <div class="f"><label for="fVolume">Monthly events, roughly</label>
+              <select id="fVolume" name="volume" required aria-describedby="eVolume">
+                <option value="">Choose a range</option>
+                <option>Under 500K</option>
+                <option>500K to 5M</option>
+                <option>5M to 20M</option>
+                <option>Over 20M</option>
+              </select>
+              <p class="err" id="eVolume" hidden></p></div>
+          </div>
+          <button class="btn" type="submit">Start free trial</button>
+          <p class="fine">Fourteen days, no card needed, and your data is deleted if you do not continue.</p>
+        </form>
+        <div class="done" id="trialDone" tabindex="-1" hidden>
+          <h3><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="11" fill="#007f5f"/><path d="M6 11.5 9.5 15 16 7.5" stroke="#fff" stroke-width="2" fill="none"/></svg>Free trial started</h3>
+          <p id="doneMsg"></p>
+          <p>The link is valid for 24 hours. Did it not arrive? Check your spam folder or write to hello@example.com.</p>
+          <button class="btn btn-plain" type="button" id="doneReset">Start another trial</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="Northlane Analytics home">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#007F5F"/><path d="M6 20 10 5M18 20 14 5M12 20v-3M12 13.5v-3M12 7.5V5" stroke="#fff" stroke-width="2" fill="none"/></svg>
+          Northlane
+        </a>
+        <p class="foot-about">Product usage analytics for software teams, built on the shore of Lake Superior since 2019.</p>
+      </div>
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li><a href="#product">Dashboard</a></li>
+          <li><a href="#funnels">Funnels</a></li>
+          <li><a href="#retention">Retention</a></li>
+          <li><a href="#setup">Setup</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+          <li><a href="mailto:sales@example.com">sales@example.com</a></li>
+          <li><a href="tel:+12185550142">(218) 555-0142</a></li>
+          <li>Monday to Friday, 8am to 6pm Central</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Office</h3>
+        <address>Northlane Analytics, Inc.<br>218 Millrace Street, Floor 4<br>Duluth, MN 55802</address>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>&copy; 2026 Northlane Analytics, Inc.</span>
+      <span>218 Millrace Street, Duluth, MN</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
+  var svgNS = 'http://www.w3.org/2000/svg';
+
+  // keep the nav directly below the project bar
+  function measure() {
+    var root = document.documentElement.style;
+    root.setProperty('--bar-h', document.querySelector('.zl-bar').offsetHeight + 'px');
+    root.setProperty('--nav-h', $('nav').offsetHeight + 'px');
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+  // mobile menu
+  var menuBtn = $('menuBtn'), menuPanel = $('menuPanel');
+  function setMenu(open) {
+    menuPanel.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  menuBtn.addEventListener('click', function () { setMenu(menuPanel.hidden); });
+  menuPanel.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menuPanel.hidden) { setMenu(false); menuBtn.focus(); }
+  });
+
+  // seeded random numbers keep the chart data stable between visits
+  function seeded(a) {
+    return function () {
+      a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  // build 190 days of daily active users ending yesterday
+  var rand = seeded(4127), DAYS = [], today = new Date();
+  for (var i = 0; i < 190; i++) {
+    var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (190 - i));
+    var dow = d.getDay(), week = (dow === 0 || dow === 6) ? 0.74 : 1;
+    DAYS.push({ date: d, users: Math.round((7300 + i * 15.5) * week * (0.95 + rand() * 0.1)) });
+  }
+
+  var RATES = {
+    7: { act: [41.8, 40.9], ret: [33.1, 32.6], perUser: 6.9, reach: 1.7 },
+    30: { act: [39.6, 37.8], ret: [31.7, 30.2], perUser: 6.4, reach: 2.6 },
+    90: { act: [37.2, 34.1], ret: [30.4, 27.9], perUser: 6.1, reach: 3.4 }
+  };
+  var EVENTS = [
+    { name: 'doc_opened', reach: 0.86, share: { 7: 0.34, 30: 0.33, 90: 0.31 }, change: { 7: 4.2, 30: 9.1, 90: 21.4 } },
+    { name: 'search_run', reach: 0.58, share: { 7: 0.18, 30: 0.19, 90: 0.21 }, change: { 7: -1.6, 30: 2.8, 90: 11.7 } },
+    { name: 'comment_added', reach: 0.41, share: { 7: 0.16, 30: 0.15, 90: 0.14 }, change: { 7: 7.9, 30: 12.3, 90: 18.6 } },
+    { name: 'doc_created', reach: 0.47, share: { 7: 0.11, 30: 0.13, 90: 0.14 }, change: { 7: 2.1, 30: 5.4, 90: 15.2 } },
+    { name: 'doc_shared', reach: 0.33, share: { 7: 0.09, 30: 0.08, 90: 0.08 }, change: { 7: 11.4, 30: 16.8, 90: 34.5 } },
+    { name: 'template_applied', reach: 0.24, share: { 7: 0.06, 30: 0.06, 90: 0.06 }, change: { 7: -3.3, 30: -0.7, 90: 6.2 } },
+    { name: 'invite_sent', reach: 0.12, share: { 7: 0.04, 30: 0.04, 90: 0.04 }, change: { 7: 0.8, 30: 3.9, 90: 8.8 } },
+    { name: 'export_pdf', reach: 0.09, share: { 7: 0.02, 30: 0.02, 90: 0.02 }, change: { 7: -5.2, 30: -8.4, 90: -12.1 } }
+  ];
+
+  var state = { range: 30, sortKey: 'count', sortDir: -1, hover: null };
+
+  function slice(range) {
+    // shift the comparison by whole weeks so weekdays line up
+    var off = Math.round(range / 7) * 7;
+    return { cur: DAYS.slice(-range), prev: DAYS.slice(-range - off, -off) };
+  }
+  function sum(arr) { return arr.reduce(function (t, d) { return t + d.users; }, 0); }
+  function short(n) {
+    if (n >= 1e6) return (n / 1e6).toFixed(n >= 1e8 ? 0 : 2) + 'M';
+    if (n >= 1e4) return (n / 1e3).toFixed(0) + 'K';
+    return fmt(n);
+  }
+  function setDelta(el, value, unit, label) {
+    el.textContent = '';
+    var mark = document.createElement('span');
+    mark.className = value >= 0 ? 'up' : 'down';
+    mark.setAttribute('aria-hidden', 'true');
+    mark.textContent = value >= 0 ? '▲' : '▼';
+    el.appendChild(mark);
+    el.appendChild(document.createTextNode((value >= 0 ? '+' : '−') + Math.abs(value).toFixed(1) + unit + ' ' + label));
+  }
+
+  function drawKpis() {
+    var s = slice(state.range), r = RATES[state.range];
+    var avg = sum(s.cur) / state.range, avgPrev = sum(s.prev) / state.range;
+    var ev = sum(s.cur) * r.perUser, evPrev = sum(s.prev) * (r.perUser - 0.2);
+    var label = 'vs. prior ' + state.range + 'd';
+    $('kUsers').textContent = fmt(avg);
+    setDelta($('dUsers'), (avg / avgPrev - 1) * 100, '%', label);
+    $('kEvents').textContent = short(ev);
+    setDelta($('dEvents'), (ev / evPrev - 1) * 100, '%', label);
+    $('kAct').textContent = r.act[0].toFixed(1) + '%';
+    setDelta($('dAct'), r.act[0] - r.act[1], ' pts', label);
+    $('kRet').textContent = r.ret[0].toFixed(1) + '%';
+    setDelta($('dRet'), r.ret[0] - r.ret[1], ' pts', label);
+    return { avg: avg, ev: ev };
+  }
+
+  // chart helpers
+  function el(name, attrs, parent) {
+    var node = document.createElementNS(svgNS, name);
+    for (var k in attrs) node.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(node);
+    return node;
+  }
+  function niceStep(max, count) {
+    var raw = max / count, mag = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / mag;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * mag;
+  }
+  function dayLabel(d) { return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+
+  var geo = null, chartEl = $('chart'), svg = $('chartSvg'), tip = $('tip');
+
+  function drawChart(animate) {
+    var w = chartEl.clientWidth;
+    if (!w) return;
+    var h = w < 560 ? 210 : 276, m = { t: 8, r: 6, b: 24, l: 38 };
+    var s = slice(state.range), n = state.range;
+    var top = Math.max.apply(null, s.cur.concat(s.prev).map(function (d) { return d.users; }));
+    var step = niceStep(top, 5), yMax = Math.ceil(top / step) * step;
+    var x = function (i) { return m.l + (w - m.l - m.r) * (n === 1 ? 0 : i / (n - 1)); };
+    var y = function (v) { return m.t + (h - m.t - m.b) * (1 - v / yMax); };
+
+    svg.textContent = '';
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('height', h);
+
+    // gridlines and y labels
+    for (var v = 0; v <= yMax + 1; v += step) {
+      el('line', { x1: m.l, x2: w - m.r, y1: y(v), y2: y(v), stroke: v === 0 ? '#b4c1be' : '#e7ecea', 'stroke-width': 1 }, svg);
+      var yt = el('text', { x: m.l - 7, y: y(v) + 4, 'text-anchor': 'end' }, svg);
+      yt.textContent = v >= 1000 ? (v / 1000) + 'K' : v;
+    }
+
+    // x labels spaced evenly
+    var ticks = n === 7 ? (w < 460 ? 4 : 7) : (w < 460 ? 3 : 6);
+    for (var t = 0; t < ticks; t++) {
+      var idx = Math.round(t * (n - 1) / (ticks - 1));
+      var anchor = t === 0 ? 'start' : t === ticks - 1 ? 'end' : 'middle';
+      var xt = el('text', { x: x(idx), y: h - 6, 'text-anchor': anchor }, svg);
+      xt.textContent = dayLabel(s.cur[idx].date);
+    }
+
+    var line = function (arr) {
+      return arr.map(function (d, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d.users).toFixed(1); }).join('');
+    };
+    el('path', { d: line(s.cur) + 'L' + x(n - 1) + ' ' + y(0) + 'L' + x(0) + ' ' + y(0) + 'Z', class: 'area' }, svg);
+    el('path', { d: line(s.prev), class: 'line-prev' }, svg);
+    el('path', { d: line(s.cur), class: 'line-cur' + (animate ? ' draw' : ''), pathLength: 1 }, svg);
+
+    // weekly range gets visible point markers
+    if (n === 7) s.cur.forEach(function (d, i) {
+      el('circle', { cx: x(i), cy: y(d.users), r: 4, fill: '#007f5f', stroke: '#fff', 'stroke-width': 2 }, svg);
+    });
+
+    var cross = el('line', { y1: m.t, y2: h - m.b, stroke: '#13211f', 'stroke-width': 1, visibility: 'hidden' }, svg);
+    var dot = el('circle', { r: 5, fill: '#007f5f', stroke: '#fff', 'stroke-width': 2, visibility: 'hidden' }, svg);
+    geo = { w: w, h: h, m: m, x: x, y: y, n: n, s: s, cross: cross, dot: dot };
+
+    var total = sum(s.cur), peak = s.cur.reduce(function (a, b) { return b.users > a.users ? b : a; });
+    svg.setAttribute('aria-label', 'Daily active users, last ' + n + ' days. Average ' + fmt(total / n) + ', peak ' + fmt(peak.users) + ' on ' + dayLabel(peak.date) + '. Focus and use the left and right arrow keys to read each day.');
+    if (state.hover !== null) showPoint(Math.min(state.hover, n - 1));
+  }
+
+  function showPoint(i) {
+    if (!geo) return;
+    state.hover = i;
+    var d = geo.s.cur[i], p = geo.s.prev[i], px = geo.x(i), py = geo.y(d.users);
+    geo.cross.setAttribute('x1', px); geo.cross.setAttribute('x2', px); geo.cross.setAttribute('visibility', 'visible');
+    geo.dot.setAttribute('cx', px); geo.dot.setAttribute('cy', py); geo.dot.setAttribute('visibility', 'visible');
+    tip.textContent = '';
+    var head = document.createElement('b');
+    head.textContent = d.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    tip.appendChild(head);
+    [['This period', fmt(d.users)], ['Previous', fmt(p.users)]].forEach(function (row) {
+      var r = document.createElement('div'), a = document.createElement('span'), b = document.createElement('span');
+      a.textContent = row[0]; b.textContent = row[1];
+      r.appendChild(a); r.appendChild(b); tip.appendChild(r);
+    });
+    tip.hidden = false;
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var left = px + 12 + tw > geo.w ? px - tw - 12 : px + 12;
+    tip.style.transform = 'translate(' + Math.max(0, left) + 'px,' + Math.max(0, Math.min(py - th / 2, geo.h - th)) + 'px)';
+  }
+  function hidePoint() {
+    state.hover = null;
+    tip.hidden = true;
+    if (geo) { geo.cross.setAttribute('visibility', 'hidden'); geo.dot.setAttribute('visibility', 'hidden'); }
+  }
+  svg.addEventListener('pointermove', function (e) {
+    if (!geo) return;
+    var rect = svg.getBoundingClientRect();
+    var ratio = (e.clientX - rect.left - geo.m.l) / (geo.w - geo.m.l - geo.m.r);
+    showPoint(Math.max(0, Math.min(geo.n - 1, Math.round(ratio * (geo.n - 1)))));
+  });
+  svg.addEventListener('pointerleave', hidePoint);
+  svg.addEventListener('blur', hidePoint);
+  svg.addEventListener('keydown', function (e) {
+    if (!geo || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+    e.preventDefault();
+    var cur = state.hover === null ? geo.n - 1 : state.hover + (e.key === 'ArrowLeft' ? -1 : 1);
+    showPoint(Math.max(0, Math.min(geo.n - 1, cur)));
+  });
+
+  // top events table
+  function eventRows(totals) {
+    return EVENTS.map(function (e) {
+      var count = totals.ev * e.share[state.range];
+      var users = totals.avg * e.reach * RATES[state.range].reach;
+      return { name: e.name, count: count, users: users, per: count / users, change: e.change[state.range] };
+    });
+  }
+  function drawTable(totals) {
+    var rows = eventRows(totals), k = state.sortKey, dir = state.sortDir;
+    rows.sort(function (a, b) {
+      return k === 'name' ? dir * a.name.localeCompare(b.name) : dir * (a[k] - b[k]);
+    });
+    var body = $('evBody');
+    body.textContent = '';
+    rows.forEach(function (r) {
+      var tr = document.createElement('tr');
+      var cells = [r.name, short(r.count), fmt(r.users), r.per.toFixed(1)];
+      cells.forEach(function (text, i) {
+        var td = document.createElement('td');
+        td.textContent = text;
+        if (i === 2 || i === 3) td.className = 'opt';
+        tr.appendChild(td);
+      });
+      var ch = document.createElement('td');
+      var mark = document.createElement('span');
+      mark.className = r.change >= 0 ? 'up' : 'down';
+      mark.setAttribute('aria-hidden', 'true');
+      mark.textContent = r.change >= 0 ? '▲' : '▼';
+      ch.appendChild(mark);
+      ch.appendChild(document.createTextNode((r.change >= 0 ? '+' : '−') + Math.abs(r.change).toFixed(1) + '%'));
+      tr.appendChild(ch);
+      body.appendChild(tr);
+    });
+    document.querySelectorAll('.ev-table th').forEach(function (th) {
+      var active = th.dataset.key === k;
+      if (active) th.setAttribute('aria-sort', dir > 0 ? 'ascending' : 'descending');
+      else th.removeAttribute('aria-sort');
+      th.querySelector('.ar').textContent = active ? (dir > 0 ? '▲' : '▼') : '';
+    });
+  }
+
+  function drawDash(animate) {
+    var totals = drawKpis();
+    drawChart(animate);
+    drawTable(totals);
+  }
+
+  $('rangeSeg').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    state.range = Number(b.dataset.range);
+    state.hover = null;
+    tip.hidden = true;
+    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    drawDash(true);
+    $('dashStatus').textContent = 'Showing the last ' + state.range + ' days.';
+  });
+  document.querySelectorAll('.ev-table th').forEach(function (th) {
+    th.querySelector('button').addEventListener('click', function () {
+      var key = th.dataset.key;
+      if (state.sortKey === key) state.sortDir *= -1;
+      else { state.sortKey = key; state.sortDir = key === 'name' ? 1 : -1; }
+      drawTable(drawKpis());
+      $('dashStatus').textContent = 'Top events sorted by ' + th.textContent + ', ' + (state.sortDir > 0 ? 'ascending' : 'descending') + '.';
+    });
+  });
+  if (window.ResizeObserver) {
+    var lastW = 0;
+    new ResizeObserver(function () {
+      var w = chartEl.clientWidth;
+      if (w && w !== lastW) { lastW = w; drawChart(false); }
+    }).observe(chartEl);
+  }
+  drawDash(false);
+
+  // funnel fragment
+  var STEPS = ['Signed up', 'Created a first doc', 'Invited a teammate', 'Shared a doc', 'Upgraded to paid'];
+  var TIMES = [null, '6 min', '1.2 days', '2.4 days', '11 days'];
+  var FUNNEL = {
+    all: [12480, 8360, 4370, 3120, 1060],
+    self: [9810, 6080, 2690, 1840, 470],
+    sales: [2670, 2280, 1680, 1280, 590]
+  };
+  function drawFunnel(seg) {
+    var data = FUNNEL[seg], box = $('funnel');
+    var worst = 1, worstRate = 1;
+    for (var i = 1; i < data.length; i++) {
+      var rate = data[i] / data[i - 1];
+      if (rate < worstRate) { worstRate = rate; worst = i; }
+    }
+    if (!box.children.length) {
+      STEPS.forEach(function () {
+        var row = document.createElement('div');
+        row.className = 'f-row';
+        row.innerHTML = '<span class="f-name"></span><span class="f-nums"><b></b></span><span class="f-track"><span class="f-bar"></span></span><span class="f-meta"></span>';
+        box.appendChild(row);
+      });
+    }
+    STEPS.forEach(function (name, i) {
+      var row = box.children[i];
+      row.querySelector('.f-name').textContent = (i + 1) + '. ' + name;
+      row.querySelector('b').textContent = fmt(data[i]);
+      row.querySelector('.f-bar').style.width = (data[i] / data[0] * 100).toFixed(1) + '%';
+      var meta = row.querySelector('.f-meta');
+      meta.textContent = '';
+      var add = function (text, cls) {
+        var s = document.createElement('span');
+        s.textContent = text;
+        if (cls) s.className = cls;
+        meta.appendChild(s);
+      };
+      if (i === 0) add('Start of funnel');
+      else {
+        add((data[i] / data[i - 1] * 100).toFixed(1) + '% from previous step');
+        add('Median ' + TIMES[i]);
+        if (i === worst) add('Biggest drop', 'f-flag');
+      }
+    });
+    $('funnelSum').textContent = (data[4] / data[0] * 100).toFixed(1) + '% of signups reached paid. The biggest loss is at step ' + (worst + 1) + ', where ' + fmt(data[worst - 1] - data[worst]) + ' users stopped.';
+  }
+  $('funnelSeg').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    drawFunnel(b.dataset.seg);
+  });
+  drawFunnel('all');
+
+  // retention grid
+  var CURVE = [100, 58, 47, 41, 37, 34, 32, 31];
+  var EVENT_FACTOR = { any: 1, created: 0.71, shared: 0.44 };
+  var COHORT_SIZE = [1184, 1242, 1097, 1316, 1403, 1288, 1451, 1530];
+  var COHORT_LIFT = [-3, -2.2, -2.6, -0.8, 0.6, 1.8, 3.4, 4.2];
+  var retRand = seeded(903), NOISE = CURVE.map(function () { return COHORT_LIFT.map(function () { return retRand() * 1.8 - 0.9; }); });
+  function shade(v) { return v >= 50 ? 'c5' : v >= 40 ? 'c4' : v >= 30 ? 'c3' : v >= 20 ? 'c2' : v >= 10 ? 'c1' : 'c0'; }
+  function retValue(co, wk, kind) {
+    if (wk === 0) return 100;
+    return Math.round(Math.max(1, (CURVE[wk] + COHORT_LIFT[co] * (1 - wk * 0.05) + NOISE[wk][co]) * EVENT_FACTOR[kind]));
+  }
+  function drawRetention(kind) {
+    var head = $('retHead'), body = $('retBody'), co, wk;
+    head.innerHTML = '';
+    var hr = document.createElement('tr');
+    var corner = document.createElement('th');
+    corner.scope = 'col'; corner.className = 'co'; corner.textContent = 'Cohort';
+    hr.appendChild(corner);
+    for (wk = 0; wk < 8; wk++) {
+      var th = document.createElement('th');
+      th.scope = 'col'; th.textContent = 'W' + wk;
+      if (wk > 5) th.className = 'late';
+      hr.appendChild(th);
+    }
+    head.appendChild(hr);
+    body.innerHTML = '';
+    var now = new Date();
+    for (co = 0; co < 8; co++) {
+      var tr = document.createElement('tr');
+      var start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1 - (8 - co) * 7);
+      var rowHead = document.createElement('th');
+      rowHead.scope = 'row';
+      rowHead.textContent = dayLabel(start);
+      var size = document.createElement('span');
+      size.textContent = fmt(COHORT_SIZE[co]);
+      rowHead.appendChild(size);
+      tr.appendChild(rowHead);
+      for (wk = 0; wk < 8; wk++) {
+        var td = document.createElement('td');
+        if (wk > 5) td.classList.add('late');
+        if (wk < 8 - co) {
+          var v = retValue(co, wk, kind);
+          td.classList.add(shade(v));
+          td.textContent = v + '%';
+          td.title = 'Cohort of ' + dayLabel(start) + ', week ' + wk + ': ' + v + '% returned';
+        } else td.classList.add('empty');
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+    var early = retValue(0, 4, kind), late = retValue(3, 4, kind);
+    $('retSum').textContent = 'Week 4 moved from ' + early + '% in the oldest cohort to ' + late + '% in the newest cohort with four weeks of data.';
+  }
+  $('retEvent').addEventListener('change', function () { drawRetention(this.value); });
+  drawRetention('any');
+
+  // pricing calculator
+  var STOPS = [100e3, 250e3, 500e3, 1e6, 2e6, 3e6, 5e6, 7.5e6, 10e6, 15e6, 20e6, 30e6, 50e6, 75e6, 100e6];
+  var price = { billing: 'monthly' };
+  function tiered(events, base, included, tiers) {
+    var m = events / 1e6, total = base, from = included;
+    tiers.forEach(function (t) {
+      if (m > from) total += (Math.min(m, t[0]) - from) * t[1];
+      from = t[0];
+    });
+    return total;
+  }
+  function evLabel(n) { return n >= 1e6 ? (n / 1e6) + 'M' : (n / 1e3) + 'K'; }
+  function setPrice(amountEl, billedEl, monthly, unavailable) {
+    amountEl.textContent = '';
+    amountEl.classList.toggle('na', !!unavailable);
+    if (unavailable) { amountEl.textContent = unavailable; billedEl.textContent = 'Move the slider or choose another plan'; return; }
+    var annual = price.billing === 'annual';
+    var shown = annual ? Math.round(monthly * 0.8) : Math.round(monthly);
+    amountEl.appendChild(document.createTextNode('$' + fmt(shown)));
+    var per = document.createElement('small');
+    per.textContent = 'per month';
+    amountEl.appendChild(per);
+    if (monthly === 0) billedEl.textContent = 'Free for as long as you stay under 500K';
+    else billedEl.textContent = annual ? '$' + fmt(shown * 12) + ' billed once a year' : 'Billed monthly, cancel any time';
+  }
+  function drawPricing() {
+    var events = STOPS[Number($('evSlider').value)];
+    var out = $('evOut');
+    out.textContent = evLabel(events) + ' ';
+    var unit = document.createElement('span');
+    unit.textContent = 'events a month';
+    out.appendChild(unit);
+    $('evSlider').setAttribute('aria-valuetext', evLabel(events) + ' events per month');
+    setPrice($('pFree'), $('bFree'), 0, events > 500e3 ? 'Over the 500K limit' : null);
+    setPrice($('pTeam'), $('bTeam'), tiered(events, 89, 1, [[10, 14], [20, 9]]), events > 20e6 ? 'Over the 20M limit' : null);
+    setPrice($('pScale'), $('bScale'), tiered(events, 640, 10, [[50, 8], [100, 5]]), null);
+    var fit = events <= 500e3 ? 'planFree' : events <= 20e6 ? 'planTeam' : 'planScale';
+    ['planFree', 'planTeam', 'planScale'].forEach(function (id) {
+      var on = id === fit;
+      $(id).classList.toggle('fit', on);
+      $(id).querySelector('.fit-tag').hidden = !on;
+    });
+  }
+  $('evSlider').addEventListener('input', drawPricing);
+  $('billSeg').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    price.billing = b.dataset.bill;
+    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    drawPricing();
+  });
+  drawPricing();
+
+  // FAQ accordion allows one open answer at a time
+  var faqBtns = document.querySelectorAll('.faq-q');
+  faqBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      faqBtns.forEach(function (o) {
+        o.setAttribute('aria-expanded', 'false');
+        $(o.getAttribute('aria-controls')).hidden = true;
+      });
+      if (!open) {
+        btn.setAttribute('aria-expanded', 'true');
+        $(btn.getAttribute('aria-controls')).hidden = false;
+      }
+    });
+  });
+
+  // trial form validation
+  var form = $('trialForm'), done = $('trialDone');
+  var RULES = [
+    { input: 'fName', err: 'eName', check: function (v) { return v.length >= 2 ? '' : 'Enter your full name.'; } },
+    { input: 'fEmail', err: 'eEmail', check: function (v) {
+      if (!v) return 'Enter your work email.';
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Enter an email like name@example.com.';
+    } },
+    { input: 'fCompany', err: 'eCompany', check: function (v) { return v.length >= 2 ? '' : 'Enter your company name.'; } },
+    { input: 'fVolume', err: 'eVolume', check: function (v) { return v ? '' : 'Choose a monthly event range.'; } }
+  ];
+  function validate(rule) {
+    var input = $(rule.input), err = $(rule.err), msg = rule.check(input.value.trim());
+    err.textContent = msg;
+    err.hidden = !msg;
+    if (msg) input.setAttribute('aria-invalid', 'true');
+    else input.removeAttribute('aria-invalid');
+    return !msg;
+  }
+  RULES.forEach(function (rule) {
+    var recheck = function () { if ($(rule.input).getAttribute('aria-invalid')) validate(rule); };
+    $(rule.input).addEventListener('input', recheck);
+    $(rule.input).addEventListener('change', recheck);
+    $(rule.input).addEventListener('blur', function () { if (this.value.trim()) validate(rule); });
+  });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var firstBad = null;
+    RULES.forEach(function (rule) {
+      if (!validate(rule) && !firstBad) firstBad = $(rule.input);
+    });
+    if (firstBad) { firstBad.focus(); return; }
+    try {
+      var trials = JSON.parse(localStorage.getItem('northlane-trials') || '[]');
+      trials.push({ name: $('fName').value.trim(), email: $('fEmail').value.trim(), company: $('fCompany').value.trim(), volume: $('fVolume').value, at: new Date().toISOString() });
+      localStorage.setItem('northlane-trials', JSON.stringify(trials));
+    } catch (err) {}
+    $('doneMsg').textContent = 'A workspace for ' + $('fCompany').value.trim() + ' is ready. Your setup link is on its way to ' + $('fEmail').value.trim() + '.';
+    form.hidden = true;
+    done.hidden = false;
+    done.focus();
+  });
+  $('doneReset').addEventListener('click', function () {
+    form.reset();
+    done.hidden = true;
+    form.hidden = false;
+    $('fName').focus();
+  });
+})();
+</script>
+</body>
+</html>
