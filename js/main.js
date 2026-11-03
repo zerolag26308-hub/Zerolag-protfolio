@@ -130,6 +130,82 @@
     });
   }
 
+  // Review spotlight: one big review at a time, avatar picker, arrows, swipe and timed autoplay
+  document.querySelectorAll("[data-spotlight]").forEach((spot) => {
+    const slides = Array.from(spot.querySelectorAll("[data-slide]"));
+    const thumbs = Array.from(spot.querySelectorAll("[data-thumb]"));
+    const current = spot.querySelector("[data-current]");
+    const timer = spot.querySelector(".spotlight__timer span");
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const delay = 7000;
+    let active = 0;
+    let clock;
+
+    const show = (i) => {
+      active = (i + slides.length) % slides.length;
+      slides.forEach((slide, n) => {
+        slide.classList.toggle("is-active", n === active);
+        slide.toggleAttribute("aria-hidden", n !== active);
+      });
+      thumbs.forEach((thumb, n) => thumb.toggleAttribute("aria-current", n === active));
+      thumbs[active].setAttribute("aria-current", "true");
+      const strip = thumbs[active].parentElement;
+      strip.scrollTo({ left: thumbs[active].offsetLeft - strip.clientWidth / 2 + thumbs[active].offsetWidth / 2, behavior: still ? "auto" : "smooth" });
+      current.textContent = String(active + 1);
+      restart();
+    };
+
+    // Restart the progress line and the timer for the next review
+    const restart = () => {
+      clearTimeout(clock);
+      if (still) return;
+      spot.classList.remove("is-running");
+      void timer.offsetWidth;
+      spot.classList.add("is-running");
+      clock = setTimeout(tick, delay);
+    };
+
+    const tick = () => {
+      const box = spot.getBoundingClientRect();
+      const onScreen = box.top < window.innerHeight && box.bottom > 0;
+      if (spot.classList.contains("is-paused") || !onScreen || document.hidden) {
+        clock = setTimeout(tick, 1000);
+        return;
+      }
+      show(active + 1);
+    };
+
+    spot.style.setProperty("--spotlight-time", `${delay}ms`);
+    spot.querySelector("[data-prev]").addEventListener("click", () => show(active - 1));
+    spot.querySelector("[data-next]").addEventListener("click", () => show(active + 1));
+    thumbs.forEach((thumb, n) => thumb.addEventListener("click", () => show(n)));
+    spot.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") show(active + 1);
+      if (e.key === "ArrowLeft") show(active - 1);
+    });
+
+    // Pause while the visitor is reading or using the controls
+    const pause = () => spot.classList.add("is-paused");
+    const resume = () => spot.classList.remove("is-paused");
+    spot.addEventListener("mouseenter", pause);
+    spot.addEventListener("mouseleave", resume);
+    spot.addEventListener("focusin", pause);
+    spot.addEventListener("focusout", resume);
+
+    // Swipe left or right on touch screens
+    let startX = null;
+    const stage = spot.querySelector(".spotlight__stage");
+    stage.addEventListener("touchstart", (e) => (startX = e.touches[0].clientX), { passive: true });
+    stage.addEventListener("touchend", (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) show(active + (dx < 0 ? 1 : -1));
+      startX = null;
+    });
+
+    restart();
+  });
+
   // Fade elements in as they scroll into view
   const revealTargets = document.querySelectorAll(".reveal");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

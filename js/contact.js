@@ -149,8 +149,8 @@
       return;
     }
 
-    // No endpoint configured: hand the inquiry to the visitor's email app, already filled in
-    const endpoint = (form.dataset.endpoint || "").trim();
+    // Pages opened straight from disk can't use the form service, so use the email app instead
+    const endpoint = window.location.protocol === "file:" ? "" : (form.dataset.endpoint || "").trim();
     if (!endpoint) {
       const href = mailtoHref();
       window.location.href = href;
@@ -187,9 +187,10 @@
       countChars();
       showSuccess(replyTo);
     } catch (err) {
+      const reason = err.name === "AbortError" ? "The connection timed out." : navigator.onLine ? "" : "You seem to be offline.";
       showStatus(
         "error",
-        `Sorry, your message could not be sent. Your text is still here. Please <a href="${mailtoHref()}">send it from your email app</a> ` +
+        `Sorry, your message could not be sent. ${reason} Your text is still here. Please <a href="${mailtoHref()}">send it from your email app</a> ` +
           `or write to <a href="mailto:${INBOX}">${INBOX}</a>.`
       );
       status.focus();
